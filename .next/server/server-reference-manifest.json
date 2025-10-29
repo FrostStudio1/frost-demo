@@ -1,0 +1,118 @@
+{
+  "node": {
+    "cee00278070392dc74cbfc03fce26f3a060d4514": {
+      "workers": {
+        "app/projects/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fvilmerfrost%2Ffrost-demo%2Fapp%2Fprojects%2Factions.ts%22%2C%5B%22createProject%22%5D%5D%2C%5B%22%2FUsers%2Fvilmerfrost%2Ffrost-demo%2Fapp%2Fauth%2Factions.ts%22%2C%5B%22sendMagicLink%22%2C%22signOut%22%5D%5D%5D&__client_imported__=!"
+      },
+      "layer": {
+        "app/projects/page": "rsc"
+      }
+    },
+    "0255ef963944845d36e4d34138818fe8dda90912": {
+      "workers": {
+        "app/projects/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fvilmerfrost%2Ffrost-demo%2Fapp%2Fprojects%2Factions.ts%22%2C%5B%22createProject%22%5D%5D%2C%5B%22%2FUsers%2Fvilmerfrost%2Ffrost-demo%2Fapp%2Fauth%2Factions.ts%22%2C%5B%22sendMagicLink%22%2C%22signOut%22%5D%5D%5D&__client_imported__=!",
+        "app/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fvilmerfrost%2Ffrost-demo%2Fapp%2Fauth%2Factions.ts%22%2C%5B%22sendMagicLink%22%2C%22signOut%22%5D%5D%5D&__client_imported__=!",
+        "app/login/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fvilmerfrost%2Ffrost-demo%2Fapp%2Fauth%2Factions.ts%22%2C%5B%22sendMagicLink%22%2C%22signOut%22%5D%5D%5D&__client_imported__=!",
+        "app/_not-found/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fvilmerfrost%2Ffrost-demo%2Fapp%2Fauth%2Factions.ts%22%2C%5B%22sendMagicLink%22%2C%22signOut%22%5D%5D%5D&__client_imported__=!",
+        "app/admin/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fvilmerfrost%2Ffrost-demo%2Fapp%2Fauth%2Factions.ts%22%2C%5B%22sendMagicLink%22%2C%22signOut%22%5D%5D%5D&__client_imported__=!",
+        "app/projects/[id]/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fvilmerfrost%2Ffrost-demo%2Fapp%2Fprojects%2F%5Bid%5D%2Fpage.tsx%22%2C%5B%22%24%24ACTION_0%22%5D%5D%2C%5B%22%2FUsers%2Fvilmerfrost%2Ffrost-demo%2Fapp%2Fprojects%2F%5Bid%5D%2Factions.ts%22%2C%5B%22createLockedInvoice%22%5D%5D%2C%5B%22%2FUsers%2Fvilmerfrost%2Ffrost-demo%2Fapp%2Fauth%2Factions.ts%22%2C%5B%22sendMagicLink%22%2C%22signOut%22%5D%5D%5D&__client_imported__=!",
+        "app/projects/[id]/invoice/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fvilmerfrost%2Ffrost-demo%2Fapp%2Fauth%2Factions.ts%22%2C%5B%22sendMagicLink%22%2C%22signOut%22%5D%5D%5D&__client_imported__=!",
+        "app/tid/ny/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fvilmerfrost%2Ffrost-demo%2Fapp%2Ftid%2Fny%2Factions.ts%22%2C%5B%22createTimeEntry%22%5D%5D%2C%5B%22%2FUsers%2Fvilmerfrost%2Ffrost-demo%2Fapp%2Fauth%2Factions.ts%22%2C%5B%22sendMagicLink%22%2C%22signOut%22%5D%5D%5D&__client_imported__=!",
+        "app/invoices/[id]/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fvilmerfrost%2Ffrost-demo%2Fapp%2Finvoices%2F%5Bid%5D%2Fpage.tsx%22%2C%5B%22%24%24ACTION_1%22%2C%22%24%24ACTION_0%22%5D%5D%2C%5B%22%2FUsers%2Fvilmerfrost%2Ffrost-demo%2Fapp%2Finvoices%2F%5Bid%5D%2Factions.ts%22%2C%5B%22markInvoicePaid%22%2C%22sendInvoiceEmail%22%5D%5D%2C%5B%22%2FUsers%2Fvilmerfrost%2Ffrost-demo%2Fapp%2Fauth%2Factions.ts%22%2C%5B%22sendMagicLink%22%2C%22signOut%22%5D%5D%5D&__client_imported__=!"
+      },
+      "layer": {
+        "app/projects/page": "rsc",
+        "app/page": "rsc",
+        "app/login/page": "rsc",
+        "app/_not-found/page": "rsc",
+        "app/admin/page": "rsc",
+        "app/projects/[id]/page": "rsc",
+        "app/projects/[id]/invoice/page": "rsc",
+        "app/tid/ny/page": "rsc",
+        "app/invoices/[id]/page": "rsc"
+      }
+    },
+    "2c789d31666b9024d257b55f65a775f31f5760de": {
+      "workers": {
+        "app/projects/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fvilmerfrost%2Ffrost-demo%2Fapp%2Fprojects%2Factions.ts%22%2C%5B%22createProject%22%5D%5D%2C%5B%22%2FUsers%2Fvilmerfrost%2Ffrost-demo%2Fapp%2Fauth%2Factions.ts%22%2C%5B%22sendMagicLink%22%2C%22signOut%22%5D%5D%5D&__client_imported__=!",
+        "app/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fvilmerfrost%2Ffrost-demo%2Fapp%2Fauth%2Factions.ts%22%2C%5B%22sendMagicLink%22%2C%22signOut%22%5D%5D%5D&__client_imported__=!",
+        "app/login/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fvilmerfrost%2Ffrost-demo%2Fapp%2Fauth%2Factions.ts%22%2C%5B%22sendMagicLink%22%2C%22signOut%22%5D%5D%5D&__client_imported__=!",
+        "app/_not-found/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fvilmerfrost%2Ffrost-demo%2Fapp%2Fauth%2Factions.ts%22%2C%5B%22sendMagicLink%22%2C%22signOut%22%5D%5D%5D&__client_imported__=!",
+        "app/admin/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fvilmerfrost%2Ffrost-demo%2Fapp%2Fauth%2Factions.ts%22%2C%5B%22sendMagicLink%22%2C%22signOut%22%5D%5D%5D&__client_imported__=!",
+        "app/projects/[id]/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fvilmerfrost%2Ffrost-demo%2Fapp%2Fprojects%2F%5Bid%5D%2Fpage.tsx%22%2C%5B%22%24%24ACTION_0%22%5D%5D%2C%5B%22%2FUsers%2Fvilmerfrost%2Ffrost-demo%2Fapp%2Fprojects%2F%5Bid%5D%2Factions.ts%22%2C%5B%22createLockedInvoice%22%5D%5D%2C%5B%22%2FUsers%2Fvilmerfrost%2Ffrost-demo%2Fapp%2Fauth%2Factions.ts%22%2C%5B%22sendMagicLink%22%2C%22signOut%22%5D%5D%5D&__client_imported__=!",
+        "app/projects/[id]/invoice/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fvilmerfrost%2Ffrost-demo%2Fapp%2Fauth%2Factions.ts%22%2C%5B%22sendMagicLink%22%2C%22signOut%22%5D%5D%5D&__client_imported__=!",
+        "app/tid/ny/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fvilmerfrost%2Ffrost-demo%2Fapp%2Ftid%2Fny%2Factions.ts%22%2C%5B%22createTimeEntry%22%5D%5D%2C%5B%22%2FUsers%2Fvilmerfrost%2Ffrost-demo%2Fapp%2Fauth%2Factions.ts%22%2C%5B%22sendMagicLink%22%2C%22signOut%22%5D%5D%5D&__client_imported__=!",
+        "app/invoices/[id]/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fvilmerfrost%2Ffrost-demo%2Fapp%2Finvoices%2F%5Bid%5D%2Fpage.tsx%22%2C%5B%22%24%24ACTION_1%22%2C%22%24%24ACTION_0%22%5D%5D%2C%5B%22%2FUsers%2Fvilmerfrost%2Ffrost-demo%2Fapp%2Finvoices%2F%5Bid%5D%2Factions.ts%22%2C%5B%22markInvoicePaid%22%2C%22sendInvoiceEmail%22%5D%5D%2C%5B%22%2FUsers%2Fvilmerfrost%2Ffrost-demo%2Fapp%2Fauth%2Factions.ts%22%2C%5B%22sendMagicLink%22%2C%22signOut%22%5D%5D%5D&__client_imported__=!"
+      },
+      "layer": {
+        "app/projects/page": "rsc",
+        "app/page": "rsc",
+        "app/login/page": "rsc",
+        "app/_not-found/page": "rsc",
+        "app/admin/page": "rsc",
+        "app/projects/[id]/page": "rsc",
+        "app/projects/[id]/invoice/page": "rsc",
+        "app/tid/ny/page": "rsc",
+        "app/invoices/[id]/page": "rsc"
+      }
+    },
+    "e0a209efdaf99dcad34b37a0c56d4785ff7df2ed": {
+      "workers": {
+        "app/projects/[id]/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fvilmerfrost%2Ffrost-demo%2Fapp%2Fprojects%2F%5Bid%5D%2Fpage.tsx%22%2C%5B%22%24%24ACTION_0%22%5D%5D%2C%5B%22%2FUsers%2Fvilmerfrost%2Ffrost-demo%2Fapp%2Fprojects%2F%5Bid%5D%2Factions.ts%22%2C%5B%22createLockedInvoice%22%5D%5D%2C%5B%22%2FUsers%2Fvilmerfrost%2Ffrost-demo%2Fapp%2Fauth%2Factions.ts%22%2C%5B%22sendMagicLink%22%2C%22signOut%22%5D%5D%5D&__client_imported__=!"
+      },
+      "layer": {
+        "app/projects/[id]/page": "rsc"
+      }
+    },
+    "889ca416cd6dc05ca70a345ba9e3bfc7ef813618": {
+      "workers": {
+        "app/projects/[id]/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fvilmerfrost%2Ffrost-demo%2Fapp%2Fprojects%2F%5Bid%5D%2Fpage.tsx%22%2C%5B%22%24%24ACTION_0%22%5D%5D%2C%5B%22%2FUsers%2Fvilmerfrost%2Ffrost-demo%2Fapp%2Fprojects%2F%5Bid%5D%2Factions.ts%22%2C%5B%22createLockedInvoice%22%5D%5D%2C%5B%22%2FUsers%2Fvilmerfrost%2Ffrost-demo%2Fapp%2Fauth%2Factions.ts%22%2C%5B%22sendMagicLink%22%2C%22signOut%22%5D%5D%5D&__client_imported__=!"
+      },
+      "layer": {
+        "app/projects/[id]/page": "rsc"
+      }
+    },
+    "259f2f16a229aa0fa7d5fcfcd66c8202c53fe5d7": {
+      "workers": {
+        "app/tid/ny/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fvilmerfrost%2Ffrost-demo%2Fapp%2Ftid%2Fny%2Factions.ts%22%2C%5B%22createTimeEntry%22%5D%5D%2C%5B%22%2FUsers%2Fvilmerfrost%2Ffrost-demo%2Fapp%2Fauth%2Factions.ts%22%2C%5B%22sendMagicLink%22%2C%22signOut%22%5D%5D%5D&__client_imported__=!"
+      },
+      "layer": {
+        "app/tid/ny/page": "rsc"
+      }
+    },
+    "c5859bc27d9ef6195ed26b5c28b43482bce252a7": {
+      "workers": {
+        "app/invoices/[id]/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fvilmerfrost%2Ffrost-demo%2Fapp%2Finvoices%2F%5Bid%5D%2Fpage.tsx%22%2C%5B%22%24%24ACTION_1%22%2C%22%24%24ACTION_0%22%5D%5D%2C%5B%22%2FUsers%2Fvilmerfrost%2Ffrost-demo%2Fapp%2Finvoices%2F%5Bid%5D%2Factions.ts%22%2C%5B%22markInvoicePaid%22%2C%22sendInvoiceEmail%22%5D%5D%2C%5B%22%2FUsers%2Fvilmerfrost%2Ffrost-demo%2Fapp%2Fauth%2Factions.ts%22%2C%5B%22sendMagicLink%22%2C%22signOut%22%5D%5D%5D&__client_imported__=!"
+      },
+      "layer": {
+        "app/invoices/[id]/page": "rsc"
+      }
+    },
+    "cc608669468d806f25f51b93206372e83f04ba37": {
+      "workers": {
+        "app/invoices/[id]/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fvilmerfrost%2Ffrost-demo%2Fapp%2Finvoices%2F%5Bid%5D%2Fpage.tsx%22%2C%5B%22%24%24ACTION_1%22%2C%22%24%24ACTION_0%22%5D%5D%2C%5B%22%2FUsers%2Fvilmerfrost%2Ffrost-demo%2Fapp%2Finvoices%2F%5Bid%5D%2Factions.ts%22%2C%5B%22markInvoicePaid%22%2C%22sendInvoiceEmail%22%5D%5D%2C%5B%22%2FUsers%2Fvilmerfrost%2Ffrost-demo%2Fapp%2Fauth%2Factions.ts%22%2C%5B%22sendMagicLink%22%2C%22signOut%22%5D%5D%5D&__client_imported__=!"
+      },
+      "layer": {
+        "app/invoices/[id]/page": "rsc"
+      }
+    },
+    "89d0fe3290ab71b63a9bce56865f35b2e4e943b7": {
+      "workers": {
+        "app/invoices/[id]/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fvilmerfrost%2Ffrost-demo%2Fapp%2Finvoices%2F%5Bid%5D%2Fpage.tsx%22%2C%5B%22%24%24ACTION_1%22%2C%22%24%24ACTION_0%22%5D%5D%2C%5B%22%2FUsers%2Fvilmerfrost%2Ffrost-demo%2Fapp%2Finvoices%2F%5Bid%5D%2Factions.ts%22%2C%5B%22markInvoicePaid%22%2C%22sendInvoiceEmail%22%5D%5D%2C%5B%22%2FUsers%2Fvilmerfrost%2Ffrost-demo%2Fapp%2Fauth%2Factions.ts%22%2C%5B%22sendMagicLink%22%2C%22signOut%22%5D%5D%5D&__client_imported__=!"
+      },
+      "layer": {
+        "app/invoices/[id]/page": "rsc"
+      }
+    },
+    "bb7825a1bdda5df19c0a92c57d635ff2777b3a57": {
+      "workers": {
+        "app/invoices/[id]/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fvilmerfrost%2Ffrost-demo%2Fapp%2Finvoices%2F%5Bid%5D%2Fpage.tsx%22%2C%5B%22%24%24ACTION_1%22%2C%22%24%24ACTION_0%22%5D%5D%2C%5B%22%2FUsers%2Fvilmerfrost%2Ffrost-demo%2Fapp%2Finvoices%2F%5Bid%5D%2Factions.ts%22%2C%5B%22markInvoicePaid%22%2C%22sendInvoiceEmail%22%5D%5D%2C%5B%22%2FUsers%2Fvilmerfrost%2Ffrost-demo%2Fapp%2Fauth%2Factions.ts%22%2C%5B%22sendMagicLink%22%2C%22signOut%22%5D%5D%5D&__client_imported__=!"
+      },
+      "layer": {
+        "app/invoices/[id]/page": "rsc"
+      }
+    }
+  },
+  "edge": {},
+  "encryptionKey": "pDMoUBlUz3Si2zGTjNUaD5hlPohEgV9D4N1hdfgQjHQ="
+}

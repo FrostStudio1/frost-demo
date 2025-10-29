@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 4, "column": 0}, "map": {"version":3,"sources":["file:///Users/vilmerfrost/frost-demo/.next-internal/server/app/_not-found/page/actions.js%20%28server%20actions%20loader%29"],"sourcesContent":["export {signOut as '0037d1b4c6fcb424e7c16062aeabd7cee739ff8680'} from 'ACTIONS_MODULE0'\nexport {sendMagicLink as '40c061ff68462f6d9579e14509518067fbcf3ba35a'} from 'ACTIONS_MODULE0'\n"],"names":[],"mappings":";AAAA","debugId":null}}]
+}
