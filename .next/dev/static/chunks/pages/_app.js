@@ -1,13 +1,13 @@
 __turbopack_load_page_chunks__("/_app", [
-  "static/chunks/node_modules_next_dist_compiled_c629999b._.js",
-  "static/chunks/node_modules_next_dist_shared_lib_82dc2e9d._.js",
-  "static/chunks/node_modules_next_dist_client_d0aa886c._.js",
-  "static/chunks/node_modules_next_dist_b0a279d5._.js",
-  "static/chunks/node_modules_next_app_72f3d36f.js",
-  "static/chunks/[next]_entry_page-loader_ts_742e4b53._.js",
-  "static/chunks/node_modules_react-dom_4411d9bd._.js",
-  "static/chunks/node_modules_7f09fef0._.js",
-  "static/chunks/[root-of-the-server]__45f039c3._.js",
-  "static/chunks/pages__app_2da965e7._.js",
-  "static/chunks/turbopack-pages__app_c1c8acf6._.js"
+  "static/chunks/dbcba_next_dist_compiled_4fc3d9ee._.js",
+  "static/chunks/dbcba_next_dist_shared_lib_9b5571e3._.js",
+  "static/chunks/dbcba_next_dist_client_5406db34._.js",
+  "static/chunks/dbcba_next_dist_0732d5a7._.js",
+  "static/chunks/dbcba_next_app_2be0c46c.js",
+  "static/chunks/[next]_entry_page-loader_ts_51720c59._.js",
+  "static/chunks/dbcba_react-dom_742faa08._.js",
+  "static/chunks/dbcba_ee9c9846._.js",
+  "static/chunks/[root-of-the-server]__56f89c58._.js",
+  "static/chunks/frost-demo_pages__app_2da965e7._.js",
+  "static/chunks/turbopack-frost-demo_pages__app_3665bb82._.js"
 ])

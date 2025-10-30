@@ -1,2 +1,448 @@
-[00:00:03.628] Server  WARN     ⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
-[00:00:03.912] Server  LOG      ✓ Ready in 3.5s
+[00:00:00.967] Server  WARN     ⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+[00:00:01.117] Server  LOG      ✓ Ready in 796ms
+[00:00:14.462] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:14.606] Browser WARN    @supabase/gotrue-js: Session as retrieved from URL was issued over 120s ago, URL could be stale 1761788551 1761792151 1761791269
+[00:00:15.723] Browser WARN    Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
+[00:00:46.172] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:56.664] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:05:19.833] Server  LOG      ✓ Compiled in 41ms
+[00:14:54.165] Server  LOG      ✓ Compiled in 45ms
+[00:17:24.056] Server  LOG      ✓ Compiled in 38ms
+[00:17:36.124] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:20:31.675] Server  LOG      ✓ Compiled in 35ms
+[00:22:34.049] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:22:48.475] Server  LOG      ✓ Compiled in 27ms
+[00:27:28.003] Server  LOG      ✓ Compiled in 30ms
+[00:29:45.815] Server  LOG      ✓ Compiled in 50ms
+[00:33:46.600] Server  LOG      ✓ Compiled in 41ms
+[00:35:23.327] Server  LOG      ✓ Compiled in 44ms
+[00:36:22.684] Server  LOG      ✓ Compiled in 34ms
+[00:38:56.867] Server  LOG      ✓ Compiled in 43ms
+[00:45:02.610] Server  LOG      ✓ Compiled in 26ms
+[00:45:04.071] Browser ERROR   Kunde inte hitta en profil för användaren: {"code":"42703","details":null,"hint":null,"message":"column employees.user_id does not exist"}
+[00:45:11.150] Server  LOG     formData: {}
+[00:45:12.213] Server  LOG     formData: {}
+[00:45:12.535] Server  ERROR    ⨯ AuthApiError: For security purposes, you can only request this after 59 seconds.
+[00:45:18.750] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:45:19.148] Browser WARN    Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
+[00:45:19.546] Browser ERROR   Kunde inte hitta en profil för användaren: {"code":"42703","details":null,"hint":null,"message":"column employees.user_id does not exist"}
+[00:45:19.710] Browser ERROR   Kunde inte hitta en profil för användaren: {"code":"42703","details":null,"hint":null,"message":"column employees.user_id does not exist"}
+[00:48:20.534] Server  LOG      ✓ Compiled in 32ms
+[00:48:26.026] Server  LOG     formData: {}
+[00:48:33.565] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:48:33.966] Browser WARN    Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
+[00:48:34.452] Browser LOG     Projects from DB: null
+[00:48:34.617] Browser LOG     Projects from DB: null
+[00:49:58.502] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:49:58.655] Browser ERROR   No session found in client after redirect
+[00:49:59.871] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:50:01.435] Server  LOG     formData: {}
+[00:50:07.916] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:50:08.225] Browser WARN    Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
+[00:50:08.827] Browser LOG     Projects from DB: null
+[00:50:08.827] Browser LOG     Projects from DB: null
+[00:51:49.003] Server  LOG      ✓ Compiled in 39ms
+[00:52:14.977] Server  ERROR    ⨯ ./frost-demo/app/customers/new/page.tsx:3:1
+Module not found: Can't resolve '../../utils/supabaseClient'
+  1 | 'use client'
+  2 | import { useState } from 'react'
+> 3 | import { supabase } from '../../utils/supabaseClient'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { useRouter } from 'next/navigation'
+  5 | import FrostLogo from '../../components/FrostLogo'
+  6 |
+
+
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/customers/new/page.tsx [Client Component Browser]
+    ./frost-demo/app/customers/new/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/customers/new/page.tsx [Client Component SSR]
+    ./frost-demo/app/customers/new/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:52:14.979] Server  ERROR    ⨯ ./frost-demo/app/customers/new/page.tsx:3:1
+Module not found: Can't resolve '../../utils/supabaseClient'
+  1 | 'use client'
+  2 | import { useState } from 'react'
+> 3 | import { supabase } from '../../utils/supabaseClient'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { useRouter } from 'next/navigation'
+  5 | import FrostLogo from '../../components/FrostLogo'
+  6 |
+
+
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/customers/new/page.tsx [Client Component Browser]
+    ./frost-demo/app/customers/new/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/customers/new/page.tsx [Client Component SSR]
+    ./frost-demo/app/customers/new/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:52:14.979] Server  ERROR    ⨯ ./frost-demo/app/customers/new/page.tsx:3:1
+Module not found: Can't resolve '../../utils/supabaseClient'
+  1 | 'use client'
+  2 | import { useState } from 'react'
+> 3 | import { supabase } from '../../utils/supabaseClient'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { useRouter } from 'next/navigation'
+  5 | import FrostLogo from '../../components/FrostLogo'
+  6 |
+
+
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/customers/new/page.tsx [Client Component Browser]
+    ./frost-demo/app/customers/new/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/customers/new/page.tsx [Client Component SSR]
+    ./frost-demo/app/customers/new/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:52:14.980] Server  ERROR    ⨯ ./frost-demo/app/customers/new/page.tsx:3:1
+Module not found: Can't resolve '../../utils/supabaseClient'
+  1 | 'use client'
+  2 | import { useState } from 'react'
+> 3 | import { supabase } from '../../utils/supabaseClient'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { useRouter } from 'next/navigation'
+  5 | import FrostLogo from '../../components/FrostLogo'
+  6 |
+
+
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/customers/new/page.tsx [Client Component Browser]
+    ./frost-demo/app/customers/new/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/customers/new/page.tsx [Client Component SSR]
+    ./frost-demo/app/customers/new/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:52:15.008] Server  ERROR    ⨯ ./frost-demo/app/customers/new/page.tsx:3:1
+Module not found: Can't resolve '../../utils/supabaseClient'
+  1 | 'use client'
+  2 | import { useState } from 'react'
+> 3 | import { supabase } from '../../utils/supabaseClient'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { useRouter } from 'next/navigation'
+  5 | import FrostLogo from '../../components/FrostLogo'
+  6 |
+
+
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/customers/new/page.tsx [Client Component Browser]
+    ./frost-demo/app/customers/new/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/customers/new/page.tsx [Client Component SSR]
+    ./frost-demo/app/customers/new/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:52:15.009] Server  ERROR    ⨯ ./frost-demo/app/customers/new/page.tsx:3:1
+Module not found: Can't resolve '../../utils/supabaseClient'
+  1 | 'use client'
+  2 | import { useState } from 'react'
+> 3 | import { supabase } from '../../utils/supabaseClient'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { useRouter } from 'next/navigation'
+  5 | import FrostLogo from '../../components/FrostLogo'
+  6 |
+
+
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/customers/new/page.tsx [Client Component Browser]
+    ./frost-demo/app/customers/new/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/customers/new/page.tsx [Client Component SSR]
+    ./frost-demo/app/customers/new/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:52:15.011] Server  ERROR    ⨯ ./frost-demo/app/customers/new/page.tsx:3:1
+Module not found: Can't resolve '../../utils/supabaseClient'
+  1 | 'use client'
+  2 | import { useState } from 'react'
+> 3 | import { supabase } from '../../utils/supabaseClient'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { useRouter } from 'next/navigation'
+  5 | import FrostLogo from '../../components/FrostLogo'
+  6 |
+
+
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/customers/new/page.tsx [Client Component Browser]
+    ./frost-demo/app/customers/new/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/customers/new/page.tsx [Client Component SSR]
+    ./frost-demo/app/customers/new/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:52:15.012] Server  ERROR    ⨯ ./frost-demo/app/customers/new/page.tsx:3:1
+Module not found: Can't resolve '../../utils/supabaseClient'
+  1 | 'use client'
+  2 | import { useState } from 'react'
+> 3 | import { supabase } from '../../utils/supabaseClient'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { useRouter } from 'next/navigation'
+  5 | import FrostLogo from '../../components/FrostLogo'
+  6 |
+
+
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/customers/new/page.tsx [Client Component Browser]
+    ./frost-demo/app/customers/new/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/customers/new/page.tsx [Client Component SSR]
+    ./frost-demo/app/customers/new/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:52:15.013] Server  ERROR    ⨯ ./frost-demo/app/customers/new/page.tsx:3:1
+Module not found: Can't resolve '../../utils/supabaseClient'
+  1 | 'use client'
+  2 | import { useState } from 'react'
+> 3 | import { supabase } from '../../utils/supabaseClient'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { useRouter } from 'next/navigation'
+  5 | import FrostLogo from '../../components/FrostLogo'
+  6 |
+
+
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/customers/new/page.tsx [Client Component Browser]
+    ./frost-demo/app/customers/new/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/customers/new/page.tsx [Client Component SSR]
+    ./frost-demo/app/customers/new/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:52:15.014] Server  ERROR    ⨯ ./frost-demo/app/customers/new/page.tsx:3:1
+Module not found: Can't resolve '../../utils/supabaseClient'
+  1 | 'use client'
+  2 | import { useState } from 'react'
+> 3 | import { supabase } from '../../utils/supabaseClient'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { useRouter } from 'next/navigation'
+  5 | import FrostLogo from '../../components/FrostLogo'
+  6 |
+
+
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/customers/new/page.tsx [Client Component Browser]
+    ./frost-demo/app/customers/new/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/customers/new/page.tsx [Client Component SSR]
+    ./frost-demo/app/customers/new/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:52:15.015] Server  ERROR    ⨯ ./frost-demo/app/customers/new/page.tsx:3:1
+Module not found: Can't resolve '../../utils/supabaseClient'
+  1 | 'use client'
+  2 | import { useState } from 'react'
+> 3 | import { supabase } from '../../utils/supabaseClient'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { useRouter } from 'next/navigation'
+  5 | import FrostLogo from '../../components/FrostLogo'
+  6 |
+
+
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/customers/new/page.tsx [Client Component Browser]
+    ./frost-demo/app/customers/new/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/customers/new/page.tsx [Client Component SSR]
+    ./frost-demo/app/customers/new/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:52:15.015] Server  ERROR    ⨯ ./frost-demo/app/customers/new/page.tsx:3:1
+Module not found: Can't resolve '../../utils/supabaseClient'
+  1 | 'use client'
+  2 | import { useState } from 'react'
+> 3 | import { supabase } from '../../utils/supabaseClient'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { useRouter } from 'next/navigation'
+  5 | import FrostLogo from '../../components/FrostLogo'
+  6 |
+
+
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/customers/new/page.tsx [Client Component Browser]
+    ./frost-demo/app/customers/new/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/customers/new/page.tsx [Client Component SSR]
+    ./frost-demo/app/customers/new/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:52:15.053] Server  LOG      ✓ Compiled in 79ms
+[00:52:16.059] Browser ERROR   ./frost-demo/app/customers/new/page.tsx:3:1
+Module not found: Can't resolve '../../utils/supabaseClient'
+  1 | 'use client'
+  2 | import { useState } from 'react'
+> 3 | import { supabase } from '../../utils/supabaseClient'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { useRouter } from 'next/navigation'
+  5 | import FrostLogo from '../../components/FrostLogo'
+  6 |
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/customers/new/page.tsx [Client Component Browser]
+    ./frost-demo/app/customers/new/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/customers/new/page.tsx [Client Component SSR]
+    ./frost-demo/app/customers/new/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:52:16.059] Browser ERROR   ./frost-demo/app/customers/new/page.tsx:3:1
+Module not found: Can't resolve '../../utils/supabaseClient'
+  1 | 'use client'
+  2 | import { useState } from 'react'
+> 3 | import { supabase } from '../../utils/supabaseClient'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { useRouter } from 'next/navigation'
+  5 | import FrostLogo from '../../components/FrostLogo'
+  6 |
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/customers/new/page.tsx [Client Component Browser]
+    ./frost-demo/app/customers/new/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/customers/new/page.tsx [Client Component SSR]
+    ./frost-demo/app/customers/new/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:52:16.059] Browser ERROR   ./frost-demo/app/customers/new/page.tsx:3:1
+Module not found: Can't resolve '../../utils/supabaseClient'
+  1 | 'use client'
+  2 | import { useState } from 'react'
+> 3 | import { supabase } from '../../utils/supabaseClient'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { useRouter } from 'next/navigation'
+  5 | import FrostLogo from '../../components/FrostLogo'
+  6 |
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/customers/new/page.tsx [Client Component Browser]
+    ./frost-demo/app/customers/new/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/customers/new/page.tsx [Client Component SSR]
+    ./frost-demo/app/customers/new/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:52:16.059] Browser ERROR   ./frost-demo/app/customers/new/page.tsx:3:1
+Module not found: Can't resolve '../../utils/supabaseClient'
+  1 | 'use client'
+  2 | import { useState } from 'react'
+> 3 | import { supabase } from '../../utils/supabaseClient'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { useRouter } from 'next/navigation'
+  5 | import FrostLogo from '../../components/FrostLogo'
+  6 |
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/customers/new/page.tsx [Client Component Browser]
+    ./frost-demo/app/customers/new/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/customers/new/page.tsx [Client Component SSR]
+    ./frost-demo/app/customers/new/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:52:16.059] Browser ERROR   ./frost-demo/app/customers/new/page.tsx:3:1
+Module not found: Can't resolve '../../utils/supabaseClient'
+  1 | 'use client'
+  2 | import { useState } from 'react'
+> 3 | import { supabase } from '../../utils/supabaseClient'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { useRouter } from 'next/navigation'
+  5 | import FrostLogo from '../../components/FrostLogo'
+  6 |
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/customers/new/page.tsx [Client Component Browser]
+    ./frost-demo/app/customers/new/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/customers/new/page.tsx [Client Component SSR]
+    ./frost-demo/app/customers/new/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:52:28.891] Server  LOG      ✓ Compiled in 36ms
+[00:53:18.703] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:53:19.054] Browser LOG     Projects from DB: null
+[00:53:25.236] Browser LOG     Projects from DB: null
+[00:53:25.236] Browser LOG     Projects from DB: null
+[00:53:41.772] Browser LOG     Projects from DB: null
+[00:53:41.895] Browser LOG     Projects from DB: null
+[00:53:48.008] Browser LOG     Projects from DB: null
+[00:53:48.008] Browser LOG     Projects from DB: null
+[00:53:52.364] Browser LOG     Projects from DB: null
+[00:53:52.364] Browser LOG     Projects from DB: null
+[00:53:55.112] Browser LOG     Projects from DB: null
+[00:53:55.112] Browser LOG     Projects from DB: null
+[00:53:58.990] Browser LOG     Projects from DB: null
+[00:53:58.990] Browser LOG     Projects from DB: null

@@ -1,46 +1,44 @@
 'use client'
 
-import { useState, FormEvent } from 'react'
 import { sendMagicLink } from '../auth/actions'
+import { useState } from 'react'
+import FrostLogo from '../components/FrostLogo'
 
 export default function LoginPage() {
-  const [email, setEmail] = useState('')
-  const [status, setStatus] = useState<'idle'|'pending'|'sent'|'error'>('idle')
-  const [msg, setMsg] = useState('')
+  const [status, setStatus] = useState<string | null>(null)
 
-  async function onSubmit(e: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    setStatus('pending'); setMsg('')
-    const fd = new FormData(e.currentTarget)
-    const res = await sendMagicLink(fd)
-    if (res?.ok) { setStatus('sent'); setMsg('Magic link skickad! Kolla din e-post.') }
-    else { setStatus('error'); setMsg(res?.error ?? 'Något gick fel') }
+    const formData = new FormData(e.currentTarget)
+    try {
+      await sendMagicLink(formData)
+      setStatus('Magic Link skickad! Kolla din mail.')
+    } catch (err: any) {
+      setStatus(err?.message || 'Fel vid inloggning')
+    }
   }
 
   return (
-    <div className="mx-auto max-w-md">
-      <div className="card p-8">
-        <h1 className="text-2xl font-semibold">Logga in</h1>
-        <p className="mt-1 text-sm text-gray-600">Ange din e-post så skickar vi en magic link.</p>
-
-        <form onSubmit={onSubmit} className="mt-6 space-y-4">
-          <label className="label">E-post</label>
-          <input
-            name="email" type="email" required value={email}
-            onChange={e => setEmail(e.target.value)}
-            className="input"
-            placeholder="namn@företag.se"
-          />
-          <button type="submit" disabled={status==='pending'} className="btn-primary w-full py-2">
-            {status==='pending' ? 'Skickar…' : 'Skicka magic link'}
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-blue-100">
+      <div className="w-full max-w-md bg-white bg-opacity-75 rounded-3xl shadow-2xl backdrop-blur border border-blue-100 p-9 flex flex-col items-center">
+        <FrostLogo size={56} />
+        <h1 className="font-black text-3xl mb-7 text-blue-700 text-center">Frost Bygg</h1>
+        <form onSubmit={handleSubmit} className="w-full">
+          <label className="block text-sm text-blue-600 mb-2">E-post</label>
+          <input name="email" type="email" required className="w-full p-3 rounded-lg border border-blue-100 mb-4" />
+          <button
+            type="submit"
+            className="bg-blue-600 text-white rounded-lg py-2 w-full font-bold text-lg shadow hover:bg-blue-700 transition"
+          >
+            Skicka Magic Link
           </button>
         </form>
 
-        {msg && (
-          <p className={`mt-4 text-sm ${status==='error' ? 'text-red-600' : 'text-green-600'}`}>
-            {msg}
-          </p>
-        )}
+        {status && <div className="mt-4 text-sm text-blue-700">{status}</div>}
+
+        <div className="mt-7 text-xs text-blue-400 select-none opacity-70 font-mono tracking-wide">
+          Frost Studio • By Vilmer
+        </div>
       </div>
     </div>
   )

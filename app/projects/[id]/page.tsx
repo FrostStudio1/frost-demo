@@ -1,125 +1,106 @@
-// app/projects/[id]/page.tsx
-import { createClient } from '@/utils/supabase/server'
-import { createLockedInvoice } from './actions'
+'use client'
+
+import { useEffect, useState } from 'react'
+import { useParams, useRouter } from 'next/navigation'
+import FrostLogo from '../../components/FrostLogo'
+import { supabase } from '@/utils/supabase/supabaseClient'
 import Link from 'next/link'
 
-function sek(n: number) {
-  try {
-    return Number(n ?? 0).toLocaleString('sv-SE', { style: 'currency', currency: 'SEK' })
-  } catch {
-    return `${Math.round(Number(n ?? 0))} kr`
-  }
+type DemoClientKey = 'kund1' | 'kund2'
+
+const demoProjects = [
+  { id: 'stora-bygget-ab', name: 'Stora Bygget AB', status: 'Pågående', base_rate_sek: 820, client_id: 'kund1' as DemoClientKey },
+  { id: 'sma-entreprenor-ab', name: 'Små Entreprenör AB', status: 'Färdig', base_rate_sek: 660, client_id: 'kund2' as DemoClientKey },
+  { id: 'villa-ekbacken', name: 'Villa Ekbacken', status: 'Planeras', base_rate_sek: 500 }
+]
+const demoClients: Record<DemoClientKey, { name: string; email: string }> = {
+  kund1: { name: 'Byggbolaget AB', email: 'info@byggbolaget.se' },
+  kund2: { name: 'Målande AB', email: 'kontakt@malande.se' }
 }
 
-export default async function ProjectDetailPage({ params }: { params: { id: string } }) {
-  const supabase = createClient()
+export default function ProjectDetailPage() {
+  const params = useParams<{ id: string }>()
+  const router = useRouter()
+  const [loading, setLoading] = useState(true)
+  const [project, setProject] = useState<any>(null)
+  const [client, setClient] = useState<{ name: string; email: string } | null>(null)
 
-  // Auth guard
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  useEffect(() => {
+    async function loadData() {
+      let proj = null
+      let cli: { name: string; email: string } | null = null
+      try {
+        const { data } = await supabase
+          .from('projects')
+          .select('*')
+          .eq('id', params.id)
+          .single()
+        proj = data
+      } catch {
+        proj = null
+      }
+      if (!proj) {
+        proj = demoProjects.find(p => p.id === params.id)
+        if (proj?.client_id && demoClients[proj.client_id as DemoClientKey]) {
+          cli = demoClients[proj.client_id as DemoClientKey]
+        }
+      }
+      setProject(proj)
+      setClient(cli)
+      setLoading(false)
+    }
+    loadData()
+  }, [params.id, router])
 
-  if (!user) {
+  if (loading) {
     return (
-      <div className="mx-auto max-w-xl p-8">
-        Du är inte inloggad. <a className="underline" href="/login">Logga in</a>
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-blue-100">
+        <FrostLogo size={44} />
+        <span className="ml-3 text-blue-700 font-bold">Laddar projekt...</span>
       </div>
     )
   }
 
-  // Hämta projekt
-  const { data: project, error: projErr } = await supabase
-    .from('projects')
-    .select('*')
-    .eq('id', params.id)
-    .single()
-
-  if (projErr || !project) {
-    return <div className="mx-auto max-w-xl p-8">Kunde inte hämta projekt.</div>
+  if (!project) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-red-600">Kunde inte hämta projekt</div>
+      </div>
+    )
   }
 
-  // (Valfritt) hämta kund
-  const clientId = project.client_id
-  const { data: client } = clientId
-    ? await supabase.from('clients').select('*').eq('id', clientId).single()
-    : { data: null as any }
-
-  // Hämta senaste låsta fakturan (om du har created_at eller issue_date)
-  const { data: lastInv } = await supabase
-    .from('invoices')
-    .select('id, number, status, issue_date')
-    .eq('project_id', project.id)
-    .order('issue_date', { ascending: false })
-    .limit(1)
-    .maybeSingle()
-
   return (
-    <div className="mx-auto max-w-3xl p-6 space-y-6">
-      {/* Header */}
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <h1 className="text-2xl sm:text-3xl font-bold">{project.name}</h1>
-          {client && (
-            <div className="text-sm text-gray-600">
-              {client.name}{client.email ? ` • ${client.email}` : ''}
-            </div>
-          )}
-          {project.base_rate_sek ? (
-            <div className="text-sm text-gray-700 mt-1">Grundpris: {sek(project.base_rate_sek)} / tim</div>
-          ) : null}
-        </div>
-
-        <Link
-          href="/projects"
-          className="px-4 py-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50 text-gray-800"
-        >
-          Projekt
-        </Link>
-      </div>
-
-      {/* Actions */}
-      <div className="flex flex-wrap gap-3">
-        {/* Skapa & lås (snapshot) → redirect till /invoices/:id */}
-        <form action={async () => { 'use server'; await createLockedInvoice(params.id) }}>
-          <button
-            type="submit"
-            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded-lg"
-          >
-            Skapa & lås faktura
-          </button>
-        </form>
-
-        {/* Visa live-faktura (läser från vy/v_invoice_lines) */}
-        <Link
-          href={`/projects/${params.id}/invoice`}
-          className="px-4 py-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50"
-        >
-          Visa "live" faktura
-        </Link>
-
-        {/* Visa senaste låsta faktura (om finns) */}
-        {lastInv ? (
-          <Link
-            href={`/invoices/${lastInv.id}`}
-            className="px-4 py-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50"
-          >
-            Visa senast låsta faktura{lastInv.number ? ` (${lastInv.number})` : ''}
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-blue-50 via-white to-blue-100">
+      <div className="mx-auto max-w-3xl p-6 space-y-6 bg-white rounded-3xl shadow-xl border border-blue-100">
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <h1 className="text-2xl sm:text-3xl font-bold text-blue-700">{project.name}</h1>
+            {client && (
+              <div className="text-sm text-blue-400">
+                {client.name}{client.email ? ` • ${client.email}` : ''}
+              </div>
+            )}
+            {project.base_rate_sek ? (
+              <div className="text-sm text-blue-500 mt-1">
+                Grundpris: {Number(project.base_rate_sek).toLocaleString('sv-SE', { style: 'currency', currency: 'SEK' })} / tim
+              </div>
+            ) : null}
+          </div>
+          <Link href="/dashboard" className="px-4 py-2 rounded-lg border border-blue-200 bg-white hover:bg-blue-50 text-blue-700 transition">
+            Dashboard
           </Link>
-        ) : null}
-      </div>
-
-      {/* (Valfritt) lite status/info */}
-      <div className="rounded-xl border bg-white p-5">
-        <h2 className="font-semibold text-gray-900 mb-3">Projektinfo</h2>
-        <div className="text-sm leading-6 text-gray-700">
-          <div>Namn: <span className="font-medium text-gray-900">{project.name}</span></div>
-          {project.status && <div>Status: <span className="font-medium">{project.status}</span></div>}
-          {project.budgeted_hours != null && (
-            <div>Budget timmar: <span className="font-medium">{project.budgeted_hours}</span></div>
-          )}
-          {project.budgeted_cost_sek != null && (
-            <div>Budget kostnad: <span className="font-medium">{sek(project.budgeted_cost_sek)}</span></div>
-          )}
+        </div>
+        <div className="flex gap-3">
+          <Link href={`/invoices/new`} className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded-lg transition">
+            Skapa faktura
+          </Link>
+        </div>
+        <div className="rounded-xl border bg-white p-5">
+          <h2 className="font-semibold text-blue-700 mb-3">Projektinfo</h2>
+          <div className="text-sm leading-6 text-blue-500">
+            <div>Namn: <span className="font-medium text-blue-700">{project.name}</span></div>
+            {project.status && <div>Status: <span className="font-medium">{project.status}</span></div>}
+          </div>
         </div>
       </div>
     </div>
