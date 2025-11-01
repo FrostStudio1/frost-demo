@@ -1,63 +1,113 @@
-'use client'
+'use client';
+import { useEffect, Suspense } from 'react';
+import { supabase } from '@/utils/supabase/supabaseClient';
+import { useSearchParams } from 'next/navigation';
 
-import { createClient } from '@supabase/supabase-js'
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
-
-export default function AuthCallbackPage() {
-  const router = useRouter()
-  const [status, setStatus] = useState<'loading' | 'error'>('loading')
+function CallbackContent() {
+  const searchParams = useSearchParams()
+  const redirectTo = searchParams?.get('redirect') || '/dashboard'
 
   useEffect(() => {
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-    )
+    const bridgeAndRedirect = async () => {
+      const { data: sessionData } = await supabase.auth.getSession();
+      const s = sessionData.session;
 
-    // Use getSession to check if the client has a session after redirect
-    supabase.auth.getSession().then(async ({ data }) => {
-      const session = data?.session
-      if (!session) {
-        console.error('No session found in client after redirect')
-        setStatus('error')
+      if (!s) {
+        window.location.replace('/login')
         return
       }
 
+      // send tokens to server to set httpOnly cookies
+      await fetch('/api/auth/set-session', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          access_token: s.access_token,
+          refresh_token: s.refresh_token,
+        }),
+      });
+
+      // Get tenant via /api/get-tenant (resolves from employees table if needed)
+      // Also update user's app_metadata with tenant_id for future requests
       try {
-        // Post session tokens to server route to set httpOnly cookies
+        // Get user ID first
+        const { data: userData } = await supabase.auth.getUser()
+        const userId = userData?.user?.id
+
+        if (!userId) {
+          console.warn('callback: No user ID found')
+          window.location.replace(redirectTo)
+          return
+        }
+
+        const res = await fetch('/api/get-tenant');
+        if (res.ok) {
+          const json = await res.json();
+          if (json?.tenantId) {
+            // Set tenant in user metadata AND cookie (for immediate use)
+            try {
+              await fetch('/api/auth/set-tenant', {
+                method: 'POST',
+                headers: { 'content-type': 'application/json' },
+                body: JSON.stringify({ 
+                  tenantId: json.tenantId,
+                  userId: userId // CRITICAL: Must send userId to update app_metadata
+                }),
+              })
+            } catch (err) {
+              console.warn('callback: set-tenant failed', err)
+            }
+            window.location.replace(redirectTo);
+            return;
+          }
+        }
+      } catch (err) {
+        console.warn('callback: get-tenant failed', err);
+      }
+
+      // Final fallback: redirect to requested page or dashboard
+      window.location.replace(redirectTo);
+    };
+
+    bridgeAndRedirect();
+
+    const { data: sub } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (event === 'TOKEN_REFRESHED' && session) {
         await fetch('/api/auth/set-session', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'content-type': 'application/json' },
           body: JSON.stringify({
             access_token: session.access_token,
             refresh_token: session.refresh_token,
-            expires_at: session.expires_at,
           }),
-        })
-
-        // Redirect after server cookies are set
-        router.replace('/dashboard')
-      } catch (err) {
-        console.error('failed to set session on server', err)
-        setStatus('error')
+        });
       }
-    })
-  }, [router])
+    });
 
-  if (status === 'error') {
-    return (
-      <div className="flex items-center justify-center min-h-screen flex-col">
-        <h1 className="font-bold text-lg mb-2 text-red-600">Något gick fel vid inloggningen</h1>
-        <a href="/login" className="text-blue-600 underline">Försök igen</a>
-      </div>
-    )
-  }
+    return () => sub.subscription.unsubscribe();
+  }, [redirectTo]);
 
-  // Loader/spinner
   return (
-    <div className="flex items-center justify-center min-h-screen">
-      <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-800 mr-6"></div>
-      <span className="text-sm text-blue-700">Loggar in...</span>
+    <div className="min-h-screen flex items-center justify-center bg-white">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+        <p className="text-gray-600">Loggar in...</p>
+      </div>
     </div>
+  );
+}
+
+export default function Callback() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Laddar...</p>
+        </div>
+      </div>
+    }>
+      <CallbackContent />
+    </Suspense>
   )
 }

@@ -7,6 +7,16 @@
 html, body { height: 100%; }
 body { @apply bg-gray-50 text-gray-900; }
 
+:root {
+  --frost-blue: #007aff;
+  --warm-yellow: #ffd700;
+  --bg-light: #f9f9f9;
+}
+body { background: var(--bg-light); }
+.bg-frost-blue { background-color: var(--frost-blue); }
+.text-frost-blue { color: var(--frost-blue); }
+.text-amber-500 { color: var(--warm-yellow); }
+
 /* Små, återanvändbara komponenter */
 .btn {
   @apply inline-flex items-center justify-center rounded-xl border border-gray-300 bg-white px-4 py-2 text-sm font-medium shadow-sm hover:bg-gray-100 active:scale-[0.99] transition;

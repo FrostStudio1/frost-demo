@@ -1,193 +1,221 @@
-// app/admin/page.tsx
-import Link from 'next/link'
-import { createClient } from '@/utils/supabase/server'
+'use client'
 
-type Emp = {
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import supabase from '@/utils/supabase/supabaseClient'
+import { useTenant } from '@/context/TenantContext'
+import Sidebar from '@/components/Sidebar'
+
+interface Employee {
   id: string
-  full_name: string
-  email: string | null
-  default_rate_sek: number | null
+  name: string
+  full_name?: string
+  role?: string
+  email?: string
 }
 
-type Entry = {
-  employee_id: string
-  total_hours: number | null
-  amount_sek: number | null
+interface Project {
+  id: string
+  name: string
+  status?: string
 }
 
-function sek(n: number) {
-  try {
-    return Number(n ?? 0).toLocaleString('sv-SE', { style: 'currency', currency: 'SEK' })
-  } catch {
-    return `${Math.round(Number(n ?? 0))} kr`
-  }
+interface Invoice {
+  id: string
+  number?: string
+  amount: number
+  status?: string
+  customer_name?: string
 }
 
-function currentMonthLabel(d = new Date()) {
-  const y = d.getFullYear()
-  const m = String(d.getMonth() + 1).padStart(2, '0')
-  return `${y}-${m}` // YYYY-MM
-}
+export default function AdminPage() {
+  const router = useRouter()
+  const { tenantId } = useTenant()
+  const [employees, setEmployees] = useState<Employee[]>([])
+  const [projects, setProjects] = useState<Project[]>([])
+  const [invoices, setInvoices] = useState<Invoice[]>([])
+  const [loading, setLoading] = useState(true)
 
-function monthRange(isoMonth?: string) {
-  const now = new Date()
-  const [y, m] = (isoMonth ?? currentMonthLabel(now)).split('-').map(Number)
-  const start = new Date(y, m - 1, 1)
-  const end = new Date(y, m, 1)
-  const label = `${y}-${String(m).padStart(2, '0')}`
-  return { start: start.toISOString(), end: end.toISOString(), label }
-}
+  useEffect(() => {
+    if (!tenantId) {
+      setLoading(false)
+      return
+    }
 
-export default async function AdminPage({
-  searchParams,
-}: {
-  searchParams?: Record<string, string>
-}) {
-  const supabase = createClient()
-  const { data: authData } = await supabase.auth.getUser()
-  const user = authData?.user
-  if (!user) {
+    async function fetchData() {
+      try {
+        // Employees
+        const { data: empData } = await supabase
+          .from('employees')
+          .select('id, name, full_name, role, email')
+          .eq('tenant_id', tenantId)
+        
+        setEmployees((empData || []).map((e: any) => ({
+          id: e.id,
+          name: e.full_name || e.name || 'Okänd',
+          role: e.role,
+          email: e.email,
+        })))
+
+        // Projects
+        const { data: projData } = await supabase
+          .from('projects')
+          .select('id, name, status')
+          .eq('tenant_id', tenantId)
+        
+        setProjects(projData || [])
+
+        // Invoices
+        const { data: invData } = await supabase
+          .from('invoices')
+          .select('id, number, amount, status, customer_name')
+          .eq('tenant_id', tenantId)
+          .order('created_at', { ascending: false })
+          .limit(10)
+        
+        setInvoices(invData || [])
+      } catch (err) {
+        console.error('Error fetching admin data:', err)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchData()
+  }, [tenantId])
+
+  if (loading) {
     return (
-      <div className="mx-auto max-w-xl p-8">
-        Du är inte inloggad. <a className="underline" href="/login">Logga in</a>
+      <div className="min-h-screen bg-white flex">
+        <Sidebar />
+        <main className="flex-1 p-10 flex items-center justify-center">
+          <div className="text-gray-500">Laddar...</div>
+        </main>
       </div>
     )
   }
 
-  const claims: any = user.app_metadata ?? user.user_metadata ?? {}
-  const tenantId: string | undefined = claims.tenant_id
-  if (!tenantId) {
-    return <div className="mx-auto max-w-xl p-8">Saknar tenant_id på användaren.</div>
-  }
-
-  const { start, end, label } = monthRange(searchParams?.month)
-
-  // Hämta anställda
-  const { data: employeesData, error: empErr } = await supabase
-    .from('employees')
-    .select('id, full_name, email, default_rate_sek')
-    .eq('tenant_id', tenantId)
-    .order('full_name', { ascending: true })
-
-  if (empErr) {
-    return <div className="mx-auto max-w-xl p-8">Kunde inte hämta anställda.</div>
-  }
-
-  const employees: Emp[] = employeesData ?? []
-
-  // Hämta tidrader för innevarande månad
-  const { data: monthEntriesData } = await supabase
-    .from('time_entries')
-    .select('employee_id, total_hours, amount_sek')
-    .eq('tenant_id', tenantId)
-    .gte('start_at', start)
-    .lt('start_at', end)
-
-  const monthEntries: Entry[] = monthEntriesData ?? []
-
-  // Aggregera per anställd
-  const perEmp = new Map<
-    string,
-    { hours: number; amount: number }
-  >()
-
-  for (const e of monthEntries) {
-    const key = e.employee_id
-    const prev = perEmp.get(key) ?? { hours: 0, amount: 0 }
-    prev.hours += Number(e.total_hours ?? 0)
-    prev.amount += Number(e.amount_sek ?? 0)
-    perEmp.set(key, prev)
-  }
-
-  const totalHours = Array.from(perEmp.values()).reduce((s, v) => s + v.hours, 0)
-  const totalAmount = Array.from(perEmp.values()).reduce((s, v) => s + v.amount, 0)
+  const activeProjects = projects.filter(p => p.status === 'active').length
+  const unpaidInvoices = invoices.filter(i => i.status !== 'paid').length
+  const totalRevenue = invoices.filter(i => i.status === 'paid').reduce((sum, inv) => sum + Number(inv.amount || 0), 0)
 
   return (
-    <div className="mx-auto max-w-5xl p-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl sm:text-3xl font-bold">Admin – Översikt</h1>
-        <div className="flex gap-2">
-          <Link
-            href="/projects"
-            className="px-4 py-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50"
-          >
-            Projekt
-          </Link>
-          <Link
-            href={`/payroll?month=${label}`}
-            className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white"
-          >
-            Lönelista ({label})
-          </Link>
-        </div>
-      </div>
+    <div className="min-h-screen bg-white flex">
+      <Sidebar />
+      <main className="flex-1 lg:ml-0 overflow-x-hidden">
+        <div className="p-6 lg:p-10 max-w-7xl mx-auto">
+          <div className="mb-8">
+            <h1 className="text-4xl font-black text-gray-900 mb-2">Admin Dashboard</h1>
+            <p className="text-gray-500">Översikt över företaget</p>
+          </div>
 
-      {/* Summering för månaden */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="rounded-xl border bg-white p-5">
-          <div className="text-sm text-gray-500">Period</div>
-          <div className="text-xl font-semibold">{label}</div>
-        </div>
-        <div className="rounded-xl border bg-white p-5">
-          <div className="text-sm text-gray-500">Totala timmar (månad)</div>
-          <div className="text-xl font-semibold">{totalHours.toFixed(2)} h</div>
-        </div>
-        <div className="rounded-xl border bg-white p-5">
-          <div className="text-sm text-gray-500">Total lönekostnad (månad)</div>
-          <div className="text-xl font-semibold">{sek(totalAmount)}</div>
-        </div>
-      </div>
+          {/* Stats */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+              <div className="text-3xl font-black text-blue-600 mb-1">{employees.length}</div>
+              <div className="text-sm text-gray-500">Anställda</div>
+            </div>
+            <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+              <div className="text-3xl font-black text-purple-600 mb-1">{activeProjects}</div>
+              <div className="text-sm text-gray-500">Aktiva projekt</div>
+            </div>
+            <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+              <div className="text-3xl font-black text-pink-600 mb-1">{unpaidInvoices}</div>
+              <div className="text-sm text-gray-500">Obetalda fakturor</div>
+            </div>
+            <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+              <div className="text-3xl font-black text-green-600 mb-1">{totalRevenue.toLocaleString('sv-SE')} kr</div>
+              <div className="text-sm text-gray-500">Total omsättning</div>
+            </div>
+          </div>
 
-      {/* Tabell med anställda – namn länkar till /payroll/[employeeId]?month=YYYY-MM */}
-      <div className="rounded-xl border bg-white overflow-x-auto">
-        <table className="min-w-full text-sm">
-          <thead>
-            <tr className="text-left bg-gray-50">
-              <th className="p-3">Anställd</th>
-              <th className="p-3">E-post</th>
-              <th className="p-3 text-right">Timmar (månad)</th>
-              <th className="p-3 text-right">Belopp (månad)</th>
-              <th className="p-3 text-right">Baseline timpris</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y">
-            {employees.length === 0 && (
-              <tr>
-                <td className="p-3 text-gray-500 italic" colSpan={5}>
-                  Inga anställda hittades.
-                </td>
-              </tr>
-            )}
+          {/* Employees */}
+          <div className="mb-8">
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">Anställda</h2>
+            <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead className="bg-gray-50">
+                    <tr>
+                      <th className="p-4 text-left font-semibold text-gray-700">Namn</th>
+                      <th className="p-4 text-left font-semibold text-gray-700">Roll</th>
+                      <th className="p-4 text-left font-semibold text-gray-700">E-post</th>
+                      <th className="p-4 text-right font-semibold text-gray-700">Åtgärder</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-100">
+                    {employees.map((emp) => (
+                      <tr key={emp.id} className="hover:bg-gray-50 transition-colors">
+                        <td className="p-4 font-medium text-gray-900">{emp.name}</td>
+                        <td className="p-4 text-gray-600">{emp.role || '–'}</td>
+                        <td className="p-4 text-gray-600">{emp.email || '–'}</td>
+                        <td className="p-4 text-right">
+                          <button
+                            onClick={() => router.push(`/payroll/employeeID?employee=${emp.id}`)}
+                            className="text-blue-600 hover:text-blue-800 font-semibold text-sm"
+                          >
+                            Lönespec →
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
 
-            {employees.map((emp) => {
-              const agg = perEmp.get(emp.id) ?? { hours: 0, amount: 0 }
-              return (
-                <tr key={emp.id} className="hover:bg-gray-50">
-                  <td className="p-3">
-                    <Link
-                      href={`/payroll/${emp.id}?month=${label}`}
-                      className="underline decoration-dotted hover:decoration-solid"
-                      title="Visa lönespec"
-                    >
-                      {emp.full_name}
-                    </Link>
-                  </td>
-                  <td className="p-3">{emp.email ?? '—'}</td>
-                  <td className="p-3 text-right">{agg.hours.toFixed(2)}</td>
-                  <td className="p-3 text-right font-medium">{sek(agg.amount)}</td>
-                  <td className="p-3 text-right">
-                    {emp.default_rate_sek != null ? sek(emp.default_rate_sek) : '—'}
-                  </td>
-                </tr>
-              )
-            })}
-          </tbody>
-        </table>
-      </div>
-
-      <p className="text-xs text-gray-500">
-        Tips: klicka på ett namn för att öppna lönespecen för perioden {label}.
-      </p>
+          {/* Recent Invoices */}
+          <div>
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">Senaste fakturor</h2>
+            <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead className="bg-gray-50">
+                    <tr>
+                      <th className="p-4 text-left font-semibold text-gray-700">Nummer</th>
+                      <th className="p-4 text-left font-semibold text-gray-700">Kund</th>
+                      <th className="p-4 text-right font-semibold text-gray-700">Belopp</th>
+                      <th className="p-4 text-left font-semibold text-gray-700">Status</th>
+                      <th className="p-4 text-right font-semibold text-gray-700">Åtgärder</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-100">
+                    {invoices.map((inv) => (
+                      <tr key={inv.id} className="hover:bg-gray-50 transition-colors">
+                        <td className="p-4 font-medium text-gray-900">{inv.number || inv.id.slice(0, 8)}</td>
+                        <td className="p-4 text-gray-600">{inv.customer_name || '–'}</td>
+                        <td className="p-4 text-right font-semibold text-gray-900">
+                          {Number(inv.amount || 0).toLocaleString('sv-SE')} kr
+                        </td>
+                        <td className="p-4">
+                          <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                            inv.status === 'draft' ? 'bg-yellow-100 text-yellow-800' :
+                            inv.status === 'sent' ? 'bg-blue-100 text-blue-800' :
+                            inv.status === 'paid' ? 'bg-green-100 text-green-800' :
+                            'bg-gray-100 text-gray-800'
+                          }`}>
+                            {inv.status || 'draft'}
+                          </span>
+                        </td>
+                        <td className="p-4 text-right">
+                          <button
+                            onClick={() => router.push(`/invoices/${inv.id}`)}
+                            className="text-blue-600 hover:text-blue-800 font-semibold text-sm"
+                          >
+                            Visa →
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
     </div>
   )
 }
+

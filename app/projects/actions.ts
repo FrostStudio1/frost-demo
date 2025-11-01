@@ -22,6 +22,7 @@ export async function createProject(formData: FormData) {
 
   const base_rate_sek = Number(formData.get('base_rate_sek') || 0)
   const budgeted_hours = Number(formData.get('budgeted_hours') || 0)
+  const status = String(formData.get('status') || 'planned').trim()
 
   if (!name || !customer_name) {
     redirect('/projects?err=' + encodeURIComponent('Fyll i projektnamn och kundnamn'))
@@ -36,6 +37,7 @@ export async function createProject(formData: FormData) {
       customer_email,
       customer_address,
       customer_orgnr,
+      status,
     },
   ])
 

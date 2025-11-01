@@ -1,5 +1,6 @@
 // app/payroll/page.tsx
 import { createClient } from '@/utils/supabase/server'
+import { getTenantId } from '@/lib/serverTenant'
 import ExportCSV from './ExportCSV'
 import Link from 'next/link'
 
@@ -25,10 +26,10 @@ export default async function PayrollPage({ searchParams }: { searchParams?: Rec
     return <div className="mx-auto max-w-xl p-8">Du är inte inloggad. <a className="underline" href="/login">Logga in</a></div>
   }
 
-  const claims: any = user.app_metadata ?? user.user_metadata ?? {}
-  const tenantId: string | undefined = claims.tenant_id
+  // Use unified tenant resolution
+  const tenantId = await getTenantId()
   if (!tenantId) {
-    return <div className="mx-auto max-w-xl p-8">Saknar tenant_id på användaren.</div>
+    return <div className="mx-auto max-w-xl p-8">Saknar tenant_id. Kontakta admin.</div>
   }
 
   const { start, end, label } = monthRange(searchParams?.month)
@@ -45,13 +46,13 @@ export default async function PayrollPage({ searchParams }: { searchParams?: Rec
     employees.map((e: any) => [e.id as string, { name: (e.full_name as string) ?? 'Okänd', email: (e.email as string) ?? '' }])
   )
 
-  // Entries
+  // Entries - använd hours_total och ob_type (data sparas så från reports/new)
   const { data: entriesData } = await supabase
     .from('time_entries')
-    .select('employee_id, regular_hours, ob_evening_hours, ob_night_hours, weekend_hours, total_hours, amount_sek')
+    .select('employee_id, hours_total, ob_type, amount_total, date')
     .eq('tenant_id', tenantId)
-    .gte('start_at', start)
-    .lt('start_at', end)
+    .gte('date', start.split('T')[0])
+    .lt('date', end.split('T')[0])
   const entries = entriesData ?? []
 
   type Agg = {
@@ -80,12 +81,20 @@ export default async function PayrollPage({ searchParams }: { searchParams?: Rec
       })
     }
     const a = byEmp.get(id)!
-    a.regular += Number(r?.regular_hours ?? 0)
-    a.eve += Number(r?.ob_evening_hours ?? 0)
-    a.night += Number(r?.ob_night_hours ?? 0)
-    a.weekend += Number(r?.weekend_hours ?? 0)
-    a.total_hours += Number(r?.total_hours ?? 0)
-    a.amount += Number(r?.amount_sek ?? 0)
+    const hours = Number(r?.hours_total ?? 0)
+    const obType = r?.ob_type || 'work'
+    // Kategorisera timmar baserat på ob_type
+    if (obType === 'work') {
+      a.regular += hours
+    } else if (obType === 'evening') {
+      a.eve += hours
+    } else if (obType === 'night') {
+      a.night += hours
+    } else if (obType === 'weekend') {
+      a.weekend += hours
+    }
+    a.total_hours += hours
+    a.amount += Number(r?.amount_total ?? 0)
   }
   const rows = Array.from(byEmp.values()).sort((a, b) => a.name.localeCompare(b.name))
 

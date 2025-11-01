@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
-import './globals.css'
-import { signOut } from './auth/actions'
+import '@/globals.css'
 
 export const metadata: Metadata = {
   title: 'Frost Demo',
@@ -14,8 +13,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <header className="sticky top-0 z-20 border-b bg-white/70 backdrop-blur">
           <div className="container flex h-14 items-center justify-between">
             <a href="/" className="font-semibold tracking-tight">Frost Demo</a>
-            <form action={signOut}>
-              <button className="btn" type="submit">Logga ut</button>
+            {/* Logga ut-knappen är *dummy* – fyll på med riktig signOut när du har kod */}
+            <form>
+              <button className="btn" type="button">Logga ut</button>
             </form>
           </div>
         </header>

@@ -1,33 +1,35 @@
 'use client'
-
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import supabase from './utils/supabase/supabaseClient'
 import FrostLogo from './components/FrostLogo'
-import { supabase } from '@/utils/supabase/supabaseClient'
 
-export default function Home() {
+export default function HomePage() {
   const router = useRouter()
-  const [loading, setLoading] = useState(true)
+  const [checked, setChecked] = useState(false)
+  const [user, setUser] = useState<any>(null)
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => {
-      if (data.session) {
-        router.replace('/dashboard')
-      } else {
-        setLoading(false)
+    async function checkOnboarding() {
+      const { data: { user } } = await supabase.auth.getUser()
+
+      // Tenant resolution handled via TenantContext and useTenant() hook
+      
+      setUser(user)
+      setChecked(true)
+      if (user) {
+        // Om du har onboarding att checka, använd den nedan
+        // if (!user.onboarded) { router.push('/onboarding') }
+        // else
+        router.push('/dashboard')
       }
-    })
+    }
+    checkOnboarding()
   }, [router])
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-blue-100">
-        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-800 mr-6" />
-        <span className="text-blue-700 text-xl">Laddar...</span>
-      </div>
-    )
-  }
+  if (!checked || user) return null // Vänta på auth check eller redirect
 
+  // Logga in-vy om INGEN user
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-100 flex flex-col items-center justify-center">
       <div className="flex flex-col items-center rounded-3xl shadow-xl bg-white bg-opacity-75 p-10 max-w-lg w-full border border-blue-100 backdrop-blur">

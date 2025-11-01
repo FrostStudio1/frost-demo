@@ -1,9 +1,8 @@
 // app/payroll/[employeeId]/page.tsx
 import { createClient } from '@/utils/supabase/server'
+import { getTenantId } from '@/lib/serverTenant'
 import Link from 'next/link'
-import dynamic from 'next/dynamic'
-
-const InvoiceDownload = dynamic(() => import ('@/components/InvoiceDownload'), { ssr: false })
+import InvoiceDownload from './InvoiceDownloadClient'
 
 function sek(n: number) {
   try { return Number(n ?? 0).toLocaleString('sv-SE', { style: 'currency', currency: 'SEK' }) }
@@ -34,10 +33,10 @@ export default async function PayslipPage({
     return <div className="mx-auto max-w-xl p-8">Du är inte inloggad. <a className="underline" href="/login">Logga in</a></div>
   }
 
-  const claims: any = user.app_metadata ?? user.user_metadata ?? {}
-  const tenantId: string | undefined = claims.tenant_id
+  // Use unified tenant resolution
+  const tenantId = await getTenantId()
   if (!tenantId) {
-    return <div className="mx-auto max-w-xl p-8">Saknar tenant_id på användaren.</div>
+    return <div className="mx-auto max-w-xl p-8">Saknar tenant_id. Kontakta admin.</div>
   }
 
   const employeeId = params.employeeId
@@ -57,19 +56,29 @@ export default async function PayslipPage({
   // Hämta tidrader för perioden
   const { data: entriesData } = await supabase
     .from('time_entries')
-    .select('regular_hours, ob_evening_hours, ob_night_hours, weekend_hours, total_hours, amount_sek')
+    .select('hours_total, ob_type, amount_total')
     .eq('tenant_id', tenantId)
     .eq('employee_id', employeeId)
-    .gte('start_at', start)
-    .lt('start_at', end)
+    .gte('date', start)
+    .lt('date', end)
 
   const rows = entriesData ?? []
-  const regular = rows.reduce((s, r) => s + Number(r.regular_hours ?? 0), 0)
-  const eve = rows.reduce((s, r) => s + Number(r.ob_evening_hours ?? 0), 0)
-  const night = rows.reduce((s, r) => s + Number(r.ob_night_hours ?? 0), 0)
-  const weekend = rows.reduce((s, r) => s + Number(r.weekend_hours ?? 0), 0)
-  const totalHours = rows.reduce((s, r) => s + Number(r.total_hours ?? 0), 0)
-  const amount = rows.reduce((s, r) => s + Number(r.amount_sek ?? 0), 0)
+  // Beräkna timmar baserat på hours_total (som sparas från rapportering)
+  const regular = rows.reduce((s, r: any) => {
+    // Om det är vanligt arbete, räkna hours_total, annars 0
+    return s + (r.ob_type === 'work' || !r.ob_type ? Number(r.hours_total ?? 0) : 0)
+  }, 0)
+  const eve = rows.reduce((s, r: any) => {
+    return s + (r.ob_type === 'evening' ? Number(r.hours_total ?? 0) : 0)
+  }, 0)
+  const night = rows.reduce((s, r: any) => {
+    return s + (r.ob_type === 'night' ? Number(r.hours_total ?? 0) : 0)
+  }, 0)
+  const weekend = rows.reduce((s, r: any) => {
+    return s + (r.ob_type === 'weekend' ? Number(r.hours_total ?? 0) : 0)
+  }, 0)
+  const totalHours = rows.reduce((s, r: any) => s + Number(r.hours_total ?? 0), 0)
+  const amount = rows.reduce((s, r: any) => s + Number(r.amount_total ?? 0), 0)
 
   // Enkel “bruttolön” = amount (dina OB-beräkningar är redan med i time_entries.amount_sek)
   const gross = amount

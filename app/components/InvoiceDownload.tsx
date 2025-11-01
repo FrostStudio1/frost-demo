@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { toast } from '@/lib/toast'
 
 type Props = {
   targetId: string        // id på elementet som ska bli PDF (t.ex. "pdf-invoice")
@@ -17,7 +18,7 @@ export default function InvoiceDownload({ targetId, fileName, label = 'Ladda ner
       setBusy(true)
       const el = document.getElementById(targetId)
       if (!el) {
-        alert(`Kunde inte hitta element med id="${targetId}"`)
+        toast.error(`Kunde inte hitta element med id="${targetId}"`)
         return
       }
 
@@ -54,7 +55,7 @@ export default function InvoiceDownload({ targetId, fileName, label = 'Ladda ner
       pdf.save(fileName)
     } catch (err) {
       console.error(err)
-      alert('Kunde inte generera PDF.')
+        toast.error('Kunde inte generera PDF.')
     } finally {
       setBusy(false)
     }
@@ -67,6 +68,7 @@ export default function InvoiceDownload({ targetId, fileName, label = 'Ladda ner
       disabled={busy}
       className={className || 'px-4 py-2 rounded-lg bg-gray-900 text-white hover:bg-black disabled:opacity-60'}
       aria-busy={busy}
+      aria-label={busy ? 'Genererar PDF...' : label}
     >
       {busy ? 'Genererar…' : label}
     </button>

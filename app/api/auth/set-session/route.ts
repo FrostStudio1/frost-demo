@@ -1,37 +1,33 @@
-import { NextResponse } from 'next/server'
+import { NextResponse } from 'next/server';
+
+const isProd = process.env.NODE_ENV === 'production';
+const ORIGIN = process.env.NEXT_PUBLIC_SITE_URL; // sätt i .env
 
 export async function POST(req: Request) {
-  try {
-    const body = await req.json()
-    const { access_token, refresh_token, expires_at } = body ?? {}
-
-    const res = NextResponse.json({ ok: true })
-
-    // NOTE: per request: do not enable secure cookie flag for dev (no HTTPS)
-    const cookieOpts = {
-      httpOnly: true,
-      path: '/',
-      sameSite: 'lax' as const,
-      secure: false,
-    }
-
-    if (access_token) {
-      // Set access token; include maxAge if expires_at provided
-      const opts: any = { ...cookieOpts }
-      if (typeof expires_at === 'number') {
-        const maxAge = Math.max(0, Number(expires_at) - Math.floor(Date.now() / 1000))
-        opts.maxAge = maxAge
-      }
-      res.cookies.set({ name: 'sb-access-token', value: String(access_token), ...opts })
-    }
-
-    if (refresh_token) {
-      res.cookies.set({ name: 'sb-refresh-token', value: String(refresh_token), ...cookieOpts })
-    }
-
-    return res
-  } catch (err) {
-    console.error('set-session error', err)
-    return NextResponse.json({ ok: false, error: String(err) }, { status: 500 })
+  // Enkel Origin/Referer-kontroll (grundläggande CSRF-skydd)
+  const origin = req.headers.get('origin') || req.headers.get('referer') || '';
+  if (ORIGIN && !origin.startsWith(ORIGIN)) {
+    return NextResponse.json({ error: 'Invalid origin' }, { status: 403 });
   }
+
+  const { access_token, refresh_token } = await req.json();
+  if (!access_token || !refresh_token) {
+    return NextResponse.json({ error: 'Missing tokens' }, { status: 400 });
+  }
+
+  const res = NextResponse.json({ ok: true });
+  const base = { httpOnly: true, sameSite: 'lax' as const, secure: isProd, path: '/' };
+
+  // Kort livslängd för access, längre för refresh
+  res.cookies.set('sb-access-token', access_token, { ...base, maxAge: 60 * 60 });            // 1h
+  res.cookies.set('sb-refresh-token', refresh_token, { ...base, maxAge: 60 * 60 * 24 * 7 }); // 7d
+  return res;
+}
+
+export async function DELETE() {
+  const res = NextResponse.json({ ok: true });
+  const base = { httpOnly: true, sameSite: 'lax' as const, secure: true, path: '/' };
+  res.cookies.set('sb-access-token', '', { ...base, maxAge: 0 });
+  res.cookies.set('sb-refresh-token', '', { ...base, maxAge: 0 });
+  return res;
 }

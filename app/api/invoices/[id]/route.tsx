@@ -1,8 +1,4 @@
-export const runtime = 'nodejs'
-export const dynamic = 'force-dynamic'
-
-import React from 'react'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/utils/supabase/server'
 import { pdf } from '@react-pdf/renderer'
 import InvoiceDoc from '../../../../lib/pdf/InvoiceDoc'
@@ -13,9 +9,9 @@ function formatSE(dateStr?: string | null) {
   return new Date(dateStr).toLocaleDateString('sv-SE')
 }
 
-export async function GET(_req: Request, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, context: { params: Promise<{ id: string }> }) {
+  const { id: invoiceId } = await context.params
   try {
-    const invoiceId = params.id
     if (!invoiceId) {
       return NextResponse.json({ error: 'Saknar invoice id' }, { status: 400 })
     }
@@ -25,7 +21,7 @@ export async function GET(_req: Request, { params }: { params: { id: string } })
     // 1) Hämta fakturan
     const { data: invoice, error: invErr } = await supabase
       .from('invoices')
-      .select('id, number, issue_date, due_date, tenant_id, project_id, client_id')
+      .select('id, number, issue_date, due_date, tenant_id, project_id, client_id, customer_name, desc, amount')
       .eq('id', invoiceId)
       .single()
 
@@ -34,48 +30,70 @@ export async function GET(_req: Request, { params }: { params: { id: string } })
     }
 
     // 2) Hämta tenant, kund, rader
-    const [{ data: tenant, error: tErr }, { data: client, error: cErr }, { data: lines, error: lErr }] =
-      await Promise.all([
-        supabase.from('tenants').select('id, name').eq('id', invoice.tenant_id).maybeSingle(),
-        supabase.from('clients').select('id, name, address, email').eq('id', invoice.client_id).maybeSingle(),
-        supabase
-          .from('invoice_lines')
-          .select('description, quantity, unit, rate_sek, amount_sek')
-          .eq('invoice_id', invoice.id),
-      ])
+    const [tenantResult, clientResult, linesResult] = await Promise.all([
+      supabase.from('tenants').select('id, name, org_number, address').eq('id', invoice.tenant_id).maybeSingle(),
+      invoice.client_id 
+        ? supabase.from('clients').select('id, name, address, email, org_number').eq('id', invoice.client_id).maybeSingle()
+        : Promise.resolve({ data: null, error: null }),
+      supabase
+        .from('invoice_lines')
+        .select('description, quantity, unit, rate_sek, amount_sek')
+        .eq('invoice_id', invoice.id),
+    ])
 
-    if (tErr) return NextResponse.json({ error: tErr.message }, { status: 500 })
-    if (cErr) return NextResponse.json({ error: cErr.message }, { status: 500 })
-    if (lErr) return NextResponse.json({ error: lErr.message }, { status: 500 })
+    const tenant = tenantResult.data
+    const client = clientResult.data || {
+      name: invoice.customer_name || 'Okänd kund',
+      address: null,
+      email: null,
+      org_number: null,
+    }
+    const lines = linesResult.data || []
 
-    // 3) Rendera PDF → Buffer (server)
-    const buffer = await pdf(
+    // Om inga rader finns, skapa en från faktura-data
+    let finalLines = lines
+    if (lines.length === 0 && invoice.desc && invoice.amount) {
+      finalLines = [{
+        description: invoice.desc,
+        quantity: 1,
+        unit: 'st',
+        rate_sek: Number(invoice.amount) || 0,
+        amount_sek: Number(invoice.amount) || 0,
+      }]
+    }
+
+    // 3) Rendera PDF → Stream
+    const pdfStream = await pdf(
       <InvoiceDoc
         invoice={{
-          number: invoice.number,
+          number: invoice.number || invoice.id.slice(0, 8),
           issue_date: formatSE(invoice.issue_date),
           due_date: formatSE(invoice.due_date),
         }}
-        tenant={{ name: tenant?.name || 'Företag' }}
-        client={{
-          name: client?.name || 'Kund',
-          address: client?.address || '',
-          email: client?.email || '',
+        tenant={{ 
+          name: tenant?.name || 'Frost Bygg',
+          org_number: tenant?.org_number,
+          address: tenant?.address,
         }}
-        lines={lines || []}
+        client={{
+          name: client.name || 'Okänd kund',
+          address: client.address || '',
+          email: client.email || '',
+          org_number: client.org_number || null,
+        }}
+        lines={finalLines}
       />
-    ).toBuffer()
+    ).toBlob()
 
-    // 4) Ladda upp i Storage (bucket: invoices)
-    const filePath = `invoices/${invoice.id}-${uuidv4()}.pdf`
-    const { error: upErr } = await supabase.storage
-      .from('invoices')
-      .upload(filePath, buffer, { contentType: 'application/pdf', upsert: true })
-    if (upErr) return NextResponse.json({ error: upErr.message }, { status: 500 })
-
-    // 5) Public URL (om bucket är public)
-    const { data: pub } = supabase.storage.from('invoices').getPublicUrl(filePath)
-    return NextResponse.json({ url: pub.publicUrl }, { status: 200 })
+    // 4) Returnera PDF direkt som blob (för snabbare nedladdning)
+    const headers = new Headers()
+    headers.set('Content-Type', 'application/pdf')
+    headers.set('Content-Disposition', `attachment; filename="faktura-${invoice.number || invoice.id.slice(0, 8)}.pdf"`)
+    
+    return new Response(pdfStream, {
+      status: 200,
+      headers,
+    })
   } catch (e: any) {
     return NextResponse.json({ error: e?.message || 'Unknown error' }, { status: 500 })
   }

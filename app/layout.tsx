@@ -1,5 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import { TenantProvider } from "@/context/TenantContext";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
+import Toaster from "@/components/Toaster";
 
 // INTE "use client"! Ingen useEffect här!
 
@@ -18,7 +21,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="sv">
       <body className="min-h-screen bg-background text-foreground antialiased">
-        {children}
+        <ErrorBoundary>
+          <TenantProvider>
+            {children}
+            <Toaster />
+          </TenantProvider>
+        </ErrorBoundary>
       </body>
     </html>
   );

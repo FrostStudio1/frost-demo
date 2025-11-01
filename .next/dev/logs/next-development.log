@@ -1,448 +1,3297 @@
-[00:00:00.967] Server  WARN     ⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
-[00:00:01.117] Server  LOG      ✓ Ready in 796ms
-[00:00:14.462] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:14.606] Browser WARN    @supabase/gotrue-js: Session as retrieved from URL was issued over 120s ago, URL could be stale 1761788551 1761792151 1761791269
-[00:00:15.723] Browser WARN    Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
-[00:00:46.172] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:56.664] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:05:19.833] Server  LOG      ✓ Compiled in 41ms
-[00:14:54.165] Server  LOG      ✓ Compiled in 45ms
-[00:17:24.056] Server  LOG      ✓ Compiled in 38ms
-[00:17:36.124] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:20:31.675] Server  LOG      ✓ Compiled in 35ms
-[00:22:34.049] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:22:48.475] Server  LOG      ✓ Compiled in 27ms
-[00:27:28.003] Server  LOG      ✓ Compiled in 30ms
-[00:29:45.815] Server  LOG      ✓ Compiled in 50ms
-[00:33:46.600] Server  LOG      ✓ Compiled in 41ms
-[00:35:23.327] Server  LOG      ✓ Compiled in 44ms
-[00:36:22.684] Server  LOG      ✓ Compiled in 34ms
-[00:38:56.867] Server  LOG      ✓ Compiled in 43ms
-[00:45:02.610] Server  LOG      ✓ Compiled in 26ms
-[00:45:04.071] Browser ERROR   Kunde inte hitta en profil för användaren: {"code":"42703","details":null,"hint":null,"message":"column employees.user_id does not exist"}
-[00:45:11.150] Server  LOG     formData: {}
-[00:45:12.213] Server  LOG     formData: {}
-[00:45:12.535] Server  ERROR    ⨯ AuthApiError: For security purposes, you can only request this after 59 seconds.
-[00:45:18.750] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:45:19.148] Browser WARN    Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
-[00:45:19.546] Browser ERROR   Kunde inte hitta en profil för användaren: {"code":"42703","details":null,"hint":null,"message":"column employees.user_id does not exist"}
-[00:45:19.710] Browser ERROR   Kunde inte hitta en profil för användaren: {"code":"42703","details":null,"hint":null,"message":"column employees.user_id does not exist"}
-[00:48:20.534] Server  LOG      ✓ Compiled in 32ms
-[00:48:26.026] Server  LOG     formData: {}
-[00:48:33.565] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:48:33.966] Browser WARN    Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
-[00:48:34.452] Browser LOG     Projects from DB: null
-[00:48:34.617] Browser LOG     Projects from DB: null
-[00:49:58.502] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:49:58.655] Browser ERROR   No session found in client after redirect
-[00:49:59.871] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:50:01.435] Server  LOG     formData: {}
-[00:50:07.916] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:50:08.225] Browser WARN    Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
-[00:50:08.827] Browser LOG     Projects from DB: null
-[00:50:08.827] Browser LOG     Projects from DB: null
-[00:51:49.003] Server  LOG      ✓ Compiled in 39ms
-[00:52:14.977] Server  ERROR    ⨯ ./frost-demo/app/customers/new/page.tsx:3:1
-Module not found: Can't resolve '../../utils/supabaseClient'
-  1 | 'use client'
-  2 | import { useState } from 'react'
-> 3 | import { supabase } from '../../utils/supabaseClient'
-    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  4 | import { useRouter } from 'next/navigation'
-  5 | import FrostLogo from '../../components/FrostLogo'
-  6 |
+[00:00:01.009] Server  WARN     ⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+[00:00:01.140] Server  LOG      ✓ Ready in 801ms
+[00:00:02.804] Server  ERROR    ⨯ ./frost-demo/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve '@/lib/serverTenant'
+  1 | import { createClient } from '@/utils/supabase/server'
+> 2 | import { getTenantId } from '@/lib/serverTenant'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 | import DashboardClient from './DashboardClient'
+  4 |
+  5 | interface ProjectType {
 
+Import map: aliased to relative './app/lib/serverTenant' inside of [project]/frost-demo
 
-
-Import traces:
-  Client Component Browser:
-    ./frost-demo/app/customers/new/page.tsx [Client Component Browser]
-    ./frost-demo/app/customers/new/page.tsx [Server Component]
-
-  Client Component SSR:
-    ./frost-demo/app/customers/new/page.tsx [Client Component SSR]
-    ./frost-demo/app/customers/new/page.tsx [Server Component]
 
 https://nextjs.org/docs/messages/module-not-found
 
 
-[00:52:14.979] Server  ERROR    ⨯ ./frost-demo/app/customers/new/page.tsx:3:1
-Module not found: Can't resolve '../../utils/supabaseClient'
-  1 | 'use client'
-  2 | import { useState } from 'react'
-> 3 | import { supabase } from '../../utils/supabaseClient'
-    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  4 | import { useRouter } from 'next/navigation'
-  5 | import FrostLogo from '../../components/FrostLogo'
-  6 |
+[00:00:04.023] Browser ERROR   uncaughtError: Error: ./frost-demo/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve '@/lib/serverTenant'
+  1 | import { createClient } from '@/utils/supabase/server'
+> 2 | import { getTenantId } from '@/lib/serverTenant'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 | import DashboardClient from './DashboardClient'
+  4 |
+  5 | interface ProjectType {
 
+Import map: aliased to relative './app/lib/serverTenant' inside of [project]/frost-demo
 
-
-Import traces:
-  Client Component Browser:
-    ./frost-demo/app/customers/new/page.tsx [Client Component Browser]
-    ./frost-demo/app/customers/new/page.tsx [Server Component]
-
-  Client Component SSR:
-    ./frost-demo/app/customers/new/page.tsx [Client Component SSR]
-    ./frost-demo/app/customers/new/page.tsx [Server Component]
 
 https://nextjs.org/docs/messages/module-not-found
 
 
-[00:52:14.979] Server  ERROR    ⨯ ./frost-demo/app/customers/new/page.tsx:3:1
-Module not found: Can't resolve '../../utils/supabaseClient'
-  1 | 'use client'
-  2 | import { useState } from 'react'
-> 3 | import { supabase } from '../../utils/supabaseClient'
-    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  4 | import { useRouter } from 'next/navigation'
-  5 | import FrostLogo from '../../components/FrostLogo'
-  6 |
+[00:00:04.310] Browser ERROR   ./frost-demo/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve '@/lib/serverTenant'
+  1 | import { createClient } from '@/utils/supabase/server'
+> 2 | import { getTenantId } from '@/lib/serverTenant'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 | import DashboardClient from './DashboardClient'
+  4 |
+  5 | interface ProjectType {
 
+Import map: aliased to relative './app/lib/serverTenant' inside of [project]/frost-demo
 
+https://nextjs.org/docs/messages/module-not-found
+[00:00:04.310] Browser ERROR   ./frost-demo/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve '@/lib/serverTenant'
+  1 | import { createClient } from '@/utils/supabase/server'
+> 2 | import { getTenantId } from '@/lib/serverTenant'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 | import DashboardClient from './DashboardClient'
+  4 |
+  5 | interface ProjectType {
 
-Import traces:
-  Client Component Browser:
-    ./frost-demo/app/customers/new/page.tsx [Client Component Browser]
-    ./frost-demo/app/customers/new/page.tsx [Server Component]
+Import map: aliased to relative './app/lib/serverTenant' inside of [project]/frost-demo
 
-  Client Component SSR:
-    ./frost-demo/app/customers/new/page.tsx [Client Component SSR]
-    ./frost-demo/app/customers/new/page.tsx [Server Component]
+https://nextjs.org/docs/messages/module-not-found
+[00:00:04.619] Browser ERROR   ./frost-demo/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve '@/lib/serverTenant'
+  1 | import { createClient } from '@/utils/supabase/server'
+> 2 | import { getTenantId } from '@/lib/serverTenant'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 | import DashboardClient from './DashboardClient'
+  4 |
+  5 | interface ProjectType {
+
+Import map: aliased to relative './app/lib/serverTenant' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[00:00:05.552] Server  ERROR    ⨯ ./frost-demo/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve '@/lib/serverTenant'
+  1 | import { createClient } from '@/utils/supabase/server'
+> 2 | import { getTenantId } from '@/lib/serverTenant'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 | import DashboardClient from './DashboardClient'
+  4 |
+  5 | interface ProjectType {
+
+Import map: aliased to relative './app/lib/serverTenant' inside of [project]/frost-demo
+
 
 https://nextjs.org/docs/messages/module-not-found
 
 
-[00:52:14.980] Server  ERROR    ⨯ ./frost-demo/app/customers/new/page.tsx:3:1
-Module not found: Can't resolve '../../utils/supabaseClient'
-  1 | 'use client'
-  2 | import { useState } from 'react'
-> 3 | import { supabase } from '../../utils/supabaseClient'
-    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  4 | import { useRouter } from 'next/navigation'
-  5 | import FrostLogo from '../../components/FrostLogo'
-  6 |
+[00:00:05.703] Browser ERROR   ./frost-demo/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve '@/lib/serverTenant'
+  1 | import { createClient } from '@/utils/supabase/server'
+> 2 | import { getTenantId } from '@/lib/serverTenant'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 | import DashboardClient from './DashboardClient'
+  4 |
+  5 | interface ProjectType {
 
+Import map: aliased to relative './app/lib/serverTenant' inside of [project]/frost-demo
 
+https://nextjs.org/docs/messages/module-not-found
+[00:00:06.109] Browser ERROR   uncaughtError: Error: ./frost-demo/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve '@/lib/serverTenant'
+  1 | import { createClient } from '@/utils/supabase/server'
+> 2 | import { getTenantId } from '@/lib/serverTenant'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 | import DashboardClient from './DashboardClient'
+  4 |
+  5 | interface ProjectType {
 
-Import traces:
-  Client Component Browser:
-    ./frost-demo/app/customers/new/page.tsx [Client Component Browser]
-    ./frost-demo/app/customers/new/page.tsx [Server Component]
+Import map: aliased to relative './app/lib/serverTenant' inside of [project]/frost-demo
 
-  Client Component SSR:
-    ./frost-demo/app/customers/new/page.tsx [Client Component SSR]
-    ./frost-demo/app/customers/new/page.tsx [Server Component]
 
 https://nextjs.org/docs/messages/module-not-found
 
 
-[00:52:15.008] Server  ERROR    ⨯ ./frost-demo/app/customers/new/page.tsx:3:1
-Module not found: Can't resolve '../../utils/supabaseClient'
-  1 | 'use client'
-  2 | import { useState } from 'react'
-> 3 | import { supabase } from '../../utils/supabaseClient'
-    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  4 | import { useRouter } from 'next/navigation'
-  5 | import FrostLogo from '../../components/FrostLogo'
-  6 |
+[00:00:06.432] Browser ERROR   ./frost-demo/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve '@/lib/serverTenant'
+  1 | import { createClient } from '@/utils/supabase/server'
+> 2 | import { getTenantId } from '@/lib/serverTenant'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 | import DashboardClient from './DashboardClient'
+  4 |
+  5 | interface ProjectType {
 
+Import map: aliased to relative './app/lib/serverTenant' inside of [project]/frost-demo
 
+https://nextjs.org/docs/messages/module-not-found
+[00:00:06.432] Browser ERROR   ./frost-demo/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve '@/lib/serverTenant'
+  1 | import { createClient } from '@/utils/supabase/server'
+> 2 | import { getTenantId } from '@/lib/serverTenant'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 | import DashboardClient from './DashboardClient'
+  4 |
+  5 | interface ProjectType {
 
-Import traces:
-  Client Component Browser:
-    ./frost-demo/app/customers/new/page.tsx [Client Component Browser]
-    ./frost-demo/app/customers/new/page.tsx [Server Component]
+Import map: aliased to relative './app/lib/serverTenant' inside of [project]/frost-demo
 
-  Client Component SSR:
-    ./frost-demo/app/customers/new/page.tsx [Client Component SSR]
-    ./frost-demo/app/customers/new/page.tsx [Server Component]
+https://nextjs.org/docs/messages/module-not-found
+[00:00:06.530] Browser ERROR   ./frost-demo/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve '@/lib/serverTenant'
+  1 | import { createClient } from '@/utils/supabase/server'
+> 2 | import { getTenantId } from '@/lib/serverTenant'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 | import DashboardClient from './DashboardClient'
+  4 |
+  5 | interface ProjectType {
+
+Import map: aliased to relative './app/lib/serverTenant' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[00:00:06.530] Browser ERROR   ./frost-demo/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve '@/lib/serverTenant'
+  1 | import { createClient } from '@/utils/supabase/server'
+> 2 | import { getTenantId } from '@/lib/serverTenant'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 | import DashboardClient from './DashboardClient'
+  4 |
+  5 | interface ProjectType {
+
+Import map: aliased to relative './app/lib/serverTenant' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[00:00:06.530] Browser ERROR   ./frost-demo/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve '@/lib/serverTenant'
+  1 | import { createClient } from '@/utils/supabase/server'
+> 2 | import { getTenantId } from '@/lib/serverTenant'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 | import DashboardClient from './DashboardClient'
+  4 |
+  5 | interface ProjectType {
+
+Import map: aliased to relative './app/lib/serverTenant' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[00:00:07.952] Server  ERROR    ⨯ ./frost-demo/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve '@/lib/serverTenant'
+  1 | import { createClient } from '@/utils/supabase/server'
+> 2 | import { getTenantId } from '@/lib/serverTenant'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 | import DashboardClient from './DashboardClient'
+  4 |
+  5 | interface ProjectType {
+
+Import map: aliased to relative './app/lib/serverTenant' inside of [project]/frost-demo
+
 
 https://nextjs.org/docs/messages/module-not-found
 
 
-[00:52:15.009] Server  ERROR    ⨯ ./frost-demo/app/customers/new/page.tsx:3:1
-Module not found: Can't resolve '../../utils/supabaseClient'
-  1 | 'use client'
-  2 | import { useState } from 'react'
-> 3 | import { supabase } from '../../utils/supabaseClient'
-    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  4 | import { useRouter } from 'next/navigation'
-  5 | import FrostLogo from '../../components/FrostLogo'
-  6 |
+[00:00:08.090] Browser ERROR   uncaughtError: Error: ./frost-demo/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve '@/lib/serverTenant'
+  1 | import { createClient } from '@/utils/supabase/server'
+> 2 | import { getTenantId } from '@/lib/serverTenant'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 | import DashboardClient from './DashboardClient'
+  4 |
+  5 | interface ProjectType {
 
+Import map: aliased to relative './app/lib/serverTenant' inside of [project]/frost-demo
 
-
-Import traces:
-  Client Component Browser:
-    ./frost-demo/app/customers/new/page.tsx [Client Component Browser]
-    ./frost-demo/app/customers/new/page.tsx [Server Component]
-
-  Client Component SSR:
-    ./frost-demo/app/customers/new/page.tsx [Client Component SSR]
-    ./frost-demo/app/customers/new/page.tsx [Server Component]
 
 https://nextjs.org/docs/messages/module-not-found
 
 
-[00:52:15.011] Server  ERROR    ⨯ ./frost-demo/app/customers/new/page.tsx:3:1
-Module not found: Can't resolve '../../utils/supabaseClient'
-  1 | 'use client'
-  2 | import { useState } from 'react'
-> 3 | import { supabase } from '../../utils/supabaseClient'
-    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  4 | import { useRouter } from 'next/navigation'
-  5 | import FrostLogo from '../../components/FrostLogo'
-  6 |
+[00:00:08.287] Browser ERROR   ./frost-demo/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve '@/lib/serverTenant'
+  1 | import { createClient } from '@/utils/supabase/server'
+> 2 | import { getTenantId } from '@/lib/serverTenant'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 | import DashboardClient from './DashboardClient'
+  4 |
+  5 | interface ProjectType {
 
+Import map: aliased to relative './app/lib/serverTenant' inside of [project]/frost-demo
 
+https://nextjs.org/docs/messages/module-not-found
+[00:00:08.287] Browser ERROR   ./frost-demo/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve '@/lib/serverTenant'
+  1 | import { createClient } from '@/utils/supabase/server'
+> 2 | import { getTenantId } from '@/lib/serverTenant'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 | import DashboardClient from './DashboardClient'
+  4 |
+  5 | interface ProjectType {
 
-Import traces:
-  Client Component Browser:
-    ./frost-demo/app/customers/new/page.tsx [Client Component Browser]
-    ./frost-demo/app/customers/new/page.tsx [Server Component]
+Import map: aliased to relative './app/lib/serverTenant' inside of [project]/frost-demo
 
-  Client Component SSR:
-    ./frost-demo/app/customers/new/page.tsx [Client Component SSR]
-    ./frost-demo/app/customers/new/page.tsx [Server Component]
+https://nextjs.org/docs/messages/module-not-found
+[00:00:08.533] Browser ERROR   ./frost-demo/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve '@/lib/serverTenant'
+  1 | import { createClient } from '@/utils/supabase/server'
+> 2 | import { getTenantId } from '@/lib/serverTenant'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 | import DashboardClient from './DashboardClient'
+  4 |
+  5 | interface ProjectType {
+
+Import map: aliased to relative './app/lib/serverTenant' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[00:00:08.533] Browser ERROR   ./frost-demo/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve '@/lib/serverTenant'
+  1 | import { createClient } from '@/utils/supabase/server'
+> 2 | import { getTenantId } from '@/lib/serverTenant'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 | import DashboardClient from './DashboardClient'
+  4 |
+  5 | interface ProjectType {
+
+Import map: aliased to relative './app/lib/serverTenant' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[00:00:13.263] Server  ERROR    ⨯ ./frost-demo/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve '@/lib/serverTenant'
+  1 | import { createClient } from '@/utils/supabase/server'
+> 2 | import { getTenantId } from '@/lib/serverTenant'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 | import DashboardClient from './DashboardClient'
+  4 |
+  5 | interface ProjectType {
+
+Import map: aliased to relative './app/lib/serverTenant' inside of [project]/frost-demo
+
 
 https://nextjs.org/docs/messages/module-not-found
 
 
-[00:52:15.012] Server  ERROR    ⨯ ./frost-demo/app/customers/new/page.tsx:3:1
-Module not found: Can't resolve '../../utils/supabaseClient'
-  1 | 'use client'
-  2 | import { useState } from 'react'
-> 3 | import { supabase } from '../../utils/supabaseClient'
-    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  4 | import { useRouter } from 'next/navigation'
-  5 | import FrostLogo from '../../components/FrostLogo'
-  6 |
+[00:00:13.413] Browser ERROR   uncaughtError: Error: ./frost-demo/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve '@/lib/serverTenant'
+  1 | import { createClient } from '@/utils/supabase/server'
+> 2 | import { getTenantId } from '@/lib/serverTenant'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 | import DashboardClient from './DashboardClient'
+  4 |
+  5 | interface ProjectType {
 
+Import map: aliased to relative './app/lib/serverTenant' inside of [project]/frost-demo
 
-
-Import traces:
-  Client Component Browser:
-    ./frost-demo/app/customers/new/page.tsx [Client Component Browser]
-    ./frost-demo/app/customers/new/page.tsx [Server Component]
-
-  Client Component SSR:
-    ./frost-demo/app/customers/new/page.tsx [Client Component SSR]
-    ./frost-demo/app/customers/new/page.tsx [Server Component]
 
 https://nextjs.org/docs/messages/module-not-found
 
 
-[00:52:15.013] Server  ERROR    ⨯ ./frost-demo/app/customers/new/page.tsx:3:1
-Module not found: Can't resolve '../../utils/supabaseClient'
-  1 | 'use client'
-  2 | import { useState } from 'react'
-> 3 | import { supabase } from '../../utils/supabaseClient'
-    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  4 | import { useRouter } from 'next/navigation'
-  5 | import FrostLogo from '../../components/FrostLogo'
-  6 |
+[00:00:13.613] Browser ERROR   ./frost-demo/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve '@/lib/serverTenant'
+  1 | import { createClient } from '@/utils/supabase/server'
+> 2 | import { getTenantId } from '@/lib/serverTenant'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 | import DashboardClient from './DashboardClient'
+  4 |
+  5 | interface ProjectType {
 
+Import map: aliased to relative './app/lib/serverTenant' inside of [project]/frost-demo
 
+https://nextjs.org/docs/messages/module-not-found
+[00:00:13.613] Browser ERROR   ./frost-demo/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve '@/lib/serverTenant'
+  1 | import { createClient } from '@/utils/supabase/server'
+> 2 | import { getTenantId } from '@/lib/serverTenant'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 | import DashboardClient from './DashboardClient'
+  4 |
+  5 | interface ProjectType {
 
-Import traces:
-  Client Component Browser:
-    ./frost-demo/app/customers/new/page.tsx [Client Component Browser]
-    ./frost-demo/app/customers/new/page.tsx [Server Component]
+Import map: aliased to relative './app/lib/serverTenant' inside of [project]/frost-demo
 
-  Client Component SSR:
-    ./frost-demo/app/customers/new/page.tsx [Client Component SSR]
-    ./frost-demo/app/customers/new/page.tsx [Server Component]
+https://nextjs.org/docs/messages/module-not-found
+[00:00:14.527] Browser ERROR   ./frost-demo/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve '@/lib/serverTenant'
+  1 | import { createClient } from '@/utils/supabase/server'
+> 2 | import { getTenantId } from '@/lib/serverTenant'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 | import DashboardClient from './DashboardClient'
+  4 |
+  5 | interface ProjectType {
+
+Import map: aliased to relative './app/lib/serverTenant' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[00:00:14.527] Browser ERROR   ./frost-demo/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve '@/lib/serverTenant'
+  1 | import { createClient } from '@/utils/supabase/server'
+> 2 | import { getTenantId } from '@/lib/serverTenant'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 | import DashboardClient from './DashboardClient'
+  4 |
+  5 | interface ProjectType {
+
+Import map: aliased to relative './app/lib/serverTenant' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[00:00:16.844] Browser ERROR   uncaughtError: Error: ./frost-demo/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve '@/lib/serverTenant'
+  1 | import { createClient } from '@/utils/supabase/server'
+> 2 | import { getTenantId } from '@/lib/serverTenant'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 | import DashboardClient from './DashboardClient'
+  4 |
+  5 | interface ProjectType {
+
+Import map: aliased to relative './app/lib/serverTenant' inside of [project]/frost-demo
+
 
 https://nextjs.org/docs/messages/module-not-found
 
 
-[00:52:15.014] Server  ERROR    ⨯ ./frost-demo/app/customers/new/page.tsx:3:1
-Module not found: Can't resolve '../../utils/supabaseClient'
-  1 | 'use client'
-  2 | import { useState } from 'react'
-> 3 | import { supabase } from '../../utils/supabaseClient'
-    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  4 | import { useRouter } from 'next/navigation'
-  5 | import FrostLogo from '../../components/FrostLogo'
-  6 |
+[00:00:17.046] Browser ERROR   ./frost-demo/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve '@/lib/serverTenant'
+  1 | import { createClient } from '@/utils/supabase/server'
+> 2 | import { getTenantId } from '@/lib/serverTenant'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 | import DashboardClient from './DashboardClient'
+  4 |
+  5 | interface ProjectType {
 
+Import map: aliased to relative './app/lib/serverTenant' inside of [project]/frost-demo
 
+https://nextjs.org/docs/messages/module-not-found
+[00:00:17.046] Browser ERROR   ./frost-demo/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve '@/lib/serverTenant'
+  1 | import { createClient } from '@/utils/supabase/server'
+> 2 | import { getTenantId } from '@/lib/serverTenant'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 | import DashboardClient from './DashboardClient'
+  4 |
+  5 | interface ProjectType {
 
-Import traces:
-  Client Component Browser:
-    ./frost-demo/app/customers/new/page.tsx [Client Component Browser]
-    ./frost-demo/app/customers/new/page.tsx [Server Component]
+Import map: aliased to relative './app/lib/serverTenant' inside of [project]/frost-demo
 
-  Client Component SSR:
-    ./frost-demo/app/customers/new/page.tsx [Client Component SSR]
-    ./frost-demo/app/customers/new/page.tsx [Server Component]
+https://nextjs.org/docs/messages/module-not-found
+[00:00:17.526] Browser ERROR   ./frost-demo/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve '@/lib/serverTenant'
+  1 | import { createClient } from '@/utils/supabase/server'
+> 2 | import { getTenantId } from '@/lib/serverTenant'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 | import DashboardClient from './DashboardClient'
+  4 |
+  5 | interface ProjectType {
+
+Import map: aliased to relative './app/lib/serverTenant' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[00:00:17.526] Browser ERROR   ./frost-demo/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve '@/lib/serverTenant'
+  1 | import { createClient } from '@/utils/supabase/server'
+> 2 | import { getTenantId } from '@/lib/serverTenant'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 | import DashboardClient from './DashboardClient'
+  4 |
+  5 | interface ProjectType {
+
+Import map: aliased to relative './app/lib/serverTenant' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[00:00:17.526] Browser ERROR   ./frost-demo/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve '@/lib/serverTenant'
+  1 | import { createClient } from '@/utils/supabase/server'
+> 2 | import { getTenantId } from '@/lib/serverTenant'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 | import DashboardClient from './DashboardClient'
+  4 |
+  5 | interface ProjectType {
+
+Import map: aliased to relative './app/lib/serverTenant' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[00:00:19.489] Browser ERROR   uncaughtError: Error: ./frost-demo/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve '@/lib/serverTenant'
+  1 | import { createClient } from '@/utils/supabase/server'
+> 2 | import { getTenantId } from '@/lib/serverTenant'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 | import DashboardClient from './DashboardClient'
+  4 |
+  5 | interface ProjectType {
+
+Import map: aliased to relative './app/lib/serverTenant' inside of [project]/frost-demo
+
 
 https://nextjs.org/docs/messages/module-not-found
 
 
-[00:52:15.015] Server  ERROR    ⨯ ./frost-demo/app/customers/new/page.tsx:3:1
-Module not found: Can't resolve '../../utils/supabaseClient'
-  1 | 'use client'
-  2 | import { useState } from 'react'
-> 3 | import { supabase } from '../../utils/supabaseClient'
-    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  4 | import { useRouter } from 'next/navigation'
-  5 | import FrostLogo from '../../components/FrostLogo'
-  6 |
+[00:00:19.535] Browser ERROR   ./frost-demo/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve '@/lib/serverTenant'
+  1 | import { createClient } from '@/utils/supabase/server'
+> 2 | import { getTenantId } from '@/lib/serverTenant'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 | import DashboardClient from './DashboardClient'
+  4 |
+  5 | interface ProjectType {
 
+Import map: aliased to relative './app/lib/serverTenant' inside of [project]/frost-demo
 
+https://nextjs.org/docs/messages/module-not-found
+[00:00:19.690] Browser ERROR   ./frost-demo/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve '@/lib/serverTenant'
+  1 | import { createClient } from '@/utils/supabase/server'
+> 2 | import { getTenantId } from '@/lib/serverTenant'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 | import DashboardClient from './DashboardClient'
+  4 |
+  5 | interface ProjectType {
+
+Import map: aliased to relative './app/lib/serverTenant' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[00:00:19.690] Browser ERROR   ./frost-demo/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve '@/lib/serverTenant'
+  1 | import { createClient } from '@/utils/supabase/server'
+> 2 | import { getTenantId } from '@/lib/serverTenant'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 | import DashboardClient from './DashboardClient'
+  4 |
+  5 | interface ProjectType {
+
+Import map: aliased to relative './app/lib/serverTenant' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[00:00:20.524] Browser ERROR   ./frost-demo/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve '@/lib/serverTenant'
+  1 | import { createClient } from '@/utils/supabase/server'
+> 2 | import { getTenantId } from '@/lib/serverTenant'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 | import DashboardClient from './DashboardClient'
+  4 |
+  5 | interface ProjectType {
+
+Import map: aliased to relative './app/lib/serverTenant' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[00:00:24.526] Browser ERROR   ./frost-demo/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve '@/lib/serverTenant'
+  1 | import { createClient } from '@/utils/supabase/server'
+> 2 | import { getTenantId } from '@/lib/serverTenant'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 | import DashboardClient from './DashboardClient'
+  4 |
+  5 | interface ProjectType {
+
+Import map: aliased to relative './app/lib/serverTenant' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[00:00:24.526] Browser ERROR   ./frost-demo/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve '@/lib/serverTenant'
+  1 | import { createClient } from '@/utils/supabase/server'
+> 2 | import { getTenantId } from '@/lib/serverTenant'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 | import DashboardClient from './DashboardClient'
+  4 |
+  5 | interface ProjectType {
+
+Import map: aliased to relative './app/lib/serverTenant' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[00:00:49.695] Browser ERROR   ./frost-demo/app/dashboard/page.tsx:2:1
+Export getTenantId doesn't exist in target module
+  1 | import { createClient } from '@/utils/supabase/server'
+> 2 | import { getTenantId } from '@/lib/serverTenant'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 | import DashboardClient from './DashboardClient'
+  4 |
+  5 | interface ProjectType {
+
+The export getTenantId was not found in module [project]/frost-demo/app/lib/serverTenant.ts [app-rsc] (ecmascript).
+The module has no exports at all.
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+[00:00:49.695] Browser ERROR   ./frost-demo/app/dashboard/page.tsx:2:1
+Export getTenantId doesn't exist in target module
+  1 | import { createClient } from '@/utils/supabase/server'
+> 2 | import { getTenantId } from '@/lib/serverTenant'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 | import DashboardClient from './DashboardClient'
+  4 |
+  5 | interface ProjectType {
+
+The export getTenantId was not found in module [project]/frost-demo/app/lib/serverTenant.ts [app-rsc] (ecmascript).
+The module has no exports at all.
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+[00:00:50.497] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:50.554] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:51.057] Server  ERROR   Error: supabaseUrl is required.
+[00:00:51.113] Server  ERROR   Error: supabaseUrl is required.
+[00:07:52.736] Server  LOG      ✓ Compiled in 51ms
+[00:09:34.296] Server  LOG      ✓ Compiled in 51ms
+[00:10:54.448] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:10:54.889] Server  ERROR   Error: supabaseUrl is required.
+[00:10:57.335] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:11:00.488] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:11:00.936] Server  ERROR   Error: supabaseUrl is required.
+[00:11:03.156] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:11:03.307] Server  ERROR   Error: supabaseUrl is required.
+[00:11:05.025] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:11:05.135] Server  ERROR   Error: supabaseUrl is required.
+[00:11:05.373] Server  WARN    get-tenant: server supabase getUser error AuthSessionMissingError: Auth session missing!
+[00:11:05.572] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:11:05.726] Server  ERROR   Error: supabaseUrl is required.
+[00:11:07.334] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:11:07.484] Server  ERROR   Error: supabaseUrl is required.
+[00:11:10.853] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:11:10.996] Server  ERROR   Error: supabaseUrl is required.
+[00:11:38.582] Server  ERROR   Error: supabaseUrl is required.
+[00:11:39.067] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:11:39.171] Server  ERROR   Error: supabaseUrl is required.
+[00:11:55.223] Server  ERROR   Error: supabaseUrl is required.
+[00:11:56.366] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:11:56.442] Server  ERROR   Error: supabaseUrl is required.
+[00:11:59.186] Server  LOG     formData: {}
+[00:12:12.528] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:12:12.639] Server  ERROR   Error: supabaseUrl is required.
+[00:12:12.682] Server  WARN    get-tenant: server supabase getUser error AuthSessionMissingError: Auth session missing!
+[00:12:12.898] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:12:12.959] Server  ERROR   Error: supabaseUrl is required.
+[00:15:03.200] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:15:03.293] Server  ERROR   Error: supabaseUrl is required.
+[00:15:57.177] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:15:57.264] Server  ERROR   Error: supabaseUrl is required.
+[00:15:59.353] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:15:59.436] Server  ERROR   Error: supabaseUrl is required.
+[00:15:59.682] Server  WARN    get-tenant: server supabase getUser error AuthSessionMissingError: Auth session missing!
+[00:15:59.896] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:16:00.053] Server  ERROR   Error: supabaseUrl is required.
+[00:16:01.242] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:16:01.398] Server  ERROR   Error: supabaseUrl is required.
+[00:16:04.565] Server  LOG     formData: {}
+[00:16:11.953] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:16:12.048] Server  ERROR   Error: supabaseUrl is required.
+[00:16:12.249] Server  WARN    get-tenant: server supabase getUser error AuthSessionMissingError: Auth session missing!
+[00:16:12.454] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:16:12.542] Server  ERROR   Error: supabaseUrl is required.
+[00:20:05.378] Server  WARN     ⚠ Fast Refresh had to perform a full reload when ./frost-demo/app/context/TenantContext.tsx changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+[00:20:05.378] Server  WARN     ⚠ Fast Refresh had to perform a full reload when ./frost-demo/app/context/TenantContext.tsx changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+[00:20:05.379] Server  WARN     ⚠ Fast Refresh had to perform a full reload when ./frost-demo/app/context/TenantContext.tsx changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+[00:20:05.380] Server  WARN     ⚠ Fast Refresh had to perform a full reload when ./frost-demo/app/context/TenantContext.tsx changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+[00:20:05.730] Server  LOG      ✓ Compiled in 32ms
+[00:20:06.201] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:20:06.522] Server  ERROR   Error: supabaseUrl is required.
+[00:20:06.593] Server  ERROR   Error: supabaseUrl is required.
+[00:20:06.651] Server  ERROR   Error: supabaseUrl is required.
+[00:20:06.833] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:20:06.846] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:20:06.881] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:20:07.004] Server  ERROR   Error: supabaseUrl is required.
+[00:20:07.068] Server  ERROR   Error: supabaseUrl is required.
+[00:20:07.125] Server  ERROR   Error: supabaseUrl is required.
+[00:20:07.165] Server  ERROR   Error: supabaseUrl is required.
+[00:20:07.230] Server  ERROR   Error: supabaseUrl is required.
+[00:20:07.278] Server  ERROR   Error: supabaseUrl is required.
+[00:20:07.318] Server  ERROR   Error: supabaseUrl is required.
+[00:20:07.371] Server  ERROR   Error: supabaseUrl is required.
+[00:20:07.407] Server  ERROR   Error: supabaseUrl is required.
+[00:20:07.478] Server  ERROR   Error: supabaseUrl is required.
+[00:20:07.529] Server  ERROR   Error: supabaseUrl is required.
+[00:20:07.574] Server  ERROR   Error: supabaseUrl is required.
+[00:20:07.632] Server  ERROR   Error: supabaseUrl is required.
+[00:20:07.671] Server  ERROR   Error: supabaseUrl is required.
+[00:20:07.718] Server  ERROR   Error: supabaseUrl is required.
+[00:20:30.934] Server  ERROR   Error: supabaseUrl is required.
+[00:20:30.982] Server  ERROR   Error: supabaseUrl is required.
+[00:20:31.034] Server  ERROR   Error: supabaseUrl is required.
+[00:20:31.114] Server  ERROR   Error: supabaseUrl is required.
+[00:20:32.499] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:20:32.590] Server  ERROR   Error: supabaseUrl is required.
+[00:20:32.628] Server  ERROR   Error: supabaseUrl is required.
+[00:20:32.681] Server  ERROR   Error: supabaseUrl is required.
+[00:20:32.722] Server  ERROR   Error: supabaseUrl is required.
+[00:20:32.772] Server  ERROR   Error: supabaseUrl is required.
+[00:20:32.864] Server  ERROR   Error: supabaseUrl is required.
+[00:20:34.131] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:20:34.225] Server  ERROR   Error: supabaseUrl is required.
+[00:20:34.320] Server  ERROR   Error: supabaseUrl is required.
+[00:20:34.368] Server  ERROR   Error: supabaseUrl is required.
+[00:20:34.402] Server  ERROR   Error: supabaseUrl is required.
+[00:20:34.446] Server  ERROR   Error: supabaseUrl is required.
+[00:20:34.507] Server  ERROR   Error: supabaseUrl is required.
+[00:20:34.632] Server  WARN    get-tenant: server supabase getUser error AuthSessionMissingError: Auth session missing!
+[00:20:34.812] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:20:34.977] Server  ERROR   Error: supabaseUrl is required.
+[00:20:35.040] Server  ERROR   Error: supabaseUrl is required.
+[00:20:35.085] Server  ERROR   Error: supabaseUrl is required.
+[00:20:35.139] Server  ERROR   Error: supabaseUrl is required.
+[00:20:35.183] Server  ERROR   Error: supabaseUrl is required.
+[00:20:35.236] Server  ERROR   Error: supabaseUrl is required.
+[00:20:36.398] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:20:36.475] Server  ERROR   Error: supabaseUrl is required.
+[00:20:36.531] Server  ERROR   Error: supabaseUrl is required.
+[00:20:36.585] Server  ERROR   Error: supabaseUrl is required.
+[00:20:36.645] Server  ERROR   Error: supabaseUrl is required.
+[00:20:36.701] Server  ERROR   Error: supabaseUrl is required.
+[00:20:40.014] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:20:40.131] Server  ERROR   Error: supabaseUrl is required.
+[00:20:40.180] Server  ERROR   Error: supabaseUrl is required.
+[00:20:40.222] Server  ERROR   Error: supabaseUrl is required.
+[00:20:40.262] Server  ERROR   Error: supabaseUrl is required.
+[00:20:40.356] Server  ERROR   Error: supabaseUrl is required.
+[00:20:49.986] Server  ERROR   Error: supabaseUrl is required.
+[00:20:50.618] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:20:50.763] Server  ERROR   Error: supabaseUrl is required.
+[00:20:50.821] Server  ERROR   Error: supabaseUrl is required.
+[00:20:56.953] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:20:57.015] Server  ERROR   Error: supabaseUrl is required.
+[00:20:57.064] Server  ERROR   Error: supabaseUrl is required.
+[00:21:18.512] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:21:18.621] Server  ERROR   Error: supabaseUrl is required.
+[00:21:18.712] Server  ERROR   Error: supabaseUrl is required.
+[00:21:35.141] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:21:35.328] Server  ERROR   Error: supabaseUrl is required.
+[00:21:35.393] Server  ERROR   Error: supabaseUrl is required.
+[00:21:40.182] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:21:40.285] Server  ERROR   Error: supabaseUrl is required.
+[00:21:40.411] Server  ERROR   Error: supabaseUrl is required.
+[00:21:40.463] Server  ERROR   Error: supabaseUrl is required.
+[00:21:40.506] Server  ERROR   Error: supabaseUrl is required.
+[00:21:40.560] Server  ERROR   Error: supabaseUrl is required.
+[00:21:40.652] Server  ERROR   Error: supabaseUrl is required.
+[00:21:40.864] Server  WARN    get-tenant: server supabase getUser error AuthSessionMissingError: Auth session missing!
+[00:21:41.107] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:21:41.179] Server  ERROR   Error: supabaseUrl is required.
+[00:21:41.243] Server  ERROR   Error: supabaseUrl is required.
+[00:21:41.293] Server  ERROR   Error: supabaseUrl is required.
+[00:21:41.333] Server  ERROR   Error: supabaseUrl is required.
+[00:21:41.370] Server  ERROR   Error: supabaseUrl is required.
+[00:21:41.421] Server  ERROR   Error: supabaseUrl is required.
+[00:22:16.937] Server  ERROR   Error: supabaseUrl is required.
+[00:22:17.020] Server  ERROR   Error: supabaseUrl is required.
+[00:22:17.090] Server  ERROR   Error: supabaseUrl is required.
+[00:22:17.168] Server  ERROR   Error: supabaseUrl is required.
+[00:22:21.359] Server  ERROR   Error: supabaseUrl is required.
+[00:22:21.578] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:22:21.633] Server  ERROR   Error: supabaseUrl is required.
+[00:22:21.692] Server  ERROR   Error: supabaseUrl is required.
+[00:22:21.737] Server  ERROR   Error: supabaseUrl is required.
+[00:22:21.785] Server  ERROR   Error: supabaseUrl is required.
+[00:22:21.873] Server  ERROR   Error: supabaseUrl is required.
+[00:22:25.619] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:22:25.776] Server  ERROR   Error: supabaseUrl is required.
+[00:22:25.815] Server  ERROR   Error: supabaseUrl is required.
+[00:22:25.863] Server  ERROR   Error: supabaseUrl is required.
+[00:22:25.902] Server  ERROR   Error: supabaseUrl is required.
+[00:22:25.948] Server  ERROR   Error: supabaseUrl is required.
+[00:22:27.531] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:22:27.586] Server  ERROR   Error: supabaseUrl is required.
+[00:22:27.705] Server  ERROR   Error: supabaseUrl is required.
+[00:22:27.744] Server  ERROR   Error: supabaseUrl is required.
+[00:22:27.785] Server  ERROR   Error: supabaseUrl is required.
+[00:22:27.840] Server  ERROR   Error: supabaseUrl is required.
+[00:22:27.898] Server  ERROR   Error: supabaseUrl is required.
+[00:22:28.006] Server  WARN    get-tenant: server supabase getUser error AuthSessionMissingError: Auth session missing!
+[00:22:28.252] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:22:28.323] Server  ERROR   Error: supabaseUrl is required.
+[00:22:28.382] Server  ERROR   Error: supabaseUrl is required.
+[00:22:28.440] Server  ERROR   Error: supabaseUrl is required.
+[00:22:28.481] Server  ERROR   Error: supabaseUrl is required.
+[00:22:28.521] Server  ERROR   Error: supabaseUrl is required.
+[00:22:28.577] Server  ERROR   Error: supabaseUrl is required.
+[00:23:44.848] Server  LOG      ✓ Compiled in 30ms
+[00:24:06.237] Server  LOG      ✓ Compiled in 31ms
+[00:24:27.027] Server  ERROR    ⨯ Error: The default export is not a React Component in "/login/page"
+[00:24:27.196] Server  ERROR    ⨯ Error: The default export is not a React Component in "/login/page"
+[00:24:27.362] Server  ERROR    ⨯ Error: The default export is not a React Component in "/login/page"
+[00:24:27.488] Server  ERROR    ⨯ Error: The default export is not a React Component in "/login/page"
+[00:24:27.489] Server  WARN     ⚠ Fast Refresh had to perform a full reload when ./frost-demo/app/login/page.tsx changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+[00:24:27.489] Server  WARN     ⚠ Fast Refresh had to perform a full reload when ./frost-demo/app/login/page.tsx changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+[00:24:27.489] Server  WARN     ⚠ Fast Refresh had to perform a full reload when ./frost-demo/app/login/page.tsx changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+[00:24:27.489] Server  WARN     ⚠ Fast Refresh had to perform a full reload when ./frost-demo/app/login/page.tsx changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+[00:24:27.781] Server  ERROR    ⨯ Error: The default export is not a React Component in "/login/page"
+[00:24:27.904] Server  ERROR    ⨯ Error: The default export is not a React Component in "/login/page"
+[00:24:28.052] Server  ERROR    ⨯ Error: The default export is not a React Component in "/login/page"
+[00:24:28.189] Server  ERROR    ⨯ Error: The default export is not a React Component in "/login/page"
+[00:24:28.367] Server  ERROR    ⨯ Error: The default export is not a React Component in "/login/page"
+[00:24:28.498] Server  ERROR    ⨯ Error: The default export is not a React Component in "/login/page"
+[00:24:28.637] Server  ERROR    ⨯ Error: The default export is not a React Component in "/login/page"
+[00:24:28.778] Server  ERROR    ⨯ Error: The default export is not a React Component in "/login/page"
+[00:24:28.954] Server  ERROR    ⨯ Error: The default export is not a React Component in "/login/page"
+[00:24:29.120] Server  ERROR    ⨯ Error: The default export is not a React Component in "/login/page"
+[00:24:29.156] Server  WARN     ⚠ Fast Refresh had to perform a full reload when ./frost-demo/app/login/page.tsx changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+[00:24:29.156] Server  WARN     ⚠ Fast Refresh had to perform a full reload when ./frost-demo/app/login/page.tsx changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+[00:24:29.445] Server  ERROR    ⨯ Error: The default export is not a React Component in "/login/page"
+[00:24:29.613] Server  ERROR    ⨯ Error: The default export is not a React Component in "/login/page"
+[00:24:29.793] Server  ERROR    ⨯ Error: The default export is not a React Component in "/login/page"
+[00:24:29.982] Server  ERROR    ⨯ Error: The default export is not a React Component in "/login/page"
+[00:24:29.985] Server  LOG      ✓ Compiled in 0ms
+[00:24:30.111] Browser ERROR   uncaughtError: Error: The default export is not a React Component in "/login/page"
+[00:24:30.133] Browser ERROR   uncaughtError: Error: The default export is not a React Component in "/login/page"
+[00:24:30.215] Browser ERROR   uncaughtError: Error: The default export is not a React Component in "/login/page"
+[00:24:30.223] Browser ERROR   uncaughtError: Error: The default export is not a React Component in "/login/page"
+[00:24:31.204] Server  LOG      ✓ Compiled in 33ms
+[00:24:36.533] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:25
+Ecmascript file had an error
+  93 | import { Suspense } from 'react';
+  94 |
+> 95 | export default function Callback() {
+     |                         ^^^^^^^^
+  96 |   return (
+  97 |     <Suspense fallback={
+  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+
+the name `Callback` is defined multiple times
 
 Import traces:
   Client Component Browser:
-    ./frost-demo/app/customers/new/page.tsx [Client Component Browser]
-    ./frost-demo/app/customers/new/page.tsx [Server Component]
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
 
   Client Component SSR:
-    ./frost-demo/app/customers/new/page.tsx [Client Component SSR]
-    ./frost-demo/app/customers/new/page.tsx [Server Component]
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:36.533] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:1
+Ecmascript file had an error
+   93 | import { Suspense } from 'react';
+   94 |
+>  95 | export default function Callback() {
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  96 |   return (
+      | ^^^^^^^^^^
+>  97 |     <Suspense fallback={
+      | ^^^^^^^^^^
+>  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+      | ^^^^^^^^^^
+>  99 |         <div className="text-center">
+      | ^^^^^^^^^^
+> 100 |           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+      | ^^^^^^^^^^
+> 101 |           <p className="text-gray-600">Laddar...</p>
+      | ^^^^^^^^^^
+> 102 |         </div>
+      | ^^^^^^^^^^
+> 103 |       </div>
+      | ^^^^^^^^^^
+> 104 |     }>
+      | ^^^^^^^^^^
+> 105 |       <CallbackContent />
+      | ^^^^^^^^^^
+> 106 |     </Suspense>
+      | ^^^^^^^^^^
+> 107 |   )
+      | ^^^^^^^^^^
+> 108 | }
+      | ^^
+  109 |
 
-https://nextjs.org/docs/messages/module-not-found
-
-
-[00:52:15.015] Server  ERROR    ⨯ ./frost-demo/app/customers/new/page.tsx:3:1
-Module not found: Can't resolve '../../utils/supabaseClient'
-  1 | 'use client'
-  2 | import { useState } from 'react'
-> 3 | import { supabase } from '../../utils/supabaseClient'
-    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  4 | import { useRouter } from 'next/navigation'
-  5 | import FrostLogo from '../../components/FrostLogo'
-  6 |
-
-
+the name `default` is exported multiple times
 
 Import traces:
   Client Component Browser:
-    ./frost-demo/app/customers/new/page.tsx [Client Component Browser]
-    ./frost-demo/app/customers/new/page.tsx [Server Component]
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
 
   Client Component SSR:
-    ./frost-demo/app/customers/new/page.tsx [Client Component SSR]
-    ./frost-demo/app/customers/new/page.tsx [Server Component]
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:36.533] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:25
+Ecmascript file had an error
+  93 | import { Suspense } from 'react';
+  94 |
+> 95 | export default function Callback() {
+     |                         ^^^^^^^^
+  96 |   return (
+  97 |     <Suspense fallback={
+  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
 
-https://nextjs.org/docs/messages/module-not-found
-
-
-[00:52:15.053] Server  LOG      ✓ Compiled in 79ms
-[00:52:16.059] Browser ERROR   ./frost-demo/app/customers/new/page.tsx:3:1
-Module not found: Can't resolve '../../utils/supabaseClient'
-  1 | 'use client'
-  2 | import { useState } from 'react'
-> 3 | import { supabase } from '../../utils/supabaseClient'
-    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  4 | import { useRouter } from 'next/navigation'
-  5 | import FrostLogo from '../../components/FrostLogo'
-  6 |
+the name `Callback` is defined multiple times
 
 Import traces:
   Client Component Browser:
-    ./frost-demo/app/customers/new/page.tsx [Client Component Browser]
-    ./frost-demo/app/customers/new/page.tsx [Server Component]
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
 
   Client Component SSR:
-    ./frost-demo/app/customers/new/page.tsx [Client Component SSR]
-    ./frost-demo/app/customers/new/page.tsx [Server Component]
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:36.533] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:1
+Ecmascript file had an error
+   93 | import { Suspense } from 'react';
+   94 |
+>  95 | export default function Callback() {
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  96 |   return (
+      | ^^^^^^^^^^
+>  97 |     <Suspense fallback={
+      | ^^^^^^^^^^
+>  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+      | ^^^^^^^^^^
+>  99 |         <div className="text-center">
+      | ^^^^^^^^^^
+> 100 |           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+      | ^^^^^^^^^^
+> 101 |           <p className="text-gray-600">Laddar...</p>
+      | ^^^^^^^^^^
+> 102 |         </div>
+      | ^^^^^^^^^^
+> 103 |       </div>
+      | ^^^^^^^^^^
+> 104 |     }>
+      | ^^^^^^^^^^
+> 105 |       <CallbackContent />
+      | ^^^^^^^^^^
+> 106 |     </Suspense>
+      | ^^^^^^^^^^
+> 107 |   )
+      | ^^^^^^^^^^
+> 108 | }
+      | ^^
+  109 |
 
-https://nextjs.org/docs/messages/module-not-found
-[00:52:16.059] Browser ERROR   ./frost-demo/app/customers/new/page.tsx:3:1
-Module not found: Can't resolve '../../utils/supabaseClient'
-  1 | 'use client'
-  2 | import { useState } from 'react'
-> 3 | import { supabase } from '../../utils/supabaseClient'
-    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  4 | import { useRouter } from 'next/navigation'
-  5 | import FrostLogo from '../../components/FrostLogo'
-  6 |
+the name `default` is exported multiple times
 
 Import traces:
   Client Component Browser:
-    ./frost-demo/app/customers/new/page.tsx [Client Component Browser]
-    ./frost-demo/app/customers/new/page.tsx [Server Component]
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
 
   Client Component SSR:
-    ./frost-demo/app/customers/new/page.tsx [Client Component SSR]
-    ./frost-demo/app/customers/new/page.tsx [Server Component]
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:36.533] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:25
+Ecmascript file had an error
+  93 | import { Suspense } from 'react';
+  94 |
+> 95 | export default function Callback() {
+     |                         ^^^^^^^^
+  96 |   return (
+  97 |     <Suspense fallback={
+  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
 
-https://nextjs.org/docs/messages/module-not-found
-[00:52:16.059] Browser ERROR   ./frost-demo/app/customers/new/page.tsx:3:1
-Module not found: Can't resolve '../../utils/supabaseClient'
-  1 | 'use client'
-  2 | import { useState } from 'react'
-> 3 | import { supabase } from '../../utils/supabaseClient'
-    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  4 | import { useRouter } from 'next/navigation'
-  5 | import FrostLogo from '../../components/FrostLogo'
-  6 |
+the name `Callback` is defined multiple times
 
 Import traces:
   Client Component Browser:
-    ./frost-demo/app/customers/new/page.tsx [Client Component Browser]
-    ./frost-demo/app/customers/new/page.tsx [Server Component]
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
 
   Client Component SSR:
-    ./frost-demo/app/customers/new/page.tsx [Client Component SSR]
-    ./frost-demo/app/customers/new/page.tsx [Server Component]
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:36.533] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:1
+Ecmascript file had an error
+   93 | import { Suspense } from 'react';
+   94 |
+>  95 | export default function Callback() {
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  96 |   return (
+      | ^^^^^^^^^^
+>  97 |     <Suspense fallback={
+      | ^^^^^^^^^^
+>  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+      | ^^^^^^^^^^
+>  99 |         <div className="text-center">
+      | ^^^^^^^^^^
+> 100 |           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+      | ^^^^^^^^^^
+> 101 |           <p className="text-gray-600">Laddar...</p>
+      | ^^^^^^^^^^
+> 102 |         </div>
+      | ^^^^^^^^^^
+> 103 |       </div>
+      | ^^^^^^^^^^
+> 104 |     }>
+      | ^^^^^^^^^^
+> 105 |       <CallbackContent />
+      | ^^^^^^^^^^
+> 106 |     </Suspense>
+      | ^^^^^^^^^^
+> 107 |   )
+      | ^^^^^^^^^^
+> 108 | }
+      | ^^
+  109 |
 
-https://nextjs.org/docs/messages/module-not-found
-[00:52:16.059] Browser ERROR   ./frost-demo/app/customers/new/page.tsx:3:1
-Module not found: Can't resolve '../../utils/supabaseClient'
-  1 | 'use client'
-  2 | import { useState } from 'react'
-> 3 | import { supabase } from '../../utils/supabaseClient'
-    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  4 | import { useRouter } from 'next/navigation'
-  5 | import FrostLogo from '../../components/FrostLogo'
-  6 |
+the name `default` is exported multiple times
 
 Import traces:
   Client Component Browser:
-    ./frost-demo/app/customers/new/page.tsx [Client Component Browser]
-    ./frost-demo/app/customers/new/page.tsx [Server Component]
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
 
   Client Component SSR:
-    ./frost-demo/app/customers/new/page.tsx [Client Component SSR]
-    ./frost-demo/app/customers/new/page.tsx [Server Component]
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:36.533] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:25
+Ecmascript file had an error
+  93 | import { Suspense } from 'react';
+  94 |
+> 95 | export default function Callback() {
+     |                         ^^^^^^^^
+  96 |   return (
+  97 |     <Suspense fallback={
+  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
 
-https://nextjs.org/docs/messages/module-not-found
-[00:52:16.059] Browser ERROR   ./frost-demo/app/customers/new/page.tsx:3:1
-Module not found: Can't resolve '../../utils/supabaseClient'
-  1 | 'use client'
-  2 | import { useState } from 'react'
-> 3 | import { supabase } from '../../utils/supabaseClient'
-    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  4 | import { useRouter } from 'next/navigation'
-  5 | import FrostLogo from '../../components/FrostLogo'
-  6 |
+the name `Callback` is defined multiple times
 
 Import traces:
   Client Component Browser:
-    ./frost-demo/app/customers/new/page.tsx [Client Component Browser]
-    ./frost-demo/app/customers/new/page.tsx [Server Component]
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
 
   Client Component SSR:
-    ./frost-demo/app/customers/new/page.tsx [Client Component SSR]
-    ./frost-demo/app/customers/new/page.tsx [Server Component]
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:36.533] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:1
+Ecmascript file had an error
+   93 | import { Suspense } from 'react';
+   94 |
+>  95 | export default function Callback() {
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  96 |   return (
+      | ^^^^^^^^^^
+>  97 |     <Suspense fallback={
+      | ^^^^^^^^^^
+>  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+      | ^^^^^^^^^^
+>  99 |         <div className="text-center">
+      | ^^^^^^^^^^
+> 100 |           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+      | ^^^^^^^^^^
+> 101 |           <p className="text-gray-600">Laddar...</p>
+      | ^^^^^^^^^^
+> 102 |         </div>
+      | ^^^^^^^^^^
+> 103 |       </div>
+      | ^^^^^^^^^^
+> 104 |     }>
+      | ^^^^^^^^^^
+> 105 |       <CallbackContent />
+      | ^^^^^^^^^^
+> 106 |     </Suspense>
+      | ^^^^^^^^^^
+> 107 |   )
+      | ^^^^^^^^^^
+> 108 | }
+      | ^^
+  109 |
 
-https://nextjs.org/docs/messages/module-not-found
-[00:52:28.891] Server  LOG      ✓ Compiled in 36ms
-[00:53:18.703] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:53:19.054] Browser LOG     Projects from DB: null
-[00:53:25.236] Browser LOG     Projects from DB: null
-[00:53:25.236] Browser LOG     Projects from DB: null
-[00:53:41.772] Browser LOG     Projects from DB: null
-[00:53:41.895] Browser LOG     Projects from DB: null
-[00:53:48.008] Browser LOG     Projects from DB: null
-[00:53:48.008] Browser LOG     Projects from DB: null
-[00:53:52.364] Browser LOG     Projects from DB: null
-[00:53:52.364] Browser LOG     Projects from DB: null
-[00:53:55.112] Browser LOG     Projects from DB: null
-[00:53:55.112] Browser LOG     Projects from DB: null
-[00:53:58.990] Browser LOG     Projects from DB: null
-[00:53:58.990] Browser LOG     Projects from DB: null
+the name `default` is exported multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:38.531] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:25
+Ecmascript file had an error
+  93 | import { Suspense } from 'react';
+  94 |
+> 95 | export default function Callback() {
+     |                         ^^^^^^^^
+  96 |   return (
+  97 |     <Suspense fallback={
+  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+
+the name `Callback` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:38.531] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:1
+Ecmascript file had an error
+   93 | import { Suspense } from 'react';
+   94 |
+>  95 | export default function Callback() {
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  96 |   return (
+      | ^^^^^^^^^^
+>  97 |     <Suspense fallback={
+      | ^^^^^^^^^^
+>  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+      | ^^^^^^^^^^
+>  99 |         <div className="text-center">
+      | ^^^^^^^^^^
+> 100 |           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+      | ^^^^^^^^^^
+> 101 |           <p className="text-gray-600">Laddar...</p>
+      | ^^^^^^^^^^
+> 102 |         </div>
+      | ^^^^^^^^^^
+> 103 |       </div>
+      | ^^^^^^^^^^
+> 104 |     }>
+      | ^^^^^^^^^^
+> 105 |       <CallbackContent />
+      | ^^^^^^^^^^
+> 106 |     </Suspense>
+      | ^^^^^^^^^^
+> 107 |   )
+      | ^^^^^^^^^^
+> 108 | }
+      | ^^
+  109 |
+
+the name `default` is exported multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:38.531] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:25
+Ecmascript file had an error
+  93 | import { Suspense } from 'react';
+  94 |
+> 95 | export default function Callback() {
+     |                         ^^^^^^^^
+  96 |   return (
+  97 |     <Suspense fallback={
+  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+
+the name `Callback` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:38.531] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:1
+Ecmascript file had an error
+   93 | import { Suspense } from 'react';
+   94 |
+>  95 | export default function Callback() {
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  96 |   return (
+      | ^^^^^^^^^^
+>  97 |     <Suspense fallback={
+      | ^^^^^^^^^^
+>  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+      | ^^^^^^^^^^
+>  99 |         <div className="text-center">
+      | ^^^^^^^^^^
+> 100 |           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+      | ^^^^^^^^^^
+> 101 |           <p className="text-gray-600">Laddar...</p>
+      | ^^^^^^^^^^
+> 102 |         </div>
+      | ^^^^^^^^^^
+> 103 |       </div>
+      | ^^^^^^^^^^
+> 104 |     }>
+      | ^^^^^^^^^^
+> 105 |       <CallbackContent />
+      | ^^^^^^^^^^
+> 106 |     </Suspense>
+      | ^^^^^^^^^^
+> 107 |   )
+      | ^^^^^^^^^^
+> 108 | }
+      | ^^
+  109 |
+
+the name `default` is exported multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:38.531] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:25
+Ecmascript file had an error
+  93 | import { Suspense } from 'react';
+  94 |
+> 95 | export default function Callback() {
+     |                         ^^^^^^^^
+  96 |   return (
+  97 |     <Suspense fallback={
+  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+
+the name `Callback` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:38.532] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:1
+Ecmascript file had an error
+   93 | import { Suspense } from 'react';
+   94 |
+>  95 | export default function Callback() {
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  96 |   return (
+      | ^^^^^^^^^^
+>  97 |     <Suspense fallback={
+      | ^^^^^^^^^^
+>  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+      | ^^^^^^^^^^
+>  99 |         <div className="text-center">
+      | ^^^^^^^^^^
+> 100 |           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+      | ^^^^^^^^^^
+> 101 |           <p className="text-gray-600">Laddar...</p>
+      | ^^^^^^^^^^
+> 102 |         </div>
+      | ^^^^^^^^^^
+> 103 |       </div>
+      | ^^^^^^^^^^
+> 104 |     }>
+      | ^^^^^^^^^^
+> 105 |       <CallbackContent />
+      | ^^^^^^^^^^
+> 106 |     </Suspense>
+      | ^^^^^^^^^^
+> 107 |   )
+      | ^^^^^^^^^^
+> 108 | }
+      | ^^
+  109 |
+
+the name `default` is exported multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:38.532] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:25
+Ecmascript file had an error
+  93 | import { Suspense } from 'react';
+  94 |
+> 95 | export default function Callback() {
+     |                         ^^^^^^^^
+  96 |   return (
+  97 |     <Suspense fallback={
+  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+
+the name `Callback` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:38.532] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:1
+Ecmascript file had an error
+   93 | import { Suspense } from 'react';
+   94 |
+>  95 | export default function Callback() {
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  96 |   return (
+      | ^^^^^^^^^^
+>  97 |     <Suspense fallback={
+      | ^^^^^^^^^^
+>  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+      | ^^^^^^^^^^
+>  99 |         <div className="text-center">
+      | ^^^^^^^^^^
+> 100 |           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+      | ^^^^^^^^^^
+> 101 |           <p className="text-gray-600">Laddar...</p>
+      | ^^^^^^^^^^
+> 102 |         </div>
+      | ^^^^^^^^^^
+> 103 |       </div>
+      | ^^^^^^^^^^
+> 104 |     }>
+      | ^^^^^^^^^^
+> 105 |       <CallbackContent />
+      | ^^^^^^^^^^
+> 106 |     </Suspense>
+      | ^^^^^^^^^^
+> 107 |   )
+      | ^^^^^^^^^^
+> 108 | }
+      | ^^
+  109 |
+
+the name `default` is exported multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:38.532] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:25
+Ecmascript file had an error
+  93 | import { Suspense } from 'react';
+  94 |
+> 95 | export default function Callback() {
+     |                         ^^^^^^^^
+  96 |   return (
+  97 |     <Suspense fallback={
+  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+
+the name `Callback` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:38.532] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:1
+Ecmascript file had an error
+   93 | import { Suspense } from 'react';
+   94 |
+>  95 | export default function Callback() {
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  96 |   return (
+      | ^^^^^^^^^^
+>  97 |     <Suspense fallback={
+      | ^^^^^^^^^^
+>  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+      | ^^^^^^^^^^
+>  99 |         <div className="text-center">
+      | ^^^^^^^^^^
+> 100 |           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+      | ^^^^^^^^^^
+> 101 |           <p className="text-gray-600">Laddar...</p>
+      | ^^^^^^^^^^
+> 102 |         </div>
+      | ^^^^^^^^^^
+> 103 |       </div>
+      | ^^^^^^^^^^
+> 104 |     }>
+      | ^^^^^^^^^^
+> 105 |       <CallbackContent />
+      | ^^^^^^^^^^
+> 106 |     </Suspense>
+      | ^^^^^^^^^^
+> 107 |   )
+      | ^^^^^^^^^^
+> 108 | }
+      | ^^
+  109 |
+
+the name `default` is exported multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:38.532] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:25
+Ecmascript file had an error
+  93 | import { Suspense } from 'react';
+  94 |
+> 95 | export default function Callback() {
+     |                         ^^^^^^^^
+  96 |   return (
+  97 |     <Suspense fallback={
+  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+
+the name `Callback` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:38.532] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:1
+Ecmascript file had an error
+   93 | import { Suspense } from 'react';
+   94 |
+>  95 | export default function Callback() {
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  96 |   return (
+      | ^^^^^^^^^^
+>  97 |     <Suspense fallback={
+      | ^^^^^^^^^^
+>  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+      | ^^^^^^^^^^
+>  99 |         <div className="text-center">
+      | ^^^^^^^^^^
+> 100 |           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+      | ^^^^^^^^^^
+> 101 |           <p className="text-gray-600">Laddar...</p>
+      | ^^^^^^^^^^
+> 102 |         </div>
+      | ^^^^^^^^^^
+> 103 |       </div>
+      | ^^^^^^^^^^
+> 104 |     }>
+      | ^^^^^^^^^^
+> 105 |       <CallbackContent />
+      | ^^^^^^^^^^
+> 106 |     </Suspense>
+      | ^^^^^^^^^^
+> 107 |   )
+      | ^^^^^^^^^^
+> 108 | }
+      | ^^
+  109 |
+
+the name `default` is exported multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:38.532] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:25
+Ecmascript file had an error
+  93 | import { Suspense } from 'react';
+  94 |
+> 95 | export default function Callback() {
+     |                         ^^^^^^^^
+  96 |   return (
+  97 |     <Suspense fallback={
+  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+
+the name `Callback` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:38.532] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:1
+Ecmascript file had an error
+   93 | import { Suspense } from 'react';
+   94 |
+>  95 | export default function Callback() {
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  96 |   return (
+      | ^^^^^^^^^^
+>  97 |     <Suspense fallback={
+      | ^^^^^^^^^^
+>  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+      | ^^^^^^^^^^
+>  99 |         <div className="text-center">
+      | ^^^^^^^^^^
+> 100 |           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+      | ^^^^^^^^^^
+> 101 |           <p className="text-gray-600">Laddar...</p>
+      | ^^^^^^^^^^
+> 102 |         </div>
+      | ^^^^^^^^^^
+> 103 |       </div>
+      | ^^^^^^^^^^
+> 104 |     }>
+      | ^^^^^^^^^^
+> 105 |       <CallbackContent />
+      | ^^^^^^^^^^
+> 106 |     </Suspense>
+      | ^^^^^^^^^^
+> 107 |   )
+      | ^^^^^^^^^^
+> 108 | }
+      | ^^
+  109 |
+
+the name `default` is exported multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:38.532] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:25
+Ecmascript file had an error
+  93 | import { Suspense } from 'react';
+  94 |
+> 95 | export default function Callback() {
+     |                         ^^^^^^^^
+  96 |   return (
+  97 |     <Suspense fallback={
+  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+
+the name `Callback` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:38.532] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:1
+Ecmascript file had an error
+   93 | import { Suspense } from 'react';
+   94 |
+>  95 | export default function Callback() {
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  96 |   return (
+      | ^^^^^^^^^^
+>  97 |     <Suspense fallback={
+      | ^^^^^^^^^^
+>  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+      | ^^^^^^^^^^
+>  99 |         <div className="text-center">
+      | ^^^^^^^^^^
+> 100 |           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+      | ^^^^^^^^^^
+> 101 |           <p className="text-gray-600">Laddar...</p>
+      | ^^^^^^^^^^
+> 102 |         </div>
+      | ^^^^^^^^^^
+> 103 |       </div>
+      | ^^^^^^^^^^
+> 104 |     }>
+      | ^^^^^^^^^^
+> 105 |       <CallbackContent />
+      | ^^^^^^^^^^
+> 106 |     </Suspense>
+      | ^^^^^^^^^^
+> 107 |   )
+      | ^^^^^^^^^^
+> 108 | }
+      | ^^
+  109 |
+
+the name `default` is exported multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:39.523] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:25
+Ecmascript file had an error
+  93 | import { Suspense } from 'react';
+  94 |
+> 95 | export default function Callback() {
+     |                         ^^^^^^^^
+  96 |   return (
+  97 |     <Suspense fallback={
+  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+
+the name `Callback` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:39.523] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:1
+Ecmascript file had an error
+   93 | import { Suspense } from 'react';
+   94 |
+>  95 | export default function Callback() {
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  96 |   return (
+      | ^^^^^^^^^^
+>  97 |     <Suspense fallback={
+      | ^^^^^^^^^^
+>  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+      | ^^^^^^^^^^
+>  99 |         <div className="text-center">
+      | ^^^^^^^^^^
+> 100 |           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+      | ^^^^^^^^^^
+> 101 |           <p className="text-gray-600">Laddar...</p>
+      | ^^^^^^^^^^
+> 102 |         </div>
+      | ^^^^^^^^^^
+> 103 |       </div>
+      | ^^^^^^^^^^
+> 104 |     }>
+      | ^^^^^^^^^^
+> 105 |       <CallbackContent />
+      | ^^^^^^^^^^
+> 106 |     </Suspense>
+      | ^^^^^^^^^^
+> 107 |   )
+      | ^^^^^^^^^^
+> 108 | }
+      | ^^
+  109 |
+
+the name `default` is exported multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:39.523] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:25
+Ecmascript file had an error
+  93 | import { Suspense } from 'react';
+  94 |
+> 95 | export default function Callback() {
+     |                         ^^^^^^^^
+  96 |   return (
+  97 |     <Suspense fallback={
+  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+
+the name `Callback` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:39.523] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:1
+Ecmascript file had an error
+   93 | import { Suspense } from 'react';
+   94 |
+>  95 | export default function Callback() {
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  96 |   return (
+      | ^^^^^^^^^^
+>  97 |     <Suspense fallback={
+      | ^^^^^^^^^^
+>  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+      | ^^^^^^^^^^
+>  99 |         <div className="text-center">
+      | ^^^^^^^^^^
+> 100 |           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+      | ^^^^^^^^^^
+> 101 |           <p className="text-gray-600">Laddar...</p>
+      | ^^^^^^^^^^
+> 102 |         </div>
+      | ^^^^^^^^^^
+> 103 |       </div>
+      | ^^^^^^^^^^
+> 104 |     }>
+      | ^^^^^^^^^^
+> 105 |       <CallbackContent />
+      | ^^^^^^^^^^
+> 106 |     </Suspense>
+      | ^^^^^^^^^^
+> 107 |   )
+      | ^^^^^^^^^^
+> 108 | }
+      | ^^
+  109 |
+
+the name `default` is exported multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:39.523] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:25
+Ecmascript file had an error
+  93 | import { Suspense } from 'react';
+  94 |
+> 95 | export default function Callback() {
+     |                         ^^^^^^^^
+  96 |   return (
+  97 |     <Suspense fallback={
+  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+
+the name `Callback` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:39.523] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:1
+Ecmascript file had an error
+   93 | import { Suspense } from 'react';
+   94 |
+>  95 | export default function Callback() {
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  96 |   return (
+      | ^^^^^^^^^^
+>  97 |     <Suspense fallback={
+      | ^^^^^^^^^^
+>  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+      | ^^^^^^^^^^
+>  99 |         <div className="text-center">
+      | ^^^^^^^^^^
+> 100 |           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+      | ^^^^^^^^^^
+> 101 |           <p className="text-gray-600">Laddar...</p>
+      | ^^^^^^^^^^
+> 102 |         </div>
+      | ^^^^^^^^^^
+> 103 |       </div>
+      | ^^^^^^^^^^
+> 104 |     }>
+      | ^^^^^^^^^^
+> 105 |       <CallbackContent />
+      | ^^^^^^^^^^
+> 106 |     </Suspense>
+      | ^^^^^^^^^^
+> 107 |   )
+      | ^^^^^^^^^^
+> 108 | }
+      | ^^
+  109 |
+
+the name `default` is exported multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:39.523] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:25
+Ecmascript file had an error
+  93 | import { Suspense } from 'react';
+  94 |
+> 95 | export default function Callback() {
+     |                         ^^^^^^^^
+  96 |   return (
+  97 |     <Suspense fallback={
+  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+
+the name `Callback` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:39.523] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:1
+Ecmascript file had an error
+   93 | import { Suspense } from 'react';
+   94 |
+>  95 | export default function Callback() {
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  96 |   return (
+      | ^^^^^^^^^^
+>  97 |     <Suspense fallback={
+      | ^^^^^^^^^^
+>  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+      | ^^^^^^^^^^
+>  99 |         <div className="text-center">
+      | ^^^^^^^^^^
+> 100 |           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+      | ^^^^^^^^^^
+> 101 |           <p className="text-gray-600">Laddar...</p>
+      | ^^^^^^^^^^
+> 102 |         </div>
+      | ^^^^^^^^^^
+> 103 |       </div>
+      | ^^^^^^^^^^
+> 104 |     }>
+      | ^^^^^^^^^^
+> 105 |       <CallbackContent />
+      | ^^^^^^^^^^
+> 106 |     </Suspense>
+      | ^^^^^^^^^^
+> 107 |   )
+      | ^^^^^^^^^^
+> 108 | }
+      | ^^
+  109 |
+
+the name `default` is exported multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:39.523] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:25
+Ecmascript file had an error
+  93 | import { Suspense } from 'react';
+  94 |
+> 95 | export default function Callback() {
+     |                         ^^^^^^^^
+  96 |   return (
+  97 |     <Suspense fallback={
+  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+
+the name `Callback` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:39.523] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:1
+Ecmascript file had an error
+   93 | import { Suspense } from 'react';
+   94 |
+>  95 | export default function Callback() {
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  96 |   return (
+      | ^^^^^^^^^^
+>  97 |     <Suspense fallback={
+      | ^^^^^^^^^^
+>  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+      | ^^^^^^^^^^
+>  99 |         <div className="text-center">
+      | ^^^^^^^^^^
+> 100 |           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+      | ^^^^^^^^^^
+> 101 |           <p className="text-gray-600">Laddar...</p>
+      | ^^^^^^^^^^
+> 102 |         </div>
+      | ^^^^^^^^^^
+> 103 |       </div>
+      | ^^^^^^^^^^
+> 104 |     }>
+      | ^^^^^^^^^^
+> 105 |       <CallbackContent />
+      | ^^^^^^^^^^
+> 106 |     </Suspense>
+      | ^^^^^^^^^^
+> 107 |   )
+      | ^^^^^^^^^^
+> 108 | }
+      | ^^
+  109 |
+
+the name `default` is exported multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:39.523] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:25
+Ecmascript file had an error
+  93 | import { Suspense } from 'react';
+  94 |
+> 95 | export default function Callback() {
+     |                         ^^^^^^^^
+  96 |   return (
+  97 |     <Suspense fallback={
+  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+
+the name `Callback` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:39.523] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:1
+Ecmascript file had an error
+   93 | import { Suspense } from 'react';
+   94 |
+>  95 | export default function Callback() {
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  96 |   return (
+      | ^^^^^^^^^^
+>  97 |     <Suspense fallback={
+      | ^^^^^^^^^^
+>  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+      | ^^^^^^^^^^
+>  99 |         <div className="text-center">
+      | ^^^^^^^^^^
+> 100 |           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+      | ^^^^^^^^^^
+> 101 |           <p className="text-gray-600">Laddar...</p>
+      | ^^^^^^^^^^
+> 102 |         </div>
+      | ^^^^^^^^^^
+> 103 |       </div>
+      | ^^^^^^^^^^
+> 104 |     }>
+      | ^^^^^^^^^^
+> 105 |       <CallbackContent />
+      | ^^^^^^^^^^
+> 106 |     </Suspense>
+      | ^^^^^^^^^^
+> 107 |   )
+      | ^^^^^^^^^^
+> 108 | }
+      | ^^
+  109 |
+
+the name `default` is exported multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:39.523] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:25
+Ecmascript file had an error
+  93 | import { Suspense } from 'react';
+  94 |
+> 95 | export default function Callback() {
+     |                         ^^^^^^^^
+  96 |   return (
+  97 |     <Suspense fallback={
+  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+
+the name `Callback` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:39.523] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:1
+Ecmascript file had an error
+   93 | import { Suspense } from 'react';
+   94 |
+>  95 | export default function Callback() {
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  96 |   return (
+      | ^^^^^^^^^^
+>  97 |     <Suspense fallback={
+      | ^^^^^^^^^^
+>  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+      | ^^^^^^^^^^
+>  99 |         <div className="text-center">
+      | ^^^^^^^^^^
+> 100 |           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+      | ^^^^^^^^^^
+> 101 |           <p className="text-gray-600">Laddar...</p>
+      | ^^^^^^^^^^
+> 102 |         </div>
+      | ^^^^^^^^^^
+> 103 |       </div>
+      | ^^^^^^^^^^
+> 104 |     }>
+      | ^^^^^^^^^^
+> 105 |       <CallbackContent />
+      | ^^^^^^^^^^
+> 106 |     </Suspense>
+      | ^^^^^^^^^^
+> 107 |   )
+      | ^^^^^^^^^^
+> 108 | }
+      | ^^
+  109 |
+
+the name `default` is exported multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:39.523] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:25
+Ecmascript file had an error
+  93 | import { Suspense } from 'react';
+  94 |
+> 95 | export default function Callback() {
+     |                         ^^^^^^^^
+  96 |   return (
+  97 |     <Suspense fallback={
+  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+
+the name `Callback` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:39.523] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:1
+Ecmascript file had an error
+   93 | import { Suspense } from 'react';
+   94 |
+>  95 | export default function Callback() {
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  96 |   return (
+      | ^^^^^^^^^^
+>  97 |     <Suspense fallback={
+      | ^^^^^^^^^^
+>  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+      | ^^^^^^^^^^
+>  99 |         <div className="text-center">
+      | ^^^^^^^^^^
+> 100 |           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+      | ^^^^^^^^^^
+> 101 |           <p className="text-gray-600">Laddar...</p>
+      | ^^^^^^^^^^
+> 102 |         </div>
+      | ^^^^^^^^^^
+> 103 |       </div>
+      | ^^^^^^^^^^
+> 104 |     }>
+      | ^^^^^^^^^^
+> 105 |       <CallbackContent />
+      | ^^^^^^^^^^
+> 106 |     </Suspense>
+      | ^^^^^^^^^^
+> 107 |   )
+      | ^^^^^^^^^^
+> 108 | }
+      | ^^
+  109 |
+
+the name `default` is exported multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:41.541] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:25
+Ecmascript file had an error
+  93 | import { Suspense } from 'react';
+  94 |
+> 95 | export default function Callback() {
+     |                         ^^^^^^^^
+  96 |   return (
+  97 |     <Suspense fallback={
+  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+
+the name `Callback` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:41.541] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:1
+Ecmascript file had an error
+   93 | import { Suspense } from 'react';
+   94 |
+>  95 | export default function Callback() {
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  96 |   return (
+      | ^^^^^^^^^^
+>  97 |     <Suspense fallback={
+      | ^^^^^^^^^^
+>  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+      | ^^^^^^^^^^
+>  99 |         <div className="text-center">
+      | ^^^^^^^^^^
+> 100 |           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+      | ^^^^^^^^^^
+> 101 |           <p className="text-gray-600">Laddar...</p>
+      | ^^^^^^^^^^
+> 102 |         </div>
+      | ^^^^^^^^^^
+> 103 |       </div>
+      | ^^^^^^^^^^
+> 104 |     }>
+      | ^^^^^^^^^^
+> 105 |       <CallbackContent />
+      | ^^^^^^^^^^
+> 106 |     </Suspense>
+      | ^^^^^^^^^^
+> 107 |   )
+      | ^^^^^^^^^^
+> 108 | }
+      | ^^
+  109 |
+
+the name `default` is exported multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:41.542] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:25
+Ecmascript file had an error
+  93 | import { Suspense } from 'react';
+  94 |
+> 95 | export default function Callback() {
+     |                         ^^^^^^^^
+  96 |   return (
+  97 |     <Suspense fallback={
+  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+
+the name `Callback` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:41.542] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:1
+Ecmascript file had an error
+   93 | import { Suspense } from 'react';
+   94 |
+>  95 | export default function Callback() {
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  96 |   return (
+      | ^^^^^^^^^^
+>  97 |     <Suspense fallback={
+      | ^^^^^^^^^^
+>  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+      | ^^^^^^^^^^
+>  99 |         <div className="text-center">
+      | ^^^^^^^^^^
+> 100 |           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+      | ^^^^^^^^^^
+> 101 |           <p className="text-gray-600">Laddar...</p>
+      | ^^^^^^^^^^
+> 102 |         </div>
+      | ^^^^^^^^^^
+> 103 |       </div>
+      | ^^^^^^^^^^
+> 104 |     }>
+      | ^^^^^^^^^^
+> 105 |       <CallbackContent />
+      | ^^^^^^^^^^
+> 106 |     </Suspense>
+      | ^^^^^^^^^^
+> 107 |   )
+      | ^^^^^^^^^^
+> 108 | }
+      | ^^
+  109 |
+
+the name `default` is exported multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:41.542] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:25
+Ecmascript file had an error
+  93 | import { Suspense } from 'react';
+  94 |
+> 95 | export default function Callback() {
+     |                         ^^^^^^^^
+  96 |   return (
+  97 |     <Suspense fallback={
+  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+
+the name `Callback` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:41.542] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:1
+Ecmascript file had an error
+   93 | import { Suspense } from 'react';
+   94 |
+>  95 | export default function Callback() {
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  96 |   return (
+      | ^^^^^^^^^^
+>  97 |     <Suspense fallback={
+      | ^^^^^^^^^^
+>  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+      | ^^^^^^^^^^
+>  99 |         <div className="text-center">
+      | ^^^^^^^^^^
+> 100 |           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+      | ^^^^^^^^^^
+> 101 |           <p className="text-gray-600">Laddar...</p>
+      | ^^^^^^^^^^
+> 102 |         </div>
+      | ^^^^^^^^^^
+> 103 |       </div>
+      | ^^^^^^^^^^
+> 104 |     }>
+      | ^^^^^^^^^^
+> 105 |       <CallbackContent />
+      | ^^^^^^^^^^
+> 106 |     </Suspense>
+      | ^^^^^^^^^^
+> 107 |   )
+      | ^^^^^^^^^^
+> 108 | }
+      | ^^
+  109 |
+
+the name `default` is exported multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:41.542] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:25
+Ecmascript file had an error
+  93 | import { Suspense } from 'react';
+  94 |
+> 95 | export default function Callback() {
+     |                         ^^^^^^^^
+  96 |   return (
+  97 |     <Suspense fallback={
+  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+
+the name `Callback` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:41.542] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:1
+Ecmascript file had an error
+   93 | import { Suspense } from 'react';
+   94 |
+>  95 | export default function Callback() {
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  96 |   return (
+      | ^^^^^^^^^^
+>  97 |     <Suspense fallback={
+      | ^^^^^^^^^^
+>  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+      | ^^^^^^^^^^
+>  99 |         <div className="text-center">
+      | ^^^^^^^^^^
+> 100 |           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+      | ^^^^^^^^^^
+> 101 |           <p className="text-gray-600">Laddar...</p>
+      | ^^^^^^^^^^
+> 102 |         </div>
+      | ^^^^^^^^^^
+> 103 |       </div>
+      | ^^^^^^^^^^
+> 104 |     }>
+      | ^^^^^^^^^^
+> 105 |       <CallbackContent />
+      | ^^^^^^^^^^
+> 106 |     </Suspense>
+      | ^^^^^^^^^^
+> 107 |   )
+      | ^^^^^^^^^^
+> 108 | }
+      | ^^
+  109 |
+
+the name `default` is exported multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:42.531] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:25
+Ecmascript file had an error
+  93 | import { Suspense } from 'react';
+  94 |
+> 95 | export default function Callback() {
+     |                         ^^^^^^^^
+  96 |   return (
+  97 |     <Suspense fallback={
+  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+
+the name `Callback` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:42.531] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:1
+Ecmascript file had an error
+   93 | import { Suspense } from 'react';
+   94 |
+>  95 | export default function Callback() {
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  96 |   return (
+      | ^^^^^^^^^^
+>  97 |     <Suspense fallback={
+      | ^^^^^^^^^^
+>  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+      | ^^^^^^^^^^
+>  99 |         <div className="text-center">
+      | ^^^^^^^^^^
+> 100 |           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+      | ^^^^^^^^^^
+> 101 |           <p className="text-gray-600">Laddar...</p>
+      | ^^^^^^^^^^
+> 102 |         </div>
+      | ^^^^^^^^^^
+> 103 |       </div>
+      | ^^^^^^^^^^
+> 104 |     }>
+      | ^^^^^^^^^^
+> 105 |       <CallbackContent />
+      | ^^^^^^^^^^
+> 106 |     </Suspense>
+      | ^^^^^^^^^^
+> 107 |   )
+      | ^^^^^^^^^^
+> 108 | }
+      | ^^
+  109 |
+
+the name `default` is exported multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:42.531] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:25
+Ecmascript file had an error
+  93 | import { Suspense } from 'react';
+  94 |
+> 95 | export default function Callback() {
+     |                         ^^^^^^^^
+  96 |   return (
+  97 |     <Suspense fallback={
+  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+
+the name `Callback` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:42.531] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:1
+Ecmascript file had an error
+   93 | import { Suspense } from 'react';
+   94 |
+>  95 | export default function Callback() {
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  96 |   return (
+      | ^^^^^^^^^^
+>  97 |     <Suspense fallback={
+      | ^^^^^^^^^^
+>  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+      | ^^^^^^^^^^
+>  99 |         <div className="text-center">
+      | ^^^^^^^^^^
+> 100 |           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+      | ^^^^^^^^^^
+> 101 |           <p className="text-gray-600">Laddar...</p>
+      | ^^^^^^^^^^
+> 102 |         </div>
+      | ^^^^^^^^^^
+> 103 |       </div>
+      | ^^^^^^^^^^
+> 104 |     }>
+      | ^^^^^^^^^^
+> 105 |       <CallbackContent />
+      | ^^^^^^^^^^
+> 106 |     </Suspense>
+      | ^^^^^^^^^^
+> 107 |   )
+      | ^^^^^^^^^^
+> 108 | }
+      | ^^
+  109 |
+
+the name `default` is exported multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:42.531] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:25
+Ecmascript file had an error
+  93 | import { Suspense } from 'react';
+  94 |
+> 95 | export default function Callback() {
+     |                         ^^^^^^^^
+  96 |   return (
+  97 |     <Suspense fallback={
+  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+
+the name `Callback` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:42.531] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:1
+Ecmascript file had an error
+   93 | import { Suspense } from 'react';
+   94 |
+>  95 | export default function Callback() {
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  96 |   return (
+      | ^^^^^^^^^^
+>  97 |     <Suspense fallback={
+      | ^^^^^^^^^^
+>  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+      | ^^^^^^^^^^
+>  99 |         <div className="text-center">
+      | ^^^^^^^^^^
+> 100 |           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+      | ^^^^^^^^^^
+> 101 |           <p className="text-gray-600">Laddar...</p>
+      | ^^^^^^^^^^
+> 102 |         </div>
+      | ^^^^^^^^^^
+> 103 |       </div>
+      | ^^^^^^^^^^
+> 104 |     }>
+      | ^^^^^^^^^^
+> 105 |       <CallbackContent />
+      | ^^^^^^^^^^
+> 106 |     </Suspense>
+      | ^^^^^^^^^^
+> 107 |   )
+      | ^^^^^^^^^^
+> 108 | }
+      | ^^
+  109 |
+
+the name `default` is exported multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:42.531] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:25
+Ecmascript file had an error
+  93 | import { Suspense } from 'react';
+  94 |
+> 95 | export default function Callback() {
+     |                         ^^^^^^^^
+  96 |   return (
+  97 |     <Suspense fallback={
+  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+
+the name `Callback` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:42.531] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:1
+Ecmascript file had an error
+   93 | import { Suspense } from 'react';
+   94 |
+>  95 | export default function Callback() {
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  96 |   return (
+      | ^^^^^^^^^^
+>  97 |     <Suspense fallback={
+      | ^^^^^^^^^^
+>  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+      | ^^^^^^^^^^
+>  99 |         <div className="text-center">
+      | ^^^^^^^^^^
+> 100 |           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+      | ^^^^^^^^^^
+> 101 |           <p className="text-gray-600">Laddar...</p>
+      | ^^^^^^^^^^
+> 102 |         </div>
+      | ^^^^^^^^^^
+> 103 |       </div>
+      | ^^^^^^^^^^
+> 104 |     }>
+      | ^^^^^^^^^^
+> 105 |       <CallbackContent />
+      | ^^^^^^^^^^
+> 106 |     </Suspense>
+      | ^^^^^^^^^^
+> 107 |   )
+      | ^^^^^^^^^^
+> 108 | }
+      | ^^
+  109 |
+
+the name `default` is exported multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:42.532] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:25
+Ecmascript file had an error
+  93 | import { Suspense } from 'react';
+  94 |
+> 95 | export default function Callback() {
+     |                         ^^^^^^^^
+  96 |   return (
+  97 |     <Suspense fallback={
+  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+
+the name `Callback` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:42.532] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:1
+Ecmascript file had an error
+   93 | import { Suspense } from 'react';
+   94 |
+>  95 | export default function Callback() {
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  96 |   return (
+      | ^^^^^^^^^^
+>  97 |     <Suspense fallback={
+      | ^^^^^^^^^^
+>  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+      | ^^^^^^^^^^
+>  99 |         <div className="text-center">
+      | ^^^^^^^^^^
+> 100 |           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+      | ^^^^^^^^^^
+> 101 |           <p className="text-gray-600">Laddar...</p>
+      | ^^^^^^^^^^
+> 102 |         </div>
+      | ^^^^^^^^^^
+> 103 |       </div>
+      | ^^^^^^^^^^
+> 104 |     }>
+      | ^^^^^^^^^^
+> 105 |       <CallbackContent />
+      | ^^^^^^^^^^
+> 106 |     </Suspense>
+      | ^^^^^^^^^^
+> 107 |   )
+      | ^^^^^^^^^^
+> 108 | }
+      | ^^
+  109 |
+
+the name `default` is exported multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:42.532] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:25
+Ecmascript file had an error
+  93 | import { Suspense } from 'react';
+  94 |
+> 95 | export default function Callback() {
+     |                         ^^^^^^^^
+  96 |   return (
+  97 |     <Suspense fallback={
+  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+
+the name `Callback` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:42.532] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:1
+Ecmascript file had an error
+   93 | import { Suspense } from 'react';
+   94 |
+>  95 | export default function Callback() {
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  96 |   return (
+      | ^^^^^^^^^^
+>  97 |     <Suspense fallback={
+      | ^^^^^^^^^^
+>  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+      | ^^^^^^^^^^
+>  99 |         <div className="text-center">
+      | ^^^^^^^^^^
+> 100 |           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+      | ^^^^^^^^^^
+> 101 |           <p className="text-gray-600">Laddar...</p>
+      | ^^^^^^^^^^
+> 102 |         </div>
+      | ^^^^^^^^^^
+> 103 |       </div>
+      | ^^^^^^^^^^
+> 104 |     }>
+      | ^^^^^^^^^^
+> 105 |       <CallbackContent />
+      | ^^^^^^^^^^
+> 106 |     </Suspense>
+      | ^^^^^^^^^^
+> 107 |   )
+      | ^^^^^^^^^^
+> 108 | }
+      | ^^
+  109 |
+
+the name `default` is exported multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:42.532] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:25
+Ecmascript file had an error
+  93 | import { Suspense } from 'react';
+  94 |
+> 95 | export default function Callback() {
+     |                         ^^^^^^^^
+  96 |   return (
+  97 |     <Suspense fallback={
+  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+
+the name `Callback` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:42.532] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:1
+Ecmascript file had an error
+   93 | import { Suspense } from 'react';
+   94 |
+>  95 | export default function Callback() {
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  96 |   return (
+      | ^^^^^^^^^^
+>  97 |     <Suspense fallback={
+      | ^^^^^^^^^^
+>  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+      | ^^^^^^^^^^
+>  99 |         <div className="text-center">
+      | ^^^^^^^^^^
+> 100 |           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+      | ^^^^^^^^^^
+> 101 |           <p className="text-gray-600">Laddar...</p>
+      | ^^^^^^^^^^
+> 102 |         </div>
+      | ^^^^^^^^^^
+> 103 |       </div>
+      | ^^^^^^^^^^
+> 104 |     }>
+      | ^^^^^^^^^^
+> 105 |       <CallbackContent />
+      | ^^^^^^^^^^
+> 106 |     </Suspense>
+      | ^^^^^^^^^^
+> 107 |   )
+      | ^^^^^^^^^^
+> 108 | }
+      | ^^
+  109 |
+
+the name `default` is exported multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:42.532] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:25
+Ecmascript file had an error
+  93 | import { Suspense } from 'react';
+  94 |
+> 95 | export default function Callback() {
+     |                         ^^^^^^^^
+  96 |   return (
+  97 |     <Suspense fallback={
+  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+
+the name `Callback` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:42.532] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:1
+Ecmascript file had an error
+   93 | import { Suspense } from 'react';
+   94 |
+>  95 | export default function Callback() {
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  96 |   return (
+      | ^^^^^^^^^^
+>  97 |     <Suspense fallback={
+      | ^^^^^^^^^^
+>  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+      | ^^^^^^^^^^
+>  99 |         <div className="text-center">
+      | ^^^^^^^^^^
+> 100 |           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+      | ^^^^^^^^^^
+> 101 |           <p className="text-gray-600">Laddar...</p>
+      | ^^^^^^^^^^
+> 102 |         </div>
+      | ^^^^^^^^^^
+> 103 |       </div>
+      | ^^^^^^^^^^
+> 104 |     }>
+      | ^^^^^^^^^^
+> 105 |       <CallbackContent />
+      | ^^^^^^^^^^
+> 106 |     </Suspense>
+      | ^^^^^^^^^^
+> 107 |   )
+      | ^^^^^^^^^^
+> 108 | }
+      | ^^
+  109 |
+
+the name `default` is exported multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:43.523] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:25
+Ecmascript file had an error
+  93 | import { Suspense } from 'react';
+  94 |
+> 95 | export default function Callback() {
+     |                         ^^^^^^^^
+  96 |   return (
+  97 |     <Suspense fallback={
+  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+
+the name `Callback` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:43.523] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:1
+Ecmascript file had an error
+   93 | import { Suspense } from 'react';
+   94 |
+>  95 | export default function Callback() {
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  96 |   return (
+      | ^^^^^^^^^^
+>  97 |     <Suspense fallback={
+      | ^^^^^^^^^^
+>  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+      | ^^^^^^^^^^
+>  99 |         <div className="text-center">
+      | ^^^^^^^^^^
+> 100 |           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+      | ^^^^^^^^^^
+> 101 |           <p className="text-gray-600">Laddar...</p>
+      | ^^^^^^^^^^
+> 102 |         </div>
+      | ^^^^^^^^^^
+> 103 |       </div>
+      | ^^^^^^^^^^
+> 104 |     }>
+      | ^^^^^^^^^^
+> 105 |       <CallbackContent />
+      | ^^^^^^^^^^
+> 106 |     </Suspense>
+      | ^^^^^^^^^^
+> 107 |   )
+      | ^^^^^^^^^^
+> 108 | }
+      | ^^
+  109 |
+
+the name `default` is exported multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:43.523] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:25
+Ecmascript file had an error
+  93 | import { Suspense } from 'react';
+  94 |
+> 95 | export default function Callback() {
+     |                         ^^^^^^^^
+  96 |   return (
+  97 |     <Suspense fallback={
+  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+
+the name `Callback` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:43.523] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:1
+Ecmascript file had an error
+   93 | import { Suspense } from 'react';
+   94 |
+>  95 | export default function Callback() {
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  96 |   return (
+      | ^^^^^^^^^^
+>  97 |     <Suspense fallback={
+      | ^^^^^^^^^^
+>  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+      | ^^^^^^^^^^
+>  99 |         <div className="text-center">
+      | ^^^^^^^^^^
+> 100 |           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+      | ^^^^^^^^^^
+> 101 |           <p className="text-gray-600">Laddar...</p>
+      | ^^^^^^^^^^
+> 102 |         </div>
+      | ^^^^^^^^^^
+> 103 |       </div>
+      | ^^^^^^^^^^
+> 104 |     }>
+      | ^^^^^^^^^^
+> 105 |       <CallbackContent />
+      | ^^^^^^^^^^
+> 106 |     </Suspense>
+      | ^^^^^^^^^^
+> 107 |   )
+      | ^^^^^^^^^^
+> 108 | }
+      | ^^
+  109 |
+
+the name `default` is exported multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:43.523] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:25
+Ecmascript file had an error
+  93 | import { Suspense } from 'react';
+  94 |
+> 95 | export default function Callback() {
+     |                         ^^^^^^^^
+  96 |   return (
+  97 |     <Suspense fallback={
+  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+
+the name `Callback` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:43.523] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:1
+Ecmascript file had an error
+   93 | import { Suspense } from 'react';
+   94 |
+>  95 | export default function Callback() {
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  96 |   return (
+      | ^^^^^^^^^^
+>  97 |     <Suspense fallback={
+      | ^^^^^^^^^^
+>  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+      | ^^^^^^^^^^
+>  99 |         <div className="text-center">
+      | ^^^^^^^^^^
+> 100 |           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+      | ^^^^^^^^^^
+> 101 |           <p className="text-gray-600">Laddar...</p>
+      | ^^^^^^^^^^
+> 102 |         </div>
+      | ^^^^^^^^^^
+> 103 |       </div>
+      | ^^^^^^^^^^
+> 104 |     }>
+      | ^^^^^^^^^^
+> 105 |       <CallbackContent />
+      | ^^^^^^^^^^
+> 106 |     </Suspense>
+      | ^^^^^^^^^^
+> 107 |   )
+      | ^^^^^^^^^^
+> 108 | }
+      | ^^
+  109 |
+
+the name `default` is exported multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:43.523] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:25
+Ecmascript file had an error
+  93 | import { Suspense } from 'react';
+  94 |
+> 95 | export default function Callback() {
+     |                         ^^^^^^^^
+  96 |   return (
+  97 |     <Suspense fallback={
+  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+
+the name `Callback` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:43.523] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:1
+Ecmascript file had an error
+   93 | import { Suspense } from 'react';
+   94 |
+>  95 | export default function Callback() {
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  96 |   return (
+      | ^^^^^^^^^^
+>  97 |     <Suspense fallback={
+      | ^^^^^^^^^^
+>  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+      | ^^^^^^^^^^
+>  99 |         <div className="text-center">
+      | ^^^^^^^^^^
+> 100 |           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+      | ^^^^^^^^^^
+> 101 |           <p className="text-gray-600">Laddar...</p>
+      | ^^^^^^^^^^
+> 102 |         </div>
+      | ^^^^^^^^^^
+> 103 |       </div>
+      | ^^^^^^^^^^
+> 104 |     }>
+      | ^^^^^^^^^^
+> 105 |       <CallbackContent />
+      | ^^^^^^^^^^
+> 106 |     </Suspense>
+      | ^^^^^^^^^^
+> 107 |   )
+      | ^^^^^^^^^^
+> 108 | }
+      | ^^
+  109 |
+
+the name `default` is exported multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:44.530] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:25
+Ecmascript file had an error
+  93 | import { Suspense } from 'react';
+  94 |
+> 95 | export default function Callback() {
+     |                         ^^^^^^^^
+  96 |   return (
+  97 |     <Suspense fallback={
+  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+
+the name `Callback` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:44.530] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:1
+Ecmascript file had an error
+   93 | import { Suspense } from 'react';
+   94 |
+>  95 | export default function Callback() {
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  96 |   return (
+      | ^^^^^^^^^^
+>  97 |     <Suspense fallback={
+      | ^^^^^^^^^^
+>  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+      | ^^^^^^^^^^
+>  99 |         <div className="text-center">
+      | ^^^^^^^^^^
+> 100 |           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+      | ^^^^^^^^^^
+> 101 |           <p className="text-gray-600">Laddar...</p>
+      | ^^^^^^^^^^
+> 102 |         </div>
+      | ^^^^^^^^^^
+> 103 |       </div>
+      | ^^^^^^^^^^
+> 104 |     }>
+      | ^^^^^^^^^^
+> 105 |       <CallbackContent />
+      | ^^^^^^^^^^
+> 106 |     </Suspense>
+      | ^^^^^^^^^^
+> 107 |   )
+      | ^^^^^^^^^^
+> 108 | }
+      | ^^
+  109 |
+
+the name `default` is exported multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:44.531] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:25
+Ecmascript file had an error
+  93 | import { Suspense } from 'react';
+  94 |
+> 95 | export default function Callback() {
+     |                         ^^^^^^^^
+  96 |   return (
+  97 |     <Suspense fallback={
+  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+
+the name `Callback` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:44.531] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:1
+Ecmascript file had an error
+   93 | import { Suspense } from 'react';
+   94 |
+>  95 | export default function Callback() {
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  96 |   return (
+      | ^^^^^^^^^^
+>  97 |     <Suspense fallback={
+      | ^^^^^^^^^^
+>  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+      | ^^^^^^^^^^
+>  99 |         <div className="text-center">
+      | ^^^^^^^^^^
+> 100 |           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+      | ^^^^^^^^^^
+> 101 |           <p className="text-gray-600">Laddar...</p>
+      | ^^^^^^^^^^
+> 102 |         </div>
+      | ^^^^^^^^^^
+> 103 |       </div>
+      | ^^^^^^^^^^
+> 104 |     }>
+      | ^^^^^^^^^^
+> 105 |       <CallbackContent />
+      | ^^^^^^^^^^
+> 106 |     </Suspense>
+      | ^^^^^^^^^^
+> 107 |   )
+      | ^^^^^^^^^^
+> 108 | }
+      | ^^
+  109 |
+
+the name `default` is exported multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:44.531] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:25
+Ecmascript file had an error
+  93 | import { Suspense } from 'react';
+  94 |
+> 95 | export default function Callback() {
+     |                         ^^^^^^^^
+  96 |   return (
+  97 |     <Suspense fallback={
+  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+
+the name `Callback` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:44.531] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:1
+Ecmascript file had an error
+   93 | import { Suspense } from 'react';
+   94 |
+>  95 | export default function Callback() {
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  96 |   return (
+      | ^^^^^^^^^^
+>  97 |     <Suspense fallback={
+      | ^^^^^^^^^^
+>  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+      | ^^^^^^^^^^
+>  99 |         <div className="text-center">
+      | ^^^^^^^^^^
+> 100 |           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+      | ^^^^^^^^^^
+> 101 |           <p className="text-gray-600">Laddar...</p>
+      | ^^^^^^^^^^
+> 102 |         </div>
+      | ^^^^^^^^^^
+> 103 |       </div>
+      | ^^^^^^^^^^
+> 104 |     }>
+      | ^^^^^^^^^^
+> 105 |       <CallbackContent />
+      | ^^^^^^^^^^
+> 106 |     </Suspense>
+      | ^^^^^^^^^^
+> 107 |   )
+      | ^^^^^^^^^^
+> 108 | }
+      | ^^
+  109 |
+
+the name `default` is exported multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:44.531] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:25
+Ecmascript file had an error
+  93 | import { Suspense } from 'react';
+  94 |
+> 95 | export default function Callback() {
+     |                         ^^^^^^^^
+  96 |   return (
+  97 |     <Suspense fallback={
+  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+
+the name `Callback` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:44.531] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:95:1
+Ecmascript file had an error
+   93 | import { Suspense } from 'react';
+   94 |
+>  95 | export default function Callback() {
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  96 |   return (
+      | ^^^^^^^^^^
+>  97 |     <Suspense fallback={
+      | ^^^^^^^^^^
+>  98 |       <div className="min-h-screen flex items-center justify-center bg-white">
+      | ^^^^^^^^^^
+>  99 |         <div className="text-center">
+      | ^^^^^^^^^^
+> 100 |           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+      | ^^^^^^^^^^
+> 101 |           <p className="text-gray-600">Laddar...</p>
+      | ^^^^^^^^^^
+> 102 |         </div>
+      | ^^^^^^^^^^
+> 103 |       </div>
+      | ^^^^^^^^^^
+> 104 |     }>
+      | ^^^^^^^^^^
+> 105 |       <CallbackContent />
+      | ^^^^^^^^^^
+> 106 |     </Suspense>
+      | ^^^^^^^^^^
+> 107 |   )
+      | ^^^^^^^^^^
+> 108 | }
+      | ^^
+  109 |
+
+the name `default` is exported multiple times
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:24:53.416] Server  LOG      ✓ Compiled in 29ms
+[00:24:54.305] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:24:54.339] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:24:54.379] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:24:54.379] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:24:54.646] Server  ERROR   Error: supabaseUrl is required.
+[00:24:54.712] Server  ERROR   Error: supabaseUrl is required.
+[00:24:54.800] Server  ERROR   Error: supabaseUrl is required.
+[00:24:54.850] Server  ERROR   Error: supabaseUrl is required.
+[00:24:54.889] Server  ERROR   Error: supabaseUrl is required.
+[00:24:54.947] Server  ERROR   Error: supabaseUrl is required.
+[00:24:55.006] Server  ERROR   Error: supabaseUrl is required.
+[00:24:55.053] Server  ERROR   Error: supabaseUrl is required.
+[00:24:55.100] Server  ERROR   Error: supabaseUrl is required.
+[00:24:55.175] Server  ERROR   Error: supabaseUrl is required.
+[00:24:55.242] Server  ERROR   Error: supabaseUrl is required.
+[00:24:55.465] Server  ERROR   Error: supabaseUrl is required.
