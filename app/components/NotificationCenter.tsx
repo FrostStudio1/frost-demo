@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { getNotifications, markNotificationAsRead, markAllNotificationsAsRead } from '@/lib/notifications'
+import { useAdmin } from '@/hooks/useAdmin'
+import CreateNotificationModal from './CreateNotificationModal'
 
 interface Notification {
   id: string
@@ -11,6 +13,7 @@ interface Notification {
   message: string
   read: boolean
   createdAt: string
+  created_at?: string // Database format
   link?: string
 }
 
@@ -26,12 +29,14 @@ export default function NotificationCenter({ className = '' }: NotificationCente
   const [notifications, setNotifications] = useState<Notification[]>([])
   const [isOpen, setIsOpen] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [showCreateModal, setShowCreateModal] = useState(false)
   const router = useRouter()
+  const { isAdmin } = useAdmin()
 
   const unreadCount = notifications.filter(n => !n.read).length
 
   useEffect(() => {
-    // Load notifications from localStorage or API
+    // Load notifications from both localStorage and API
     loadNotifications()
     
     // Listen for notification events
@@ -55,19 +60,77 @@ export default function NotificationCenter({ className = '' }: NotificationCente
 
   async function loadNotifications() {
     try {
-      const loaded = getNotifications()
-      setNotifications(loaded)
+      // Load from localStorage (legacy support)
+      const localNotifications = getNotifications()
+      
+      // Load from API (database)
+      try {
+        const response = await fetch('/api/notifications/list', { cache: 'no-store' })
+        if (response.ok) {
+          const data = await response.json()
+          const dbNotifications: Notification[] = (data.notifications || []).map((n: any) => ({
+            id: n.id,
+            type: n.type,
+            title: n.title,
+            message: n.message,
+            read: n.read,
+            createdAt: n.created_at || n.createdAt,
+            link: n.link,
+          }))
+          
+          // Combine: database notifications first, then local ones
+          // Remove duplicates by ID
+          const allNotifications = [...dbNotifications, ...localNotifications]
+          const uniqueNotifications = Array.from(
+            new Map(allNotifications.map(n => [n.id, n])).values()
+          )
+          
+          // Sort by date (newest first)
+          uniqueNotifications.sort((a, b) => {
+            const dateA = new Date(a.createdAt).getTime()
+            const dateB = new Date(b.createdAt).getTime()
+            return dateB - dateA
+          })
+          
+          setNotifications(uniqueNotifications.slice(0, 50)) // Keep last 50
+          return
+        }
+      } catch (apiErr) {
+        console.warn('Error loading notifications from API:', apiErr)
+      }
+      
+      // Fallback to localStorage only
+      setNotifications(localNotifications)
     } catch (err) {
       console.error('Error loading notifications:', err)
     }
   }
 
-  function markAsRead(id: string) {
+  async function markAsRead(id: string) {
+    // Try API first (for database notifications)
+    try {
+      const response = await fetch(`/api/notifications/${id}/read`, {
+        method: 'PATCH',
+      })
+      if (response.ok) {
+        loadNotifications()
+        return
+      }
+    } catch (err) {
+      console.warn('Error marking notification as read via API:', err)
+    }
+    
+    // Fallback to localStorage
     markNotificationAsRead(id)
     loadNotifications()
   }
 
-  function markAllAsRead() {
+  async function markAllAsRead() {
+    // Mark all unread notifications as read
+    const unread = notifications.filter(n => !n.read)
+    await Promise.all(unread.map(n => markAsRead(n.id)))
+    
+    // Also mark localStorage notifications
     markAllNotificationsAsRead()
     loadNotifications()
   }
@@ -129,14 +192,25 @@ export default function NotificationCenter({ className = '' }: NotificationCente
               <h3 className="text-lg font-bold text-gray-900 dark:text-white truncate">
                 Notifikationer {unreadCount > 0 && `(${unreadCount})`}
               </h3>
-              {unreadCount > 0 && (
-                <button
-                  onClick={markAllAsRead}
-                  className="text-sm text-blue-600 dark:text-blue-400 hover:underline whitespace-nowrap flex-shrink-0"
-                >
-                  Markera alla som lästa
-                </button>
-              )}
+              <div className="flex items-center gap-2">
+                {isAdmin && (
+                  <button
+                    onClick={() => setShowCreateModal(true)}
+                    className="text-sm bg-gradient-to-r from-blue-500 to-purple-500 text-white px-3 py-1.5 rounded-lg font-semibold hover:shadow-lg transition-all whitespace-nowrap flex-shrink-0"
+                    title="Skapa notis"
+                  >
+                    + Skapa
+                  </button>
+                )}
+                {unreadCount > 0 && (
+                  <button
+                    onClick={markAllAsRead}
+                    className="text-sm text-blue-600 dark:text-blue-400 hover:underline whitespace-nowrap flex-shrink-0"
+                  >
+                    Markera alla som lästa
+                  </button>
+                )}
+              </div>
             </div>
 
             {/* Notifications List */}
@@ -174,7 +248,7 @@ export default function NotificationCenter({ className = '' }: NotificationCente
                             {notification.message}
                           </p>
                           <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
-                            {new Date(notification.createdAt).toLocaleDateString('sv-SE', {
+                            {new Date(notification.createdAt || notification.created_at || Date.now()).toLocaleDateString('sv-SE', {
                               hour: '2-digit',
                               minute: '2-digit'
                             })}
@@ -192,6 +266,17 @@ export default function NotificationCenter({ className = '' }: NotificationCente
           </div>
         </>
       )}
+      
+      {/* Create Notification Modal */}
+      <CreateNotificationModal
+        isOpen={showCreateModal}
+        onClose={() => setShowCreateModal(false)}
+        onSuccess={() => {
+          loadNotifications()
+          // Dispatch event to refresh other components
+          window.dispatchEvent(new CustomEvent('notifications-updated'))
+        }}
+      />
     </div>
   )
 }
