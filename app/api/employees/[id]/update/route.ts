@@ -172,6 +172,7 @@ export async function PATCH(
       updatePayload.role = normalizedRole
     }
 
+    // Only add rate fields if they're provided
     if (base_rate_sek !== undefined) {
       updatePayload.base_rate_sek = Math.max(0, Math.min(1000000, Number(base_rate_sek)))
     }
@@ -180,11 +181,12 @@ export async function PATCH(
       updatePayload.default_rate_sek = Math.max(0, Math.min(1000000, Number(default_rate_sek)))
     }
 
-    // Update employee
+    // Update employee - try with all fields first
     let updateResult = await adminSupabase
       .from('employees')
       .update(updatePayload)
       .eq('id', id)
+      .eq('tenant_id', tenantId) // Extra security: ensure tenant matches
       .select('id')
       .single()
 
@@ -195,6 +197,7 @@ export async function PATCH(
         .from('employees')
         .update(payloadWithoutDefaultRate)
         .eq('id', id)
+        .eq('tenant_id', tenantId)
         .select('id')
         .single()
     }
@@ -206,6 +209,19 @@ export async function PATCH(
         .from('employees')
         .update(payloadWithoutBaseRate)
         .eq('id', id)
+        .eq('tenant_id', tenantId)
+        .select('id')
+        .single()
+    }
+
+    // Fallback: try without both rate fields if neither exists
+    if (updateResult.error && (updateResult.error.code === '42703' || updateResult.error.message?.includes('rate'))) {
+      const { base_rate_sek: _, default_rate_sek: __, ...payloadWithoutRates } = updatePayload
+      updateResult = await adminSupabase
+        .from('employees')
+        .update(payloadWithoutRates)
+        .eq('id', id)
+        .eq('tenant_id', tenantId)
         .select('id')
         .single()
     }

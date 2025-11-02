@@ -13359,3 +13359,284 @@ Import traces:
 [00:33:45.529] Browser LOG     🔍 EmployeesPage: Fetching employees for tenantId: 8ee28f55-b780-4286-8137-9e70ea58ae56
 [00:33:45.529] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
 [00:33:45.529] Browser LOG     ✅ EmployeesPage: Found 2 employees for tenantId: 8ee28f55-b780-4286-8137-9e70ea58ae56
+[00:35:25.450] Server  LOG     🔍 Dashboard: Rendering TimeClock with: {}
+[00:35:26.273] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:35:26.800] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":null,"projectsCount":0,"tenantId":null}
+[00:35:26.800] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":null,"projectsCount":0,"tenantId":null}
+[00:35:26.800] Browser LOG     🔍 TimeClock: Component mounted/updated {"activeTimeEntry":false,"componentVisible":true,"employeeId":null,"isCheckedIn":false,"projectsCount":0}
+[00:35:26.800] Browser LOG     TimeClock: No tenantId
+[00:35:27.179] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:35:27.247] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:35:27.262] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:35:27.290] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[00:35:27.290] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":null,"projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:35:27.290] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":null,"projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:35:27.305] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:35:27.429] Browser LOG     TimeClock: Fetching employee for user a9625f7a-0433-489a-a749-d0f0e978e2af
+[00:35:27.429] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[00:35:27.465] Server  LOG     ✅ Projects/list: Fetching projects for valid tenant: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:35:27.522] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[00:35:27.532] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[00:35:27.617] Server  LOG     ✅ Projects/list: User access verified for tenant: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:35:27.645] Server  LOG     ✅ Selected employee: {}
+[00:35:27.645] Server  LOG     ✅ Returning employee data immediately
+[00:35:27.685] Server  LOG     ✅ Projects/list: Query returned 5 "projects"
+[00:35:27.686] Server  LOG     ✅ Projects/list: After verification: 5 "projects"
+[00:35:27.756] Server  LOG     ✅ Projects/list: After tenant validation: 5 "projects"
+[00:35:27.757] Server  LOG     🔇 Filtering out project: "Dörr installtion" "status:" "completed"
+[00:35:27.757] Server  LOG     🔇 Filtering out project: "d" "status:" "archived"
+[00:35:27.757] Server  LOG     ✅ Projects/list: After status filter: 3 "projects"
+[00:35:27.853] Browser LOG     TimeClock: Found employee ID via API: 7d2b2d91-37a8-453e-be5a-723d7041a752
+[00:35:27.853] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"7d2b2d91-37a8-453e-be5a-723d7041a752","projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:35:27.853] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"7d2b2d91-37a8-453e-be5a-723d7041a752","projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:35:27.853] Browser LOG     🔍 TimeClock: Component mounted/updated {"activeTimeEntry":false,"componentVisible":true,"employeeId":"7d2b2d91-37a8-453e-be5a-723d7041a752","isCheckedIn":false,"projectsCount":0}
+[00:35:27.853] Browser WARN    ⚠️ Dashboard: Context tenantId not found in database, fetching from centralized API
+[00:35:27.969] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"7d2b2d91-37a8-453e-be5a-723d7041a752","projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:35:27.969] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"7d2b2d91-37a8-453e-be5a-723d7041a752","projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:35:28.023] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:35:28.140] Browser LOG     ✅ Dashboard: Got tenantId from centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56
+[00:35:28.140] Browser LOG     🔒 Dashboard: Using tenantId: 8ee28f55-b780-4286-8137-9e70ea58ae56 for projects and TimeClock
+[00:35:28.140] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"7d2b2d91-37a8-453e-be5a-723d7041a752","projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:35:28.140] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"7d2b2d91-37a8-453e-be5a-723d7041a752","projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:35:28.264] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"7d2b2d91-37a8-453e-be5a-723d7041a752","projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:35:28.264] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"7d2b2d91-37a8-453e-be5a-723d7041a752","projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:35:28.342] Server  LOG     ✅ Projects/for-timeclock: Using tenantId: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:35:28.538] Browser LOG     ✅ TimeClock: Found projects via API 3 for tenant 8ee28f55-b780-4286-8137-9e70ea58ae56
+[00:35:28.538] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"7d2b2d91-37a8-453e-be5a-723d7041a752","projectsCount":3,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:35:28.538] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"7d2b2d91-37a8-453e-be5a-723d7041a752","projectsCount":3,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:35:28.538] Browser LOG     🔍 TimeClock: Component mounted/updated {"activeTimeEntry":false,"componentVisible":true,"employeeId":"7d2b2d91-37a8-453e-be5a-723d7041a752","isCheckedIn":false,"projectsCount":3}
+[00:35:33.805] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:35:33.813] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:35:33.840] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:35:33.919] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[00:35:34.510] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[00:35:34.510] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[00:35:35.573] Browser LOG     🔍 Admin check: {"appMetadata":{"provider":"email","providers":["email","google"],"tenant_id":"8ee28f55-b780-4286-8137-9e70ea58ae56"},"currentEmployee":{"auth_user_id":"a9625f7a-0433-489a-a749-d0f0e978e2af","id":"7d2b2d91-37a8-453e-be5a-723d7041a752","role":"employee"},"empCheckError":null,"requestedEmployeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","role":"employee","tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56","userEmail":"frost.vilmer@gmail.com","userEmployeeId":"7d2b2d91-37a8-453e-be5a-723d7041a752","userId":"a9625f7a-0433-489a-a749-d0f0e978e2af","userIsAdmin":false,"userMetadata":{"avatar_url":"https://lh3.googleusercontent.com/a/ACg8ocLsM7elZGQ0e_pmp6ZfY15iEzzZ2aR9X19XzTDcUxDdGJucoQ=s96-c","email":"frost.vilmer@gmail.com","email_verified":true,"full_name":"frost vilmer","iss":"https://accounts.google.com","name":"frost vilmer","phone_verified":false,"picture":"https://lh3.googleusercontent.com/a/ACg8ocLsM7elZGQ0e_pmp6ZfY15iEzzZ2aR9X19XzTDcUxDdGJucoQ=s96-c","provider_id":"104751206527662637505","sub":"104751206527662637505"}}
+[00:35:35.573] Browser LOG     ❌ Access denied: {"reason":"Not admin and not own employee ID","requestedEmployeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","userEmployeeId":"7d2b2d91-37a8-453e-be5a-723d7041a752","userIsAdmin":false}
+[00:35:35.573] Browser LOG     🔍 Admin check: {"appMetadata":{"provider":"email","providers":["email","google"],"tenant_id":"8ee28f55-b780-4286-8137-9e70ea58ae56"},"currentEmployee":{"auth_user_id":"a9625f7a-0433-489a-a749-d0f0e978e2af","id":"7d2b2d91-37a8-453e-be5a-723d7041a752","role":"employee"},"empCheckError":null,"requestedEmployeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","role":"employee","tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56","userEmail":"frost.vilmer@gmail.com","userEmployeeId":"7d2b2d91-37a8-453e-be5a-723d7041a752","userId":"a9625f7a-0433-489a-a749-d0f0e978e2af","userIsAdmin":false,"userMetadata":{"avatar_url":"https://lh3.googleusercontent.com/a/ACg8ocLsM7elZGQ0e_pmp6ZfY15iEzzZ2aR9X19XzTDcUxDdGJucoQ=s96-c","email":"frost.vilmer@gmail.com","email_verified":true,"full_name":"frost vilmer","iss":"https://accounts.google.com","name":"frost vilmer","phone_verified":false,"picture":"https://lh3.googleusercontent.com/a/ACg8ocLsM7elZGQ0e_pmp6ZfY15iEzzZ2aR9X19XzTDcUxDdGJucoQ=s96-c","provider_id":"104751206527662637505","sub":"104751206527662637505"}}
+[00:35:35.573] Browser LOG     ❌ Access denied: {"reason":"Not admin and not own employee ID","requestedEmployeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","userEmployeeId":"7d2b2d91-37a8-453e-be5a-723d7041a752","userIsAdmin":false}
+[00:35:36.443] Browser LOG     🔍 EmployeesPage: Fetching employees for tenantId: 8ee28f55-b780-4286-8137-9e70ea58ae56
+[00:35:36.443] Browser LOG     🔍 EmployeesPage: Fetching employees for tenantId: 8ee28f55-b780-4286-8137-9e70ea58ae56
+[00:35:36.443] Browser LOG     ✅ EmployeesPage: Found 2 employees for tenantId: 8ee28f55-b780-4286-8137-9e70ea58ae56
+[00:35:36.443] Browser LOG     ✅ EmployeesPage: Found 2 employees for tenantId: 8ee28f55-b780-4286-8137-9e70ea58ae56
+[00:35:38.305] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:35:38.309] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:35:38.344] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:35:38.427] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[00:35:38.520] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[00:35:38.524] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[00:35:41.096] Browser WARN    debug/me returned error: Auth session missing!
+[00:35:41.097] Browser WARN    ⚠️ TenantContext: All API routes failed, trying legacy method...
+[00:35:41.097] Browser WARN    Could not get user for tenant lookup: {"__isAuthError":true,"name":"AuthSessionMissingError","status":400}
+[00:35:41.512] Browser WARN    debug/me returned error: Auth session missing!
+[00:35:41.512] Browser WARN    ⚠️ TenantContext: All API routes failed, trying legacy method...
+[00:35:41.512] Browser WARN    Could not get user for tenant lookup: {"__isAuthError":true,"name":"AuthSessionMissingError","status":400}
+[00:35:41.512] Browser WARN    debug/me returned error: Auth session missing!
+[00:35:41.512] Browser WARN    ⚠️ TenantContext: All API routes failed, trying legacy method...
+[00:35:41.512] Browser WARN    Could not get user for tenant lookup: {"__isAuthError":true,"name":"AuthSessionMissingError","status":400}
+[00:35:46.119] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:35:46.581] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:35:46.590] Browser LOG     Session found, setting cookies...
+[00:35:46.590] Browser WARN    debug/me returned error: Auth session missing!
+[00:35:46.590] Browser WARN    ⚠️ TenantContext: All API routes failed, trying legacy method...
+[00:35:46.590] Browser LOG     🔍 Fetching tenant from employees table for user: 2941e8db-d533-412e-a292-7ff713e76567
+[00:35:46.590] Browser LOG     ✅ TenantContext: Found tenant from employees table: 8ee28f55-b780-4286-8137-9e70ea58ae56
+[00:35:46.600] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:35:46.622] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:35:46.627] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:35:46.633] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:35:46.701] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:35:46.807] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[00:35:46.808] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[00:35:46.808] Browser LOG     Cookies set, verifying...
+[00:35:46.868] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:35:46.974] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[00:35:47.321] Browser LOG     User found: 2941e8db-d533-412e-a292-7ff713e76567
+[00:35:47.481] Browser LOG     Employee linking result: {"linked":false,"message":"No employee record found with this email"}
+[00:35:47.517] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[00:35:47.517] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[00:35:47.517] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[00:35:47.517] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[00:35:47.717] Browser LOG     Found tenant: 8ee28f55-b780-4286-8137-9e70ea58ae56
+[00:35:48.641] Server  LOG     🔍 Dashboard: Rendering TimeClock with: {}
+[00:35:49.386] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:35:49.580] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":null,"projectsCount":0,"tenantId":null}
+[00:35:49.580] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":null,"projectsCount":0,"tenantId":null}
+[00:35:49.580] Browser LOG     🔍 TimeClock: Component mounted/updated {"activeTimeEntry":false,"componentVisible":true,"employeeId":null,"isCheckedIn":false,"projectsCount":0}
+[00:35:49.580] Browser LOG     TimeClock: No tenantId
+[00:35:49.767] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:35:49.785] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:35:49.804] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:35:49.813] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:35:49.982] Server  LOG     ✅ Projects/list: Fetching projects for valid tenant: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:35:50.006] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[00:35:50.006] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":null,"projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:35:50.006] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":null,"projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:35:50.006] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[00:35:50.006] Browser LOG     TimeClock: Fetching employee for user 2941e8db-d533-412e-a292-7ff713e76567
+[00:35:50.113] Server  LOG     ✅ Projects/list: User access verified for tenant: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:35:50.173] Server  LOG     ✅ Selected employee: {}
+[00:35:50.173] Server  LOG     ✅ Returning employee data immediately
+[00:35:50.187] Server  LOG     ✅ Projects/list: Query returned 5 "projects"
+[00:35:50.187] Server  LOG     ✅ Projects/list: After verification: 5 "projects"
+[00:35:50.255] Server  LOG     ✅ Projects/list: After tenant validation: 5 "projects"
+[00:35:50.255] Server  LOG     🔇 Filtering out project: "Dörr installtion" "status:" "completed"
+[00:35:50.255] Server  LOG     🔇 Filtering out project: "d" "status:" "archived"
+[00:35:50.255] Server  LOG     ✅ Projects/list: After status filter: 3 "projects"
+[00:35:50.433] Browser LOG     TimeClock: Found employee ID via API: 47224e0b-5809-4894-8696-49dd2b5f71f0
+[00:35:50.433] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:35:50.433] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:35:50.433] Browser LOG     🔍 TimeClock: Component mounted/updated {"activeTimeEntry":false,"componentVisible":true,"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","isCheckedIn":false,"projectsCount":0}
+[00:35:50.433] Browser WARN    ⚠️ Dashboard: Context tenantId not found in database, fetching from centralized API
+[00:35:50.433] Browser WARN    ⚠️ Active time entry found but missing start_time: ea5e3ff4-4371-49c9-b0b3-361a804add81
+[00:35:50.433] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:35:50.433] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:35:50.516] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[00:35:50.516] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[00:35:50.573] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:35:50.763] Browser LOG     ✅ Dashboard: Got tenantId from centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56
+[00:35:50.763] Browser LOG     🔒 Dashboard: Using tenantId: 8ee28f55-b780-4286-8137-9e70ea58ae56 for projects and TimeClock
+[00:35:50.763] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:35:50.763] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:35:50.763] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:35:50.763] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:35:50.842] Server  LOG     ✅ Projects/for-timeclock: Using tenantId: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:35:51.033] Browser LOG     ✅ TimeClock: Found projects via API 3 for tenant 8ee28f55-b780-4286-8137-9e70ea58ae56
+[00:35:51.033] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":3,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:35:51.033] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":3,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:35:51.033] Browser LOG     🔍 TimeClock: Component mounted/updated {"activeTimeEntry":false,"componentVisible":true,"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","isCheckedIn":false,"projectsCount":3}
+[00:36:04.778] Browser LOG     🔍 EmployeesPage: Fetching employees for tenantId: 8ee28f55-b780-4286-8137-9e70ea58ae56
+[00:36:04.778] Browser LOG     🔍 EmployeesPage: Fetching employees for tenantId: 8ee28f55-b780-4286-8137-9e70ea58ae56
+[00:36:04.778] Browser LOG     ✅ EmployeesPage: Found 2 employees for tenantId: 8ee28f55-b780-4286-8137-9e70ea58ae56
+[00:36:04.778] Browser LOG     ✅ EmployeesPage: Found 2 employees for tenantId: 8ee28f55-b780-4286-8137-9e70ea58ae56
+[00:36:10.517] Browser ERROR   Error fetching employee: {"code":"42703","details":null,"hint":null,"message":"column employees.default_rate_sek does not exist"}
+[00:36:10.517] Browser ERROR   Error fetching employee: {"code":"42703","details":null,"hint":null,"message":"column employees.default_rate_sek does not exist"}
+[00:36:10.517] Browser ERROR   Error fetching employee: {"code":"42703","details":null,"hint":null,"message":"column employees.default_rate_sek does not exist"}
+[00:36:10.837] Browser LOG     🔍 EmployeesPage: Fetching employees for tenantId: 8ee28f55-b780-4286-8137-9e70ea58ae56
+[00:36:10.837] Browser LOG     🔍 EmployeesPage: Fetching employees for tenantId: 8ee28f55-b780-4286-8137-9e70ea58ae56
+[00:36:10.837] Browser LOG     ✅ EmployeesPage: Found 2 employees for tenantId: 8ee28f55-b780-4286-8137-9e70ea58ae56
+[00:36:10.837] Browser LOG     ✅ EmployeesPage: Found 2 employees for tenantId: 8ee28f55-b780-4286-8137-9e70ea58ae56
+[00:36:13.031] Browser ERROR   Error fetching employee: {"code":"42703","details":null,"hint":null,"message":"column employees.default_rate_sek does not exist"}
+[00:36:13.031] Browser ERROR   Error fetching employee: {"code":"42703","details":null,"hint":null,"message":"column employees.default_rate_sek does not exist"}
+[00:36:13.031] Browser ERROR   Error fetching employee: {"code":"42703","details":null,"hint":null,"message":"column employees.default_rate_sek does not exist"}
+[00:36:13.713] Browser LOG     🔍 EmployeesPage: Fetching employees for tenantId: 8ee28f55-b780-4286-8137-9e70ea58ae56
+[00:36:13.713] Browser LOG     🔍 EmployeesPage: Fetching employees for tenantId: 8ee28f55-b780-4286-8137-9e70ea58ae56
+[00:36:13.713] Browser LOG     ✅ EmployeesPage: Found 2 employees for tenantId: 8ee28f55-b780-4286-8137-9e70ea58ae56
+[00:36:13.713] Browser LOG     ✅ EmployeesPage: Found 2 employees for tenantId: 8ee28f55-b780-4286-8137-9e70ea58ae56
+[00:37:47.620] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":null,"projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:37:47.620] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":null,"projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:37:47.620] Browser LOG     🔍 TimeClock: Component mounted/updated {"activeTimeEntry":false,"componentVisible":true,"employeeId":null,"isCheckedIn":false,"projectsCount":0}
+[00:37:47.620] Browser LOG     🔍 TimeClock: Component mounted/updated {"activeTimeEntry":false,"componentVisible":true,"employeeId":null,"isCheckedIn":false,"projectsCount":0}
+[00:37:47.820] Server  LOG     ✅ Projects/list: Fetching projects for valid tenant: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:37:47.835] Browser LOG     TimeClock: Fetching employee for user 2941e8db-d533-412e-a292-7ff713e76567
+[00:37:47.835] Browser LOG     TimeClock: Fetching employee for user 2941e8db-d533-412e-a292-7ff713e76567
+[00:37:47.961] Server  LOG     ✅ Projects/list: User access verified for tenant: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:37:48.034] Server  LOG     ✅ Projects/list: Query returned 5 "projects"
+[00:37:48.034] Server  LOG     ✅ Projects/list: After verification: 5 "projects"
+[00:37:48.089] Server  LOG     ✅ Projects/list: Fetching projects for valid tenant: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:37:48.098] Server  LOG     ✅ Projects/list: After tenant validation: 5 "projects"
+[00:37:48.099] Server  LOG     🔇 Filtering out project: "Dörr installtion" "status:" "completed"
+[00:37:48.099] Server  LOG     🔇 Filtering out project: "d" "status:" "archived"
+[00:37:48.099] Server  LOG     ✅ Projects/list: After status filter: 3 "projects"
+[00:37:48.173] Server  LOG     ✅ Selected employee: {}
+[00:37:48.173] Server  LOG     ✅ Returning employee data immediately
+[00:37:48.230] Server  LOG     ✅ Projects/list: User access verified for tenant: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:37:48.296] Server  LOG     ✅ Projects/list: Query returned 5 "projects"
+[00:37:48.296] Server  LOG     ✅ Projects/list: After verification: 5 "projects"
+[00:37:48.364] Server  LOG     ✅ Projects/list: After tenant validation: 5 "projects"
+[00:37:48.364] Server  LOG     🔇 Filtering out project: "Dörr installtion" "status:" "completed"
+[00:37:48.365] Server  LOG     🔇 Filtering out project: "d" "status:" "archived"
+[00:37:48.365] Server  LOG     ✅ Projects/list: After status filter: 3 "projects"
+[00:37:48.369] Browser LOG     TimeClock: Found employee ID via API: 47224e0b-5809-4894-8696-49dd2b5f71f0
+[00:37:48.369] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:37:48.369] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:37:48.369] Browser LOG     🔍 TimeClock: Component mounted/updated {"activeTimeEntry":false,"componentVisible":true,"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","isCheckedIn":false,"projectsCount":0}
+[00:37:48.369] Browser WARN    ⚠️ Dashboard: Context tenantId not found in database, fetching from centralized API
+[00:37:48.369] Browser WARN    ⚠️ Active time entry found but missing start_time: ea5e3ff4-4371-49c9-b0b3-361a804add81
+[00:37:48.444] Server  LOG     ✅ Selected employee: {}
+[00:37:48.444] Server  LOG     ✅ Returning employee data immediately
+[00:37:48.535] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:37:48.644] Browser LOG     TimeClock: Found employee ID via API: 47224e0b-5809-4894-8696-49dd2b5f71f0
+[00:37:48.644] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:37:48.644] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:37:48.644] Browser WARN    ⚠️ Dashboard: Context tenantId not found in database, fetching from centralized API
+[00:37:48.644] Browser LOG     ✅ Dashboard: Got tenantId from centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56
+[00:37:48.644] Browser LOG     🔒 Dashboard: Using tenantId: 8ee28f55-b780-4286-8137-9e70ea58ae56 for projects and TimeClock
+[00:37:48.644] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:37:48.644] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:37:48.798] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:37:48.808] Server  LOG     ✅ Projects/for-timeclock: Using tenantId: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:37:48.993] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:37:48.993] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:37:48.993] Browser LOG     ✅ Dashboard: Got tenantId from centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56
+[00:37:48.993] Browser LOG     🔒 Dashboard: Using tenantId: 8ee28f55-b780-4286-8137-9e70ea58ae56 for projects and TimeClock
+[00:37:48.993] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:37:48.993] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:37:48.993] Browser LOG     ✅ TimeClock: Found projects via API 3 for tenant 8ee28f55-b780-4286-8137-9e70ea58ae56
+[00:37:48.993] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":3,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:37:48.993] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":3,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:37:48.993] Browser LOG     🔍 TimeClock: Component mounted/updated {"activeTimeEntry":false,"componentVisible":true,"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","isCheckedIn":false,"projectsCount":3}
+[00:37:49.105] Server  LOG     ✅ Projects/for-timeclock: Using tenantId: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:37:49.275] Browser LOG     ✅ TimeClock: Found projects via API 3 for tenant 8ee28f55-b780-4286-8137-9e70ea58ae56
+[00:37:49.275] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":3,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:37:49.275] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":3,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:37:56.356] Server  LOG      ✓ Compiled in 65ms
+[00:38:07.830] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":null,"projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:38:07.830] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":null,"projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:38:07.830] Browser LOG     🔍 TimeClock: Component mounted/updated {"activeTimeEntry":false,"componentVisible":true,"employeeId":null,"isCheckedIn":false,"projectsCount":0}
+[00:38:07.830] Browser LOG     🔍 TimeClock: Component mounted/updated {"activeTimeEntry":false,"componentVisible":true,"employeeId":null,"isCheckedIn":false,"projectsCount":0}
+[00:38:07.922] Server  LOG     ✅ Projects/list: Fetching projects for valid tenant: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:38:07.934] Server  LOG     ✅ Projects/list: Fetching projects for valid tenant: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:38:08.023] Browser LOG     TimeClock: Fetching employee for user 2941e8db-d533-412e-a292-7ff713e76567
+[00:38:08.023] Browser LOG     TimeClock: Fetching employee for user 2941e8db-d533-412e-a292-7ff713e76567
+[00:38:08.063] Server  LOG     ✅ Projects/list: User access verified for tenant: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:38:08.091] Server  LOG     ✅ Projects/list: User access verified for tenant: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:38:08.131] Server  LOG     ✅ Projects/list: Query returned 5 "projects"
+[00:38:08.132] Server  LOG     ✅ Projects/list: After verification: 5 "projects"
+[00:38:08.158] Server  LOG     ✅ Projects/list: Query returned 5 "projects"
+[00:38:08.158] Server  LOG     ✅ Projects/list: After verification: 5 "projects"
+[00:38:08.210] Server  LOG     ✅ Projects/list: After tenant validation: 5 "projects"
+[00:38:08.210] Server  LOG     🔇 Filtering out project: "Dörr installtion" "status:" "completed"
+[00:38:08.210] Server  LOG     🔇 Filtering out project: "d" "status:" "archived"
+[00:38:08.210] Server  LOG     ✅ Projects/list: After status filter: 3 "projects"
+[00:38:08.227] Server  LOG     ✅ Projects/list: After tenant validation: 5 "projects"
+[00:38:08.228] Server  LOG     🔇 Filtering out project: "Dörr installtion" "status:" "completed"
+[00:38:08.228] Server  LOG     🔇 Filtering out project: "d" "status:" "archived"
+[00:38:08.228] Server  LOG     ✅ Projects/list: After status filter: 3 "projects"
+[00:38:08.409] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":null,"projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:38:08.409] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":null,"projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:38:08.429] Server  LOG     ✅ Selected employee: {}
+[00:38:08.429] Server  LOG     ✅ Returning employee data immediately
+[00:38:08.720] Browser LOG     TimeClock: Found employee ID via API: 47224e0b-5809-4894-8696-49dd2b5f71f0
+[00:38:08.720] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:38:08.720] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:38:08.720] Browser LOG     🔍 TimeClock: Component mounted/updated {"activeTimeEntry":false,"componentVisible":true,"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","isCheckedIn":false,"projectsCount":0}
+[00:38:08.720] Browser WARN    ⚠️ Dashboard: Context tenantId not found in database, fetching from centralized API
+[00:38:08.720] Browser WARN    ⚠️ Active time entry found but missing start_time: ea5e3ff4-4371-49c9-b0b3-361a804add81
+[00:38:08.720] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:38:08.720] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:38:08.722] Server  LOG     ✅ Selected employee: {}
+[00:38:08.722] Server  LOG     ✅ Returning employee data immediately
+[00:38:08.818] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:38:08.931] Browser LOG     TimeClock: Found employee ID via API: 47224e0b-5809-4894-8696-49dd2b5f71f0
+[00:38:08.931] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:38:08.931] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:38:08.931] Browser WARN    ⚠️ Dashboard: Context tenantId not found in database, fetching from centralized API
+[00:38:08.931] Browser LOG     ✅ Dashboard: Got tenantId from centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56
+[00:38:08.931] Browser LOG     🔒 Dashboard: Using tenantId: 8ee28f55-b780-4286-8137-9e70ea58ae56 for projects and TimeClock
+[00:38:08.931] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:38:08.931] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:38:09.122] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:38:09.135] Server  LOG     ✅ Projects/for-timeclock: Using tenantId: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:38:09.337] Browser LOG     ✅ Dashboard: Got tenantId from centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56
+[00:38:09.337] Browser LOG     🔒 Dashboard: Using tenantId: 8ee28f55-b780-4286-8137-9e70ea58ae56 for projects and TimeClock
+[00:38:09.337] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:38:09.337] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:38:09.337] Browser LOG     ✅ TimeClock: Found projects via API 3 for tenant 8ee28f55-b780-4286-8137-9e70ea58ae56
+[00:38:09.337] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":3,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:38:09.337] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":3,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:38:09.337] Browser LOG     🔍 TimeClock: Component mounted/updated {"activeTimeEntry":false,"componentVisible":true,"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","isCheckedIn":false,"projectsCount":3}
+[00:38:09.426] Server  LOG     ✅ Projects/for-timeclock: Using tenantId: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:38:09.602] Browser LOG     ✅ TimeClock: Found projects via API 3 for tenant 8ee28f55-b780-4286-8137-9e70ea58ae56
+[00:38:09.602] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":3,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:38:09.602] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":3,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}

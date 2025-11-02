@@ -49,16 +49,51 @@ export default function EditEmployeePage() {
 
     async function fetchEmployee() {
       try {
-        const { data, error } = await supabase
+        // Try with full columns first
+        let { data, error } = await supabase
           .from('employees')
           .select('id, name, full_name, role, email, base_rate_sek, default_rate_sek')
           .eq('id', employeeId)
           .eq('tenant_id', tenantId)
           .single()
 
+        // If default_rate_sek doesn't exist, retry without it
+        if (error && (error.code === '42703' || error.message?.includes('default_rate_sek'))) {
+          const retry = await supabase
+            .from('employees')
+            .select('id, name, full_name, role, email, base_rate_sek')
+            .eq('id', employeeId)
+            .eq('tenant_id', tenantId)
+            .single()
+          
+          if (!retry.error && retry.data) {
+            data = retry.data
+            error = null
+          } else {
+            error = retry.error
+          }
+        }
+
+        // If base_rate_sek also doesn't exist, try without both
+        if (error && (error.code === '42703' || error.message?.includes('base_rate_sek'))) {
+          const retryMinimal = await supabase
+            .from('employees')
+            .select('id, name, full_name, role, email')
+            .eq('id', employeeId)
+            .eq('tenant_id', tenantId)
+            .single()
+          
+          if (!retryMinimal.error && retryMinimal.data) {
+            data = retryMinimal.data
+            error = null
+          } else {
+            error = retryMinimal.error
+          }
+        }
+
         if (error) {
           console.error('Error fetching employee:', error)
-          toast.error('Kunde inte hämta anställd')
+          toast.error('Kunde inte hämta anställd: ' + (error.message || 'Okänt fel'))
           router.push('/employees')
           return
         }
@@ -68,11 +103,12 @@ export default function EditEmployeePage() {
           setFullName(data.full_name || data.name || '')
           setEmail(data.email || '')
           setRole((data.role?.toLowerCase() as 'employee' | 'admin') || 'employee')
-          setBaseRate(String(data.base_rate_sek || data.default_rate_sek || 360))
+          // Use base_rate_sek, fallback to default_rate_sek, fallback to 360
+          setBaseRate(String(data.base_rate_sek || (data as any).default_rate_sek || 360))
         }
-      } catch (err) {
+      } catch (err: any) {
         console.error('Unexpected error:', err)
-        toast.error('Ett oväntat fel uppstod')
+        toast.error('Ett oväntat fel uppstod: ' + (err.message || 'Okänt fel'))
       } finally {
         setLoading(false)
       }
