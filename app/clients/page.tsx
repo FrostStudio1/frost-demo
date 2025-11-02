@@ -227,11 +227,12 @@ export default function ClientsPage() {
               {filteredClients.map((client) => (
                 <div
                   key={client.id}
-                  className="group bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg p-6 sm:p-8 border border-gray-100 dark:border-gray-700 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 hover:scale-[1.02]"
+                  onClick={() => router.push(`/clients/${client.id}`)}
+                  className="group bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg p-6 sm:p-8 border border-gray-100 dark:border-gray-700 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 hover:scale-[1.02] cursor-pointer"
                 >
                   <div className="flex items-start justify-between mb-4">
                     <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 flex items-center justify-center text-white font-bold text-xl shadow-lg">
-                      {client.name.charAt(0).toUpperCase()}
+                      {(client.name && client.name.length > 0) ? client.name.charAt(0).toUpperCase() : '?'}
                     </div>
                     {isAdmin && (
                       <div className="flex gap-2">

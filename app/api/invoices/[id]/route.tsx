@@ -18,27 +18,64 @@ export async function GET(request: NextRequest, context: { params: Promise<{ id:
 
     const supabase = createClient()
 
-    // 1) Hämta fakturan - try with amount first, then without if column doesn't exist
+    // 1) Hämta fakturan - progressive fallback for missing columns
     let { data: invoice, error: invErr } = await supabase
       .from('invoices')
-      .select('id, number, issue_date, due_date, tenant_id, project_id, client_id, customer_name, desc, amount')
+      .select('id, number, issue_date, due_date, tenant_id, project_id, client_id, customer_id, customer_name, desc, description, amount')
       .eq('id', invoiceId)
       .single()
 
-    // If amount column doesn't exist, retry without it
-    if (invErr && (invErr.code === '42703' || invErr.message?.includes('does not exist') || invErr.message?.includes('amount'))) {
-      const fallback = await supabase
+    // Fallback 1: If number column doesn't exist, try without it
+    if (invErr && (invErr.code === '42703' || invErr.message?.includes('number'))) {
+      const fallback1 = await supabase
         .from('invoices')
-        .select('id, number, issue_date, due_date, tenant_id, project_id, client_id, customer_name, desc')
+        .select('id, issue_date, due_date, tenant_id, project_id, client_id, customer_id, customer_name, desc, description, amount')
         .eq('id', invoiceId)
         .single()
 
-      if (fallback.error || !fallback.data) {
-        return NextResponse.json({ error: fallback.error?.message || invErr?.message || 'Faktura saknas' }, { status: 404 })
+      if (!fallback1.error && fallback1.data) {
+        invoice = fallback1.data
+        invErr = null
+      } else {
+        invErr = fallback1.error
       }
+    }
 
-      invoice = { ...fallback.data, amount: 0 } // Set default amount if column doesn't exist
-      invErr = null
+    // Fallback 2: If amount column doesn't exist, retry without it
+    if (invErr && (invErr.code === '42703' || invErr.message?.includes('amount'))) {
+      const fallback2 = await supabase
+        .from('invoices')
+        .select('id, issue_date, due_date, tenant_id, project_id, client_id, customer_id, customer_name, desc, description')
+        .eq('id', invoiceId)
+        .single()
+
+      if (!fallback2.error && fallback2.data) {
+        invoice = { ...fallback2.data, amount: 0 } // Set default amount if column doesn't exist
+        invErr = null
+      } else {
+        invErr = fallback2.error
+      }
+    }
+
+    // Fallback 3: Minimal set
+    if (invErr && (invErr.code === '42703' || invErr.code === '400')) {
+      const fallback3 = await supabase
+        .from('invoices')
+        .select('id, tenant_id, customer_name, created_at')
+        .eq('id', invoiceId)
+        .single()
+
+      if (!fallback3.error && fallback3.data) {
+        invoice = { 
+          ...fallback3.data, 
+          amount: 0,
+          issue_date: null,
+          due_date: null,
+        }
+        invErr = null
+      } else {
+        invErr = fallback3.error
+      }
     }
 
     if (invErr || !invoice) {
@@ -69,18 +106,20 @@ export async function GET(request: NextRequest, context: { params: Promise<{ id:
     // Om inga rader finns, skapa en från faktura-data
     let finalLines = lines
     const invoiceAmount = (invoice.amount !== undefined && invoice.amount !== null) ? Number(invoice.amount) : 0
-    if (lines.length === 0 && invoice.desc && invoiceAmount > 0) {
+    const invoiceDesc = invoice.desc || invoice.description || ''
+    
+    if (lines.length === 0 && invoiceDesc && invoiceAmount > 0) {
       finalLines = [{
-        description: invoice.desc,
+        description: invoiceDesc,
         quantity: 1,
         unit: 'st',
         rate_sek: invoiceAmount,
         amount_sek: invoiceAmount,
       }]
-    } else if (lines.length === 0 && invoice.desc) {
+    } else if (lines.length === 0 && invoiceDesc) {
       // If no amount but has description, create a line item with 0 amount
       finalLines = [{
-        description: invoice.desc,
+        description: invoiceDesc,
         quantity: 1,
         unit: 'st',
         rate_sek: 0,

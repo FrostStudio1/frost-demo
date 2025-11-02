@@ -169,143 +169,52 @@ export default function NewInvoiceContent() {
     }
 
     try {
-      // Build minimal base payload - start with only guaranteed columns
-      const basePayload: any = {
-        tenant_id: tenantId,
-      }
-      
-      // Add description (try both 'desc' and 'description' columns)
-      if (desc) {
-        basePayload.desc = desc
-        basePayload.description = desc
-      }
-
-      // Add client_id if a client was selected (preferred over customer_name)
-      if (customer_id) {
-        basePayload.client_id = customer_id
-      }
-
-      // Add project_id if available
-      if (projectId || rotApplication?.project_id) {
-        basePayload.project_id = projectId || rotApplication?.project_id
-      }
-
-      // Add ROT application reference if available
-      if (rotApplicationId) {
-        basePayload.rot_application_id = rotApplicationId
-      }
-
-      // Try progressively: start with minimal payload, then add optional columns
-      let data: any = null
-      let error: any = null
-      let result: any = null
-
-      // Attempt 1: Try with all optional columns (customer_name, status, issue_date, amount)
-      const payload1 = { ...basePayload }
-      if (customer_name) {
-        payload1.customer_name = customer_name
-      }
-      if (amount) {
-        payload1.amount = Number(amount) || 0
-      }
-      payload1.status = 'draft'
-      payload1.issue_date = new Date().toISOString().split('T')[0]
-
-      result = await supabase
-        .from('invoices')
-        .insert(payload1)
-        .select()
-        .single()
-
-      // Attempt 2: If customer_name fails, try without it
-      if (result.error && (result.error.code === '42703' || result.error.message?.includes('customer_name'))) {
-        const payload2 = { ...basePayload }
-        if (amount) {
-          payload2.amount = Number(amount) || 0
-        }
-        payload2.status = 'draft'
-        payload2.issue_date = new Date().toISOString().split('T')[0]
-
-        result = await supabase
-          .from('invoices')
-          .insert(payload2)
-          .select()
-          .single()
-      }
-
-      // Attempt 3: If status/issue_date fails, try without them
-      if (result.error && (result.error.code === '42703' || result.error.message?.includes('does not exist') || result.error.message?.includes('Could not find'))) {
-        const payload3 = { ...basePayload }
-        if (amount) {
-          payload3.amount = Number(amount) || 0
-        }
-
-        result = await supabase
-          .from('invoices')
-          .insert(payload3)
-          .select()
-          .single()
-      }
-
-      // Attempt 4: If amount fails, try without it
-      if (result.error && (result.error.code === '42703' || result.error.message?.includes('amount'))) {
-        result = await supabase
-          .from('invoices')
-          .insert(basePayload)
-          .select()
-          .single()
-      }
-
-      // Attempt 5: If 'desc' column doesn't exist, try with 'description' only
-      if (result.error && (result.error.code === 'PGRST204' || result.error.message?.includes("Could not find the 'desc' column"))) {
-        const payloadNoDesc = { ...basePayload }
-        delete payloadNoDesc.desc
-        if (desc) {
-          payloadNoDesc.description = desc
-        }
-        
-        result = await supabase
-          .from('invoices')
-          .insert(payloadNoDesc)
-          .select()
-          .single()
-      }
-
-      // Attempt 6: If 'description' also doesn't exist, try minimal payload (just tenant_id)
-      if (result.error && (result.error.code === 'PGRST204' || result.error.message?.includes("Could not find the 'description' column"))) {
-        const minimalPayload: any = {
+      // Use API route instead of direct Supabase call for proper tenant verification
+      const response = await fetch('/api/invoices/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
           tenant_id: tenantId,
+          project_id: projectId || rotApplication?.project_id || null,
+          client_id: customer_id || null,
+          customer_name: customer_name || null,
+          amount: amount ? Number(amount) : 0,
+          desc: desc || null,
+          description: desc || null,
+          status: 'draft',
+          issue_date: new Date().toISOString().split('T')[0],
+          rot_application_id: rotApplicationId || null,
+        }),
+      })
+
+      const result = await response.json()
+
+      if (!response.ok || result.error) {
+        console.error('Error creating invoice:', result)
+        
+        // Show detailed error message
+        let errorMessage = result.error || result.details || 'Okänt fel'
+        
+        if (result.availableTenants && result.availableTenants.length > 0) {
+          errorMessage += `\n\nTillgängliga tenants: ${result.availableTenants.map((t: any) => `${t.name} (${t.id})`).join(', ')}`
         }
         
-        // Only add fields that definitely exist
-        if (customer_id) {
-          minimalPayload.client_id = customer_id
-        }
-        if (projectId || rotApplication?.project_id) {
-          minimalPayload.project_id = projectId || rotApplication?.project_id
-        }
-        if (rotApplicationId) {
-          minimalPayload.rot_application_id = rotApplicationId
+        if (result.suggestion) {
+          errorMessage += `\n\n${result.suggestion}`
         }
         
-        result = await supabase
-          .from('invoices')
-          .insert(minimalPayload)
-          .select()
-          .single()
-      }
-
-      data = result?.data
-      error = result?.error
-
-      if (error) {
-        console.error('Supabase insert error:', error.message || error.code || error)
-        console.error('Full error object:', JSON.stringify(error, null, 2))
-        console.error('Attempted insert data:', basePayload)
-        toast.error('Kunde inte skapa faktura: ' + (error.message || error.hint || error.details || JSON.stringify(error)))
+        if (result.diagnostics) {
+          errorMessage += `\n\nDiagnostik: Tenant finns: ${result.diagnostics.tenantExists}, Projekt finns: ${result.diagnostics.projectExists}, Kund finns: ${result.diagnostics.clientExists}`
+        }
+        
+        toast.error('Kunde inte skapa faktura: ' + errorMessage)
         setLoading(false)
         return
       }
+
+      const data = result.data
 
       if (data) {
         // Link ROT application to invoice if applicable
@@ -375,13 +284,17 @@ export default function NewInvoiceContent() {
 
         toast.success('Faktura skapad!')
         
-        // Add notification
+        // Dispatch event for invoice creation
         if (typeof window !== 'undefined') {
+          window.dispatchEvent(new CustomEvent('invoiceCreated', { 
+            detail: { invoiceId: data.id, timestamp: Date.now() }
+          }))
+          
           const { addNotification } = await import('@/lib/notifications')
           addNotification({
             type: 'success',
             title: 'Faktura skapad',
-            message: `Faktura ${data.number || '#' + data.id.slice(0, 8)} har skapats för ${customerName}`,
+            message: `Faktura har skapats för ${customer_name || 'kund'}`,
             link: `/invoices/${data.id}`
           })
         }

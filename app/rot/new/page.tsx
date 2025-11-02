@@ -45,13 +45,17 @@ export default function NewRotApplicationPage() {
 
     async function loadData() {
       try {
-        // Load projects
+        // Load projects - filter out completed and archived projects
         const { data: projectsData } = await supabase
           .from('projects')
-          .select('id, name, client_id')
+          .select('id, name, client_id, status')
           .eq('tenant_id', tenantId)
-          .neq('status', 'completed')
           .order('name')
+
+        // Filter out completed and archived projects on client-side
+        const activeProjects = (projectsData || []).filter(
+          (p: any) => p.status !== 'completed' && p.status !== 'archived'
+        )
 
         // Load clients
         const { data: clientsData } = await supabase
@@ -60,7 +64,7 @@ export default function NewRotApplicationPage() {
           .eq('tenant_id', tenantId)
           .order('name')
 
-        setProjects(projectsData || [])
+        setProjects(activeProjects)
         setClients(clientsData || [])
       } catch (err) {
         console.error('Error loading data:', err)
@@ -145,34 +149,52 @@ export default function NewRotApplicationPage() {
         return
       }
 
-      // Create ROT application
-      const { data, error } = await supabase
-        .from('rot_applications')
-        .insert([{
+      // Create ROT application via API route
+      const response = await fetch('/api/rot/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
           tenant_id: tenantId,
           project_id: projectId || null,
           client_id: clientId || null,
-          customer_person_number: customerPersonNumber.replace(/[-\s]/g, ''),
+          customer_person_number: customerPersonNumber,
           property_designation: propertyDesignation,
           work_type: workType,
           work_cost_sek: work,
           material_cost_sek: material,
           total_cost_sek: totalCost,
-          status: 'draft',
-          created_by: userId,
-        }])
-        .select()
-        .single()
+        }),
+      })
 
-      if (error) {
-        console.error('Error creating ROT application:', error)
-        toast.error('Kunde inte skapa ROT-ansökan: ' + error.message)
+      const result = await response.json()
+
+      if (!response.ok || result.error) {
+        console.error('Error creating ROT application:', result)
+        
+        // Show detailed error message
+        let errorMessage = result.error || result.details || 'Okänt fel'
+        
+        if (result.availableTenants && result.availableTenants.length > 0) {
+          errorMessage += `\n\nTillgängliga tenants: ${result.availableTenants.map((t: any) => `${t.name} (${t.id})`).join(', ')}`
+        }
+        
+        if (result.suggestion) {
+          errorMessage += `\n\n${result.suggestion}`
+        }
+        
+        if (result.diagnostics) {
+          errorMessage += `\n\nDiagnostik: Tenant finns: ${result.diagnostics.tenantExists}, Projekt finns: ${result.diagnostics.projectExists}, Kund finns: ${result.diagnostics.clientExists}`
+        }
+        
+        toast.error('Kunde inte skapa ROT-ansökan: ' + errorMessage)
         setLoading(false)
         return
       }
 
       toast.success('ROT-ansökan skapad! Du kan nu skicka den till Skatteverket.')
-      router.push(`/rot/${data.id}`)
+      router.push(`/rot/${result.data.id}`)
     } catch (err: any) {
       console.error('Unexpected error:', err)
       toast.error('Ett oväntat fel uppstod: ' + (err.message || 'Okänt fel'))

@@ -96,6 +96,31 @@ const faqs: FAQItem[] = [
     question: 'Hur rapporterar jag en bugg?',
     answer: 'Gå till "Feedback" i menyn och välj "Buggrapport". Beskriv problemet så detaljerat som möjligt, inklusive skärmdumpar om möjligt.'
   },
+  {
+    category: 'Projekt',
+    question: 'Hur ser jag vilka anställda som jobbat på ett projekt?',
+    answer: 'Gå till projektets detaljsida och klicka på "Visa" under "Anställdas timmar". Där ser du en översikt över alla anställda som rapporterat timmar på projektet, med totala timmar per person.'
+  },
+  {
+    category: 'Fakturor',
+    question: 'Vad händer när jag skapar en faktura från ett projekt?',
+    answer: 'Systemet skapar automatiskt fakturarader från alla ofakturerade tidsrapporter för projektet. Varje tidsrapport blir en fakturarad med datum, timmar och belopp. Tidsrapporterna markeras också automatiskt som fakturerade.'
+  },
+  {
+    category: 'Stämpelklocka',
+    question: 'Kan jag pausa min stämpling?',
+    answer: 'Ja! Klicka på "Pausa" när du tar en paus. Tiden räknas inte under pausen. Klicka på "Återuppta" när du fortsätter arbeta. Total paus-tid visas i stämpelklockan.'
+  },
+  {
+    category: 'Stämpelklocka',
+    question: 'Får jag en påminnelse om jag glömmer stämpla ut?',
+    answer: 'Ja! Om du har jobbat 8 timmar får du automatiskt en påminnelse att stämpla ut. Påminnelsen visas en gång per stämpling.'
+  },
+  {
+    category: 'ROT-avdrag',
+    question: 'Hur följer jag upp status på min ROT-ansökan?',
+    answer: 'Gå till ROT-ansökan och klicka på "Kontrollera status". Systemet hämtar automatiskt uppdaterad status från Skatteverket.'
+  },
 ]
 
 export default function FAQPage() {

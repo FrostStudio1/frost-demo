@@ -1,12 +1,13 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import supabase from '@/utils/supabase/supabaseClient'
 import { useTenant } from '@/context/TenantContext'
 import Sidebar from '@/components/Sidebar'
 import TimeClock from '@/components/TimeClock'
 import NotificationCenter from '@/components/NotificationCenter'
+import DidYouKnow from '@/components/DidYouKnow'
 
 interface ProjectType {
   id: string
@@ -31,8 +32,10 @@ export default function DashboardClient({ userEmail, stats, projects: initialPro
   const [employeeId, setEmployeeId] = useState<string | null>(null)
   const [availableProjects, setAvailableProjects] = useState<Array<{ id: string; name: string }>>([])
   const [timeClockTenantId, setTimeClockTenantId] = useState<string | null>(null)
-  const [dashboardProjects, setDashboardProjects] = useState<ProjectType[]>(initialProjects)
+  const [dashboardProjects, setDashboardProjects] = useState<ProjectType[]>([])
   const [dashboardStats, setDashboardStats] = useState(stats)
+  const [projectsLoaded, setProjectsLoaded] = useState(false)
+  const [statsLoaded, setStatsLoaded] = useState(false)
 
   // Get current user's employee ID and projects for time clock
   useEffect(() => {
@@ -223,14 +226,22 @@ export default function DashboardClient({ userEmail, stats, projects: initialPro
 
   // Fetch dashboard projects and stats client-side so they update when new projects are created
   useEffect(() => {
+    if (!tenantId) return
+
+    let cancelled = false
+
     async function fetchDashboardProjects() {
-      if (!tenantId) return
+      if (cancelled) return
 
       try {
         // Fetch projects via API route
         const projectsRes = await fetch(`/api/projects/list?tenantId=${tenantId}`, { cache: 'no-store' })
+        if (cancelled) return
+        
         if (projectsRes.ok) {
           const projectsData = await projectsRes.json()
+          if (cancelled) return
+          
           if (projectsData.projects) {
             // Fetch hours for each project
             const projectIds = projectsData.projects.map((p: any) => p.id)
@@ -241,6 +252,8 @@ export default function DashboardClient({ userEmail, stats, projects: initialPro
                 .in('project_id', projectIds)
                 .eq('tenant_id', tenantId)
                 .eq('is_billed', false)
+              
+              if (cancelled) return
               
               const projectHoursMap = new Map<string, number>()
               ;(hoursData ?? []).forEach((entry: any) => {
@@ -264,6 +277,7 @@ export default function DashboardClient({ userEmail, stats, projects: initialPro
                   hours: projectHoursMap.get(p.id) || 0
                 }))
 
+              if (cancelled) return
               setDashboardProjects(projectsWithHours)
               
               // Update stats
@@ -278,6 +292,8 @@ export default function DashboardClient({ userEmail, stats, projects: initialPro
                 .eq('tenant_id', tenantId)
                 .eq('is_billed', false)
               
+              if (cancelled) return
+              
               const totalHours = (weekRows ?? []).reduce((sum: number, row: any) => sum + Number(row.hours_total ?? 0), 0)
               
               const { data: invoiceRows } = await supabase
@@ -286,18 +302,61 @@ export default function DashboardClient({ userEmail, stats, projects: initialPro
                 .eq('status', 'draft')
                 .eq('tenant_id', tenantId)
               
+              if (cancelled) return
+              
               setDashboardStats({
                 totalHours,
                 activeProjects: projectsWithHours.length,
                 invoicesToSend: invoiceRows?.length ?? 0
               })
+              setProjectsLoaded(true)
+              setStatsLoaded(true)
             } else {
+              if (cancelled) return
               setDashboardProjects([])
+              setProjectsLoaded(true)
+              // Still fetch stats even if no projects
+              const oneWeekAgo = new Date()
+              oneWeekAgo.setDate(oneWeekAgo.getDate() - 7)
+              const oneWeekAgoStr = oneWeekAgo.toISOString().split('T')[0]
+              
+              const { data: weekRows } = await supabase
+                .from('time_entries')
+                .select('hours_total')
+                .gte('date', oneWeekAgoStr)
+                .eq('tenant_id', tenantId)
+                .eq('is_billed', false)
+              
+              if (cancelled) return
+              
+              const totalHours = (weekRows ?? []).reduce((sum: number, row: any) => sum + Number(row.hours_total ?? 0), 0)
+              
+              const { data: invoiceRows } = await supabase
+                .from('invoices')
+                .select('id')
+                .eq('status', 'draft')
+                .eq('tenant_id', tenantId)
+              
+              if (cancelled) return
+              
+              setDashboardStats({
+                totalHours,
+                activeProjects: 0,
+                invoicesToSend: invoiceRows?.length ?? 0
+              })
+              setStatsLoaded(true)
             }
+          } else {
+            if (cancelled) return
+            setProjectsLoaded(true)
+            setStatsLoaded(true)
           }
         }
       } catch (err) {
+        if (cancelled) return
         console.error('Error fetching dashboard projects:', err)
+        setProjectsLoaded(true) // Still mark as loaded even on error to prevent infinite loading
+        setStatsLoaded(true)
       }
     }
 
@@ -306,7 +365,9 @@ export default function DashboardClient({ userEmail, stats, projects: initialPro
     // Listen for project creation/update events
     const handleProjectUpdate = () => {
       console.log('🔄 Dashboard: Project updated, refreshing...')
-      setTimeout(() => fetchDashboardProjects(), 500) // Small delay to ensure DB commit
+      if (!cancelled) {
+        setTimeout(() => fetchDashboardProjects(), 500) // Small delay to ensure DB commit
+      }
     }
 
     window.addEventListener('projectCreated', handleProjectUpdate)
@@ -314,18 +375,27 @@ export default function DashboardClient({ userEmail, stats, projects: initialPro
     window.addEventListener('timeEntryUpdated', handleProjectUpdate)
 
     return () => {
+      cancelled = true
       window.removeEventListener('projectCreated', handleProjectUpdate)
       window.removeEventListener('projectUpdated', handleProjectUpdate)
       window.removeEventListener('timeEntryUpdated', handleProjectUpdate)
     }
   }, [tenantId])
 
-  const getProgressColor = (percentage: number) => {
+  const getProgressColor = useCallback((percentage: number) => {
     if (percentage > 100) return 'from-red-500 to-red-600' // Over budget - red
     if (percentage >= 90) return 'from-red-500 to-red-600'
     if (percentage >= 70) return 'from-orange-500 to-orange-600'
     return 'from-blue-500 via-purple-500 to-pink-500'
-  }
+  }, [])
+
+  // Memoize filtered projects
+  const activeProjects = useMemo(() => {
+    return dashboardProjects.filter(p => {
+      const status = (p as any).status
+      return status !== 'completed' && status !== 'archived'
+    })
+  }, [dashboardProjects])
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 flex flex-col lg:flex-row">
@@ -364,6 +434,9 @@ export default function DashboardClient({ userEmail, stats, projects: initialPro
             </div>
           </div>
 
+          {/* Did You Know */}
+          <DidYouKnow />
+
           {/* Time Clock - Always show, even if no employee/projects (component handles it) */}
           {(() => {
             console.log('🔍 Dashboard: Rendering TimeClock with:', {
@@ -381,20 +454,31 @@ export default function DashboardClient({ userEmail, stats, projects: initialPro
           })()}
 
           {/* Stats Cards with Animation */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
-            <div className="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 border border-gray-100 dark:border-gray-700">
-              <div className="text-sm sm:text-base text-gray-500 dark:text-gray-400 mb-1 sm:mb-2">Totalt timmar</div>
-              <div className="text-2xl sm:text-3xl font-black text-gray-900 dark:text-white">{dashboardStats.totalHours.toFixed(1)}h</div>
+          {!statsLoaded ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 border border-gray-100 dark:border-gray-700">
+                  <div className="text-sm sm:text-base text-gray-500 dark:text-gray-400 mb-1 sm:mb-2">Laddar...</div>
+                  <div className="text-2xl sm:text-3xl font-black text-gray-400 dark:text-gray-600">-</div>
+                </div>
+              ))}
             </div>
-            <div className="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 border border-gray-100 dark:border-gray-700">
-              <div className="text-sm sm:text-base text-gray-500 dark:text-gray-400 mb-1 sm:mb-2">Aktiva projekt</div>
-              <div className="text-2xl sm:text-3xl font-black text-gray-900 dark:text-white">{dashboardStats.activeProjects}</div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
+              <div className="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 border border-gray-100 dark:border-gray-700">
+                <div className="text-sm sm:text-base text-gray-500 dark:text-gray-400 mb-1 sm:mb-2">Totalt timmar</div>
+                <div className="text-2xl sm:text-3xl font-black text-gray-900 dark:text-white">{dashboardStats.totalHours.toFixed(1)}h</div>
+              </div>
+              <div className="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 border border-gray-100 dark:border-gray-700">
+                <div className="text-sm sm:text-base text-gray-500 dark:text-gray-400 mb-1 sm:mb-2">Aktiva projekt</div>
+                <div className="text-2xl sm:text-3xl font-black text-gray-900 dark:text-white">{dashboardStats.activeProjects}</div>
+              </div>
+              <div className="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 border border-gray-100 dark:border-gray-700">
+                <div className="text-sm sm:text-base text-gray-500 dark:text-gray-400 mb-1 sm:mb-2">Fakturor att skicka</div>
+                <div className="text-2xl sm:text-3xl font-black text-gray-900 dark:text-white">{dashboardStats.invoicesToSend}</div>
+              </div>
             </div>
-            <div className="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 border border-gray-100 dark:border-gray-700">
-              <div className="text-sm sm:text-base text-gray-500 dark:text-gray-400 mb-1 sm:mb-2">Fakturor att skicka</div>
-              <div className="text-2xl sm:text-3xl font-black text-gray-900 dark:text-white">{dashboardStats.invoicesToSend}</div>
-            </div>
-          </div>
+          )}
 
           {/* New Project Card */}
           <div className="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 lg:p-8 mb-6 sm:mb-8 border border-gray-100 dark:border-gray-700 backdrop-blur-sm bg-opacity-90">
@@ -410,13 +494,17 @@ export default function DashboardClient({ userEmail, stats, projects: initialPro
           {/* Projects Section */}
           <div>
             <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6">Projekt</h2>
-            {dashboardProjects.length === 0 ? (
+            {!projectsLoaded ? (
+              <div className="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg p-6 sm:p-8 text-center text-gray-500 dark:text-gray-400">
+                <p>Laddar projekt...</p>
+              </div>
+            ) : dashboardProjects.length === 0 ? (
               <div className="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg p-6 sm:p-8 text-center text-gray-500 dark:text-gray-400">
                 <p>Inga projekt ännu. Skapa ditt första projekt!</p>
               </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-                {dashboardProjects.map((project) => {
+                {activeProjects.map((project) => {
                   const hours = project.budgeted_hours || 0
                   const projectHours = (project as any).hours || 0
                   // Allow percentage over 100% to show over-budget

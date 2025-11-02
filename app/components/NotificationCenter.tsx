@@ -118,16 +118,16 @@ export default function NotificationCenter({ className = '' }: NotificationCente
           />
           
           {/* Dropdown Panel */}
-          <div className="absolute right-0 mt-2 w-80 sm:w-96 bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 z-20 max-h-[500px] overflow-hidden flex flex-col">
+          <div className="absolute right-0 mt-2 w-80 sm:w-96 bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 z-20 max-h-[calc(100vh-120px)] overflow-hidden flex flex-col">
             {/* Header */}
-            <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
+            <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
               <h3 className="text-lg font-bold text-gray-900 dark:text-white">
                 Notifikationer {unreadCount > 0 && `(${unreadCount})`}
               </h3>
               {unreadCount > 0 && (
                 <button
                   onClick={markAllAsRead}
-                  className="text-sm text-blue-600 dark:text-blue-400 hover:underline"
+                  className="text-sm text-blue-600 dark:text-blue-400 hover:underline whitespace-nowrap"
                 >
                   Markera alla som lästa
                 </button>
@@ -135,7 +135,7 @@ export default function NotificationCenter({ className = '' }: NotificationCente
             </div>
 
             {/* Notifications List */}
-            <div className="overflow-y-auto flex-1">
+            <div className="overflow-y-auto flex-1 min-h-0" style={{ maxHeight: 'calc(100vh - 200px)' }}>
               {notifications.length === 0 ? (
                 <div className="p-8 text-center text-gray-500 dark:text-gray-400">
                   <p>Inga notifikationer</p>

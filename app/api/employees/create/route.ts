@@ -30,12 +30,61 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Not authenticated' }, { status: 401 })
     }
 
-    // Check admin
-    const adminCheckRes = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/admin/check`)
+    // Use service role to check admin status directly
+    const supabaseUrl = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL
+    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+
+    if (!supabaseUrl || !serviceKey) {
+      return NextResponse.json(
+        { error: 'Service role key not configured' },
+        { status: 500 }
+      )
+    }
+
+    const adminSupabase = createAdminClient(supabaseUrl, serviceKey)
+
+    // Check admin status directly via employee record
+    const { data: employeeData } = await adminSupabase
+      .from('employees')
+      .select('id, role, tenant_id')
+      .eq('auth_user_id', user.id)
+      .limit(10)
+
+    // Also try by email as fallback
     let isAdmin = false
-    if (adminCheckRes?.ok) {
-      const adminData = await adminCheckRes.json()
-      isAdmin = adminData.isAdmin || false
+    let adminEmployee = null
+    
+    // Find admin employee
+    if (employeeData && Array.isArray(employeeData)) {
+      adminEmployee = employeeData.find((e: any) => 
+        e.role === 'admin' || e.role === 'Admin' || e.role === 'ADMIN'
+      )
+      if (adminEmployee) {
+        isAdmin = true
+      }
+    } else if (employeeData && (employeeData.role === 'admin' || employeeData.role === 'Admin' || employeeData.role === 'ADMIN')) {
+      adminEmployee = employeeData
+      isAdmin = true
+    }
+    
+    if (!isAdmin && user.email) {
+      const { data: emailEmployeeList } = await adminSupabase
+        .from('employees')
+        .select('id, role, tenant_id')
+        .eq('email', user.email)
+        .limit(10)
+      
+      if (emailEmployeeList && Array.isArray(emailEmployeeList)) {
+        adminEmployee = emailEmployeeList.find((e: any) => 
+          e.role === 'admin' || e.role === 'Admin' || e.role === 'ADMIN'
+        )
+        if (adminEmployee) {
+          isAdmin = true
+        }
+      } else if (emailEmployeeList && (emailEmployeeList.role === 'admin' || emailEmployeeList.role === 'Admin' || emailEmployeeList.role === 'ADMIN')) {
+        adminEmployee = emailEmployeeList
+        isAdmin = true
+      }
     }
 
     if (!isAdmin) {
@@ -78,18 +127,8 @@ export async function POST(req: Request) {
     const sanitizedBaseRate = base_rate_sek ? Math.max(0, Math.min(1000000, Number(base_rate_sek))) : 360
     const sanitizedDefaultRate = default_rate_sek ? Math.max(0, Math.min(1000000, Number(default_rate_sek))) : sanitizedBaseRate
 
-    // Use service role
-    const supabaseUrl = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL
-    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
-
-    if (!supabaseUrl || !serviceKey) {
-      return NextResponse.json(
-        { error: 'Service role key not configured' },
-        { status: 500 }
-      )
-    }
-
-    const adminSupabase = createAdminClient(supabaseUrl, serviceKey)
+    // adminSupabase is already created above for admin check
+    // Reuse it here for employee creation
 
     // Build payload progressively (using sanitized values)
     const payload: any = {

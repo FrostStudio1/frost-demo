@@ -33,9 +33,36 @@ export async function sendInvoiceEmail(invoiceId: string) {
   const rot = Number(invoice.rot_amount_sek ?? 0)
   const total = Number(invoice.total_due_sek ?? 0)
 
-  // Mottagare
-  const to = invoice.customer_email || ''
-  if (!to) throw new Error('Fakturan saknar kundens e-post (customer_email)')
+  // Mottagare - hämta från client-record om client_id finns
+  let to = invoice.customer_email || ''
+  
+  // Om ingen email i faktura, försök hämta från client-record
+  if (!to && invoice.client_id) {
+    const { data: clientData } = await supabase
+      .from('clients')
+      .select('email')
+      .eq('id', invoice.client_id)
+      .maybeSingle()
+    
+    if (clientData?.email) {
+      to = clientData.email
+    }
+  }
+  
+  // Om fortfarande ingen email, försök från customer_id
+  if (!to && invoice.customer_id) {
+    const { data: clientData2 } = await supabase
+      .from('clients')
+      .select('email')
+      .eq('id', invoice.customer_id)
+      .maybeSingle()
+    
+    if (clientData2?.email) {
+      to = clientData2.email
+    }
+  }
+  
+  if (!to) throw new Error('Fakturan saknar kundens e-post. Kontrollera att kunden har en e-postadress.')
 
   // Länk till vy (kunden kan klicka)
   const origin = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'

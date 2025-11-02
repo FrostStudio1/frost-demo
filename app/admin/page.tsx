@@ -42,7 +42,11 @@ export default function AdminPage() {
       return
     }
 
+    let cancelled = false
+
     async function fetchData() {
+      if (cancelled) return
+      
       try {
         // Employees
         const { data: empData } = await supabase
@@ -50,6 +54,7 @@ export default function AdminPage() {
           .select('id, name, full_name, role, email')
           .eq('tenant_id', tenantId)
         
+        if (cancelled) return
         setEmployees((empData || []).map((e: any) => ({
           id: e.id,
           name: e.full_name || e.name || 'Okänd',
@@ -57,31 +62,95 @@ export default function AdminPage() {
           email: e.email,
         })))
 
-        // Projects
-        const { data: projData } = await supabase
-          .from('projects')
-          .select('id, name, status')
-          .eq('tenant_id', tenantId)
-        
-        setProjects(projData || [])
+        // Projects - Use API route for consistency and better error handling
+        try {
+          const projectsRes = await fetch(`/api/projects/list?tenantId=${tenantId}`, { cache: 'no-store' })
+          if (cancelled) return
+          
+          if (projectsRes.ok) {
+            const projectsData = await projectsRes.json()
+            if (cancelled) return
+            
+            if (projectsData.projects) {
+              console.log('✅ Admin: Fetched', projectsData.projects.length, 'projects')
+              setProjects(projectsData.projects)
+            } else {
+              setProjects([])
+            }
+          } else {
+            // Fallback: Direct query
+            const { data: projData } = await supabase
+              .from('projects')
+              .select('id, name, status')
+              .eq('tenant_id', tenantId)
+            
+            if (cancelled) return
+            setProjects(projData || [])
+          }
+        } catch (projErr) {
+          if (cancelled) return
+          console.error('Error fetching projects:', projErr)
+          // Fallback: Direct query
+          const { data: projData } = await supabase
+            .from('projects')
+            .select('id, name, status')
+            .eq('tenant_id', tenantId)
+          
+          if (cancelled) return
+          setProjects(projData || [])
+        }
 
-        // Invoices
-        const { data: invData } = await supabase
+        // Invoices - progressive fallback
+        let { data: invData, error: invError } = await supabase
           .from('invoices')
           .select('id, number, amount, status, customer_name')
           .eq('tenant_id', tenantId)
           .order('created_at', { ascending: false })
           .limit(10)
         
+        // Fallback if created_at doesn't exist
+        if (invError && (invError.code === '42703' || invError.message?.includes('created_at'))) {
+          const fallback = await supabase
+            .from('invoices')
+            .select('id, number, amount, status, customer_name')
+            .eq('tenant_id', tenantId)
+            .limit(10)
+          
+          if (!fallback.error) {
+            invData = fallback.data
+          }
+        }
+        
+        if (cancelled) return
         setInvoices(invData || [])
       } catch (err) {
+        if (cancelled) return
         console.error('Error fetching admin data:', err)
       } finally {
-        setLoading(false)
+        if (!cancelled) {
+          setLoading(false)
+        }
       }
     }
 
     fetchData()
+
+    // Listen for project updates
+    const handleProjectUpdate = () => {
+      console.log('🔄 Admin: Project updated, refreshing...')
+      if (!cancelled) {
+        setTimeout(() => fetchData(), 500)
+      }
+    }
+
+    window.addEventListener('projectCreated', handleProjectUpdate)
+    window.addEventListener('projectUpdated', handleProjectUpdate)
+
+    return () => {
+      cancelled = true
+      window.removeEventListener('projectCreated', handleProjectUpdate)
+      window.removeEventListener('projectUpdated', handleProjectUpdate)
+    }
   }, [tenantId])
 
   if (loading) {
@@ -95,7 +164,11 @@ export default function AdminPage() {
     )
   }
 
-  const activeProjects = projects.filter(p => p.status === 'active').length
+  // Count active projects - projects are active if they are NOT completed or archived
+  const activeProjects = projects.filter(p => {
+    const status = p.status || null
+    return status !== 'completed' && status !== 'archived'
+  }).length
   const unpaidInvoices = invoices.filter(i => i.status !== 'paid').length
   const totalRevenue = invoices.filter(i => i.status === 'paid').reduce((sum, inv) => sum + Number(inv.amount || 0), 0)
 

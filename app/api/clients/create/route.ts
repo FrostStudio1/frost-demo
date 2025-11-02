@@ -7,7 +7,7 @@ import { createClient } from '@supabase/supabase-js'
  */
 export async function POST(req: Request) {
   try {
-    const { tenantId, name, email, address, orgNumber, clientType } = await req.json()
+    const { tenantId, name, email, phone, address, orgNumber, clientType } = await req.json()
 
     if (!tenantId || !name) {
       return NextResponse.json(
@@ -48,6 +48,7 @@ export async function POST(req: Request) {
       tenant_id: tenantId,
       name,
       email: email || null,
+      phone: phone || null,
       address: address || null,
     }
 

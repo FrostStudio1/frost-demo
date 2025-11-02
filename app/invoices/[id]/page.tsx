@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useRouter, useParams, useSearchParams } from 'next/navigation'
 import supabase from '@/utils/supabase/supabaseClient'
 import { useTenant } from '@/context/TenantContext'
+import { useAdmin } from '@/hooks/useAdmin'
 import Sidebar from '@/components/Sidebar'
 import { sendInvoiceEmail } from './actions'
 import { toast } from '@/lib/toast'
@@ -36,13 +37,16 @@ export default function InvoicePage() {
   const params = useParams()
   const searchParams = useSearchParams()
   const { tenantId } = useTenant()
+  const { isAdmin, loading: adminLoading } = useAdmin()
   const invoiceId = params?.id as string
   
   const [invoice, setInvoice] = useState<Invoice | null>(null)
+  const [clientEmail, setClientEmail] = useState<string | null>(null)
   const [lines, setLines] = useState<InvoiceLine[]>([])
   const [loading, setLoading] = useState(true)
   const [sending, setSending] = useState(false)
   const [downloading, setDownloading] = useState(false)
+  const [deleting, setDeleting] = useState(false)
   const [editingLineIndex, setEditingLineIndex] = useState<number | null>(null)
   const [editingLine, setEditingLine] = useState<InvoiceLine | null>(null)
 
@@ -54,20 +58,117 @@ export default function InvoicePage() {
 
     async function fetchInvoice() {
       try {
-        const { data: invData, error: invError } = await supabase
+        // Try with specific columns first (progressive fallback - without created_at)
+        let { data: invData, error: invError } = await supabase
           .from('invoices')
-          .select('*')
+          .select('id, number, amount, customer_name, desc, description, status, issue_date, due_date, project_id, customer_id, client_id, tenant_id')
           .eq('id', invoiceId)
           .eq('tenant_id', tenantId)
           .single()
 
+        // Fallback 1: If number column doesn't exist, try without it
+        if (invError && (invError.code === '42703' || invError.message?.includes('number'))) {
+          const fallback1 = await supabase
+            .from('invoices')
+            .select('id, amount, customer_name, desc, description, status, issue_date, due_date, project_id, customer_id, client_id, tenant_id')
+            .eq('id', invoiceId)
+            .eq('tenant_id', tenantId)
+            .single()
+          
+          if (!fallback1.error && fallback1.data) {
+            invData = fallback1.data
+            invError = null
+          } else {
+            invError = fallback1.error
+          }
+        }
+
+        // Fallback 2: If desc column doesn't exist, try without it
+        if (invError && (invError.code === '42703' || invError.message?.includes('desc'))) {
+          const fallback2a = await supabase
+            .from('invoices')
+            .select('id, number, amount, customer_name, description, status, issue_date, due_date, project_id, customer_id, client_id, tenant_id')
+            .eq('id', invoiceId)
+            .eq('tenant_id', tenantId)
+            .single()
+          
+          if (!fallback2a.error && fallback2a.data) {
+            invData = { ...fallback2a.data, desc: fallback2a.data.description || null }
+            invError = null
+          } else {
+            invError = fallback2a.error
+          }
+        }
+
+        // Fallback 3: If other columns don't exist, try minimal set
+        if (invError && (invError.code === '42703' || invError.code === '400' || invError.message?.includes('does not exist'))) {
+          const fallback2 = await supabase
+            .from('invoices')
+            .select('id, amount, customer_name, customer_id, client_id, project_id, tenant_id')
+            .eq('id', invoiceId)
+            .eq('tenant_id', tenantId)
+            .single()
+          
+          if (!fallback2.error && fallback2.data) {
+            invData = fallback2.data
+            invError = null
+          } else {
+            invError = fallback2.error
+          }
+        }
+
+        // Fallback 4: Absolute minimal set
+        if (invError && (invError.code === '42703' || invError.code === '400')) {
+          const fallback3 = await supabase
+            .from('invoices')
+            .select('id, tenant_id')
+            .eq('id', invoiceId)
+            .eq('tenant_id', tenantId)
+            .single()
+          
+          if (!fallback3.error && fallback3.data) {
+            invData = fallback3.data
+            invError = null
+          } else {
+            invError = fallback3.error
+          }
+        }
+
         if (invError || !invData) {
           console.error('Error fetching invoice:', invError)
+          console.error('Error details:', {
+            code: invError?.code,
+            message: invError?.message,
+            details: invError?.details,
+            hint: invError?.hint
+          })
+          toast.error('Kunde inte hämta faktura: ' + (invError?.message || 'Okänt fel'))
           setLoading(false)
           return
         }
 
-        setInvoice(invData as Invoice)
+        // Ensure invoice has all required fields with defaults
+        const invoiceData: Invoice = {
+          ...invData,
+          number: invData.number || undefined, // Optional field
+          amount: Number(invData.amount) || 0,
+        }
+
+        setInvoice(invoiceData)
+
+        // Hämta kundens email från client-record om client_id finns
+        if (invoiceData.client_id || invoiceData.customer_id) {
+          const clientId = invoiceData.client_id || invoiceData.customer_id
+          const { data: clientData } = await supabase
+            .from('clients')
+            .select('email')
+            .eq('id', clientId)
+            .maybeSingle()
+          
+          if (clientData?.email) {
+            setClientEmail(clientData.email)
+          }
+        }
 
         // Hämta fakturarader om de finns
         const { data: linesData } = await supabase
@@ -127,17 +228,62 @@ export default function InvoicePage() {
   }
 
   async function handleSendEmail() {
-    if (!confirm('Vill du skicka fakturan via e-post?')) return
+    if (!clientEmail && !invoice?.customer_name) {
+      toast.error('Kunden saknar e-postadress. Lägg till e-post i kundinformationen först.')
+      return
+    }
+    
+    if (!confirm(`Vill du skicka fakturan via e-post till ${clientEmail || invoice?.customer_name}?`)) return
     
     setSending(true)
     try {
       await sendInvoiceEmail(invoiceId)
       toast.success('Fakturan har skickats!')
+      
+      // Dispatch invoice updated event
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('invoiceUpdated', { 
+          detail: { invoiceId, timestamp: Date.now() }
+        }))
+      }
+      
       window.location.reload()
     } catch (err: any) {
       toast.error('Fel: ' + err.message)
     } finally {
       setSending(false)
+    }
+  }
+
+  async function handleDelete() {
+    if (!confirm('Är du säker på att du vill ta bort denna faktura? Detta går inte att ångra.')) return
+    
+    setDeleting(true)
+    try {
+      const response = await fetch(`/api/invoices/${invoiceId}/delete`, {
+        method: 'DELETE',
+      })
+      
+      const result = await response.json()
+      
+      if (!response.ok) {
+        throw new Error(result.error || 'Kunde inte ta bort faktura')
+      }
+      
+      toast.success('Faktura borttagen!')
+      
+      // Dispatch invoice deleted event
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('invoiceDeleted', { 
+          detail: { invoiceId, timestamp: Date.now() }
+        }))
+      }
+      
+      router.push('/invoices')
+    } catch (err: any) {
+      toast.error('Fel: ' + (err.message || 'Okänt fel'))
+    } finally {
+      setDeleting(false)
     }
   }
 
@@ -158,7 +304,21 @@ export default function InvoicePage() {
       
       if (error) throw error
       toast.success('Fakturan markerad som betald!')
-      window.location.reload()
+      
+      // Update local state
+      setInvoice({ ...invoice!, status: 'paid' })
+      
+      // Dispatch invoice updated event
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('invoiceUpdated', { 
+          detail: { invoiceId, timestamp: Date.now() }
+        }))
+      }
+      
+      // Refresh page after a short delay to ensure sync
+      setTimeout(() => {
+        window.location.reload()
+      }, 500)
     } catch (err: any) {
       toast.error('Fel: ' + err.message)
     }
@@ -204,12 +364,23 @@ export default function InvoicePage() {
           .eq('tenant_id', tenantId) // Security: Ensure tenant match
         
         if (error) throw error
+        
+        // Dispatch invoice updated event
+        if (typeof window !== 'undefined') {
+          window.dispatchEvent(new CustomEvent('invoiceUpdated', { 
+            detail: { invoiceId, timestamp: Date.now() }
+          }))
+        }
       }
       
       // Update local state
       const updatedLines = [...lines]
       updatedLines[index] = updatedLine
       setLines(updatedLines)
+      
+      // Recalculate total
+      const newTotal = updatedLines.reduce((sum, line) => sum + Number(line.amount_sek || 0), 0)
+      setInvoice({ ...invoice!, amount: newTotal })
       
       setEditingLineIndex(null)
       setEditingLine(null)
@@ -273,7 +444,9 @@ export default function InvoicePage() {
     )
   }
 
-  const total = lines.reduce((sum, line) => sum + Number(line.amount_sek || 0), 0) || Number(invoice.amount || 0)
+  // Calculate total from lines first, fallback to invoice.amount
+  const linesTotal = lines.reduce((sum, line) => sum + Number(line.amount_sek || 0), 0)
+  const total = linesTotal > 0 ? linesTotal : Number(invoice.amount || 0)
   const rot = total * 0.3
   const toPay = total - rot
 
@@ -311,15 +484,20 @@ export default function InvoicePage() {
                     )}
                   </div>
                 </div>
-                <div>
-                  <span className={`px-4 py-2 rounded-full text-sm font-semibold ${
-                    invoice.status === 'draft' ? 'bg-yellow-100 text-yellow-800' :
-                    invoice.status === 'sent' ? 'bg-blue-100 text-blue-800' :
-                    invoice.status === 'paid' ? 'bg-green-100 text-green-800' :
-                    'bg-gray-100 text-gray-800'
-                  }`}>
-                    {invoice.status || 'draft'}
-                  </span>
+                <div className="text-right">
+                  <div className="mb-2">
+                    <span className={`px-4 py-2 rounded-full text-sm font-semibold ${
+                      invoice.status === 'draft' ? 'bg-yellow-100 text-yellow-800' :
+                      invoice.status === 'sent' ? 'bg-blue-100 text-blue-800' :
+                      invoice.status === 'paid' ? 'bg-green-100 text-green-800' :
+                      'bg-gray-100 text-gray-800'
+                    }`}>
+                      {invoice.status || 'draft'}
+                    </span>
+                  </div>
+                  <div className="text-lg font-bold text-gray-900">
+                    Totalt: {total.toLocaleString('sv-SE')} kr
+                  </div>
                 </div>
               </div>
             </div>
@@ -343,7 +521,17 @@ export default function InvoicePage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {lines.length > 0 ? (
+                  {lines.length === 0 ? (
+                    <tr>
+                      <td colSpan={5} className="py-8 text-center text-gray-500">
+                        <div className="mb-2">Inga fakturarader ännu</div>
+                        <div className="text-sm">Totalt belopp: <span className="font-semibold">{total.toLocaleString('sv-SE')} kr</span></div>
+                        {invoice.desc || invoice.description ? (
+                          <div className="text-sm mt-2 text-gray-600">{invoice.desc || invoice.description}</div>
+                        ) : null}
+                      </td>
+                    </tr>
+                  ) : (
                     lines.map((line, i) => (
                       <tr key={i} className="border-b border-gray-100">
                         {editingLineIndex === i ? (
@@ -435,33 +623,33 @@ export default function InvoicePage() {
                         )}
                       </tr>
                     ))
-                  ) : (
-                    <tr>
-                      <td colSpan={5} className="py-4 text-center text-gray-500 italic">
-                        {invoice.desc || 'Inga rader'}
-                      </td>
-                    </tr>
                   )}
                 </tbody>
               </table>
 
               {/* Totals */}
-              <div className="mt-8 flex justify-end">
-                <div className="w-full max-w-md space-y-2">
-                  <div className="flex justify-between text-gray-700">
-                    <span>Summa</span>
-                    <span className="font-semibold">{total.toLocaleString('sv-SE')} kr</span>
-                  </div>
-                  <div className="flex justify-between text-green-700">
-                    <span>Preliminärt ROT-avdrag (30%)</span>
-                    <span className="font-semibold">−{rot.toLocaleString('sv-SE')} kr</span>
-                  </div>
-                  <div className="pt-4 border-t-2 border-gray-300 flex justify-between text-xl font-black text-gray-900">
-                    <span>ATT BETALA</span>
-                    <span>{toPay.toLocaleString('sv-SE')} kr</span>
+              {(total > 0 || lines.length === 0) && (
+                <div className="mt-8 flex justify-end">
+                  <div className="w-full max-w-md space-y-2">
+                    <div className="flex justify-between text-gray-700">
+                      <span>Summa</span>
+                      <span className="font-semibold">{total.toLocaleString('sv-SE')} kr</span>
+                    </div>
+                    {total > 0 && (
+                      <>
+                        <div className="flex justify-between text-green-700">
+                          <span>Preliminärt ROT-avdrag (30%)</span>
+                          <span className="font-semibold">−{rot.toLocaleString('sv-SE')} kr</span>
+                        </div>
+                        <div className="pt-4 border-t-2 border-gray-300 flex justify-between text-xl font-black text-gray-900">
+                          <span>ATT BETALA</span>
+                          <span>{toPay.toLocaleString('sv-SE')} kr</span>
+                        </div>
+                      </>
+                    )}
                   </div>
                 </div>
-              </div>
+              )}
             </div>
 
             {/* Actions */}
@@ -475,10 +663,11 @@ export default function InvoicePage() {
               </button>
               <button
                 onClick={handleSendEmail}
-                disabled={sending || invoice.status === 'paid'}
+                disabled={sending || invoice.status === 'paid' || !clientEmail}
                 className="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all disabled:opacity-50"
+                title={!clientEmail ? 'Kunden saknar e-postadress' : ''}
               >
-                {sending ? 'Skickar...' : '✉️ Skicka via e-post'}
+                {sending ? 'Skickar...' : clientEmail ? '✉️ Skicka till kund' : '✉️ Skicka faktura (saknar email)'}
               </button>
               {invoice.status !== 'paid' && (
                 <button
@@ -487,6 +676,44 @@ export default function InvoicePage() {
                 >
                   ✓ Markera som betald
                 </button>
+              )}
+              {!adminLoading && (
+                <>
+                  <button
+                    onClick={async () => {
+                      // Double-check admin status before navigating
+                      try {
+                        const adminCheck = await fetch('/api/admin/check')
+                        const adminData = await adminCheck.json()
+                        
+                        if (adminData.isAdmin) {
+                          router.push(`/invoices/${invoiceId}/edit`)
+                        } else {
+                          toast.error('Endast admin kan redigera fakturor')
+                        }
+                      } catch (err) {
+                        console.error('Error checking admin:', err)
+                        // Try to navigate anyway - edit page will check again
+                        router.push(`/invoices/${invoiceId}/edit`)
+                      }
+                    }}
+                    className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all"
+                  >
+                    ✏️ Redigera
+                  </button>
+                  {isAdmin && invoice.status !== 'archived' && (
+                    <button
+                      onClick={handleDelete}
+                      disabled={deleting}
+                      className="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all disabled:opacity-50"
+                    >
+                      {deleting ? 'Tar bort...' : '🗑️ Ta bort'}
+                    </button>
+                  )}
+                </>
+              )}
+              {adminLoading && (
+                <div className="text-sm text-gray-500">Kontrollerar behörighet...</div>
               )}
               <button
                 onClick={() => router.back()}

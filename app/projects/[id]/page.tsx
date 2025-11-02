@@ -9,6 +9,7 @@ import { toast } from '@/lib/toast'
 import AISummary from '@/components/AISummary'
 import FileUpload from '@/components/FileUpload'
 import FileList from '@/components/FileList'
+import DidYouKnow from '@/components/DidYouKnow'
 
 type ProjectRecord = {
   id: string
@@ -31,6 +32,9 @@ export default function ProjectDetailPage() {
   const [error, setError] = useState<string | null>(null)
   const [timeEntries, setTimeEntries] = useState<any[]>([])
   const [refreshTrigger, setRefreshTrigger] = useState(0)
+  const [employeeHours, setEmployeeHours] = useState<any[]>([])
+  const [showEmployeeHours, setShowEmployeeHours] = useState(false)
+  const [loadingEmployeeHours, setLoadingEmployeeHours] = useState(false)
 
   const projectId = params?.id as string | undefined
 
@@ -300,37 +304,50 @@ export default function ProjectDetailPage() {
       const clientId = projectData?.client_id || projectData?.clients?.id || null
       const clientName = projectData?.clients?.name || project?.customer_name || 'Okänd kund'
       
-      const invoicePayload: any = {
-        tenant_id: tenantId,
-        project_id: projectId,
-        customer_name: clientName,
-        amount,
-        desc: `${totalHours.toFixed(1)} timmar @ ${rate} kr/tim`,
-        status: 'sent',
-      }
-      
-      if (clientId) {
-        invoicePayload.client_id = clientId
-      }
+      // Create invoice via API route (invoice lines will be created automatically from time entries)
+      const response = await fetch('/api/invoices/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          tenant_id: tenantId,
+          project_id: projectId, // This triggers automatic invoice line creation
+          client_id: clientId,
+          customer_name: clientName,
+          amount, // Initial amount, will be recalculated from invoice lines
+          desc: `${totalHours.toFixed(1)} timmar @ ${rate} kr/tim`,
+          description: `${totalHours.toFixed(1)} timmar @ ${rate} kr/tim`,
+          status: 'sent',
+          issue_date: new Date().toISOString().split('T')[0],
+        }),
+      })
 
-      // Also try to add issue_date if it exists in schema
-      try {
-        invoicePayload.issue_date = new Date().toISOString().split('T')[0]
-      } catch {
-        // Ignore if date fails
-      }
-      
-      // Skapa faktura
-      const { data: invoice, error: invError } = await supabase
-        .from('invoices')
-        .insert(invoicePayload)
-        .select()
-        .single()
+      const result = await response.json()
 
-      if (invError) {
-        toast.error('Kunde inte skapa faktura: ' + invError.message)
+      if (!response.ok || result.error) {
+        console.error('Error creating invoice:', result)
+        
+        // Show detailed error message
+        let errorMessage = result.error || result.details || 'Okänt fel'
+        
+        if (result.availableTenants && result.availableTenants.length > 0) {
+          errorMessage += `\n\nTillgängliga tenants: ${result.availableTenants.map((t: any) => `${t.name} (${t.id})`).join(', ')}`
+        }
+        
+        if (result.suggestion) {
+          errorMessage += `\n\n${result.suggestion}`
+        }
+        
+        if (result.diagnostics) {
+          errorMessage += `\n\nDiagnostik: Tenant finns: ${result.diagnostics.tenantExists}, Projekt finns: ${result.diagnostics.projectExists}, Kund finns: ${result.diagnostics.clientExists}`
+        }
+        
+        toast.error('Kunde inte skapa faktura: ' + errorMessage)
         return
       }
+
+      const invoice = result.data
 
       // Markera timmar som fakturerade
       await supabase
@@ -379,39 +396,51 @@ export default function ProjectDetailPage() {
       const clientId = projectData?.client_id || projectData?.clients?.id || null
       const clientName = projectData?.clients?.name || project?.customer_name || 'Okänd kund'
       
-      const invoicePayload: any = {
-        tenant_id: tenantId,
-        project_id: projectId,
-        customer_name: clientName,
-        amount,
-        desc: `${totalHours.toFixed(1)} timmar @ ${rate} kr/tim`,
-        status: 'draft',
-      }
-      
-      if (clientId) {
-        invoicePayload.client_id = clientId
-      }
+      // Create invoice via API route (invoice lines will be created automatically from time entries)
+      const response = await fetch('/api/invoices/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          tenant_id: tenantId,
+          project_id: projectId, // This triggers automatic invoice line creation
+          client_id: clientId,
+          customer_name: clientName,
+          amount, // Initial amount, will be recalculated from invoice lines
+          desc: `${totalHours.toFixed(1)} timmar @ ${rate} kr/tim`,
+          description: `${totalHours.toFixed(1)} timmar @ ${rate} kr/tim`,
+          status: 'draft',
+          issue_date: new Date().toISOString().split('T')[0],
+        }),
+      })
 
-      // Also try to add issue_date if it exists in schema
-      try {
-        invoicePayload.issue_date = new Date().toISOString().split('T')[0]
-      } catch {
-        // Ignore if date fails
-      }
-      
-      const { data: invoice, error: invError } = await supabase
-        .from('invoices')
-        .insert(invoicePayload)
-        .select()
-        .single()
+      const result = await response.json()
 
-      if (invError) {
-        toast.error('Kunde inte skapa faktura: ' + invError.message)
+      if (!response.ok || result.error) {
+        console.error('Error creating invoice:', result)
+        
+        // Show detailed error message
+        let errorMessage = result.error || result.details || 'Okänt fel'
+        
+        if (result.availableTenants && result.availableTenants.length > 0) {
+          errorMessage += `\n\nTillgängliga tenants: ${result.availableTenants.map((t: any) => `${t.name} (${t.id})`).join(', ')}`
+        }
+        
+        if (result.suggestion) {
+          errorMessage += `\n\n${result.suggestion}`
+        }
+        
+        if (result.diagnostics) {
+          errorMessage += `\n\nDiagnostik: Tenant finns: ${result.diagnostics.tenantExists}, Projekt finns: ${result.diagnostics.projectExists}, Kund finns: ${result.diagnostics.clientExists}`
+        }
+        
+        toast.error('Kunde inte skapa faktura: ' + errorMessage)
         return
       }
 
       // Ladda ner PDF
-      window.open(`/api/invoices/${invoice.id}?download=true`, '_blank')
+      window.open(`/api/invoices/${result.data.id}?download=true`, '_blank')
       toast.success('PDF laddas ner...')
     } catch (err: any) {
       toast.error('Fel: ' + err.message)
@@ -519,6 +548,84 @@ export default function ProjectDetailPage() {
               </div>
             </div>
           )}
+
+          {/* Did You Know */}
+          <DidYouKnow />
+
+          {/* Employee Hours Section */}
+          <div className="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 lg:p-8 border border-gray-100 dark:border-gray-700 mb-6 sm:mb-8">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
+                Anställdas timmar
+              </h2>
+              <button
+                onClick={async () => {
+                  if (!showEmployeeHours && employeeHours.length === 0) {
+                    setLoadingEmployeeHours(true)
+                    try {
+                      const response = await fetch(`/api/projects/${projectId}/employee-hours?projectId=${projectId}`)
+                      if (response.ok) {
+                        const data = await response.json()
+                        setEmployeeHours(data.employees || [])
+                      }
+                    } catch (err) {
+                      console.error('Error fetching employee hours:', err)
+                    } finally {
+                      setLoadingEmployeeHours(false)
+                    }
+                  }
+                  setShowEmployeeHours(!showEmployeeHours)
+                }}
+                className="text-sm bg-gradient-to-r from-blue-500 to-purple-500 text-white px-4 py-2 rounded-lg font-semibold hover:shadow-lg transition-all"
+              >
+                {loadingEmployeeHours ? 'Laddar...' : showEmployeeHours ? 'Dölj' : 'Visa'}
+              </button>
+            </div>
+            
+            {showEmployeeHours && (
+              <div className="space-y-3">
+                {employeeHours.length === 0 ? (
+                  <p className="text-gray-500 dark:text-gray-400 text-center py-4">
+                    Inga tidsrapporter registrerade ännu.
+                  </p>
+                ) : (
+                  employeeHours.map((emp: any, idx: number) => (
+                    <div
+                      key={idx}
+                      className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4 border border-gray-200 dark:border-gray-600"
+                    >
+                      <div className="flex justify-between items-start mb-2">
+                        <div>
+                          <div className="font-semibold text-gray-900 dark:text-white">
+                            {emp.name}
+                          </div>
+                          {emp.email && (
+                            <div className="text-xs text-gray-500 dark:text-gray-400">
+                              {emp.email}
+                            </div>
+                          )}
+                        </div>
+                        <div className="text-right">
+                          <div className="text-lg font-bold text-blue-600 dark:text-blue-400">
+                            {emp.hours.toFixed(1)}h
+                          </div>
+                          <div className="text-xs text-gray-500 dark:text-gray-400">
+                            {emp.entries.length} rapporter
+                          </div>
+                        </div>
+                      </div>
+                      <div className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2 mt-2">
+                        <div
+                          className="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full transition-all"
+                          style={{ width: `${effectiveHours > 0 ? (emp.hours / effectiveHours) * 100 : 0}%` }}
+                        />
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            )}
+          </div>
 
           {/* AI Summary */}
           <AISummary

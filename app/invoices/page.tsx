@@ -1,11 +1,12 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo, useCallback } from 'react'
 import supabase from '@/utils/supabase/supabaseClient'
 import { useRouter } from 'next/navigation'
 import { useTenant } from '@/context/TenantContext'
 import Sidebar from '@/components/Sidebar'
 import SearchBar from '@/components/SearchBar'
 import FilterSortBar from '@/components/FilterSortBar'
+import { toast } from '@/lib/toast'
 
 type Invoice = {
   id: string,
@@ -19,11 +20,15 @@ type Invoice = {
 
 export default function InvoicesPage() {
   const [invoices, setInvoices] = useState<Invoice[]>([])
-  const [filteredInvoices, setFilteredInvoices] = useState<Invoice[]>([])
   const [loading, setLoading] = useState(true)
   const [searchQuery, setSearchQuery] = useState('')
   const [statusFilter, setStatusFilter] = useState<string>('')
-  const [sortBy, setSortBy] = useState<'number' | 'created_at' | 'amount' | 'status'>('created_at')
+  const [sortBy, setSortBy] = useState<'created_at' | 'amount' | 'status'>('created_at')
+  
+  // Helper to get date for sorting
+  const getInvoiceDate = (inv: Invoice & { created_at?: string; issue_date?: string }) => {
+    return inv.created_at || (inv as any).issue_date || null
+  }
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc')
   const router = useRouter()
   const { tenantId } = useTenant()
@@ -36,29 +41,29 @@ export default function InvoicesPage() {
 
     async function fetchInvoices() {
       try {
-        // Try with all columns first
+        // Try with all columns first - but catch 400 errors (without created_at)
         let { data, error } = await supabase
           .from('invoices')
-          .select('id, amount, customer_name, customer_id, project_id, number, status, created_at')
+          .select('id, amount, customer_name, customer_id, project_id, number, status, issue_date')
           .eq('tenant_id', tenantId)
-          .order('created_at', { ascending: false })
+          .order('issue_date', { ascending: false })
 
-        // If amount or other columns don't exist, retry progressively
-        if (error && (error.code === '42703' || error.message?.includes('does not exist'))) {
+        // Handle 400 errors (bad request - usually column doesn't exist)
+        if (error && (error.code === '42703' || error.code === '400' || error.message?.includes('does not exist'))) {
           // First retry: without amount and status
           let fallback1 = await supabase
             .from('invoices')
-            .select('id, customer_name, customer_id, project_id, number')
+            .select('id, customer_name, customer_id, project_id, number, issue_date')
             .eq('tenant_id', tenantId)
           
-          // Try with created_at for ordering, if that fails, order by id
+          // Try with issue_date for ordering, if that fails, order by id
           if (!fallback1.error) {
             // Try to add ordering
             const withOrder = await supabase
               .from('invoices')
-              .select('id, customer_name, customer_id, project_id, number')
+              .select('id, customer_name, customer_id, project_id, number, issue_date')
               .eq('tenant_id', tenantId)
-              .order('created_at', { ascending: false })
+              .order('issue_date', { ascending: false })
             
             if (!withOrder.error) {
               fallback1 = withOrder
@@ -66,7 +71,7 @@ export default function InvoicesPage() {
               // Fallback: order by id
               fallback1 = await supabase
                 .from('invoices')
-                .select('id, customer_name, customer_id, project_id, number')
+                .select('id, customer_name, customer_id, project_id, number, issue_date')
                 .eq('tenant_id', tenantId)
                 .order('id', { ascending: false })
             }
@@ -82,16 +87,16 @@ export default function InvoicesPage() {
             // Try ordering, if that fails, order by id
             const withOrder2 = await supabase
               .from('invoices')
-              .select('id, customer_name')
+              .select('id, customer_name, issue_date')
               .eq('tenant_id', tenantId)
-              .order('created_at', { ascending: false })
+              .order('issue_date', { ascending: false })
             
             if (!withOrder2.error) {
               fallback2 = withOrder2
             } else {
               fallback2 = await supabase
                 .from('invoices')
-                .select('id, customer_name')
+                .select('id, customer_name, issue_date')
                 .eq('tenant_id', tenantId)
                 .order('id', { ascending: false })
             }
@@ -102,16 +107,7 @@ export default function InvoicesPage() {
                 .from('invoices')
                 .select('id')
                 .eq('tenant_id', tenantId)
-                .order('created_at', { ascending: false })
-              
-              // If created_at doesn't exist, order by id
-              if (minimalOnly.error && minimalOnly.error.message?.includes('created_at')) {
-                minimalOnly = await supabase
-                  .from('invoices')
-                  .select('id')
-                  .eq('tenant_id', tenantId)
-                  .order('id', { ascending: false })
-              }
+                .order('id', { ascending: false })
               
               if (!minimalOnly.error && minimalOnly.data) {
                 fallback2 = { data: minimalOnly.data, error: null }
@@ -133,9 +129,9 @@ export default function InvoicesPage() {
                 amount: 0,
                 number: inv.number || inv.id?.slice(0, 8) || 'N/A',
                 status: 'draft',
+                created_at: inv.issue_date || null,
               }))
               setInvoices(invoicesData2)
-              setFilteredInvoices(invoicesData2)
             }
           } else if (fallback1.error) {
             console.error('Error fetching invoices (fallback 1):', fallback1.error)
@@ -145,9 +141,9 @@ export default function InvoicesPage() {
               ...inv,
               amount: inv.amount || 0,
               status: inv.status || 'draft',
+              created_at: inv.issue_date || null,
             }))
             setInvoices(invoicesData1)
-            setFilteredInvoices(invoicesData1)
           }
         } else if (error) {
           console.error('Error fetching invoices:', error)
@@ -158,50 +154,68 @@ export default function InvoicesPage() {
             amount: inv.amount || 0,
             status: inv.status || 'draft',
             number: inv.number || inv.id?.slice(0, 8) || 'N/A',
+            created_at: inv.issue_date || inv.created_at || null,
           }))
           setInvoices(invoicesData)
-          setFilteredInvoices(invoicesData)
         }
       } catch (err: any) {
         console.error('Unexpected error fetching invoices:', err)
         setInvoices([])
-        setFilteredInvoices([])
       } finally {
         setLoading(false)
       }
     }
     fetchInvoices()
+
+    // Listen for invoice creation/update events
+    const handleInvoiceCreated = () => {
+      setTimeout(() => fetchInvoices(), 500)
+    }
+    
+    const handleInvoiceUpdated = () => {
+      setTimeout(() => fetchInvoices(), 500)
+    }
+
+    window.addEventListener('invoiceCreated', handleInvoiceCreated)
+    window.addEventListener('invoiceUpdated', handleInvoiceUpdated)
+    window.addEventListener('invoiceDeleted', handleInvoiceCreated) // Refresh on delete too
+
+    return () => {
+      window.removeEventListener('invoiceCreated', handleInvoiceCreated)
+      window.removeEventListener('invoiceUpdated', handleInvoiceUpdated)
+      window.removeEventListener('invoiceDeleted', handleInvoiceCreated)
+    }
   }, [tenantId])
 
-  // Filter and sort invoices
-  useEffect(() => {
+  // Memoize filtered and sorted invoices for performance
+  const filteredInvoices = useMemo(() => {
     let filtered = [...invoices]
 
     // Search filter
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase()
       filtered = filtered.filter(inv => 
-        inv.number?.toLowerCase().includes(query) ||
         inv.customer_name?.toLowerCase().includes(query) ||
-        inv.id?.toLowerCase().includes(query)
+        inv.id?.toLowerCase().includes(query) ||
+        getInvoiceDate(inv)?.toLowerCase().includes(query)
       )
     }
 
-    // Status filter
+    // Status filter - exclude archived by default unless explicitly filtered
     if (statusFilter) {
       filtered = filtered.filter(inv => inv.status === statusFilter)
+    } else {
+      // By default, exclude archived invoices
+      filtered = filtered.filter(inv => inv.status !== 'archived')
     }
 
     // Sort
     filtered.sort((a, b) => {
       let aVal: any, bVal: any
       
-      if (sortBy === 'number') {
-        aVal = a.number || ''
-        bVal = b.number || ''
-      } else if (sortBy === 'created_at') {
-        aVal = new Date((a as any).created_at || 0).getTime()
-        bVal = new Date((b as any).created_at || 0).getTime()
+      if (sortBy === 'created_at') {
+        aVal = new Date(getInvoiceDate(a) || 0).getTime()
+        bVal = new Date(getInvoiceDate(b) || 0).getTime()
       } else if (sortBy === 'amount') {
         aVal = Number(a.amount || 0)
         bVal = Number(b.amount || 0)
@@ -215,7 +229,7 @@ export default function InvoicesPage() {
       return 0
     })
 
-    setFilteredInvoices(filtered)
+    return filtered
   }, [invoices, searchQuery, statusFilter, sortBy, sortDirection])
 
   if (loading) {
@@ -273,7 +287,6 @@ export default function InvoicesPage() {
                 <FilterSortBar
                   sortOptions={[
                     { value: 'created_at', label: 'Datum' },
-                    { value: 'number', label: 'Nummer' },
                     { value: 'amount', label: 'Belopp' },
                     { value: 'status', label: 'Status' },
                   ]}
@@ -285,12 +298,13 @@ export default function InvoicesPage() {
                         { value: 'draft', label: 'Utkast' },
                         { value: 'sent', label: 'Skickad' },
                         { value: 'paid', label: 'Betalad' },
+                        { value: 'archived', label: 'Arkiverad' },
                         { value: 'cancelled', label: 'Avbruten' },
                       ],
                     },
                   ]}
                   onSort={(value, direction) => {
-                    setSortBy(value as 'number' | 'created_at' | 'amount' | 'status')
+                    setSortBy(value as 'created_at' | 'amount' | 'status')
                     setSortDirection(direction)
                   }}
                   onFilter={(key, value) => {
@@ -318,40 +332,83 @@ export default function InvoicesPage() {
             <div className="bg-white dark:bg-gray-900 rounded-xl sm:rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 overflow-hidden">
               <div className="overflow-x-auto -mx-4 sm:mx-0">
                 <table className="w-full text-xs sm:text-sm min-w-[640px]">
-                  <thead className="bg-gray-50">
+                  <thead className="bg-gray-50 dark:bg-gray-800">
                     <tr>
-                      <th className="p-3 sm:p-4 text-left font-semibold text-gray-700 dark:text-gray-300">Nummer</th>
+                      <th className="p-3 sm:p-4 text-left font-semibold text-gray-700 dark:text-gray-300">Datum</th>
                       <th className="p-3 sm:p-4 text-left font-semibold text-gray-700 dark:text-gray-300">Kund</th>
                       <th className="p-3 sm:p-4 text-right font-semibold text-gray-700 dark:text-gray-300">Belopp</th>
                       <th className="p-3 sm:p-4 text-left font-semibold text-gray-700 dark:text-gray-300">Status</th>
                       <th className="p-3 sm:p-4 text-right font-semibold text-gray-700 dark:text-gray-300">Åtgärder</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-gray-100">
+                  <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
                     {filteredInvoices.map(inv => (
                       <tr key={inv.id} className="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
-                        <td className="p-3 sm:p-4 font-medium text-gray-900 dark:text-white">{inv.number || inv.id.slice(0, 8)}</td>
+                        <td className="p-3 sm:p-4 text-gray-600 dark:text-gray-400 text-sm">
+                          {getInvoiceDate(inv) 
+                            ? new Date(getInvoiceDate(inv)!).toLocaleDateString('sv-SE')
+                            : '–'
+                          }
+                        </td>
                         <td className="p-3 sm:p-4 text-gray-600 dark:text-gray-400 truncate max-w-[120px] sm:max-w-none">{inv.customer_name || inv.customer_id || '–'}</td>
                         <td className="p-3 sm:p-4 text-right font-semibold text-gray-900 dark:text-white">
                           {Number(inv.amount || 0).toLocaleString('sv-SE')} kr
                         </td>
                         <td className="p-3 sm:p-4">
                           <span className={`px-2 sm:px-3 py-1 rounded-full text-xs font-semibold ${
-                            inv.status === 'draft' ? 'bg-yellow-100 text-yellow-800' :
-                            inv.status === 'sent' ? 'bg-blue-100 text-blue-800' :
-                            inv.status === 'paid' ? 'bg-green-100 text-green-800' :
-                            'bg-gray-100 text-gray-800'
+                            inv.status === 'draft' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200' :
+                            inv.status === 'sent' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200' :
+                            inv.status === 'paid' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' :
+                            inv.status === 'archived' ? 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200' :
+                            'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200'
                           }`}>
-                            {inv.status || 'draft'}
+                            {inv.status === 'draft' ? 'Utkast' :
+                             inv.status === 'sent' ? 'Skickad' :
+                             inv.status === 'paid' ? 'Betalad' :
+                             inv.status === 'archived' ? 'Arkiverad' :
+                             'Utkast'}
                           </span>
                         </td>
                         <td className="p-3 sm:p-4 text-right">
-                          <button
-                            className="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold hover:shadow-lg transition-all"
-                            onClick={() => router.push(`/invoices/${inv.id}`)}
-                          >
-                            Visa
-                          </button>
+                          <div className="flex items-center justify-end gap-2">
+                            <button
+                              className="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold hover:shadow-lg transition-all"
+                              onClick={() => router.push(`/invoices/${inv.id}`)}
+                            >
+                              Visa
+                            </button>
+                            {inv.status !== 'archived' && (
+                              <button
+                                className="bg-gray-500 hover:bg-gray-600 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold hover:shadow-lg transition-all"
+                                onClick={async () => {
+                                  if (!confirm('Vill du arkivera denna faktura?')) return
+                                  
+                                  try {
+                                    const response = await fetch(`/api/invoices/${inv.id}/archive`, {
+                                      method: 'PATCH',
+                                      headers: { 'Content-Type': 'application/json' },
+                                      body: JSON.stringify({ action: 'archive' }),
+                                    })
+                                    
+                                    const result = await response.json()
+                                    
+                                    if (!response.ok) {
+                                      throw new Error(result.error || 'Kunde inte arkivera faktura')
+                                    }
+                                    
+                                    toast.success('Faktura arkiverad!')
+                                    
+                                    // Refresh invoices list
+                                    window.location.reload()
+                                  } catch (err: any) {
+                                    toast.error('Fel: ' + (err.message || 'Okänt fel'))
+                                  }
+                                }}
+                              >
+                                Arkivera
+                              </button>
+                            )}
+                          </div>
                         </td>
                       </tr>
                     ))}
