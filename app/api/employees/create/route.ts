@@ -119,11 +119,18 @@ export async function POST(req: Request) {
       )
     }
 
-    // Validate role - ensure lowercase to match database constraint
-    const validRoles = ['admin', 'employee']
-    const sanitizedRole = role && typeof role === 'string' 
-      ? (validRoles.includes(role.toLowerCase()) ? role.toLowerCase() : 'employee')
-      : 'employee'
+    // Validate role - ensure it matches database constraint exactly
+    // Constraint accepts: 'employee', 'admin', 'Employee', 'Admin'
+    // We'll use lowercase to be consistent
+    const validRoles = ['employee', 'admin']
+    let sanitizedRole = 'employee' // Default
+    
+    if (role && typeof role === 'string') {
+      const roleLower = role.toLowerCase()
+      if (validRoles.includes(roleLower)) {
+        sanitizedRole = roleLower
+      }
+    }
 
     // Validate rates
     const sanitizedBaseRate = base_rate_sek ? Math.max(0, Math.min(1000000, Number(base_rate_sek))) : 360
@@ -135,9 +142,12 @@ export async function POST(req: Request) {
     // Build payload progressively (using sanitized values)
     const payload: any = {
       tenant_id,
-      role: sanitizedRole,
+      role: sanitizedRole, // Explicitly set to lowercase
       name: sanitizedName,
     }
+    
+    // Debug logging
+    console.log('[Employee Create] Payload role:', sanitizedRole, 'Original role:', role)
 
     // Add name or full_name (try both)
     if (sanitizedFullName) {
@@ -202,8 +212,17 @@ export async function POST(req: Request) {
 
     if (insertResult.error) {
       console.error('Error creating employee (all fallbacks failed):', insertResult.error)
+      console.error('Payload that failed:', JSON.stringify(payload, null, 2))
+      console.error('Role value:', sanitizedRole, 'Type:', typeof sanitizedRole)
+      
+      // Provide more helpful error message
+      let errorMessage = insertResult.error.message || 'Failed to create employee'
+      if (insertResult.error.message?.includes('employees_role_check')) {
+        errorMessage = `Ogiltig roll-värde: "${sanitizedRole}". Tillåtna värden: 'employee', 'admin', 'Employee', 'Admin'`
+      }
+      
       return NextResponse.json(
-        { error: insertResult.error.message || 'Failed to create employee' },
+        { error: errorMessage },
         { status: 500 }
       )
     }
