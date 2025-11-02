@@ -143,9 +143,31 @@ function CallbackContent() {
 
         console.log('User found:', user.id);
 
-        // Step 6: Try to get tenant
+        // Step 6: Link employee record to auth_user_id if needed (based on email)
+        // This handles the case where employee was created before user logged in
         try {
-          const tenantResponse = await fetch('/api/get-tenant', {
+          const linkResponse = await fetch('/api/auth/link-employee', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify({
+              userId: user.id,
+              email: user.email,
+            }),
+          });
+          
+          if (linkResponse.ok) {
+            const linkData = await linkResponse.json();
+            console.log('Employee linking result:', linkData);
+          }
+        } catch (linkErr) {
+          console.warn('Failed to link employee:', linkErr);
+          // Continue anyway
+        }
+
+        // Step 7: Try to get tenant
+        try {
+          const tenantResponse = await fetch('/api/tenant/get-current', {
             credentials: 'include',
             cache: 'no-store',
           });
@@ -153,6 +175,7 @@ function CallbackContent() {
           if (tenantResponse.ok) {
             const tenantData = await tenantResponse.json();
             if (tenantData?.tenantId) {
+              console.log('Found tenant:', tenantData.tenantId);
               // Set tenant in metadata
               await fetch('/api/auth/set-tenant', {
                 method: 'POST',
@@ -163,19 +186,35 @@ function CallbackContent() {
                   userId: user.id,
                 }),
               });
+              
+              // Update redirect to dashboard if tenant found
+              if (!redirectTo || redirectTo === '/onboarding') {
+                redirectTo = '/dashboard';
+              }
+            } else {
+              console.log('No tenant found for user');
+              // If no tenant, redirect to onboarding
+              if (mounted) {
+                window.location.href = '/onboarding';
+                return;
+              }
             }
           }
         } catch (tenantErr) {
           console.warn('Failed to get/set tenant:', tenantErr);
-          // Continue anyway - user might not have tenant yet
+          // If error getting tenant, redirect to onboarding
+          if (mounted) {
+            window.location.href = '/onboarding';
+            return;
+          }
         }
 
-        // Step 7: Clear hash from URL before redirect
+        // Step 8: Clear hash from URL before redirect
         if (hash && mounted) {
           window.history.replaceState(null, '', window.location.pathname + window.location.search);
         }
 
-        // Step 8: Final redirect
+        // Step 9: Final redirect
         if (mounted) {
           // Wait one final moment to ensure everything is synced
           await new Promise(resolve => setTimeout(resolve, 300));

@@ -49,7 +49,30 @@ export default async function DashboardPage() {
   }
   
   // Get tenant from JWT claim, cookie, or employees table
-  const tenantId = await getTenantId()
+  let tenantId = await getTenantId()
+  
+  // If no tenant found, try to link employee by email and retry
+  if (!tenantId && finalUser.email) {
+    try {
+      const linkResponse = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/auth/link-employee`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId: finalUser.id,
+          email: finalUser.email,
+        }),
+      })
+      
+      if (linkResponse.ok) {
+        const linkData = await linkResponse.json()
+        if (linkData.tenantId) {
+          tenantId = linkData.tenantId
+        }
+      }
+    } catch (err) {
+      // Silent fail - continue to onboarding check
+    }
+  }
   
   if (!tenantId) {
     // If no tenant, redirect to onboarding so user can create one
