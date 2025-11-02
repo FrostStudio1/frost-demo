@@ -1680,3 +1680,909 @@ Import traces:
     ./frost-demo/app/invoices/page.tsx [Server Component]
 
 https://nextjs.org/docs/messages/module-not-found
+[00:24:50.816] Browser ERROR   ./frost-demo/app/hooks/useInvoices.ts:6:1
+Module not found: Can't resolve '@/lib/errorUtils'
+  4 | import { useTenant } from '@/context/TenantContext'
+  5 | import supabase from '@/utils/supabase/supabaseClient'
+> 6 | import { extractErrorMessage } from '@/lib/errorUtils'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import type { Invoice } from '@/types/supabase'
+  8 |
+  9 | /**
+
+Import map: aliased to relative './app/lib/errorUtils' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:24:50.924] Browser ERROR   ./frost-demo/app/hooks/useInvoices.ts:6:1
+Module not found: Can't resolve '@/lib/errorUtils'
+  4 | import { useTenant } from '@/context/TenantContext'
+  5 | import supabase from '@/utils/supabase/supabaseClient'
+> 6 | import { extractErrorMessage } from '@/lib/errorUtils'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import type { Invoice } from '@/types/supabase'
+  8 |
+  9 | /**
+
+Import map: aliased to relative './app/lib/errorUtils' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:24:52.070] Browser ERROR   ./frost-demo/app/hooks/useInvoices.ts:6:1
+Module not found: Can't resolve '@/lib/errorUtils'
+  4 | import { useTenant } from '@/context/TenantContext'
+  5 | import supabase from '@/utils/supabase/supabaseClient'
+> 6 | import { extractErrorMessage } from '@/lib/errorUtils'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import type { Invoice } from '@/types/supabase'
+  8 |
+  9 | /**
+
+Import map: aliased to relative './app/lib/errorUtils' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:26:43.866] Browser ERROR   ./frost-demo/app/hooks/useInvoices.ts:6:1
+Module not found: Can't resolve '@/lib/errorUtils'
+  4 | import { useTenant } from '@/context/TenantContext'
+  5 | import supabase from '@/utils/supabase/supabaseClient'
+> 6 | import { extractErrorMessage } from '@/lib/errorUtils'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import type { Invoice } from '@/types/supabase'
+  8 |
+  9 | /**
+
+Import map: aliased to relative './app/lib/errorUtils' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:26:44.286] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:26:44.391] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[00:26:59.856] Browser ERROR   ./frost-demo/app/hooks/useInvoices.ts:6:1
+Module not found: Can't resolve '@/lib/errorUtils'
+  4 | import { useTenant } from '@/context/TenantContext'
+  5 | import supabase from '@/utils/supabase/supabaseClient'
+> 6 | import { extractErrorMessage } from '@/lib/errorUtils'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import type { Invoice } from '@/types/supabase'
+  8 |
+  9 | /**
+
+Import map: aliased to relative './app/lib/errorUtils' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:27:07.664] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:27:07.914] Browser ERROR   ./frost-demo/app/hooks/useInvoices.ts:6:1
+Module not found: Can't resolve '@/lib/errorUtils'
+  4 | import { useTenant } from '@/context/TenantContext'
+  5 | import supabase from '@/utils/supabase/supabaseClient'
+> 6 | import { extractErrorMessage } from '@/lib/errorUtils'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import type { Invoice } from '@/types/supabase'
+  8 |
+  9 | /**
+
+Import map: aliased to relative './app/lib/errorUtils' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:27:07.914] Browser LOG     ✅ Projects list: Event listeners registered for timeEntryUpdated on window, document, and body
+[00:27:07.914] Browser LOG     🔄 Projects list: Found pending update in localStorage, triggering refresh
+[00:27:07.914] Browser ERROR   ./frost-demo/app/hooks/useInvoices.ts:6:1
+Module not found: Can't resolve '@/lib/errorUtils'
+  4 | import { useTenant } from '@/context/TenantContext'
+  5 | import supabase from '@/utils/supabase/supabaseClient'
+> 6 | import { extractErrorMessage } from '@/lib/errorUtils'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import type { Invoice } from '@/types/supabase'
+  8 |
+  9 | /**
+
+Import map: aliased to relative './app/lib/errorUtils' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:27:07.914] Browser ERROR   ./frost-demo/app/hooks/useInvoices.ts:6:1
+Module not found: Can't resolve '@/lib/errorUtils'
+  4 | import { useTenant } from '@/context/TenantContext'
+  5 | import supabase from '@/utils/supabase/supabaseClient'
+> 6 | import { extractErrorMessage } from '@/lib/errorUtils'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import type { Invoice } from '@/types/supabase'
+  8 |
+  9 | /**
+
+Import map: aliased to relative './app/lib/errorUtils' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:27:08.015] Browser ERROR   ./frost-demo/app/hooks/useInvoices.ts:6:1
+Module not found: Can't resolve '@/lib/errorUtils'
+  4 | import { useTenant } from '@/context/TenantContext'
+  5 | import supabase from '@/utils/supabase/supabaseClient'
+> 6 | import { extractErrorMessage } from '@/lib/errorUtils'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import type { Invoice } from '@/types/supabase'
+  8 |
+  9 | /**
+
+Import map: aliased to relative './app/lib/errorUtils' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:27:08.059] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:27:08.064] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:27:08.177] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[00:27:08.177] Browser LOG     🔍 ProjectsContent: Fetching projects for tenantId: 8ee28f55-b780-4286-8137-9e70ea58ae56
+[00:27:08.177] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[00:27:08.206] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:27:08.279] Server  LOG     ✅ Projects/list: Fetching projects for valid tenant: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:27:08.332] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[00:27:08.332] Browser ERROR   ./frost-demo/app/hooks/useInvoices.ts:6:1
+Module not found: Can't resolve '@/lib/errorUtils'
+  4 | import { useTenant } from '@/context/TenantContext'
+  5 | import supabase from '@/utils/supabase/supabaseClient'
+> 6 | import { extractErrorMessage } from '@/lib/errorUtils'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import type { Invoice } from '@/types/supabase'
+  8 |
+  9 | /**
+
+Import map: aliased to relative './app/lib/errorUtils' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:27:08.508] Server  LOG     ✅ Projects/list: User access verified for tenant: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:27:08.601] Server  LOG     ✅ Projects/list: Query returned 5 "projects"
+[00:27:08.601] Server  LOG     ✅ Projects/list: After verification: 5 "projects"
+[00:27:08.670] Server  LOG     ✅ Projects/list: After tenant validation: 5 "projects"
+[00:27:08.670] Server  LOG     🔇 Filtering out project: "Dörr installtion" "status:" "completed"
+[00:27:08.670] Server  LOG     🔇 Filtering out project: "d" "status:" "archived"
+[00:27:08.670] Server  LOG     ✅ Projects/list: After status filter: 3 "projects"
+[00:27:08.784] Browser LOG     📊 Projects fetched via API: 3 projects for tenantId: 8ee28f55-b780-4286-8137-9e70ea58ae56
+[00:27:08.784] Browser LOG     ✅ ProjectsContent: Verified 3 projects after security check
+[00:27:08.784] Browser LOG     📊 Projects list: Fetching hours for 3 projects
+[00:27:08.950] Browser ERROR   ./frost-demo/app/hooks/useInvoices.ts:6:1
+Module not found: Can't resolve '@/lib/errorUtils'
+  4 | import { useTenant } from '@/context/TenantContext'
+  5 | import supabase from '@/utils/supabase/supabaseClient'
+> 6 | import { extractErrorMessage } from '@/lib/errorUtils'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import type { Invoice } from '@/types/supabase'
+  8 |
+  9 | /**
+
+Import map: aliased to relative './app/lib/errorUtils' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:27:09.056] Server  LOG     ✅ Using tenant from employee record: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:27:09.056] Server  LOG     🔍 API: Fetching project hours {}
+[00:27:09.074] Server  LOG     ✅ Using tenant from employee record: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:27:09.074] Server  LOG     🔍 API: Fetching project hours {}
+[00:27:09.083] Server  LOG     ✅ Using tenant from employee record: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:27:09.083] Server  LOG     🔍 API: Fetching project hours {}
+[00:27:09.130] Server  LOG     ✅ API: Project hours calculated {}
+[00:27:09.142] Server  LOG     ✅ API: Project hours calculated {}
+[00:27:09.148] Server  LOG     ✅ API: Project hours calculated {}
+[00:27:09.250] Browser LOG     ✅ Project 3cd7be04-2d7b-4375-9b98-7f6a8c675777: 0h
+[00:27:09.250] Browser LOG     ✅ Project 27f56576-0a89-4327-9245-6fb389da5215: 9h
+[00:27:09.250] Browser LOG     ✅ Project a03ddc24-d8d2-42d4-a58f-9bba896f0638: 9h
+[00:27:09.250] Browser LOG     ✅ Projects list: Hours map updated: [["3cd7be04-2d7b-4375-9b98-7f6a8c675777",0],["a03ddc24-d8d2-42d4-a58f-9bba896f0638",9],["27f56576-0a89-4327-9245-6fb389da5215",9]]
+[00:27:09.856] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:27:10.157] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:27:10.159] Browser LOG     ✅ Projects list: Event listeners registered for timeEntryUpdated on window, document, and body
+[00:27:10.159] Browser LOG     🔄 Projects list: Found pending update in localStorage, triggering refresh
+[00:27:10.159] Browser ERROR   ./frost-demo/app/hooks/useInvoices.ts:6:1
+Module not found: Can't resolve '@/lib/errorUtils'
+  4 | import { useTenant } from '@/context/TenantContext'
+  5 | import supabase from '@/utils/supabase/supabaseClient'
+> 6 | import { extractErrorMessage } from '@/lib/errorUtils'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import type { Invoice } from '@/types/supabase'
+  8 |
+  9 | /**
+
+Import map: aliased to relative './app/lib/errorUtils' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:27:10.159] Browser ERROR   ./frost-demo/app/hooks/useInvoices.ts:6:1
+Module not found: Can't resolve '@/lib/errorUtils'
+  4 | import { useTenant } from '@/context/TenantContext'
+  5 | import supabase from '@/utils/supabase/supabaseClient'
+> 6 | import { extractErrorMessage } from '@/lib/errorUtils'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import type { Invoice } from '@/types/supabase'
+  8 |
+  9 | /**
+
+Import map: aliased to relative './app/lib/errorUtils' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:27:10.159] Browser ERROR   ./frost-demo/app/hooks/useInvoices.ts:6:1
+Module not found: Can't resolve '@/lib/errorUtils'
+  4 | import { useTenant } from '@/context/TenantContext'
+  5 | import supabase from '@/utils/supabase/supabaseClient'
+> 6 | import { extractErrorMessage } from '@/lib/errorUtils'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import type { Invoice } from '@/types/supabase'
+  8 |
+  9 | /**
+
+Import map: aliased to relative './app/lib/errorUtils' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:27:10.159] Browser ERROR   ./frost-demo/app/hooks/useInvoices.ts:6:1
+Module not found: Can't resolve '@/lib/errorUtils'
+  4 | import { useTenant } from '@/context/TenantContext'
+  5 | import supabase from '@/utils/supabase/supabaseClient'
+> 6 | import { extractErrorMessage } from '@/lib/errorUtils'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import type { Invoice } from '@/types/supabase'
+  8 |
+  9 | /**
+
+Import map: aliased to relative './app/lib/errorUtils' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:27:10.194] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:27:10.216] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:27:10.313] Server  LOG     ✅ Projects/list: Fetching projects for valid tenant: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:27:10.387] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[00:27:10.387] Browser LOG     🔍 ProjectsContent: Fetching projects for tenantId: 8ee28f55-b780-4286-8137-9e70ea58ae56
+[00:27:10.387] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[00:27:10.387] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[00:27:10.387] Browser ERROR   ./frost-demo/app/hooks/useInvoices.ts:6:1
+Module not found: Can't resolve '@/lib/errorUtils'
+  4 | import { useTenant } from '@/context/TenantContext'
+  5 | import supabase from '@/utils/supabase/supabaseClient'
+> 6 | import { extractErrorMessage } from '@/lib/errorUtils'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import type { Invoice } from '@/types/supabase'
+  8 |
+  9 | /**
+
+Import map: aliased to relative './app/lib/errorUtils' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:27:10.450] Server  LOG     ✅ Projects/list: User access verified for tenant: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:27:10.518] Server  LOG     ✅ Projects/list: Query returned 5 "projects"
+[00:27:10.519] Server  LOG     ✅ Projects/list: After verification: 5 "projects"
+[00:27:10.587] Server  LOG     ✅ Projects/list: After tenant validation: 5 "projects"
+[00:27:10.587] Server  LOG     🔇 Filtering out project: "Dörr installtion" "status:" "completed"
+[00:27:10.588] Server  LOG     🔇 Filtering out project: "d" "status:" "archived"
+[00:27:10.588] Server  LOG     ✅ Projects/list: After status filter: 3 "projects"
+[00:27:10.705] Browser LOG     📊 Projects fetched via API: 3 projects for tenantId: 8ee28f55-b780-4286-8137-9e70ea58ae56
+[00:27:10.705] Browser LOG     ✅ ProjectsContent: Verified 3 projects after security check
+[00:27:10.705] Browser LOG     📊 Projects list: Fetching hours for 3 projects
+[00:27:10.841] Browser ERROR   ./frost-demo/app/hooks/useInvoices.ts:6:1
+Module not found: Can't resolve '@/lib/errorUtils'
+  4 | import { useTenant } from '@/context/TenantContext'
+  5 | import supabase from '@/utils/supabase/supabaseClient'
+> 6 | import { extractErrorMessage } from '@/lib/errorUtils'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import type { Invoice } from '@/types/supabase'
+  8 |
+  9 | /**
+
+Import map: aliased to relative './app/lib/errorUtils' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:27:10.966] Server  LOG     ✅ Using tenant from employee record: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:27:10.966] Server  LOG     🔍 API: Fetching project hours {}
+[00:27:11.353] Server  LOG     ✅ API: Project hours calculated {}
+[00:27:11.364] Server  LOG     ✅ Using tenant from employee record: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:27:11.364] Server  LOG     🔍 API: Fetching project hours {}
+[00:27:11.367] Server  LOG     ✅ Using tenant from employee record: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:27:11.368] Server  LOG     🔍 API: Fetching project hours {}
+[00:27:11.432] Server  LOG     ✅ API: Project hours calculated {}
+[00:27:11.451] Server  LOG     ✅ API: Project hours calculated {}
+[00:27:11.554] Browser LOG     ✅ Project 3cd7be04-2d7b-4375-9b98-7f6a8c675777: 0h
+[00:27:11.555] Browser LOG     ✅ Project a03ddc24-d8d2-42d4-a58f-9bba896f0638: 9h
+[00:27:11.555] Browser LOG     ✅ Project 27f56576-0a89-4327-9245-6fb389da5215: 9h
+[00:27:11.555] Browser LOG     ✅ Projects list: Hours map updated: [["3cd7be04-2d7b-4375-9b98-7f6a8c675777",0],["a03ddc24-d8d2-42d4-a58f-9bba896f0638",9],["27f56576-0a89-4327-9245-6fb389da5215",9]]
+[00:27:13.492] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:27:13.905] Browser ERROR   ./frost-demo/app/hooks/useInvoices.ts:6:1
+Module not found: Can't resolve '@/lib/errorUtils'
+  4 | import { useTenant } from '@/context/TenantContext'
+  5 | import supabase from '@/utils/supabase/supabaseClient'
+> 6 | import { extractErrorMessage } from '@/lib/errorUtils'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import type { Invoice } from '@/types/supabase'
+  8 |
+  9 | /**
+
+Import map: aliased to relative './app/lib/errorUtils' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:27:13.905] Browser ERROR   ./frost-demo/app/hooks/useInvoices.ts:6:1
+Module not found: Can't resolve '@/lib/errorUtils'
+  4 | import { useTenant } from '@/context/TenantContext'
+  5 | import supabase from '@/utils/supabase/supabaseClient'
+> 6 | import { extractErrorMessage } from '@/lib/errorUtils'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import type { Invoice } from '@/types/supabase'
+  8 |
+  9 | /**
+
+Import map: aliased to relative './app/lib/errorUtils' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:27:13.905] Browser ERROR   ./frost-demo/app/hooks/useInvoices.ts:6:1
+Module not found: Can't resolve '@/lib/errorUtils'
+  4 | import { useTenant } from '@/context/TenantContext'
+  5 | import supabase from '@/utils/supabase/supabaseClient'
+> 6 | import { extractErrorMessage } from '@/lib/errorUtils'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import type { Invoice } from '@/types/supabase'
+  8 |
+  9 | /**
+
+Import map: aliased to relative './app/lib/errorUtils' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:27:13.988] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:27:14.093] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:27:14.095] Browser ERROR   ./frost-demo/app/hooks/useInvoices.ts:6:1
+Module not found: Can't resolve '@/lib/errorUtils'
+  4 | import { useTenant } from '@/context/TenantContext'
+  5 | import supabase from '@/utils/supabase/supabaseClient'
+> 6 | import { extractErrorMessage } from '@/lib/errorUtils'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import type { Invoice } from '@/types/supabase'
+  8 |
+  9 | /**
+
+Import map: aliased to relative './app/lib/errorUtils' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:27:14.095] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[00:27:14.204] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[00:27:14.538] Server  LOG     ✅ Projects/list: Fetching projects for valid tenant: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:27:14.540] Server  LOG     ✅ Projects/list: Fetching projects for valid tenant: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:27:14.671] Server  LOG     ✅ Projects/list: User access verified for tenant: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:27:14.681] Server  LOG     ✅ Projects/list: User access verified for tenant: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:27:14.708] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":null,"projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:27:14.708] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":null,"projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:27:14.708] Browser LOG     🔍 TimeClock: Component mounted/updated {"activeTimeEntry":false,"componentVisible":true,"employeeId":null,"isCheckedIn":false,"projectsCount":0}
+[00:27:14.708] Browser LOG     🔍 TimeClock: Component mounted/updated {"activeTimeEntry":false,"componentVisible":true,"employeeId":null,"isCheckedIn":false,"projectsCount":0}
+[00:27:14.708] Browser ERROR   ./frost-demo/app/hooks/useInvoices.ts:6:1
+Module not found: Can't resolve '@/lib/errorUtils'
+  4 | import { useTenant } from '@/context/TenantContext'
+  5 | import supabase from '@/utils/supabase/supabaseClient'
+> 6 | import { extractErrorMessage } from '@/lib/errorUtils'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import type { Invoice } from '@/types/supabase'
+  8 |
+  9 | /**
+
+Import map: aliased to relative './app/lib/errorUtils' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:27:14.708] Browser LOG     TimeClock: Fetching employee for user 2941e8db-d533-412e-a292-7ff713e76567
+[00:27:14.708] Browser ERROR   ./frost-demo/app/hooks/useInvoices.ts:6:1
+Module not found: Can't resolve '@/lib/errorUtils'
+  4 | import { useTenant } from '@/context/TenantContext'
+  5 | import supabase from '@/utils/supabase/supabaseClient'
+> 6 | import { extractErrorMessage } from '@/lib/errorUtils'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import type { Invoice } from '@/types/supabase'
+  8 |
+  9 | /**
+
+Import map: aliased to relative './app/lib/errorUtils' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:27:14.708] Browser LOG     TimeClock: Fetching employee for user 2941e8db-d533-412e-a292-7ff713e76567
+[00:27:14.708] Browser ERROR   ./frost-demo/app/hooks/useInvoices.ts:6:1
+Module not found: Can't resolve '@/lib/errorUtils'
+  4 | import { useTenant } from '@/context/TenantContext'
+  5 | import supabase from '@/utils/supabase/supabaseClient'
+> 6 | import { extractErrorMessage } from '@/lib/errorUtils'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import type { Invoice } from '@/types/supabase'
+  8 |
+  9 | /**
+
+Import map: aliased to relative './app/lib/errorUtils' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:27:14.745] Server  LOG     ✅ Projects/list: Query returned 5 "projects"
+[00:27:14.745] Server  LOG     ✅ Projects/list: After verification: 5 "projects"
+[00:27:14.758] Server  LOG     ✅ Projects/list: Query returned 5 "projects"
+[00:27:14.758] Server  LOG     ✅ Projects/list: After verification: 5 "projects"
+[00:27:14.770] Server  LOG     ✅ Selected employee: {}
+[00:27:14.770] Server  LOG     ✅ Returning employee data immediately
+[00:27:14.806] Server  LOG     ✅ Projects/list: After tenant validation: 5 "projects"
+[00:27:14.806] Server  LOG     🔇 Filtering out project: "Dörr installtion" "status:" "completed"
+[00:27:14.806] Server  LOG     🔇 Filtering out project: "d" "status:" "archived"
+[00:27:14.807] Server  LOG     ✅ Projects/list: After status filter: 3 "projects"
+[00:27:14.826] Server  LOG     ✅ Projects/list: After tenant validation: 5 "projects"
+[00:27:14.826] Server  LOG     🔇 Filtering out project: "Dörr installtion" "status:" "completed"
+[00:27:14.826] Server  LOG     🔇 Filtering out project: "d" "status:" "archived"
+[00:27:14.827] Server  LOG     ✅ Projects/list: After status filter: 3 "projects"
+[00:27:15.048] Server  LOG     ✅ Selected employee: {}
+[00:27:15.049] Server  LOG     ✅ Returning employee data immediately
+[00:27:15.050] Browser LOG     TimeClock: Found employee ID via API: 47224e0b-5809-4894-8696-49dd2b5f71f0
+[00:27:15.050] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:27:15.050] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:27:15.050] Browser LOG     🔍 TimeClock: Component mounted/updated {"activeTimeEntry":false,"componentVisible":true,"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","isCheckedIn":false,"projectsCount":0}
+[00:27:15.050] Browser WARN    ⚠️ Active time entry found but missing start_time: ea5e3ff4-4371-49c9-b0b3-361a804add81
+[00:27:15.050] Browser ERROR   ./frost-demo/app/hooks/useInvoices.ts:6:1
+Module not found: Can't resolve '@/lib/errorUtils'
+  4 | import { useTenant } from '@/context/TenantContext'
+  5 | import supabase from '@/utils/supabase/supabaseClient'
+> 6 | import { extractErrorMessage } from '@/lib/errorUtils'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import type { Invoice } from '@/types/supabase'
+  8 |
+  9 | /**
+
+Import map: aliased to relative './app/lib/errorUtils' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:27:15.050] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:27:15.050] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:27:15.050] Browser WARN    ⚠️ Dashboard: Context tenantId not found in database, fetching from centralized API
+[00:27:15.222] Browser LOG     TimeClock: Found employee ID via API: 47224e0b-5809-4894-8696-49dd2b5f71f0
+[00:27:15.222] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:27:15.222] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:27:15.222] Browser ERROR   ./frost-demo/app/hooks/useInvoices.ts:6:1
+Module not found: Can't resolve '@/lib/errorUtils'
+  4 | import { useTenant } from '@/context/TenantContext'
+  5 | import supabase from '@/utils/supabase/supabaseClient'
+> 6 | import { extractErrorMessage } from '@/lib/errorUtils'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import type { Invoice } from '@/types/supabase'
+  8 |
+  9 | /**
+
+Import map: aliased to relative './app/lib/errorUtils' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:27:15.222] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:27:15.222] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:27:15.222] Browser WARN    ⚠️ Dashboard: Context tenantId not found in database, fetching from centralized API
+[00:27:15.228] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:27:15.332] Browser ERROR   ./frost-demo/app/hooks/useInvoices.ts:6:1
+Module not found: Can't resolve '@/lib/errorUtils'
+  4 | import { useTenant } from '@/context/TenantContext'
+  5 | import supabase from '@/utils/supabase/supabaseClient'
+> 6 | import { extractErrorMessage } from '@/lib/errorUtils'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import type { Invoice } from '@/types/supabase'
+  8 |
+  9 | /**
+
+Import map: aliased to relative './app/lib/errorUtils' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:27:15.332] Browser LOG     ✅ Dashboard: Got tenantId from centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56
+[00:27:15.332] Browser LOG     🔒 Dashboard: Using tenantId: 8ee28f55-b780-4286-8137-9e70ea58ae56 for projects and TimeClock
+[00:27:15.332] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:27:15.332] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:27:15.398] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:27:15.502] Browser ERROR   ./frost-demo/app/hooks/useInvoices.ts:6:1
+Module not found: Can't resolve '@/lib/errorUtils'
+  4 | import { useTenant } from '@/context/TenantContext'
+  5 | import supabase from '@/utils/supabase/supabaseClient'
+> 6 | import { extractErrorMessage } from '@/lib/errorUtils'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import type { Invoice } from '@/types/supabase'
+  8 |
+  9 | /**
+
+Import map: aliased to relative './app/lib/errorUtils' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:27:15.502] Browser LOG     ✅ Dashboard: Got tenantId from centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56
+[00:27:15.502] Browser LOG     🔒 Dashboard: Using tenantId: 8ee28f55-b780-4286-8137-9e70ea58ae56 for projects and TimeClock
+[00:27:15.502] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:27:15.502] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:27:15.514] Server  LOG     ✅ Projects/for-timeclock: Using tenantId: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:27:15.672] Server  LOG     ✅ Projects/for-timeclock: Using tenantId: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:27:15.704] Browser ERROR   ./frost-demo/app/hooks/useInvoices.ts:6:1
+Module not found: Can't resolve '@/lib/errorUtils'
+  4 | import { useTenant } from '@/context/TenantContext'
+  5 | import supabase from '@/utils/supabase/supabaseClient'
+> 6 | import { extractErrorMessage } from '@/lib/errorUtils'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import type { Invoice } from '@/types/supabase'
+  8 |
+  9 | /**
+
+Import map: aliased to relative './app/lib/errorUtils' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:27:15.705] Browser LOG     ✅ TimeClock: Found projects via API 3 for tenant 8ee28f55-b780-4286-8137-9e70ea58ae56
+[00:27:15.705] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":3,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:27:15.705] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":3,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:27:15.705] Browser LOG     🔍 TimeClock: Component mounted/updated {"activeTimeEntry":false,"componentVisible":true,"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","isCheckedIn":false,"projectsCount":3}
+[00:27:15.841] Browser LOG     ✅ TimeClock: Found projects via API 3 for tenant 8ee28f55-b780-4286-8137-9e70ea58ae56
+[00:27:15.841] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":3,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:27:15.841] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":3,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:27:18.694] Server  LOG     🔍 Dashboard: Rendering TimeClock with: {}
+[00:27:18.914] Browser ERROR   ./frost-demo/app/hooks/useInvoices.ts:6:1
+Module not found: Can't resolve '@/lib/errorUtils'
+  4 | import { useTenant } from '@/context/TenantContext'
+  5 | import supabase from '@/utils/supabase/supabaseClient'
+> 6 | import { extractErrorMessage } from '@/lib/errorUtils'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import type { Invoice } from '@/types/supabase'
+  8 |
+  9 | /**
+
+Import map: aliased to relative './app/lib/errorUtils' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:27:52.401] Browser ERROR   ./frost-demo/app/hooks/useInvoices.ts:6:1
+Export extractErrorMessage doesn't exist in target module
+  4 | import { useTenant } from '@/context/TenantContext'
+  5 | import supabase from '@/utils/supabase/supabaseClient'
+> 6 | import { extractErrorMessage } from '@/lib/errorUtils'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import type { Invoice } from '@/types/supabase'
+  8 |
+  9 | /**
+
+The export extractErrorMessage was not found in module [project]/frost-demo/app/lib/errorUtils.ts [app-client] (ecmascript).
+The module has no exports at all.
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+[00:27:52.401] Browser ERROR   ./frost-demo/app/hooks/useInvoices.ts:6:1
+Export extractErrorMessage doesn't exist in target module
+  4 | import { useTenant } from '@/context/TenantContext'
+  5 | import supabase from '@/utils/supabase/supabaseClient'
+> 6 | import { extractErrorMessage } from '@/lib/errorUtils'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import type { Invoice } from '@/types/supabase'
+  8 |
+  9 | /**
+
+The export extractErrorMessage was not found in module [project]/frost-demo/app/lib/errorUtils.ts [app-ssr] (ecmascript).
+The module has no exports at all.
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+[00:27:52.541] Server  LOG      ✓ Compiled in 49ms
+[00:27:52.772] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":3,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:27:52.772] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":3,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
