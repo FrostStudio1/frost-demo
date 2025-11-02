@@ -3,5 +3,6 @@
   "/api/admin/check/route": "app/api/admin/check/route.js",
   "/api/employees/create/route": "app/api/employees/create/route.js",
   "/api/tenant/get-tenant/route": "app/api/tenant/get-tenant/route.js",
-  "/employees/new/page": "app/employees/new/page.js"
+  "/employees/new/page": "app/employees/new/page.js",
+  "/employees/page": "app/employees/page.js"
 }

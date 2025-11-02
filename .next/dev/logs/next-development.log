@@ -7,3 +7,11 @@
 [00:00:04.645] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
 [00:00:20.048] Server  ERROR   Error creating employee (all fallbacks failed): {}
 [00:00:20.158] Browser ERROR   Unexpected error: {}
+[00:03:05.386] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:03:05.491] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[00:03:07.225] Server  LOG     [Employee Create] Payload role: "employee" "Original role:" "employee"
+[00:03:07.699] Browser LOG     New employee created - notify admins: {"admins":1,"employeeName":"Ebba busch","role":"employee","tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:03:08.041] Browser LOG     🔍 EmployeesPage: Fetching employees for tenantId: 8ee28f55-b780-4286-8137-9e70ea58ae56
+[00:03:08.041] Browser LOG     🔍 EmployeesPage: Fetching employees for tenantId: 8ee28f55-b780-4286-8137-9e70ea58ae56
+[00:03:08.213] Browser LOG     ✅ EmployeesPage: Found 2 employees for tenantId: 8ee28f55-b780-4286-8137-9e70ea58ae56
+[00:03:08.322] Browser LOG     ✅ EmployeesPage: Found 2 employees for tenantId: 8ee28f55-b780-4286-8137-9e70ea58ae56
