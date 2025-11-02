@@ -8,11 +8,13 @@ export async function POST(req: Request) {
     const res = NextResponse.json({ ok: true })
 
     // NOTE: per request: do not enable secure cookie flag for dev (no HTTPS)
+    // In production, secure should be true to prevent MITM attacks
+    const isProduction = process.env.NODE_ENV === 'production'
     const cookieOpts = {
       httpOnly: true,
       path: '/',
       sameSite: 'lax' as const,
-      secure: false,
+      secure: isProduction,
     }
 
     if (access_token) {
