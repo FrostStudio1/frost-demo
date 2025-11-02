@@ -6,7 +6,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 function CallbackContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const redirectTo = searchParams?.get('redirect') || '/dashboard';
+  let redirectTo = searchParams?.get('redirect') || '/dashboard';
 
   useEffect(() => {
     let mounted = true;
@@ -187,8 +187,8 @@ function CallbackContent() {
                 }),
               });
               
-              // Update redirect to dashboard if tenant found
-              if (!redirectTo || redirectTo === '/onboarding') {
+              // Update redirect to dashboard if tenant found and redirect was onboarding
+              if (redirectTo === '/onboarding') {
                 redirectTo = '/dashboard';
               }
             } else {
@@ -198,6 +198,13 @@ function CallbackContent() {
                 window.location.href = '/onboarding';
                 return;
               }
+            }
+          } else {
+            // API call failed - redirect to onboarding
+            console.log('Tenant API call failed, redirecting to onboarding');
+            if (mounted) {
+              window.location.href = '/onboarding';
+              return;
             }
           }
         } catch (tenantErr) {

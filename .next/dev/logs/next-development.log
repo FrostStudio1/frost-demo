@@ -12810,3 +12810,126 @@ Import traces:
   Client Component SSR:
     ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
     ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:08:46.381] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:192:17
+Ecmascript file had an error
+  190 |               // Update redirect to dashboard if tenant found
+  191 |               if (!redirectTo || redirectTo === '/onboarding') {
+> 192 |                 redirectTo = '/dashboard';
+      |                 ^^^^^^^^^^
+  193 |               }
+  194 |             } else {
+  195 |               console.log('No tenant found for user');
+
+cannot reassign to a variable declared with `const`
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:08:46.505] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:192:17
+Ecmascript file had an error
+  190 |               // Update redirect to dashboard if tenant found
+  191 |               if (!redirectTo || redirectTo === '/onboarding') {
+> 192 |                 redirectTo = '/dashboard';
+      |                 ^^^^^^^^^^
+  193 |               }
+  194 |             } else {
+  195 |               console.log('No tenant found for user');
+
+cannot reassign to a variable declared with `const`
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:08:46.521] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:192:17
+Ecmascript file had an error
+  190 |               // Update redirect to dashboard if tenant found
+  191 |               if (!redirectTo || redirectTo === '/onboarding') {
+> 192 |                 redirectTo = '/dashboard';
+      |                 ^^^^^^^^^^
+  193 |               }
+  194 |             } else {
+  195 |               console.log('No tenant found for user');
+
+cannot reassign to a variable declared with `const`
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:08:46.521] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:192:17
+Ecmascript file had an error
+  190 |               // Update redirect to dashboard if tenant found
+  191 |               if (!redirectTo || redirectTo === '/onboarding') {
+> 192 |                 redirectTo = '/dashboard';
+      |                 ^^^^^^^^^^
+  193 |               }
+  194 |             } else {
+  195 |               console.log('No tenant found for user');
+
+cannot reassign to a variable declared with `const`
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:08:47.839] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:192:17
+Ecmascript file had an error
+  190 |               // Update redirect to dashboard if tenant found
+  191 |               if (!redirectTo || redirectTo === '/onboarding') {
+> 192 |                 redirectTo = '/dashboard';
+      |                 ^^^^^^^^^^
+  193 |               }
+  194 |             } else {
+  195 |               console.log('No tenant found for user');
+
+cannot reassign to a variable declared with `const`
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:08:48.522] Browser ERROR   ./frost-demo/app/auth/callback/page.tsx:192:17
+Ecmascript file had an error
+  190 |               // Update redirect to dashboard if tenant found
+  191 |               if (!redirectTo || redirectTo === '/onboarding') {
+> 192 |                 redirectTo = '/dashboard';
+      |                 ^^^^^^^^^^
+  193 |               }
+  194 |             } else {
+  195 |               console.log('No tenant found for user');
+
+cannot reassign to a variable declared with `const`
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component Browser]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/auth/callback/page.tsx [Client Component SSR]
+    ./frost-demo/app/auth/callback/page.tsx [Server Component]
+[00:09:02.795] Server  LOG      ✓ Compiled in 41ms
+[00:09:03.276] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":null,"projectsCount":0,"tenantId":null}
+[00:09:03.276] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":null,"projectsCount":0,"tenantId":null}
