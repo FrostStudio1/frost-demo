@@ -316,10 +316,40 @@ export default function ProjectDetailPage() {
       const rate = Number(project?.base_rate_sek ?? 0) || 360
       const amount = totalHours * rate
 
-      // Get client_id from project if available - fix for proper client relation
-      const projectData = project as any
-      const clientId = projectData?.client_id || projectData?.clients?.id || null
-      const clientName = projectData?.clients?.name || project?.customer_name || 'Okänd kund'
+      // Get client_id from project - fetch fresh data to ensure we have client info
+      let clientId: string | null = null
+      let clientName: string = 'Okänd kund'
+      
+      // First try from current project state
+      if (project?.client_id) {
+        clientId = project.client_id
+      } else if (project?.clients?.id) {
+        clientId = project.clients.id
+        clientName = project.clients.name || project?.customer_name || 'Okänd kund'
+      } else if (project?.customer_name) {
+        clientName = project.customer_name
+      }
+      
+      // If we don't have client_id, fetch project again to get it
+      if (!clientId && projectId) {
+        try {
+          const { data: projectData } = await supabase
+            .from('projects')
+            .select('client_id, clients(id, name), customer_name')
+            .eq('id', projectId)
+            .eq('tenant_id', tenantId)
+            .single()
+          
+          if (projectData) {
+            clientId = projectData.client_id || (projectData as any)?.clients?.id || null
+            clientName = (projectData as any)?.clients?.name || projectData.customer_name || 'Okänd kund'
+          }
+        } catch (err) {
+          console.warn('Could not fetch client info from project:', err)
+        }
+      }
+      
+      console.log('📝 Invoice creation - Client info:', { clientId, clientName, projectId })
       
       // Create invoice via API route (invoice lines will be created automatically from time entries)
       const response = await fetch('/api/invoices/create', {
@@ -408,10 +438,40 @@ export default function ProjectDetailPage() {
       const rate = Number(project?.base_rate_sek ?? 0) || 360
       const amount = totalHours * rate
 
-      // Get client_id from project if available - fix for proper client relation
-      const projectData = project as any
-      const clientId = projectData?.client_id || projectData?.clients?.id || null
-      const clientName = projectData?.clients?.name || project?.customer_name || 'Okänd kund'
+      // Get client_id from project - fetch fresh data to ensure we have client info
+      let clientId: string | null = null
+      let clientName: string = 'Okänd kund'
+      
+      // First try from current project state
+      if (project?.client_id) {
+        clientId = project.client_id
+      } else if (project?.clients?.id) {
+        clientId = project.clients.id
+        clientName = project.clients.name || project?.customer_name || 'Okänd kund'
+      } else if (project?.customer_name) {
+        clientName = project.customer_name
+      }
+      
+      // If we don't have client_id, fetch project again to get it
+      if (!clientId && projectId) {
+        try {
+          const { data: projectData } = await supabase
+            .from('projects')
+            .select('client_id, clients(id, name), customer_name')
+            .eq('id', projectId)
+            .eq('tenant_id', tenantId)
+            .single()
+          
+          if (projectData) {
+            clientId = projectData.client_id || (projectData as any)?.clients?.id || null
+            clientName = (projectData as any)?.clients?.name || projectData.customer_name || 'Okänd kund'
+          }
+        } catch (err) {
+          console.warn('Could not fetch client info from project:', err)
+        }
+      }
+      
+      console.log('📝 PDF Invoice creation - Client info:', { clientId, clientName, projectId })
       
       // Create invoice via API route (invoice lines will be created automatically from time entries)
       const response = await fetch('/api/invoices/create', {
