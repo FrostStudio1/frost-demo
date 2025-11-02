@@ -3,7 +3,7 @@ import "./globals.css";
 import { TenantProvider } from "@/context/TenantContext";
 import { ThemeProvider } from "@/context/ThemeContext";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
-import { QueryProvider } from "@/app/providers/QueryProvider";
+import { QueryProvider } from "@/providers/QueryProvider";
 import Toaster from "@/components/Toaster";
 import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
 

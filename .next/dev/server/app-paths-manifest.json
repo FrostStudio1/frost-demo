@@ -33,6 +33,7 @@
   "/invoices/new/page": "app/invoices/new/page.js",
   "/invoices/page": "app/invoices/page.js",
   "/login/page": "app/login/page.js",
+  "/page": "app/page.js",
   "/payroll/employeeID/[employeeId]/page": "app/payroll/employeeID/[employeeId]/page.js",
   "/projects/[id]/page": "app/projects/[id]/page.js",
   "/projects/archive/page": "app/projects/archive/page.js",
