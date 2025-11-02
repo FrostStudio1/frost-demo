@@ -102,15 +102,20 @@ export default async function DashboardPage() {
     .select('id, name, budgeted_hours')
     .eq('tenant_id', tenantId)
 
+  // Get current user's employee ID and role FIRST (needed for filtering hours)
+  const { data: employeeData } = await supabase
+    .from('employees')
+    .select('id, role')
+    .eq('auth_user_id', finalUser.id)
+    .eq('tenant_id', tenantId)
+    .maybeSingle()
+  
+  const isAdmin = employeeData?.role === 'admin' || employeeData?.role === 'Admin' || employeeData?.role === 'ADMIN'
+  const employeeId = (!isAdmin && employeeData) ? employeeData.id : null
+
   // Get project IDs for hours aggregation
   const projectIds = (projectRows ?? []).map((p) => p.id)
   let projectHoursMap = new Map<string, number>()
-  
-  // Get employee ID if not admin (for filtering hours)
-  let employeeIdForHours: string | null = null
-  if (!isAdmin && employeeData) {
-    employeeIdForHours = employeeData.id
-  }
   
   if (projectIds.length > 0) {
     let hoursQuery = supabase
@@ -121,8 +126,8 @@ export default async function DashboardPage() {
       .eq('is_billed', false)
     
     // If not admin, only get this employee's hours
-    if (!isAdmin && employeeIdForHours) {
-      hoursQuery = hoursQuery.eq('employee_id', employeeIdForHours)
+    if (!isAdmin && employeeId) {
+      hoursQuery = hoursQuery.eq('employee_id', employeeId)
     }
     
     const { data: hoursData } = await hoursQuery
@@ -148,20 +153,6 @@ export default async function DashboardPage() {
   const oneWeekAgo = new Date()
   oneWeekAgo.setDate(oneWeekAgo.getDate() - 7) // Last 7 days
   const oneWeekAgoStr = oneWeekAgo.toISOString().split('T')[0]
-  
-  // Get current user's employee ID to filter hours if not admin
-  let employeeId: string | null = null
-  const { data: employeeData } = await supabase
-    .from('employees')
-    .select('id, role')
-    .eq('auth_user_id', finalUser.id)
-    .eq('tenant_id', tenantId)
-    .maybeSingle()
-  
-  const isAdmin = employeeData?.role === 'admin' || employeeData?.role === 'Admin' || employeeData?.role === 'ADMIN'
-  if (!isAdmin && employeeData) {
-    employeeId = employeeData.id
-  }
   
   let weekRowsQuery = supabase
     .from('time_entries')
