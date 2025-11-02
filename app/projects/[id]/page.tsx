@@ -20,6 +20,12 @@ type ProjectRecord = {
   base_rate_sek?: number | null
   budgeted_hours?: number | null
   status?: string | null
+  client_id?: string | null
+  clients?: {
+    id: string
+    name: string
+    org_number?: string | null
+  } | null
 }
 
 export default function ProjectDetailPage() {
@@ -127,8 +133,18 @@ export default function ProjectDetailPage() {
         }
         
         console.log('✅ Project loaded:', projectData.name)
+        console.log('📋 Project client info:', {
+          client_id: (projectData as any).client_id,
+          clients: (projectData as any).clients,
+          customer_name: (projectData as any).customer_name
+        })
 
-        setProject(projectData as ProjectRecord)
+        // Ensure we preserve client_id and clients relation
+        setProject({
+          ...(projectData as ProjectRecord),
+          client_id: (projectData as any).client_id || null,
+          clients: (projectData as any).clients || null,
+        } as ProjectRecord)
 
         // Hämta ofakturerade timmar och time entries för AI summary via API route
         try {

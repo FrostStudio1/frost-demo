@@ -254,3 +254,28 @@ Import trace:
 [00:00:50.787] Browser LOG     ✅ TimeClock: Found projects via API 3 for tenant 8ee28f55-b780-4286-8137-9e70ea58ae56
 [00:00:50.787] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":3,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
 [00:00:50.787] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":3,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:01:09.087] Browser LOG     🔄 Project page: load() called {"projectId":"a03ddc24-d8d2-42d4-a58f-9bba896f0638","refreshTrigger":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:01:09.087] Browser LOG     🔍 Loading project: {"projectId":"a03ddc24-d8d2-42d4-a58f-9bba896f0638","tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:01:09.087] Browser LOG     ✅ Project page: Event listeners registered for timeEntryUpdated on window, document, and body
+[00:01:09.087] Browser LOG     🔌 Project page: Event listeners removed
+[00:01:09.087] Browser LOG     🔄 Project page: load() called {"projectId":"a03ddc24-d8d2-42d4-a58f-9bba896f0638","refreshTrigger":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:01:09.087] Browser LOG     🔍 Loading project: {"projectId":"a03ddc24-d8d2-42d4-a58f-9bba896f0638","tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:01:09.087] Browser LOG     ✅ Project page: Event listeners registered for timeEntryUpdated on window, document, and body
+[00:01:09.303] Browser LOG     ✅ Project loaded: Takrenovering
+[00:01:09.303] Browser LOG     📊 Project page: Fetching project hours from API...
+[00:01:10.345] Server  LOG     ✅ Using tenant from employee record: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:01:10.346] Server  LOG     🔍 API: Fetching project hours {}
+[00:01:10.429] Server  LOG     ✅ API: Project hours calculated {}
+[00:01:10.543] Browser LOG     ✅ Project page: Hours fetched: {"count":1,"entries":[{"date":"2025-11-02","hours_total":9,"ob_type":"evening"}],"hours":9}
+[00:01:29.615] Browser LOG     🔌 Project page: Event listeners removed
+[00:01:29.922] Browser LOG     Fetching clients for tenant: 8ee28f55-b780-4286-8137-9e70ea58ae56
+[00:01:29.922] Browser LOG     Fetching clients for tenant: 8ee28f55-b780-4286-8137-9e70ea58ae56
+[00:01:30.110] Browser LOG     Clients fetched: 2
+[00:01:30.110] Browser LOG     Clients fetched: 2
+[00:01:31.402] Server  LOG     Tenant verified: {}
+[00:01:31.506] Server  WARN    Could not touch tenant with updated_at: {}
+[00:01:31.680] Server  LOG     ✅ Tenant confirmed visible in transaction: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:01:31.826] Server  LOG     ✅ Final tenant check passed, using tenant_id: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:01:32.287] Server  ERROR   Error creating invoice lines: {}
+[00:02:54.398] Server  LOG      ✓ Compiled in 61ms
+[00:03:09.496] Server  LOG      ✓ Compiled in 61ms
