@@ -57,7 +57,7 @@ export default async function LockedInvoicePage({ params }: { params: { id: stri
         {/* Header */}
         <div className="p-6 sm:p-8 border-b flex items-start justify-between gap-6">
           <div>
-            <div className="text-3xl font-extrabold text-blue-700">Frost Bygg</div>
+            <div className="text-3xl font-extrabold text-blue-700">Frost Solutions</div>
             <div className="text-gray-500 mt-1 text-sm">
               Org.nr: 556677-8899<br/>Gatuadress 1, 123 45 Stad<br/>info@frostbygg.se
             </div>
@@ -139,7 +139,7 @@ export default async function LockedInvoicePage({ params }: { params: { id: stri
 
         {/* Footer */}
         <div className="px-6 sm:px-8 py-6 border-t text-center text-xs text-gray-500">
-          Frost Bygg | Godkänd för F-skatt | Momsreg.nr: SE556677889901
+          Frost Solutions | Godkänd för F-skatt | Momsreg.nr: SE556677889901
         </div>
       </div>
     </div>

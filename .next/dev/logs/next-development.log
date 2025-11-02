@@ -279,3 +279,29 @@ Import trace:
 [00:01:32.287] Server  ERROR   Error creating invoice lines: {}
 [00:02:54.398] Server  LOG      ✓ Compiled in 61ms
 [00:03:09.496] Server  LOG      ✓ Compiled in 61ms
+[00:03:25.198] Server  LOG      ✓ Compiled in 59ms
+[00:03:36.672] Server  LOG      ✓ Compiled in 61ms
+[00:04:15.699] Browser LOG     🔄 Project page: load() called {"projectId":"a03ddc24-d8d2-42d4-a58f-9bba896f0638","refreshTrigger":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:04:15.699] Browser LOG     🔍 Loading project: {"projectId":"a03ddc24-d8d2-42d4-a58f-9bba896f0638","tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:04:15.699] Browser LOG     ✅ Project page: Event listeners registered for timeEntryUpdated on window, document, and body
+[00:04:15.699] Browser LOG     🔌 Project page: Event listeners removed
+[00:04:15.699] Browser LOG     🔄 Project page: load() called {"projectId":"a03ddc24-d8d2-42d4-a58f-9bba896f0638","refreshTrigger":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:04:15.699] Browser LOG     🔍 Loading project: {"projectId":"a03ddc24-d8d2-42d4-a58f-9bba896f0638","tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:04:15.699] Browser LOG     ✅ Project page: Event listeners registered for timeEntryUpdated on window, document, and body
+[00:04:16.297] Browser LOG     ✅ Project loaded: Takrenovering
+[00:04:16.297] Browser LOG     📋 Project client info: {"client_id":"f4784956-6b9d-46f3-9db9-a4f59e0fde35","clients":{"id":"f4784956-6b9d-46f3-9db9-a4f59e0fde35","name":"Stefan Frost","org_number":null},"customer_name":"Stefan Frost"}
+[00:04:16.297] Browser LOG     📊 Project page: Fetching project hours from API...
+[00:04:16.603] Server  LOG     ✅ Using tenant from employee record: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:04:16.603] Server  LOG     🔍 API: Fetching project hours {}
+[00:04:16.719] Server  LOG     ✅ API: Project hours calculated {}
+[00:04:16.833] Browser LOG     ✅ Project page: Hours fetched: {"count":1,"entries":[{"date":"2025-11-02","hours_total":9,"ob_type":"evening"}],"hours":9}
+[00:04:32.647] Server  LOG      ✓ Compiled in 75ms
+[00:04:42.599] Server  LOG      ✓ Compiled in 80ms
+[00:04:53.745] Server  LOG      ✓ Compiled in 77ms
+[00:05:09.170] Server  LOG      ✓ Compiled in 83ms
+[00:05:31.358] Server  LOG      ✓ Compiled in 61ms
+[00:05:53.186] Server  LOG      ✓ Compiled in 60ms
+[00:06:23.647] Server  LOG      ✓ Compiled in 89ms
+[00:07:12.976] Server  LOG      ✓ Compiled in 66ms
+[00:07:46.061] Server  LOG      ✓ Compiled in 58ms
+[00:08:06.123] Server  LOG      ✓ Compiled in 66ms

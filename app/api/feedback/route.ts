@@ -50,7 +50,7 @@ export async function POST(req: Request) {
     }
 
     const emailBody = `
-Feedback från Frost Bygg App
+Feedback från Frost Solutions App
 
 Typ: ${typeLabels[type] || 'Övrigt'}
 Från: ${userName || 'Okänd'} (${email || 'Ingen email'})
@@ -84,7 +84,7 @@ Detta meddelande skickades automatiskt från feedback-formuläret.
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          from: 'Frost Bygg <feedback@frost-bygg.se>', // Update with your verified domain
+          from: 'Frost Solutions <feedback@frost-solutions.se>', // Update with your verified domain
           to: ['vilmer.frost@gmail.com'],
           subject: `${typeLabels[type] || 'Feedback'}: ${sanitizedSubject}`,
           text: emailBody,
@@ -115,7 +115,7 @@ Detta meddelande skickades automatiskt från feedback-formuläret.
             to: [{ email: 'vilmer.frost@gmail.com' }],
             subject: `${typeLabels[type] || 'Feedback'}: ${subject}`,
           }],
-          from: { email: 'feedback@frost-bygg.se', name: 'Frost Bygg' },
+          from: { email: 'feedback@frost-solutions.se', name: 'Frost Solutions' },
           content: [{
             type: 'text/plain',
             value: emailBody,

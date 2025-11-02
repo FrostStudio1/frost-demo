@@ -118,16 +118,21 @@ export default function NotificationCenter({ className = '' }: NotificationCente
           />
           
           {/* Dropdown Panel */}
-          <div className="absolute right-0 mt-2 w-80 sm:w-96 bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 z-20 max-h-[calc(100vh-120px)] overflow-hidden flex flex-col">
+          <div className="absolute right-0 mt-2 w-80 sm:w-96 bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 z-20 max-h-[calc(100vh-120px)] overflow-hidden flex flex-col"
+               style={{ 
+                 maxWidth: 'min(calc(100vw - 2rem), 24rem)', 
+                 right: '0',
+                 left: 'auto'
+               }}>
             {/* Header */}
-            <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
-              <h3 className="text-lg font-bold text-gray-900 dark:text-white">
+            <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700 flex-shrink-0 gap-2">
+              <h3 className="text-lg font-bold text-gray-900 dark:text-white truncate">
                 Notifikationer {unreadCount > 0 && `(${unreadCount})`}
               </h3>
               {unreadCount > 0 && (
                 <button
                   onClick={markAllAsRead}
-                  className="text-sm text-blue-600 dark:text-blue-400 hover:underline whitespace-nowrap"
+                  className="text-sm text-blue-600 dark:text-blue-400 hover:underline whitespace-nowrap flex-shrink-0"
                 >
                   Markera alla som lästa
                 </button>

@@ -136,7 +136,7 @@ export async function GET(request: NextRequest, context: { params: Promise<{ id:
           due_date: formatSE(invoice.due_date),
         }}
         tenant={{ 
-          name: tenant?.name || 'Frost Bygg',
+          name: tenant?.name || 'Frost Solutions',
           org_number: tenant?.org_number,
           address: tenant?.address,
         }}

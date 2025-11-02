@@ -1,5 +1,5 @@
 /**
- * Säkerhetsfunktioner för Frost Bygg
+ * Säkerhetsfunktioner för Frost Solutions
  */
 
 /**

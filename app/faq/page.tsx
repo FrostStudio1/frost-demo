@@ -150,7 +150,7 @@ export default function FAQPage() {
               FAQ - Vanliga Frågor
             </h1>
             <p className="text-gray-600 text-center">
-              Hitta svar på dina frågor om Frost Bygg
+              Hitta svar på dina frågor om Frost Solutions
             </p>
           </div>
 

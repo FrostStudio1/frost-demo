@@ -10,8 +10,8 @@ import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
 // INTE "use client"! Ingen useEffect här!
 
 export const metadata: Metadata = {
-  title: "Frost Bygg",
-  description: "Tidsrapportering & fakturering för bygg – Frost Apps",
+  title: "Frost Solutions",
+  description: "Tidsrapportering & fakturering för bygg – Frost Solutions",
 };
 
 export const viewport: Viewport = {

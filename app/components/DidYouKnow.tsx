@@ -3,7 +3,8 @@
 import { useState, useEffect } from 'react'
 
 const facts = [
-  "💡 Frost Bygg använder automatisk OB-beräkning enligt byggkollektivavtalet för att säkerställa korrekt löneräkning.",
+  // App-specifika fakta
+  "💡 Frost Solutions använder automatisk OB-beräkning enligt byggkollektivavtalet för att säkerställa korrekt löneräkning.",
   "⚡ Stämpelklockan är tillgänglig 24/7 och sparas automatiskt, så du kan navigera mellan sidor utan att förlora din stämpling.",
   "📊 Systemet avrundar automatiskt alla tidsrapporter till minst 0,5 timmar för enklare fakturering.",
   "🌍 GPS-funktionen hjälper dig att automatiskt påminnas när du närmar dig en arbetsplats.",
@@ -13,6 +14,28 @@ const facts = [
   "🎯 Projektförlopp visar visuellt när du närmar dig budgeten med färgkodning.",
   "📱 Appen är helt mobilvänlig och fungerar perfekt på telefon, tablet och dator.",
   "🤖 AI-sammanfattning hjälper dig snabbt förstå projektstatus och fakturaöversikt.",
+  
+  // Byggbranschen - allmänna fakta
+  "🏗️ Byggbranschen är Sveriges största bransch med över 200 000 anställda och står för cirka 6% av BNP.",
+  "⏰ OB-tillägg (Obekväm arbetstid) är viktigt i byggbranschen - kväll, natt och helg ger extra ersättning.",
+  "📋 ROT-avdraget kan ge upp till 75 000 kr i skattereduktion per person och år för renoveringar.",
+  "🔨 Säkerhet är kritisk på byggarbetsplatser - använd alltid rätt skyddsutrustning och följ säkerhetsregler.",
+  "📐 Prestanda och kvalitet är nyckeln i byggbranschen - korrekt tidsrapportering hjälper med projektplanering.",
+  "🌡️ Byggarbete påverkas av väder - planera därefter och dokumentera tidsförluster.",
+  "💰 Lönekostnader är ofta den största utgiften i byggprojekt - korrekt tidsrapportering är avgörande.",
+  "📊 Genomsnittlig timlön i byggbranschen varierar mellan 200-500 kr/timme beroende på yrke och erfarenhet.",
+  "🏢 Byggbranschen står för cirka 40% av Sveriges totala energianvändning.",
+  "👷 Byggbranschen har högst skadefrekvens i Sverige - säkerhet måste alltid komma först.",
+  "📈 Digitalisering ökar i byggbranschen - digital tidsrapportering sparar tid och reducerar fel.",
+  "🌱 Hållbarhet blir allt viktigare - många byggprojekt fokuserar nu på miljövänliga material och processer.",
+  "🔧 Underhåll och renovering står för cirka 60% av byggbranschens totala omsättning.",
+  "📱 Mobilappar för tidsrapportering ökar produktiviteten med upp till 30% enligt studier.",
+  "🎓 Utbildning är viktigt - certifieringar och kompetensutveckling ökar löner och möjligheter.",
+  "🏗️ Byggbranschen är cyklisk - planera för både höga och låga perioder.",
+  "📋 Dokumentation är kritisk - korrekt dokumentation av arbete kan spara tid vid fakturering.",
+  "🤝 Kommunikation mellan företag och kunder är nyckeln till framgångsrika projekt.",
+  "⚖️ Byggkollektivavtalet reglerar löner, arbetstider och OB-tillägg för anställda i byggbranschen.",
+  "📊 Genomsnittlig projektledningstid är 12-18 månader för större byggprojekt.",
 ]
 
 export default function DidYouKnow() {

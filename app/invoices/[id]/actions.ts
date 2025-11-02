@@ -71,7 +71,7 @@ export async function sendInvoiceEmail(invoiceId: string) {
   // Mail HTML (enkel men tydlig)
   const html = `
     <div style="font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif; max-width:640px; margin:0 auto; color:#111">
-      <h1 style="margin:0 0 16px; color:#1f3a8a;">Frost Bygg – Faktura ${invoice.number}</h1>
+      <h1 style="margin:0 0 16px; color:#1f3a8a;">Frost Solutions – Faktura ${invoice.number}</h1>
       <p>Hej ${invoice.customer_name || ''},</p>
       <p>Här kommer er faktura för utfört arbete.</p>
 
@@ -111,7 +111,7 @@ export async function sendInvoiceEmail(invoiceId: string) {
 
       <p><a href="${viewUrl}" style="color:#1d4ed8; text-decoration:underline;">Visa fakturan på webben</a></p>
 
-      <p>Med vänlig hälsning,<br/>Frost Bygg</p>
+      <p>Med vänlig hälsning,<br/>Frost Solutions</p>
     </div>
   `
 
@@ -122,7 +122,7 @@ export async function sendInvoiceEmail(invoiceId: string) {
   const { error: emailErr } = await resend.emails.send({
     from,
     to,
-    subject: `Faktura ${invoice.number} – Frost Bygg`,
+    subject: `Faktura ${invoice.number} – Frost Solutions`,
     html,
   })
   if (emailErr) throw new Error(emailErr.message)

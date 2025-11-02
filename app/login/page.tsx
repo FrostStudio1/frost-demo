@@ -51,7 +51,7 @@ function LoginContent() {
         <div className="flex flex-col items-center mb-8">
           <FrostLogo size={64} />
           <h1 className="font-black text-4xl mt-4 mb-2 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
-            Frost Bygg
+            Frost Solutions
           </h1>
           <p className="text-gray-500 dark:text-gray-400 text-sm">Logga in för att fortsätta</p>
         </div>

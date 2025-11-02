@@ -349,7 +349,7 @@ export default function OnboardingPage() {
         <div className="flex flex-col items-center mb-8">
           <FrostLogo size={64} />
           <h1 className="font-black text-4xl mt-4 mb-2 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
-            Välkommen till Frost Bygg!
+            Välkommen till Frost Solutions!
           </h1>
           <p className="text-gray-500">Låt oss sätta upp ditt konto</p>
         </div>
@@ -386,7 +386,7 @@ export default function OnboardingPage() {
                 value={companyName}
                 onChange={(e) => setCompanyName(e.target.value)}
                 className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                placeholder="Frost Bygg AB"
+                placeholder="Frost Solutions AB"
               />
             </div>
             <div>
