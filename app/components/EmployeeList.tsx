@@ -12,7 +12,7 @@ export default function EmployeeList({ employees }: { employees: EmployeeType[] 
         {employees.map(e => (
           <a
             key={e.id}
-            href={`/employees/${e.id}`}
+            href={`/payroll/employeeID/${e.id}`}
             className="flex justify-between items-center px-2 py-1 rounded bg-blue-50 hover:bg-blue-100 hover:underline hover:shadow-md hover:-translate-y-0.5 transition-all duration-150 ease-in-out active:scale-98"
           >
             <span className="font-medium text-blue-700">{e.name}</span>

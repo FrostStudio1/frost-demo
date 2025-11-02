@@ -1,113 +1,226 @@
 'use client';
 import { useEffect, Suspense } from 'react';
 import { supabase } from '@/utils/supabase/supabaseClient';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 
 function CallbackContent() {
-  const searchParams = useSearchParams()
-  const redirectTo = searchParams?.get('redirect') || '/dashboard'
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const redirectTo = searchParams?.get('redirect') || '/dashboard';
 
   useEffect(() => {
-    const bridgeAndRedirect = async () => {
-      const { data: sessionData } = await supabase.auth.getSession();
-      const s = sessionData.session;
+    let mounted = true;
 
-      if (!s) {
-        window.location.replace('/login')
-        return
-      }
-
-      // send tokens to server to set httpOnly cookies
-      await fetch('/api/auth/set-session', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({
-          access_token: s.access_token,
-          refresh_token: s.refresh_token,
-        }),
-      });
-
-      // Get tenant via /api/get-tenant (resolves from employees table if needed)
-      // Also update user's app_metadata with tenant_id for future requests
+    async function handleCallback() {
       try {
-        // Get user ID first
-        const { data: userData } = await supabase.auth.getUser()
-        const userId = userData?.user?.id
+        // Step 1: Check if there's a hash in the URL (OAuth redirect)
+        const hash = window.location.hash;
+        
+        // Step 2: Try to get session - createBrowserClient should handle hash automatically
+        // But we need to wait for it to process
+        let session = null;
+        let attempts = 0;
+        const maxAttempts = 15;
 
-        if (!userId) {
-          console.warn('callback: No user ID found')
-          window.location.replace(redirectTo)
-          return
+        while (!session && attempts < maxAttempts && mounted) {
+          const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+          
+          if (sessionData?.session) {
+            session = sessionData.session;
+            break;
+          }
+
+          // Log for debugging
+          if (attempts === 0) {
+            console.log('Waiting for session, hash present:', !!hash, 'Error:', sessionError);
+          }
+
+          // If no session yet, wait a bit and try again
+          await new Promise(resolve => setTimeout(resolve, 300));
+          attempts++;
         }
 
-        const res = await fetch('/api/get-tenant');
-        if (res.ok) {
-          const json = await res.json();
-          if (json?.tenantId) {
-            // Set tenant in user metadata AND cookie (for immediate use)
-            try {
-              await fetch('/api/auth/set-tenant', {
-                method: 'POST',
-                headers: { 'content-type': 'application/json' },
-                body: JSON.stringify({ 
-                  tenantId: json.tenantId,
-                  userId: userId // CRITICAL: Must send userId to update app_metadata
-                }),
-              })
-            } catch (err) {
-              console.warn('callback: set-tenant failed', err)
+        // If still no session and we have a hash, try to manually parse it
+        if (!session && hash && mounted) {
+          console.log('No session from getSession, trying to parse hash manually');
+          try {
+            // Parse hash manually: #access_token=xxx&refresh_token=yyy&type=recovery
+            const hashParams = new URLSearchParams(hash.substring(1)); // Remove #
+            const accessToken = hashParams.get('access_token');
+            const refreshToken = hashParams.get('refresh_token');
+
+            if (accessToken && refreshToken) {
+              console.log('Found tokens in hash, setting session');
+              // Set session manually using setSession
+              const { data: setSessionData, error: setError } = await supabase.auth.setSession({
+                access_token: accessToken,
+                refresh_token: refreshToken,
+              });
+
+              if (setSessionData?.session) {
+                session = setSessionData.session;
+              } else {
+                console.error('Failed to set session from hash:', setError);
+              }
             }
-            window.location.replace(redirectTo);
-            return;
+          } catch (parseError) {
+            console.error('Error parsing hash:', parseError);
           }
         }
-      } catch (err) {
-        console.warn('callback: get-tenant failed', err);
-      }
 
-      // Final fallback: redirect to requested page or dashboard
-      window.location.replace(redirectTo);
-    };
+        if (!session || !mounted) {
+          console.error('No session found after all attempts. Hash:', hash.substring(0, 50) + '...');
+          if (mounted) {
+            router.replace('/login?error=no_session');
+          }
+          return;
+        }
 
-    bridgeAndRedirect();
+        console.log('Session found, setting cookies...');
 
-    const { data: sub } = supabase.auth.onAuthStateChange(async (event, session) => {
-      if (event === 'TOKEN_REFRESHED' && session) {
-        await fetch('/api/auth/set-session', {
+        // Step 3: Set cookies on server
+        const setSessionResponse = await fetch('/api/auth/set-session', {
           method: 'POST',
-          headers: { 'content-type': 'application/json' },
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
           body: JSON.stringify({
             access_token: session.access_token,
             refresh_token: session.refresh_token,
           }),
         });
-      }
-    });
 
-    return () => sub.subscription.unsubscribe();
-  }, [redirectTo]);
+        if (!setSessionResponse.ok) {
+          console.error('Failed to set session cookies');
+          if (mounted) {
+            router.replace('/login?error=session_failed');
+          }
+          return;
+        }
+
+        console.log('Cookies set, verifying...');
+
+        // Step 4: Wait for cookies to be set and verify
+        let cookiesSet = false;
+        for (let i = 0; i < 5; i++) {
+          await new Promise(resolve => setTimeout(resolve, 300));
+          if (!mounted) return;
+          
+          try {
+            const verifyCookies = await fetch('/api/debug/me', {
+              credentials: 'include',
+              cache: 'no-store',
+            });
+            if (verifyCookies.ok) {
+              const data = await verifyCookies.json();
+              if (data?.hasCookie) {
+                cookiesSet = true;
+                break;
+              }
+            }
+          } catch (e) {
+            // Continue retrying
+          }
+        }
+        
+        if (!cookiesSet) {
+          console.error('Cookies were not set after multiple retries');
+          if (mounted) {
+            router.replace('/login?error=cookies_failed');
+          }
+          return;
+        }
+
+        // Step 5: Get user (should work now that cookies are set)
+        const { data: { user }, error: userError } = await supabase.auth.getUser();
+        
+        if (userError || !user) {
+          console.error('Failed to get user:', userError);
+          if (mounted) {
+            router.replace('/login?error=no_user');
+          }
+          return;
+        }
+
+        console.log('User found:', user.id);
+
+        // Step 6: Try to get tenant
+        try {
+          const tenantResponse = await fetch('/api/get-tenant', {
+            credentials: 'include',
+            cache: 'no-store',
+          });
+
+          if (tenantResponse.ok) {
+            const tenantData = await tenantResponse.json();
+            if (tenantData?.tenantId) {
+              // Set tenant in metadata
+              await fetch('/api/auth/set-tenant', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+                body: JSON.stringify({
+                  tenantId: tenantData.tenantId,
+                  userId: user.id,
+                }),
+              });
+            }
+          }
+        } catch (tenantErr) {
+          console.warn('Failed to get/set tenant:', tenantErr);
+          // Continue anyway - user might not have tenant yet
+        }
+
+        // Step 7: Clear hash from URL before redirect
+        if (hash && mounted) {
+          window.history.replaceState(null, '', window.location.pathname + window.location.search);
+        }
+
+        // Step 8: Final redirect
+        if (mounted) {
+          // Wait one final moment to ensure everything is synced
+          await new Promise(resolve => setTimeout(resolve, 300));
+          // Use window.location for full page reload to ensure cookies are read by server
+          window.location.href = redirectTo;
+        }
+      } catch (error) {
+        console.error('Callback error:', error);
+        if (mounted) {
+          router.replace('/login?error=callback_failed');
+        }
+      }
+    }
+
+    handleCallback();
+
+    return () => {
+      mounted = false;
+    };
+  }, [redirectTo, router]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-purple-50">
       <div className="text-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
-        <p className="text-gray-600">Loggar in...</p>
+        <div className="animate-spin rounded-full h-16 w-16 border-4 border-purple-200 border-t-purple-600 mx-auto mb-6"></div>
+        <h2 className="text-xl font-bold text-gray-900 mb-2">Loggar in...</h2>
+        <p className="text-gray-500 text-sm">Bearbetar inloggning...</p>
       </div>
     </div>
   );
 }
 
-export default function Callback() {
+export default function CallbackPage() {
   return (
-    <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center bg-white">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Laddar...</p>
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center bg-white">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+            <p className="text-gray-600">Laddar...</p>
+          </div>
         </div>
-      </div>
-    }>
+      }
+    >
       <CallbackContent />
     </Suspense>
-  )
+  );
 }

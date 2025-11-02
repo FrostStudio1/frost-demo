@@ -47,13 +47,13 @@ function LoginContent() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-blue-100 p-4">
-      <div className="w-full max-w-md bg-white rounded-3xl shadow-2xl border border-gray-100 p-10">
+      <div className="w-full max-w-md bg-white dark:bg-gray-900 rounded-3xl shadow-2xl border border-gray-100 dark:border-gray-700 p-10">
         <div className="flex flex-col items-center mb-8">
           <FrostLogo size={64} />
           <h1 className="font-black text-4xl mt-4 mb-2 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
             Frost Bygg
           </h1>
-          <p className="text-gray-500 text-sm">Logga in för att fortsätta</p>
+          <p className="text-gray-500 dark:text-gray-400 text-sm">Logga in för att fortsätta</p>
         </div>
 
         {/* OAuth Buttons */}
@@ -61,7 +61,7 @@ function LoginContent() {
           <button
             onClick={() => handleOAuthLogin('google')}
             disabled={loading}
-            className="w-full flex items-center justify-center gap-3 bg-white border-2 border-gray-300 rounded-xl py-4 px-6 font-semibold text-gray-700 hover:bg-gray-50 hover:border-gray-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
+            className="w-full flex items-center justify-center gap-3 bg-white dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 rounded-xl py-4 px-6 font-semibold text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 hover:border-gray-400 dark:hover:border-gray-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -75,7 +75,7 @@ function LoginContent() {
           <button
             onClick={() => handleOAuthLogin('azure')}
             disabled={loading}
-            className="w-full flex items-center justify-center gap-3 bg-white border-2 border-gray-300 rounded-xl py-4 px-6 font-semibold text-gray-700 hover:bg-gray-50 hover:border-gray-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
+            className="w-full flex items-center justify-center gap-3 bg-white dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 rounded-xl py-4 px-6 font-semibold text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 hover:border-gray-400 dark:hover:border-gray-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
           >
             <svg className="w-5 h-5" viewBox="0 0 23 23" fill="none">
               <path fill="#00A4EF" d="M0 0h11.377v11.372H0z"/>
@@ -92,18 +92,18 @@ function LoginContent() {
             <div className="w-full border-t border-gray-300"></div>
           </div>
           <div className="relative flex justify-center text-sm">
-            <span className="px-2 bg-white text-gray-500">eller</span>
+            <span className="px-2 bg-white dark:bg-gray-900 text-gray-500 dark:text-gray-400">eller</span>
           </div>
         </div>
 
         {/* Email Form */}
         <form onSubmit={handleSubmit} className="w-full">
-          <label className="block text-sm font-semibold text-gray-700 mb-2">E-post</label>
+          <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">E-post</label>
           <input 
             name="email" 
             type="email" 
             required 
-            className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent mb-4" 
+            className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent mb-4" 
             placeholder="din@epost.se"
           />
           <button
@@ -118,14 +118,14 @@ function LoginContent() {
         {status && (
           <div className={`mt-4 p-3 rounded-lg text-sm ${
             status.includes('skickad') 
-              ? 'bg-green-50 text-green-700 border border-green-200' 
-              : 'bg-red-50 text-red-700 border border-red-200'
+              ? 'bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300 border border-green-200 dark:border-green-800' 
+              : 'bg-red-50 dark:bg-red-900/30 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-800'
           }`}>
             {status}
           </div>
         )}
 
-        <div className="mt-8 text-center text-xs text-gray-400">
+        <div className="mt-8 text-center text-xs text-gray-400 dark:text-gray-500">
           © 2025 Frost Apps
         </div>
       </div>
@@ -137,7 +137,7 @@ export default function LoginPage() {
   return (
     <Suspense fallback={
       <div className="min-h-screen flex items-center justify-center">
-        <div className="text-gray-500">Laddar...</div>
+        <div className="text-gray-500 dark:text-gray-400">Laddar...</div>
       </div>
     }>
       <LoginContent />

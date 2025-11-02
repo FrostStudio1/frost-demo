@@ -11,16 +11,29 @@ export function createClient() {
     {
       cookies: {
         async get(name: string) {
-          const store = await cookieStorePromise
-          return store.get(name)?.value
+          try {
+            const store = await cookieStorePromise
+            return store.get(name)?.value
+          } catch (err) {
+            // cookies() may fail in edge runtime or middleware
+            return undefined
+          }
         },
         async set(name: string, value: string, options: CookieOptions) {
-          const store = await cookieStorePromise
-          store.set({ name, value, ...options })
+          try {
+            const store = await cookieStorePromise
+            store.set({ name, value, ...options })
+          } catch (err) {
+            // Silently fail - cookies can't be set in some contexts
+          }
         },
         async remove(name: string, options: CookieOptions) {
-          const store = await cookieStorePromise
-          store.set({ name, value: '', ...options })
+          try {
+            const store = await cookieStorePromise
+            store.set({ name, value: '', ...options })
+          } catch (err) {
+            // Silently fail
+          }
         },
       },
     }

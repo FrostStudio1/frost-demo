@@ -14,6 +14,7 @@ export async function GET(req: Request) {
   const tenantId = searchParams.get('tenant_id')
   const status = searchParams.get('status') // 'pending', 'approved', 'rejected'
 
+  // Try with relations first
   let query = supabase
     .from('aeta_requests')
     .select('*, projects(name), employees(full_name)')
@@ -27,7 +28,66 @@ export async function GET(req: Request) {
     query = query.eq('status', status)
   }
 
-  const { data, error } = await query
+  let { data, error } = await query
+
+  // If relation fails, fetch without relations and enrich manually
+  if (error && (error.code === 'PGRST200' || error.message?.includes('relationship') || error.message?.includes('Could not find a relationship'))) {
+    // Fetch without relations
+    let simpleQuery = supabase
+      .from('aeta_requests')
+      .select('*')
+      .order('created_at', { ascending: false })
+
+    if (tenantId) {
+      simpleQuery = simpleQuery.eq('tenant_id', tenantId)
+    }
+
+    if (status) {
+      simpleQuery = simpleQuery.eq('status', status)
+    }
+
+    const { data: simpleData, error: simpleError } = await simpleQuery
+
+    if (simpleError) {
+      return NextResponse.json({ error: simpleError.message }, { status: 500 })
+    }
+
+    // Enrich with project and employee names if data exists
+    if (simpleData && simpleData.length > 0) {
+      const projectIds = [...new Set(simpleData.map((r: any) => r.project_id).filter(Boolean))]
+      const employeeIds = [...new Set(simpleData.map((r: any) => r.employee_id).filter(Boolean))]
+
+      let projects: any[] = []
+      let employees: any[] = []
+
+      if (projectIds.length > 0) {
+        const { data: projData } = await supabase
+          .from('projects')
+          .select('id, name')
+          .in('id', projectIds)
+        projects = projData || []
+      }
+
+      if (employeeIds.length > 0) {
+        const { data: empData } = await supabase
+          .from('employees')
+          .select('id, full_name, name')
+          .in('id', employeeIds)
+        employees = empData || []
+      }
+
+      // Enrich the requests
+      const enriched = simpleData.map((req: any) => ({
+        ...req,
+        projects: projects.find(p => p.id === req.project_id) ? { name: projects.find(p => p.id === req.project_id)?.name } : null,
+        employees: employees.find(e => e.id === req.employee_id) ? { full_name: employees.find(e => e.id === req.employee_id)?.full_name || employees.find(e => e.id === req.employee_id)?.name } : null,
+      }))
+
+      return NextResponse.json({ data: enriched })
+    }
+
+    return NextResponse.json({ data: simpleData || [] })
+  }
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 })

@@ -1,0 +1,185 @@
+'use client'
+
+import { usePathname, useRouter } from 'next/navigation'
+import { useState } from 'react'
+import { useTheme } from '@/context/ThemeContext'
+import { useAdmin } from '@/hooks/useAdmin'
+import NotificationCenter from '@/components/NotificationCenter'
+
+interface NavItem {
+  name: string
+  href: string
+  icon: string
+  gradient: string
+}
+
+const navItems: NavItem[] = [
+  { name: 'Dashboard', href: '/dashboard', icon: '📊', gradient: 'from-pink-500 to-purple-600' },
+  { name: 'Anställda', href: '/employees', icon: '👥', gradient: 'from-purple-500 to-blue-600' },
+  { name: 'Projekt', href: '/projects', icon: '🏗️', gradient: 'from-blue-500 to-cyan-600' },
+  { name: 'Arkiv', href: '/projects/archive', icon: '📦', gradient: 'from-gray-500 to-gray-600' },
+  { name: 'Kunder', href: '/clients', icon: '👔', gradient: 'from-cyan-500 to-teal-600' },
+  { name: 'Fakturor', href: '/invoices', icon: '🧾', gradient: 'from-teal-500 to-green-600' },
+  { name: 'Rapporter', href: '/reports', icon: '📈', gradient: 'from-green-500 to-emerald-600' },
+  { name: 'Kalender', href: '/calendar', icon: '📅', gradient: 'from-purple-500 to-pink-600' },
+  { name: 'Analytics', href: '/analytics', icon: '📊', gradient: 'from-indigo-500 to-purple-600' },
+  { name: 'ROT-avdrag', href: '/rot', icon: '🏠', gradient: 'from-orange-500 to-red-600' },
+  { name: 'ÄTA', href: '/aeta', icon: '⚠️', gradient: 'from-yellow-500 to-orange-600' },
+  { name: 'Feedback', href: '/feedback', icon: '💬', gradient: 'from-green-500 to-emerald-600' },
+  { name: 'FAQ', href: '/faq', icon: '❓', gradient: 'from-blue-500 to-indigo-600' },
+  { name: 'Utseende', href: '/settings/utseende', icon: '🎨', gradient: 'from-indigo-500 to-purple-600' },
+]
+
+export default function SidebarClient() {
+  const pathname = usePathname()
+  const router = useRouter()
+  const { theme, toggleTheme } = useTheme()
+  const { isAdmin, loading: adminLoading } = useAdmin()
+  const [isOpen, setIsOpen] = useState(false) // Start closed on mobile
+
+  return (
+    <>
+      {/* Mobile menu button */}
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="lg:hidden fixed top-4 left-4 z-50 bg-white dark:bg-gray-800 rounded-lg p-2.5 shadow-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+        aria-label={isOpen ? 'Stäng meny' : 'Öppna meny'}
+        aria-expanded={isOpen}
+      >
+        <span className="text-xl sm:text-2xl" aria-hidden="true">{isOpen ? '✕' : '☰'}</span>
+      </button>
+
+      {/* Mobile overlay */}
+      {isOpen && (
+        <div
+          className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30"
+          onClick={() => setIsOpen(false)}
+          onKeyDown={(e) => {
+            if (e.key === 'Escape') setIsOpen(false)
+          }}
+          aria-hidden="true"
+        />
+      )}
+
+      {/* Sidebar */}
+      <aside
+        className={`
+          fixed lg:static inset-y-0 left-0 z-40
+          w-64 sm:w-72 bg-white dark:bg-gray-900 border-r border-gray-100 dark:border-gray-800
+          transform transition-transform duration-300 ease-in-out
+          ${isOpen ? 'translate-x-0' : '-translate-x-full'}
+          lg:translate-x-0 lg:z-auto
+          shadow-lg lg:shadow-none
+        `}
+        aria-label="Huvudnavigation"
+      >
+        <div className="h-full flex flex-col">
+          {/* Logo and Notifications */}
+          <div className="p-6 border-b border-gray-100 dark:border-gray-800">
+            <div className="flex items-center justify-between mb-4">
+              <div className="text-2xl font-black bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 bg-clip-text text-transparent">
+                Frost Bygg
+              </div>
+              <NotificationCenter />
+            </div>
+          </div>
+
+          {/* Navigation */}
+          <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
+            {navItems.map((item) => {
+              const isActive = pathname === item.href || pathname?.startsWith(item.href + '/')
+              return (
+                <button
+                  key={item.name}
+                  onClick={() => {
+                    router.push(item.href)
+                    setIsOpen(false)
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault()
+                      router.push(item.href)
+                      setIsOpen(false)
+                    }
+                  }}
+                  className={`
+                    w-full flex items-center gap-3 px-4 py-3 rounded-xl
+                    font-semibold text-sm transition-all duration-200
+                    ${
+                      isActive
+                        ? `bg-gradient-to-r ${item.gradient} text-white shadow-lg`
+                        : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white'
+                    }
+                  `}
+                  aria-current={isActive ? 'page' : undefined}
+                  aria-label={`Gå till ${item.name}`}
+                >
+                  <span className="text-xl" aria-hidden="true">{item.icon}</span>
+                  <span>{item.name}</span>
+                </button>
+              )
+            })}
+          </nav>
+
+          {/* Footer - Only show admin options if user is admin */}
+          <div className="p-4 border-t border-gray-100 dark:border-gray-800 space-y-2">
+            <button
+              onClick={toggleTheme}
+              className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 font-semibold text-sm transition-colors"
+              aria-label={`Byt till ${theme === 'light' ? 'mörkt' : 'ljust'} läge`}
+            >
+              <span className="text-xl" aria-hidden="true">{theme === 'light' ? '🌙' : '☀️'}</span>
+              <span>{theme === 'light' ? 'Mörkt läge' : 'Ljust läge'}</span>
+            </button>
+            
+            {!adminLoading && isAdmin && (
+              <>
+                <button
+                  onClick={() => router.push('/admin')}
+                  className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 font-semibold text-sm transition-colors"
+                  aria-label="Gå till admin"
+                >
+                  <span className="text-xl" aria-hidden="true">⚙️</span>
+                  <span>Admin</span>
+                </button>
+                <button
+                  onClick={() => router.push('/admin/work-sites')}
+                  className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 font-semibold text-sm transition-colors"
+                  aria-label="Arbetsplatser"
+                >
+                  <span className="text-xl" aria-hidden="true">🗺️</span>
+                  <span>Arbetsplatser</span>
+                </button>
+                <button
+                  onClick={() => router.push('/admin/live-map')}
+                  className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 font-semibold text-sm transition-colors"
+                  aria-label="Live karta"
+                >
+                  <span className="text-xl" aria-hidden="true">📍</span>
+                  <span>Live Karta</span>
+                </button>
+                <button
+                  onClick={() => router.push('/admin/debug')}
+                  className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 font-semibold text-sm transition-colors"
+                  aria-label="Admin debug"
+                >
+                  <span className="text-xl" aria-hidden="true">🔍</span>
+                  <span>Admin Debug</span>
+                </button>
+                <button
+                  onClick={() => router.push('/admin/aeta')}
+                  className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 font-semibold text-sm transition-colors"
+                  aria-label="Gå till ÄTA admin"
+                >
+                  <span className="text-xl" aria-hidden="true">⚠️</span>
+                  <span>ÄTA Admin</span>
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      </aside>
+    </>
+  )
+}
+

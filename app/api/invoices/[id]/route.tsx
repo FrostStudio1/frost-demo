@@ -18,12 +18,28 @@ export async function GET(request: NextRequest, context: { params: Promise<{ id:
 
     const supabase = createClient()
 
-    // 1) Hämta fakturan
-    const { data: invoice, error: invErr } = await supabase
+    // 1) Hämta fakturan - try with amount first, then without if column doesn't exist
+    let { data: invoice, error: invErr } = await supabase
       .from('invoices')
       .select('id, number, issue_date, due_date, tenant_id, project_id, client_id, customer_name, desc, amount')
       .eq('id', invoiceId)
       .single()
+
+    // If amount column doesn't exist, retry without it
+    if (invErr && (invErr.code === '42703' || invErr.message?.includes('does not exist') || invErr.message?.includes('amount'))) {
+      const fallback = await supabase
+        .from('invoices')
+        .select('id, number, issue_date, due_date, tenant_id, project_id, client_id, customer_name, desc')
+        .eq('id', invoiceId)
+        .single()
+
+      if (fallback.error || !fallback.data) {
+        return NextResponse.json({ error: fallback.error?.message || invErr?.message || 'Faktura saknas' }, { status: 404 })
+      }
+
+      invoice = { ...fallback.data, amount: 0 } // Set default amount if column doesn't exist
+      invErr = null
+    }
 
     if (invErr || !invoice) {
       return NextResponse.json({ error: invErr?.message || 'Faktura saknas' }, { status: 404 })
@@ -52,13 +68,23 @@ export async function GET(request: NextRequest, context: { params: Promise<{ id:
 
     // Om inga rader finns, skapa en från faktura-data
     let finalLines = lines
-    if (lines.length === 0 && invoice.desc && invoice.amount) {
+    const invoiceAmount = (invoice.amount !== undefined && invoice.amount !== null) ? Number(invoice.amount) : 0
+    if (lines.length === 0 && invoice.desc && invoiceAmount > 0) {
       finalLines = [{
         description: invoice.desc,
         quantity: 1,
         unit: 'st',
-        rate_sek: Number(invoice.amount) || 0,
-        amount_sek: Number(invoice.amount) || 0,
+        rate_sek: invoiceAmount,
+        amount_sek: invoiceAmount,
+      }]
+    } else if (lines.length === 0 && invoice.desc) {
+      // If no amount but has description, create a line item with 0 amount
+      finalLines = [{
+        description: invoice.desc,
+        quantity: 1,
+        unit: 'st',
+        rate_sek: 0,
+        amount_sek: 0,
       }]
     }
 

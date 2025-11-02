@@ -16,6 +16,13 @@ export async function POST(req: NextRequest) {
   data.tenant_id = finalTenantId
 
   const supabase = createClient()
-  await supabase.from('time_reports').insert(data)
+  // Use time_entries table instead of time_reports
+  const { error } = await supabase.from('time_entries').insert(data)
+  
+  if (error) {
+    console.error('Error inserting time entry:', error)
+    return NextResponse.json({ error: error.message }, { status: 400 })
+  }
+  
   return NextResponse.json({ success: true })
 }

@@ -1,18 +1,22 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import supabase from '@/utils/supabase/supabaseClient'
+import { useTenant } from '@/context/TenantContext'
 import Sidebar from '@/components/Sidebar'
-import AnimatedStat from '@/components/AnimatedStats'
+import TimeClock from '@/components/TimeClock'
+import NotificationCenter from '@/components/NotificationCenter'
 
 interface ProjectType {
   id: string
   name: string
-  budget: number
-  hours: number
+  budgeted_hours?: number
+  base_rate_sek?: number
 }
 
 interface DashboardClientProps {
-  userEmail?: string | null
+  userEmail: string | null
   stats: {
     totalHours: number
     activeProjects: number
@@ -21,167 +25,441 @@ interface DashboardClientProps {
   projects: ProjectType[]
 }
 
-export default function DashboardClient({ userEmail, stats, projects }: DashboardClientProps) {
+export default function DashboardClient({ userEmail, stats, projects: initialProjects }: DashboardClientProps) {
   const router = useRouter()
+  const { tenantId } = useTenant()
+  const [employeeId, setEmployeeId] = useState<string | null>(null)
+  const [availableProjects, setAvailableProjects] = useState<Array<{ id: string; name: string }>>([])
+  const [timeClockTenantId, setTimeClockTenantId] = useState<string | null>(null)
+  const [dashboardProjects, setDashboardProjects] = useState<ProjectType[]>(initialProjects)
+  const [dashboardStats, setDashboardStats] = useState(stats)
+
+  // Get current user's employee ID and projects for time clock
+  useEffect(() => {
+    async function fetchTimeClockData() {
+      if (!tenantId) {
+        console.log('TimeClock: No tenantId')
+        return
+      }
+
+      try {
+        const { data: { user } } = await supabase.auth.getUser()
+        if (!user) {
+          console.log('TimeClock: No user')
+          return
+        }
+
+        console.log('TimeClock: Fetching employee for user', user.id)
+
+        // Use API route that handles RLS and service role fallback
+        const employeeRes = await fetch('/api/employee/get-current')
+        let foundEmployeeId: string | null = null
+        
+        if (employeeRes.ok) {
+          const employeeData = await employeeRes.json()
+          if (employeeData.employeeId) {
+            console.log('TimeClock: Found employee ID via API:', employeeData.employeeId)
+            foundEmployeeId = employeeData.employeeId
+          } else {
+            console.warn('TimeClock: No employee found via API:', employeeData.error || employeeData.suggestion)
+          }
+        } else {
+          console.error('TimeClock: API error:', await employeeRes.text())
+        }
+
+        // Fallback: Try direct query if API didn't find employee
+        if (!foundEmployeeId) {
+          console.log('TimeClock: Trying direct query as fallback')
+          const { data: employeeData } = await supabase
+            .from('employees')
+            .select('id')
+            .eq('auth_user_id', user.id)
+            .eq('tenant_id', tenantId)
+            .maybeSingle()
+
+          if (employeeData) {
+            console.log('TimeClock: Found employee ID via direct query:', employeeData.id)
+            foundEmployeeId = employeeData.id
+          }
+        }
+
+        if (foundEmployeeId) {
+          setEmployeeId(foundEmployeeId)
+        }
+
+        // CRITICAL SECURITY: Always use tenantId from centralized API (same as TenantContext)
+        // This ensures consistency across all components
+        let projectsTenantId = tenantId
+        
+        // Validate tenantId format (UUID) and get from centralized API if needed
+        const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+        
+        // Always get tenantId from centralized API for consistency
+        if (!projectsTenantId || !uuidRegex.test(projectsTenantId)) {
+          console.warn('⚠️ Dashboard: Invalid or missing tenantId in context, fetching from centralized API...')
+          const tenantRes = await fetch('/api/tenant/get-tenant', { cache: 'no-store' })
+          if (tenantRes.ok) {
+            const tenantData = await tenantRes.json()
+            if (tenantData.tenantId && uuidRegex.test(tenantData.tenantId)) {
+              projectsTenantId = tenantData.tenantId
+              console.log('✅ Dashboard: Got tenantId from centralized API:', projectsTenantId)
+            }
+          }
+        } else {
+          // Verify tenant exists (only if format is valid)
+          try {
+            const { data: tenantVerify } = await supabase
+              .from('tenants')
+              .select('id')
+              .eq('id', projectsTenantId)
+              .maybeSingle()
+            
+            if (!tenantVerify) {
+              console.warn('⚠️ Dashboard: Context tenantId not found in database, fetching from centralized API')
+              const tenantRes = await fetch('/api/tenant/get-tenant', { cache: 'no-store' })
+              if (tenantRes.ok) {
+                const tenantData = await tenantRes.json()
+                if (tenantData.tenantId && uuidRegex.test(tenantData.tenantId)) {
+                  projectsTenantId = tenantData.tenantId
+                  console.log('✅ Dashboard: Got tenantId from centralized API:', projectsTenantId)
+                }
+              }
+            } else {
+              console.log('✅ Dashboard: Using tenantId from context (verified):', projectsTenantId)
+            }
+          } catch (verifyErr) {
+            console.error('❌ Dashboard: Error verifying tenant:', verifyErr)
+            // Fallback to centralized API
+            const tenantRes = await fetch('/api/tenant/get-tenant', { cache: 'no-store' })
+            if (tenantRes.ok) {
+              const tenantData = await tenantRes.json()
+              if (tenantData.tenantId && uuidRegex.test(tenantData.tenantId)) {
+                projectsTenantId = tenantData.tenantId
+                console.log('✅ Dashboard: Got tenantId from centralized API (after error):', projectsTenantId)
+              }
+            }
+          }
+        }
+        
+        if (!projectsTenantId) {
+          console.error('❌ Dashboard: CRITICAL - No valid tenantId available - cannot fetch projects safely!')
+          return
+        }
+        
+        console.log('🔒 Dashboard: Using tenantId:', projectsTenantId, 'for projects and TimeClock')
+        
+        // Store the correct tenantId for TimeClock
+        setTimeClockTenantId(projectsTenantId)
+        
+        // Fetch projects using API route (bypasses RLS)
+        try {
+          const projectsRes = await fetch('/api/projects/for-timeclock', { cache: 'no-store' })
+          if (projectsRes.ok) {
+            const projectsData = await projectsRes.json()
+            if (projectsData.projects && projectsData.projects.length > 0) {
+              console.log('✅ TimeClock: Found projects via API', projectsData.projects.length, 'for tenant', projectsData.tenantId || projectsTenantId)
+              setAvailableProjects(projectsData.projects)
+            } else {
+              console.warn('⚠️ TimeClock: API returned no projects for tenant', projectsData.tenantId || projectsTenantId)
+              setAvailableProjects([])
+            }
+          } else {
+            // Fallback: Try direct query
+            console.warn('⚠️ Projects API failed, trying direct query...')
+            let projectsData: any[] | null = null
+            let projError: any = null
+            
+            // Try with status filter first
+            let { data, error } = await supabase
+              .from('projects')
+              .select('id, name')
+              .eq('tenant_id', projectsTenantId)
+              .neq('status', 'completed')
+              .neq('status', 'archived')
+              .order('name', { ascending: true })
+            
+            if (error) {
+              // If status column doesn't exist, try without status filter
+              if (error.code === '42703' || error.message?.includes('status')) {
+                console.warn('Status column not found, fetching all projects for tenant')
+                const fallback = await supabase
+                  .from('projects')
+                  .select('id, name')
+                  .eq('tenant_id', projectsTenantId)
+                  .order('name', { ascending: true })
+                
+                projectsData = fallback.data
+                projError = fallback.error
+              } else {
+                projectsData = data
+                projError = error
+              }
+            } else {
+              projectsData = data
+            }
+
+            if (projectsData && projectsData.length > 0) {
+              console.log('✅ TimeClock: Found projects via direct query', projectsData.length)
+              setAvailableProjects(projectsData)
+            } else {
+              console.warn('⚠️ TimeClock: No projects found via direct query for tenant', projectsTenantId)
+              if (projError) {
+                console.error('Project fetch error:', projError)
+              }
+              setAvailableProjects([])
+            }
+          }
+        } catch (fetchErr) {
+          console.error('Error fetching projects:', fetchErr)
+          setAvailableProjects([])
+        }
+      } catch (err) {
+        console.error('TimeClock: Error fetching time clock data:', err)
+      }
+    }
+
+    fetchTimeClockData()
+  }, [tenantId])
+
+  // Fetch dashboard projects and stats client-side so they update when new projects are created
+  useEffect(() => {
+    async function fetchDashboardProjects() {
+      if (!tenantId) return
+
+      try {
+        // Fetch projects via API route
+        const projectsRes = await fetch(`/api/projects/list?tenantId=${tenantId}`, { cache: 'no-store' })
+        if (projectsRes.ok) {
+          const projectsData = await projectsRes.json()
+          if (projectsData.projects) {
+            // Fetch hours for each project
+            const projectIds = projectsData.projects.map((p: any) => p.id)
+            if (projectIds.length > 0) {
+              const { data: hoursData } = await supabase
+                .from('time_entries')
+                .select('project_id, hours_total')
+                .in('project_id', projectIds)
+                .eq('tenant_id', tenantId)
+                .eq('is_billed', false)
+              
+              const projectHoursMap = new Map<string, number>()
+              ;(hoursData ?? []).forEach((entry: any) => {
+                const projId = entry.project_id
+                const hours = Number(entry.hours_total ?? 0)
+                const current = projectHoursMap.get(projId) ?? 0
+                projectHoursMap.set(projId, current + hours)
+              })
+
+              // Map projects with hours
+              const projectsWithHours: ProjectType[] = projectsData.projects
+                .filter((p: any) => {
+                  const status = p.status || null
+                  return status !== 'completed' && status !== 'archived'
+                })
+                .map((p: any) => ({
+                  id: p.id,
+                  name: p.name,
+                  budgeted_hours: p.budgeted_hours || 0,
+                  base_rate_sek: p.base_rate_sek || undefined,
+                  hours: projectHoursMap.get(p.id) || 0
+                }))
+
+              setDashboardProjects(projectsWithHours)
+              
+              // Update stats
+              const oneWeekAgo = new Date()
+              oneWeekAgo.setDate(oneWeekAgo.getDate() - 7)
+              const oneWeekAgoStr = oneWeekAgo.toISOString().split('T')[0]
+              
+              const { data: weekRows } = await supabase
+                .from('time_entries')
+                .select('hours_total')
+                .gte('date', oneWeekAgoStr)
+                .eq('tenant_id', tenantId)
+                .eq('is_billed', false)
+              
+              const totalHours = (weekRows ?? []).reduce((sum: number, row: any) => sum + Number(row.hours_total ?? 0), 0)
+              
+              const { data: invoiceRows } = await supabase
+                .from('invoices')
+                .select('id')
+                .eq('status', 'draft')
+                .eq('tenant_id', tenantId)
+              
+              setDashboardStats({
+                totalHours,
+                activeProjects: projectsWithHours.length,
+                invoicesToSend: invoiceRows?.length ?? 0
+              })
+            } else {
+              setDashboardProjects([])
+            }
+          }
+        }
+      } catch (err) {
+        console.error('Error fetching dashboard projects:', err)
+      }
+    }
+
+    fetchDashboardProjects()
+
+    // Listen for project creation/update events
+    const handleProjectUpdate = () => {
+      console.log('🔄 Dashboard: Project updated, refreshing...')
+      setTimeout(() => fetchDashboardProjects(), 500) // Small delay to ensure DB commit
+    }
+
+    window.addEventListener('projectCreated', handleProjectUpdate)
+    window.addEventListener('projectUpdated', handleProjectUpdate)
+    window.addEventListener('timeEntryUpdated', handleProjectUpdate)
+
+    return () => {
+      window.removeEventListener('projectCreated', handleProjectUpdate)
+      window.removeEventListener('projectUpdated', handleProjectUpdate)
+      window.removeEventListener('timeEntryUpdated', handleProjectUpdate)
+    }
+  }, [tenantId])
 
   const getProgressColor = (percentage: number) => {
+    if (percentage > 100) return 'from-red-500 to-red-600' // Over budget - red
     if (percentage >= 90) return 'from-red-500 to-red-600'
     if (percentage >= 70) return 'from-orange-500 to-orange-600'
     return 'from-blue-500 via-purple-500 to-pink-500'
   }
 
   return (
-    <div className="min-h-screen bg-white flex">
+    <div className="min-h-screen bg-white dark:bg-gray-900 flex flex-col lg:flex-row">
       <Sidebar />
       
       {/* Main content */}
-      <main className="flex-1 lg:ml-0 overflow-x-hidden">
-        <div className="p-6 lg:p-10 max-w-7xl mx-auto">
+      <main className="flex-1 w-full lg:ml-0 overflow-x-hidden">
+        <div className="p-4 sm:p-6 lg:p-10 max-w-7xl mx-auto w-full">
           {/* Header */}
-          <div className="mb-8 flex items-center justify-between">
+          <div className="mb-6 sm:mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-              <h1 className="text-4xl font-black text-gray-900 mb-2">Dashboard</h1>
-              <p className="text-gray-500">Välkommen tillbaka, {userEmail?.split('@')[0] || 'Användare'}!</p>
+              <h1 className="text-3xl sm:text-4xl font-black text-gray-900 dark:text-white mb-1 sm:mb-2">Kontrollpanel</h1>
+              <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400">Välkommen tillbaka, {userEmail?.split('@')[0] || 'Användare'}!</p>
             </div>
-            <button
-              onClick={() => router.push('/reports/new')}
-              className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white px-6 py-3 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all transform hover:scale-105"
-              aria-label="Rapportera tid"
-            >
-              ⏱️ Rapportera tid
-            </button>
+            <div className="flex gap-3 items-center">
+              <NotificationCenter className="hidden sm:block" />
+              <button
+                onClick={() => router.push('/reports/new')}
+                className="w-full sm:w-auto bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white px-6 py-3 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all transform hover:scale-105 text-sm sm:text-base"
+                aria-label="Rapportera tid"
+              >
+                ⏱️ Rapportera tid
+              </button>
+              <button
+                onClick={async () => {
+                  if (confirm('Är du säker på att du vill logga ut?')) {
+                    await supabase.auth.signOut()
+                    router.push('/login')
+                  }
+                }}
+                className="w-full sm:w-auto bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all transform hover:scale-105 text-sm sm:text-base"
+                aria-label="Logga ut"
+              >
+                🚪 Logga ut
+              </button>
+            </div>
           </div>
 
+          {/* Time Clock - Always show, even if no employee/projects (component handles it) */}
+          {(() => {
+            console.log('🔍 Dashboard: Rendering TimeClock with:', {
+              employeeId,
+              projectsCount: availableProjects.length,
+              tenantId: timeClockTenantId || tenantId,
+            })
+            return (
+              <TimeClock 
+                employeeId={employeeId} 
+                projects={availableProjects}
+                tenantId={timeClockTenantId || tenantId}
+              />
+            )
+          })()}
+
           {/* Stats Cards with Animation */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <AnimatedStat 
-              label="Timmar denna vecka" 
-              value={stats.totalHours} 
-              suffix="h"
-              gradient="from-blue-500 to-blue-600"
-              delay={0}
-            />
-            <AnimatedStat 
-              label="Aktiva projekt" 
-              value={stats.activeProjects}
-              gradient="from-purple-500 to-purple-600"
-              delay={200}
-            />
-            <AnimatedStat 
-              label="Fakturor att skicka" 
-              value={stats.invoicesToSend}
-              gradient="from-pink-500 to-pink-600"
-              delay={400}
-            />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
+            <div className="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 border border-gray-100 dark:border-gray-700">
+              <div className="text-sm sm:text-base text-gray-500 dark:text-gray-400 mb-1 sm:mb-2">Totalt timmar</div>
+              <div className="text-2xl sm:text-3xl font-black text-gray-900 dark:text-white">{dashboardStats.totalHours.toFixed(1)}h</div>
+            </div>
+            <div className="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 border border-gray-100 dark:border-gray-700">
+              <div className="text-sm sm:text-base text-gray-500 dark:text-gray-400 mb-1 sm:mb-2">Aktiva projekt</div>
+              <div className="text-2xl sm:text-3xl font-black text-gray-900 dark:text-white">{dashboardStats.activeProjects}</div>
+            </div>
+            <div className="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 border border-gray-100 dark:border-gray-700">
+              <div className="text-sm sm:text-base text-gray-500 dark:text-gray-400 mb-1 sm:mb-2">Fakturor att skicka</div>
+              <div className="text-2xl sm:text-3xl font-black text-gray-900 dark:text-white">{dashboardStats.invoicesToSend}</div>
+            </div>
           </div>
 
           {/* New Project Card */}
-          <div className="bg-white rounded-2xl shadow-lg p-8 mb-8 border border-gray-100 backdrop-blur-sm bg-opacity-90">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">New Project</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">Name</label>
-                <input
-                  type="text"
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                  placeholder="Project name"
-                  readOnly
-                  onClick={() => router.push('/projects/new')}
-                  aria-label="Project name - click to create new project"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">Client</label>
-                <input
-                  type="text"
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                  placeholder="Client name"
-                  readOnly
-                  onClick={() => router.push('/projects/new')}
-                  aria-label="Client name - click to create new project"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">Due Date</label>
-                <input
-                  type="date"
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                  readOnly
-                  onClick={() => router.push('/projects/new')}
-                  aria-label="Due date - click to create new project"
-                />
-              </div>
-            </div>
+          <div className="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 lg:p-8 mb-6 sm:mb-8 border border-gray-100 dark:border-gray-700 backdrop-blur-sm bg-opacity-90">
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6">Nytt projekt</h2>
             <button
               onClick={() => router.push('/projects/new')}
-              className="bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-white font-bold py-3 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105"
-              aria-label="Create new project"
+              className="w-full sm:w-auto bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white px-6 py-3 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all transform hover:scale-105 text-sm sm:text-base"
             >
-              Create
+              + Skapa nytt projekt
             </button>
           </div>
 
           {/* Projects Section */}
           <div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Projects</h2>
-            {projects.length === 0 ? (
-              <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-100 text-center text-gray-500">
-                <p className="text-lg mb-4">Inga projekt hittades</p>
-                <button
-                  onClick={() => router.push('/projects/new')}
-                  className="bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-white font-bold py-2 px-6 rounded-xl"
-                  aria-label="Skapa första projektet"
-                >
-                  Skapa första projektet
-                </button>
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6">Projekt</h2>
+            {dashboardProjects.length === 0 ? (
+              <div className="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg p-6 sm:p-8 text-center text-gray-500 dark:text-gray-400">
+                <p>Inga projekt ännu. Skapa ditt första projekt!</p>
               </div>
             ) : (
-              <>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  {projects.slice(0, 3).map((proj) => {
-                    const percentage = proj.budget > 0 ? Math.round((proj.hours / proj.budget) * 100) : 0
-                    return (
-                      <div
-                        key={proj.id}
-                        onClick={() => router.push(`/projects/${proj.id}`)}
-                        className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100 cursor-pointer hover:shadow-xl transition-all duration-200 transform hover:-translate-y-1 backdrop-blur-sm bg-opacity-90"
-                        role="button"
-                        tabIndex={0}
-                        aria-label={`Project ${proj.name} - ${percentage}% complete`}
-                        onKeyDown={(e) => {
-                          if (e.key === 'Enter' || e.key === ' ') {
-                            e.preventDefault()
-                            router.push(`/projects/${proj.id}`)
-                          }
-                        }}
-                      >
-                        <h3 className="text-xl font-bold text-gray-900 mb-4">{proj.name}</h3>
-                        <div className="mb-4">
-                          <div className="flex justify-between text-sm text-gray-600 mb-2">
-                            <span>{proj.hours}h / {proj.budget}h</span>
-                            <span className="font-bold">{percentage}%</span>
-                          </div>
-                          <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden" role="progressbar" aria-valuenow={percentage} aria-valuemin={0} aria-valuemax={100}>
-                            <div
-                              className={`h-full bg-gradient-to-r ${getProgressColor(percentage)} rounded-full transition-all duration-500`}
-                              style={{ width: `${Math.min(percentage, 100)}%` }}
-                            />
-                          </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                {dashboardProjects.map((project) => {
+                  const hours = project.budgeted_hours || 0
+                  const projectHours = (project as any).hours || 0
+                  // Allow percentage over 100% to show over-budget
+                  const percentage = hours > 0 ? (projectHours / hours) * 100 : 0
+                  const cappedPercentage = Math.min(percentage, 100) // For display width (max 100%)
+                  return (
+                    <div
+                      key={project.id}
+                      onClick={() => router.push(`/projects/${project.id}`)}
+                      className="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 border border-gray-100 dark:border-gray-700 cursor-pointer hover:shadow-xl transition-all duration-200 transform hover:-translate-y-1"
+                    >
+                      <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">{project.name}</h3>
+                      <div className="mb-2">
+                        <div className="flex justify-between text-sm text-gray-500 dark:text-gray-400 mb-1">
+                          <span>{projectHours.toFixed(1)}h / {hours}h</span>
+                          <span className={percentage > 100 ? 'text-red-600 dark:text-red-400 font-semibold' : ''}>
+                            {percentage.toFixed(0)}%
+                          </span>
                         </div>
+                        <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 relative overflow-hidden">
+                          <div
+                            className={`h-2 rounded-full bg-gradient-to-r ${getProgressColor(percentage)}`}
+                            style={{ width: `${cappedPercentage}%` }}
+                          />
+                          {percentage > 100 && (
+                            <div className="absolute top-0 left-0 w-full h-full bg-red-500/20 rounded-full" />
+                          )}
+                        </div>
+                        {percentage > 100 && (
+                          <p className="text-xs text-red-600 dark:text-red-400 mt-1 font-medium">
+                            ⚠️ Över budget med {(percentage - 100).toFixed(0)}%
+                          </p>
+                        )}
                       </div>
-                    )
-                  })}
-                </div>
-                {projects.length > 3 && (
-                  <button
-                    onClick={() => router.push('/projects')}
-                    className="mt-6 text-purple-600 font-semibold hover:text-purple-700 transition-colors"
-                    aria-label="Visa alla projekt"
-                  >
-                    View all projects →
-                  </button>
-                )}
-              </>
+                      {project.base_rate_sek && (
+                        <p className="text-xs text-gray-400 dark:text-gray-500">
+                          {project.base_rate_sek} kr/timme
+                        </p>
+                      )}
+                    </div>
+                  )
+                })}
+              </div>
             )}
           </div>
         </div>
@@ -189,4 +467,3 @@ export default function DashboardClient({ userEmail, stats, projects }: Dashboar
     </div>
   )
 }
-

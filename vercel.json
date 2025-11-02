@@ -1,0 +1,9 @@
+{
+  "crons": [
+    {
+      "path": "/api/rot/poll-status",
+      "schedule": "0 */6 * * *"
+    }
+  ]
+}
+

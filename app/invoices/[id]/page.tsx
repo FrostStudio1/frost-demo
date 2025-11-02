@@ -7,6 +7,8 @@ import { useTenant } from '@/context/TenantContext'
 import Sidebar from '@/components/Sidebar'
 import { sendInvoiceEmail } from './actions'
 import { toast } from '@/lib/toast'
+import FileUpload from '@/components/FileUpload'
+import FileList from '@/components/FileList'
 
 interface Invoice {
   id: string
@@ -21,6 +23,7 @@ interface Invoice {
 }
 
 interface InvoiceLine {
+  id?: string
   description: string
   quantity: number
   unit: string
@@ -40,6 +43,8 @@ export default function InvoicePage() {
   const [loading, setLoading] = useState(true)
   const [sending, setSending] = useState(false)
   const [downloading, setDownloading] = useState(false)
+  const [editingLineIndex, setEditingLineIndex] = useState<number | null>(null)
+  const [editingLine, setEditingLine] = useState<InvoiceLine | null>(null)
 
   useEffect(() => {
     if (!invoiceId || !tenantId) {
@@ -67,7 +72,7 @@ export default function InvoicePage() {
         // Hämta fakturarader om de finns
         const { data: linesData } = await supabase
           .from('invoice_lines')
-          .select('description, quantity, unit, rate_sek, amount_sek')
+          .select('id, description, quantity, unit, rate_sek, amount_sek, sort_order')
           .eq('invoice_id', invoiceId)
           .order('sort_order', { ascending: true })
 
@@ -140,14 +145,107 @@ export default function InvoicePage() {
     if (!confirm('Markera fakturan som betald?')) return
     
     try {
+      if (!tenantId) {
+        toast.error('Ingen tenant vald')
+        return
+      }
+
       const { error } = await supabase
         .from('invoices')
         .update({ status: 'paid' })
         .eq('id', invoiceId)
+        .eq('tenant_id', tenantId) // Security: Ensure tenant match
       
       if (error) throw error
       toast.success('Fakturan markerad som betald!')
       window.location.reload()
+    } catch (err: any) {
+      toast.error('Fel: ' + err.message)
+    }
+  }
+
+  function startEditLine(index: number) {
+    setEditingLineIndex(index)
+    setEditingLine({ ...lines[index] })
+  }
+
+  function cancelEdit() {
+    setEditingLineIndex(null)
+    setEditingLine(null)
+  }
+
+  async function saveLine(index: number) {
+    if (!editingLine) return
+    
+    // Recalculate amount if quantity or rate changed
+    const newAmount = Number(editingLine.quantity || 0) * Number(editingLine.rate_sek || 0)
+    const updatedLine = { ...editingLine, amount_sek: newAmount }
+    
+    try {
+      const line = lines[index]
+      
+      // If line has an id, update it in the database
+      if (line.id) {
+        if (!tenantId) {
+          toast.error('Ingen tenant vald')
+          return
+        }
+
+        const { error } = await supabase
+          .from('invoice_lines')
+          .update({
+            description: updatedLine.description,
+            quantity: updatedLine.quantity,
+            unit: updatedLine.unit,
+            rate_sek: updatedLine.rate_sek,
+            amount_sek: updatedLine.amount_sek,
+          })
+          .eq('id', line.id)
+          .eq('tenant_id', tenantId) // Security: Ensure tenant match
+        
+        if (error) throw error
+      }
+      
+      // Update local state
+      const updatedLines = [...lines]
+      updatedLines[index] = updatedLine
+      setLines(updatedLines)
+      
+      setEditingLineIndex(null)
+      setEditingLine(null)
+      toast.success('Rad uppdaterad!')
+    } catch (err: any) {
+      toast.error('Fel: ' + err.message)
+    }
+  }
+
+  async function deleteLine(index: number) {
+    if (!confirm('Vill du ta bort denna rad?')) return
+    
+    const line = lines[index]
+    
+    try {
+      // If line has an id, delete it from the database
+      if (line?.id) {
+        if (!tenantId) {
+          toast.error('Ingen tenant vald')
+          return
+        }
+
+        const { error } = await supabase
+          .from('invoice_lines')
+          .delete()
+          .eq('id', line.id)
+          .eq('tenant_id', tenantId) // Security: Ensure tenant match
+        
+        if (error) throw error
+      }
+      
+      // Update local state
+      const updatedLines = lines.filter((_, i) => i !== index)
+      setLines(updatedLines)
+      
+      toast.success('Rad borttagen!')
     } catch (err: any) {
       toast.error('Fel: ' + err.message)
     }
@@ -248,11 +346,93 @@ export default function InvoicePage() {
                   {lines.length > 0 ? (
                     lines.map((line, i) => (
                       <tr key={i} className="border-b border-gray-100">
-                        <td className="py-4 text-gray-900">{line.description}</td>
-                        <td className="py-4 text-right text-gray-600">{Number(line.quantity).toFixed(2)}</td>
-                        <td className="py-4 text-right text-gray-600">{line.unit}</td>
-                        <td className="py-4 text-right text-gray-600">{Number(line.rate_sek).toLocaleString('sv-SE')} kr</td>
-                        <td className="py-4 text-right font-semibold text-gray-900">{Number(line.amount_sek).toLocaleString('sv-SE')} kr</td>
+                        {editingLineIndex === i ? (
+                          <>
+                            <td className="py-4">
+                              <input
+                                type="text"
+                                value={editingLine?.description || ''}
+                                onChange={(e) => setEditingLine({ ...editingLine!, description: e.target.value })}
+                                className="w-full px-2 py-1 border rounded"
+                              />
+                            </td>
+                            <td className="py-4">
+                              <input
+                                type="number"
+                                step="0.01"
+                                value={editingLine?.quantity || 0}
+                                onChange={(e) => {
+                                  const qty = Number(e.target.value)
+                                  const rate = Number(editingLine?.rate_sek || 0)
+                                  setEditingLine({ ...editingLine!, quantity: qty, amount_sek: qty * rate })
+                                }}
+                                className="w-full px-2 py-1 border rounded text-right"
+                              />
+                            </td>
+                            <td className="py-4">
+                              <input
+                                type="text"
+                                value={editingLine?.unit || ''}
+                                onChange={(e) => setEditingLine({ ...editingLine!, unit: e.target.value })}
+                                className="w-full px-2 py-1 border rounded"
+                              />
+                            </td>
+                            <td className="py-4">
+                              <input
+                                type="number"
+                                step="0.01"
+                                value={editingLine?.rate_sek || 0}
+                                onChange={(e) => {
+                                  const rate = Number(e.target.value)
+                                  const qty = Number(editingLine?.quantity || 0)
+                                  setEditingLine({ ...editingLine!, rate_sek: rate, amount_sek: qty * rate })
+                                }}
+                                className="w-full px-2 py-1 border rounded text-right"
+                              />
+                            </td>
+                            <td className="py-4">
+                              <div className="flex gap-2 justify-end">
+                                <span className="font-semibold">{Number(editingLine?.amount_sek || 0).toLocaleString('sv-SE')} kr</span>
+                                <button
+                                  onClick={() => saveLine(i)}
+                                  className="px-2 py-1 bg-green-500 text-white rounded text-sm"
+                                >
+                                  ✓
+                                </button>
+                                <button
+                                  onClick={cancelEdit}
+                                  className="px-2 py-1 bg-gray-500 text-white rounded text-sm"
+                                >
+                                  ✕
+                                </button>
+                              </div>
+                            </td>
+                          </>
+                        ) : (
+                          <>
+                            <td className="py-4 text-gray-900">{line.description}</td>
+                            <td className="py-4 text-right text-gray-600">{Number(line.quantity).toFixed(2)}</td>
+                            <td className="py-4 text-right text-gray-600">{line.unit}</td>
+                            <td className="py-4 text-right text-gray-600">{Number(line.rate_sek).toLocaleString('sv-SE')} kr</td>
+                            <td className="py-4 text-right">
+                              <div className="flex gap-2 justify-end items-center">
+                                <span className="font-semibold text-gray-900">{Number(line.amount_sek).toLocaleString('sv-SE')} kr</span>
+                                <button
+                                  onClick={() => startEditLine(i)}
+                                  className="px-2 py-1 bg-blue-500 text-white rounded text-xs hover:bg-blue-600"
+                                >
+                                  ✏️
+                                </button>
+                                <button
+                                  onClick={() => deleteLine(i)}
+                                  className="px-2 py-1 bg-red-500 text-white rounded text-xs hover:bg-red-600"
+                                >
+                                  🗑️
+                                </button>
+                              </div>
+                            </td>
+                          </>
+                        )}
                       </tr>
                     ))
                   ) : (
@@ -314,6 +494,22 @@ export default function InvoicePage() {
               >
                 Tillbaka
               </button>
+            </div>
+          </div>
+
+          {/* Files Section */}
+          <div className="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 lg:p-8 border border-gray-100 dark:border-gray-700 mt-6 sm:mt-8">
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6">Bilagor</h2>
+            <FileUpload 
+              entityType="invoice" 
+              entityId={invoiceId}
+              onUploadComplete={() => {
+                // Trigger refresh
+                window.location.reload()
+              }}
+            />
+            <div className="mt-4">
+              <FileList entityType="invoice" entityId={invoiceId} />
             </div>
           </div>
         </div>

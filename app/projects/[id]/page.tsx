@@ -2,9 +2,13 @@
 
 import { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
-import FrostLogo from '@/components/FrostLogo'
 import supabase from '@/utils/supabase/supabaseClient'
 import { useTenant } from '@/context/TenantContext'
+import Sidebar from '@/components/Sidebar'
+import { toast } from '@/lib/toast'
+import AISummary from '@/components/AISummary'
+import FileUpload from '@/components/FileUpload'
+import FileList from '@/components/FileList'
 
 type ProjectRecord = {
   id: string
@@ -12,9 +16,11 @@ type ProjectRecord = {
   customer_name?: string | null
   customer_orgnr?: string | null
   base_rate_sek?: number | null
+  budgeted_hours?: number | null
+  status?: string | null
 }
 
-export default function ProjectInvoicePage() {
+export default function ProjectDetailPage() {
   const router = useRouter()
   const params = useParams()
   const { tenantId } = useTenant()
@@ -23,188 +29,659 @@ export default function ProjectInvoicePage() {
   const [hours, setHours] = useState<number>(0)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [entriesError, setEntriesError] = useState<string | null>(null)
+  const [timeEntries, setTimeEntries] = useState<any[]>([])
+  const [refreshTrigger, setRefreshTrigger] = useState(0)
 
   const projectId = params?.id as string | undefined
 
   useEffect(() => {
-    if (!projectId) return
+    if (!projectId) {
+      setLoading(false)
+      setError('Ingen projekt-ID angiven')
+      return
+    }
+
+    // Wait a bit for tenantId to load
+    if (!tenantId) {
+      console.log('⏳ Waiting for tenantId...')
+      // Don't set error yet, just wait
+      return
+    }
 
     let cancelled = false
 
     async function load() {
+      console.log('🔄 Project page: load() called', { projectId, tenantId, refreshTrigger })
       setLoading(true)
       setError(null)
-      setEntriesError(null)
       setHours(0)
 
       try {
-        let projectQuery = supabase
+        if (cancelled) return
+        
+        console.log('🔍 Loading project:', { projectId, tenantId })
+        
+        // Fetch project - try multiple approaches
+        // First: try with full client join
+        let { data: projectData, error: projectError } = await supabase
           .from('projects')
-          .select('*')
+          .select('*, clients(id, name, org_number), client_id')
           .eq('id', projectId)
-
-        if (tenantId) {
-          projectQuery = projectQuery.eq('tenant_id', tenantId)
+          .eq('tenant_id', tenantId)
+          .maybeSingle()
+        
+        // If error about org_number, retry without it
+        if (projectError && projectError.message?.includes('org_number')) {
+          console.log('⚠️ Retrying without org_number')
+          const retry = await supabase
+            .from('projects')
+            .select('*, clients(id, name), client_id')
+            .eq('id', projectId)
+            .eq('tenant_id', tenantId)
+            .maybeSingle()
+          
+          if (!retry.error && retry.data) {
+            projectData = retry.data
+            projectError = null
+          } else {
+            projectError = retry.error
+          }
+        }
+        
+        // If still error and it's a "not found" error, try without tenant filter (might be RLS issue)
+        if (projectError && (projectError.code === 'PGRST116' || projectError.message?.includes('No rows'))) {
+          console.log('⚠️ Project not found with tenant filter, trying without tenant check')
+          const retryNoTenant = await supabase
+            .from('projects')
+            .select('*, clients(id, name), client_id')
+            .eq('id', projectId)
+            .maybeSingle()
+          
+          if (!retryNoTenant.error && retryNoTenant.data) {
+            // Verify tenant matches manually
+            if (retryNoTenant.data.tenant_id === tenantId) {
+              projectData = retryNoTenant.data
+              projectError = null
+            } else {
+              projectError = { message: 'Projektet tillhör en annan tenant' } as any
+            }
+          }
         }
 
-        const { data: projectData, error: projectError } = await projectQuery.single()
         if (cancelled) return
 
-        if (projectError) {
-          console.error('Failed to fetch project', projectError)
-          setProject(null)
-          setError(projectError.message ?? 'Kunde inte hamta projektet.')
+        if (projectError || !projectData) {
+          console.error('❌ Failed to fetch project', {
+            error: projectError,
+            projectId,
+            tenantId,
+          })
+          setError('Kunde inte hämta projekt: ' + (projectError?.message || 'Okänt fel'))
           setLoading(false)
           return
         }
+        
+        console.log('✅ Project loaded:', projectData.name)
 
         setProject(projectData as ProjectRecord)
 
-        let entriesQuery = supabase
-          .from('time_entries')
-          .select('hours_total')
-          .eq('project_id', projectId)
-          .eq('is_billed', false)
+        // Hämta ofakturerade timmar och time entries för AI summary via API route
+        try {
+          console.log('📊 Project page: Fetching project hours from API...')
+          const hoursResponse = await fetch(`/api/projects/${projectId}/hours?projectId=${projectId}&_t=${Date.now()}`, {
+            cache: 'no-store',
+            headers: {
+              'Cache-Control': 'no-cache',
+            }
+          })
+          
+          if (hoursResponse.ok) {
+            const hoursData = await hoursResponse.json()
+            console.log('✅ Project page: Hours fetched:', hoursData)
+            setHours(hoursData.hours || 0)
+            setTimeEntries(hoursData.entries || [])
+          } else {
+            const errorText = await hoursResponse.text()
+            console.warn('❌ Failed to fetch project hours from API:', errorText)
+            // Fallback to direct query
+            const { data: entryRows, error: entriesErr } = await supabase
+              .from('time_entries')
+              .select('hours_total, date, ob_type')
+              .eq('project_id', projectId)
+              .eq('is_billed', false)
+              .eq('tenant_id', tenantId)
+              .order('date', { ascending: false })
+              .limit(50)
 
-        if (tenantId) {
-          entriesQuery = entriesQuery.eq('tenant_id', tenantId)
-        }
-
-        const { data: entryRows, error: entriesErr } = await entriesQuery
-        if (cancelled) return
-
-        if (entriesErr) {
-          console.error('Failed to fetch time entries', entriesErr)
-          setEntriesError(entriesErr.message ?? 'Kunde inte hamta tidposter.')
+            if (entriesErr) {
+              console.warn('Failed to fetch time entries', entriesErr)
+              setHours(0)
+              setTimeEntries([])
+            } else {
+              const totalHours = (entryRows ?? []).reduce((sum: number, row: any) => {
+                return sum + Number(row?.hours_total ?? 0)
+              }, 0)
+              setHours(totalHours)
+              setTimeEntries(entryRows || [])
+            }
+          }
+        } catch (hoursErr) {
+          console.warn('Error fetching project hours:', hoursErr)
           setHours(0)
-        } else {
-          const totalHours = (entryRows ?? []).reduce((sum: number, row: any) => {
-            return sum + Number(row?.hours_total ?? 0)
-          }, 0)
-          setHours(totalHours)
+          setTimeEntries([])
         }
 
-        setLoading(false)
-      } catch (err) {
         if (cancelled) return
-        console.error('Unexpected error when loading project invoice data', err)
-        setProject(null)
-        setError('Ett fel uppstod nar projektet skulle hamtas.')
+        setLoading(false)
+      } catch (err: any) {
+        if (cancelled) return
+        console.error('Unexpected error', err)
+        setError('Ett fel uppstod när projektet skulle hämtas.')
         setLoading(false)
       }
     }
 
     load()
-
+    
     return () => {
       cancelled = true
     }
-  }, [projectId, tenantId])
+  }, [projectId, tenantId, refreshTrigger])
 
-  if (!projectId) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-blue-50">
-        <FrostLogo size={38} />
-        <div className="ml-4 text-red-600 text-lg">Projekt-ID saknas.</div>
-      </div>
-    )
+  // Separate useEffect for event listener registration (runs once on mount)
+  useEffect(() => {
+    if (!projectId) return
+
+    // Listen for time entry updates (from TimeClock checkout)
+    const handleTimeEntryUpdate = (event: Event) => {
+      const customEvent = event as CustomEvent
+      console.log('🔄 Project page: Time entry updated event received!', customEvent.detail)
+      
+      // Check if this event is for this project (if projectId is in detail)
+      const eventProjectId = customEvent.detail?.projectId
+      if (eventProjectId && eventProjectId !== projectId) {
+        console.log('⏭️ Project page: Event is for different project, skipping', { eventProjectId, currentProjectId: projectId })
+        return
+      }
+      
+      // Small delay to ensure database has committed the changes
+      setTimeout(() => {
+        console.log('⏰ Project page: Triggering refresh...')
+        setRefreshTrigger(prev => {
+          const newValue = prev + 1
+          console.log('✅ Project page: Refresh trigger updated:', newValue)
+          return newValue
+        })
+      }, 500) // Increased delay to ensure DB commit
+    }
+    
+    // Also listen for localStorage updates (fallback)
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'timeEntryUpdated' && e.newValue) {
+        try {
+          const data = JSON.parse(e.newValue)
+          console.log('🔄 Project page: localStorage update received!', data)
+          if (data.projectId === projectId || !data.projectId) {
+            setTimeout(() => {
+              setRefreshTrigger(prev => prev + 1)
+            }, 500)
+          }
+        } catch (err) {
+          console.error('Error parsing storage event:', err)
+        }
+      }
+    }
+    
+    // Set up event listener on both window and document for maximum compatibility
+    if (typeof window !== 'undefined') {
+      window.addEventListener('timeEntryUpdated', handleTimeEntryUpdate)
+      document.addEventListener('timeEntryUpdated', handleTimeEntryUpdate)
+      document.body?.addEventListener('timeEntryUpdated', handleTimeEntryUpdate)
+      window.addEventListener('storage', handleStorageChange)
+      console.log('✅ Project page: Event listeners registered for timeEntryUpdated on window, document, and body')
+      
+      // Also check if there's a pending update in localStorage
+      const pendingUpdate = localStorage.getItem('timeEntryUpdated')
+      if (pendingUpdate) {
+        try {
+          const data = JSON.parse(pendingUpdate)
+          if (data.projectId === projectId || !data.projectId) {
+            console.log('🔄 Project page: Found pending update in localStorage, triggering refresh')
+            setTimeout(() => {
+              setRefreshTrigger(prev => prev + 1)
+            }, 500)
+          }
+        } catch (err) {
+          console.error('Error parsing pending update:', err)
+        }
+      }
+    }
+    
+    return () => {
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('timeEntryUpdated', handleTimeEntryUpdate)
+        document.removeEventListener('timeEntryUpdated', handleTimeEntryUpdate)
+        document.body?.removeEventListener('timeEntryUpdated', handleTimeEntryUpdate)
+        window.removeEventListener('storage', handleStorageChange)
+        console.log('🔌 Project page: Event listeners removed')
+      }
+    }
+  }, [projectId]) // Only re-run when projectId changes, not on refreshTrigger
+
+  async function handleSendInvoice() {
+    if (!projectId || !tenantId) {
+      toast.error('Saknade data för att skapa faktura')
+      return
+    }
+    
+    try {
+      // Hämta ofakturerade timmar först
+      const { data: entries } = await supabase
+        .from('time_entries')
+        .select('hours_total')
+        .eq('project_id', projectId)
+        .eq('is_billed', false)
+        .eq('tenant_id', tenantId)
+
+      const totalHours = (entries ?? []).reduce((sum: number, row: any) => {
+        return sum + Number(row?.hours_total ?? 0)
+      }, 0)
+
+      if (totalHours === 0) {
+        toast.error('Inga ofakturerade timmar att skicka faktura för.')
+        return
+      }
+
+      const rate = Number(project?.base_rate_sek ?? 0) || 360
+      const amount = totalHours * rate
+
+      // Get client_id from project if available - fix for proper client relation
+      const projectData = project as any
+      const clientId = projectData?.client_id || projectData?.clients?.id || null
+      const clientName = projectData?.clients?.name || project?.customer_name || 'Okänd kund'
+      
+      const invoicePayload: any = {
+        tenant_id: tenantId,
+        project_id: projectId,
+        customer_name: clientName,
+        amount,
+        desc: `${totalHours.toFixed(1)} timmar @ ${rate} kr/tim`,
+        status: 'sent',
+      }
+      
+      if (clientId) {
+        invoicePayload.client_id = clientId
+      }
+
+      // Also try to add issue_date if it exists in schema
+      try {
+        invoicePayload.issue_date = new Date().toISOString().split('T')[0]
+      } catch {
+        // Ignore if date fails
+      }
+      
+      // Skapa faktura
+      const { data: invoice, error: invError } = await supabase
+        .from('invoices')
+        .insert(invoicePayload)
+        .select()
+        .single()
+
+      if (invError) {
+        toast.error('Kunde inte skapa faktura: ' + invError.message)
+        return
+      }
+
+      // Markera timmar som fakturerade
+      await supabase
+        .from('time_entries')
+        .update({ is_billed: true })
+        .eq('project_id', projectId)
+        .eq('is_billed', false)
+        .eq('tenant_id', tenantId)
+
+      toast.success('Faktura skapad och markerad som skickad!')
+      router.push(`/invoices/${invoice.id}`)
+    } catch (err: any) {
+      toast.error('Fel: ' + err.message)
+    }
   }
 
-  if (loading) {
+  async function handleDownloadPDF() {
+    if (!projectId || !tenantId) {
+      toast.error('Saknade data för att skapa faktura')
+      return
+    }
+    
+    try {
+      // Skapa faktura först om den inte finns
+      const { data: entries } = await supabase
+        .from('time_entries')
+        .select('hours_total')
+        .eq('project_id', projectId)
+        .eq('is_billed', false)
+        .eq('tenant_id', tenantId)
+
+      const totalHours = (entries ?? []).reduce((sum: number, row: any) => {
+        return sum + Number(row?.hours_total ?? 0)
+      }, 0)
+
+      if (totalHours === 0) {
+        toast.error('Inga ofakturerade timmar att fakturera.')
+        return
+      }
+
+      const rate = Number(project?.base_rate_sek ?? 0) || 360
+      const amount = totalHours * rate
+
+      // Get client_id from project if available - fix for proper client relation
+      const projectData = project as any
+      const clientId = projectData?.client_id || projectData?.clients?.id || null
+      const clientName = projectData?.clients?.name || project?.customer_name || 'Okänd kund'
+      
+      const invoicePayload: any = {
+        tenant_id: tenantId,
+        project_id: projectId,
+        customer_name: clientName,
+        amount,
+        desc: `${totalHours.toFixed(1)} timmar @ ${rate} kr/tim`,
+        status: 'draft',
+      }
+      
+      if (clientId) {
+        invoicePayload.client_id = clientId
+      }
+
+      // Also try to add issue_date if it exists in schema
+      try {
+        invoicePayload.issue_date = new Date().toISOString().split('T')[0]
+      } catch {
+        // Ignore if date fails
+      }
+      
+      const { data: invoice, error: invError } = await supabase
+        .from('invoices')
+        .insert(invoicePayload)
+        .select()
+        .single()
+
+      if (invError) {
+        toast.error('Kunde inte skapa faktura: ' + invError.message)
+        return
+      }
+
+      // Ladda ner PDF
+      window.open(`/api/invoices/${invoice.id}?download=true`, '_blank')
+      toast.success('PDF laddas ner...')
+    } catch (err: any) {
+      toast.error('Fel: ' + err.message)
+    }
+  }
+
+  if (loading || !tenantId) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-blue-50">
-        <FrostLogo size={38} />
-        <div className="ml-4 text-blue-600 text-lg">Laddar projekt...</div>
+      <div className="min-h-screen bg-white dark:bg-gray-900 flex flex-col lg:flex-row">
+        <Sidebar />
+        <main className="flex-1 w-full flex items-center justify-center p-10">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-4 border-purple-200 dark:border-purple-800 border-t-purple-600 dark:border-t-purple-400 mx-auto mb-4"></div>
+            <p className="text-gray-500 dark:text-gray-400">
+              {!tenantId ? 'Laddar tenant-information...' : 'Laddar projekt...'}
+            </p>
+          </div>
+        </main>
       </div>
     )
   }
 
   if (error || !project) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-blue-50 px-6 text-center">
-        <FrostLogo size={38} />
-        <div className="ml-4 text-red-600 text-lg">
-          {error ?? 'Projektet hittas inte!'}
-        </div>
-        <button
-          className="ml-6 rounded-lg border border-blue-300 px-4 py-2 font-semibold text-blue-600 transition hover:bg-blue-600 hover:text-white"
-          onClick={() => router.back()}
-        >
-          Tillbaka
-        </button>
+      <div className="min-h-screen bg-white dark:bg-gray-900 flex flex-col lg:flex-row">
+        <Sidebar />
+        <main className="flex-1 w-full flex items-center justify-center p-10">
+          <div className="text-center max-w-md">
+            <p className="text-red-600 dark:text-red-400 text-lg mb-4">{error ?? 'Projektet hittas inte!'}</p>
+            <button
+              onClick={() => router.back()}
+              className="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-6 py-3 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all"
+            >
+              Tillbaka
+            </button>
+          </div>
+        </main>
       </div>
     )
   }
 
   const effectiveHours = Number.isFinite(hours) ? hours : 0
-  const rate = Number(project.base_rate_sek ?? 0)
-  const displayRate = rate > 0 ? rate : 600
-  const sum = effectiveHours * displayRate
+  const rate = Number(project.base_rate_sek ?? 0) || 360
+  const sum = effectiveHours * rate
+  const budget = Number(project.budgeted_hours ?? 0)
+  const progress = budget > 0 ? Math.min((effectiveHours / budget) * 100, 100) : 0
 
   return (
-    <div className="min-h-screen flex flex-col items-center bg-gradient-to-br from-blue-50 via-white to-blue-100 py-10">
-      <div className="bg-white shadow-xl rounded-3xl p-8 border border-blue-100 w-full max-w-md">
-        <div className="flex items-center gap-2 mb-5">
-          <FrostLogo size={28} />
-          <span className="font-black text-lg text-blue-700">Faktura Preview</span>
-        </div>
-        <div className="mb-5 text-blue-700 font-semibold">
-          <span className="text-xl font-bold">{project.customer_name ?? 'Kund saknas'}</span>
-          <br />
-          <span className="text-sm text-blue-500">Org.nr: {project.customer_orgnr ?? '--'}</span>
-        </div>
-        <hr className="mb-4" />
-        <div className="mb-2">
-          <span className="font-bold">Projekt:</span> {project.name}
-        </div>
-        <div>
-          <span className="font-bold">Rapporterade timmar:</span>{' '}
-          {effectiveHours.toLocaleString('sv-SE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-          <span className="ml-3 font-bold text-blue-700">
-            per {displayRate.toLocaleString('sv-SE')} kr/h
-          </span>
-        </div>
-        <div className="mt-4 mb-2 font-bold text-xl text-blue-700">
-          Total summa:{' '}
-          <span className="bg-blue-700 text-white rounded px-3 py-1">
-            {sum.toLocaleString('sv-SE')} kr
-          </span>
-        </div>
-        {entriesError && (
-          <div className="mt-4 rounded-lg border border-red-300 bg-red-50 p-3 text-sm text-red-700">
-            {entriesError}
+    <div className="min-h-screen bg-white dark:bg-gray-900 flex flex-col lg:flex-row">
+      <Sidebar />
+      <main className="flex-1 w-full lg:ml-0 overflow-x-hidden">
+        <div className="p-4 sm:p-6 lg:p-10 max-w-5xl mx-auto w-full">
+          {/* Header */}
+          <div className="mb-6 sm:mb-8">
+            <button
+              onClick={() => router.back()}
+              className="mb-4 text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 flex items-center gap-2 transition-colors"
+            >
+              ← Tillbaka
+            </button>
+            <h1 className="text-3xl sm:text-4xl font-black text-gray-900 dark:text-white mb-1 sm:mb-2">{project.name}</h1>
+            <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400">
+              {(project as any)?.clients?.name || project.customer_name || 'Ingen kund angiven'}
+            </p>
           </div>
-        )}
-        <hr className="my-4" />
-        <div className="flex gap-3 mb-3">
-          <button
-            className="bg-green-600 text-white font-bold py-2 px-4 rounded-xl shadow hover:bg-green-700 transition"
-            onClick={() => router.push(`/invoices/new?projectId=${projectId}`)}
-          >
-            📝 Skapa faktura från projektet
-          </button>
-          <button
-            className="bg-blue-700 text-white font-bold py-2 px-4 rounded-xl shadow hover:bg-blue-800 transition"
-            onClick={() => alert('Fakturan har skickats till kund (demo)')}
-          >
-            Skicka faktura
-          </button>
-          <button
-            className="bg-blue-100 text-blue-800 font-semibold py-2 px-4 rounded-xl border border-blue-300 hover:bg-white hover:text-blue-600 transition"
-            onClick={() => alert('PDF faktura laddad (demo)')}
-          >
-            Ladda ner PDF
-          </button>
+
+          {/* Stats Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
+            <div className="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 border border-gray-100 dark:border-gray-700">
+              <div className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-1">Rapporterade timmar</div>
+              <div className="text-2xl sm:text-3xl font-black text-blue-600 dark:text-blue-400">{effectiveHours.toFixed(1)}h</div>
+            </div>
+            <div className="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 border border-gray-100 dark:border-gray-700">
+              <div className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-1">Timpris</div>
+              <div className="text-2xl sm:text-3xl font-black text-purple-600 dark:text-purple-400">{rate.toLocaleString('sv-SE')} kr</div>
+            </div>
+            <div className="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 border border-gray-100 dark:border-gray-700">
+              <div className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-1">Ofakturerat</div>
+              <div className="text-2xl sm:text-3xl font-black text-pink-600 dark:text-pink-400">{sum.toLocaleString('sv-SE')} kr</div>
+            </div>
+            {budget > 0 && (
+              <div className="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 border border-gray-100 dark:border-gray-700">
+                <div className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-1">Budget</div>
+                <div className="text-2xl sm:text-3xl font-black text-green-600 dark:text-green-400">{budget}h</div>
+              </div>
+            )}
+          </div>
+
+          {/* Progress Bar */}
+          {budget > 0 && (
+            <div className="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 border border-gray-100 dark:border-gray-700 mb-6 sm:mb-8">
+              <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400 mb-2">
+                <span>Budgetprogression</span>
+                <span className="font-bold">{progress.toFixed(0)}%</span>
+              </div>
+              <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-4 overflow-hidden">
+                <div
+                  className={`h-full bg-gradient-to-r ${
+                    progress >= 90 ? 'from-red-500 to-red-600' :
+                    progress >= 70 ? 'from-orange-500 to-orange-600' :
+                    'from-blue-500 via-purple-500 to-pink-500'
+                  } rounded-full transition-all duration-500`}
+                  style={{ width: `${Math.min(progress, 100)}%` }}
+                />
+              </div>
+            </div>
+          )}
+
+          {/* AI Summary */}
+          <AISummary
+            type="project"
+            data={{
+              name: project.name,
+              hours: effectiveHours,
+              budgetedHours: budget,
+              status: project.status || 'Pågående',
+              customerName: (project as any)?.clients?.name || project.customer_name,
+              timeEntries: timeEntries,
+            }}
+            className="mb-6 sm:mb-8"
+          />
+
+          {/* Files Section */}
+          <div className="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 lg:p-8 border border-gray-100 dark:border-gray-700 mb-6 sm:mb-8">
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6">Bilagor</h2>
+            <FileUpload 
+              entityType="project" 
+              entityId={projectId}
+              onUploadComplete={() => {
+                // Trigger refresh
+                window.location.reload()
+              }}
+            />
+            <div className="mt-4">
+              <FileList entityType="project" entityId={projectId} />
+            </div>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 lg:p-8 border border-gray-100 dark:border-gray-700 mb-6 sm:mb-8">
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6">Fakturering</h2>
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+              <button
+                onClick={() => router.push(`/invoices/new?projectId=${projectId}`)}
+                className="flex-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white px-6 py-3 sm:py-4 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all transform hover:scale-105 text-sm sm:text-base"
+              >
+                📝 Skapa faktura
+              </button>
+              <button
+                onClick={handleSendInvoice}
+                className="flex-1 bg-gradient-to-r from-green-500 to-emerald-500 text-white px-6 py-3 sm:py-4 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all transform hover:scale-105 text-sm sm:text-base"
+              >
+                ✉️ Skapa & skicka faktura
+              </button>
+              <button
+                onClick={handleDownloadPDF}
+                className="flex-1 bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-3 sm:py-4 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all transform hover:scale-105 text-sm sm:text-base"
+              >
+                📄 Ladda ner PDF
+              </button>
+            </div>
+          </div>
+
+          {/* Archive Button */}
+          <div className="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 lg:p-8 border border-gray-100 dark:border-gray-700">
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6">Projekthantering</h2>
+            {project.status === 'archived' || project.status === 'completed' ? (
+              <div className="space-y-4">
+                <div className="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-4 border border-blue-200 dark:border-blue-800">
+                  <p className="text-blue-800 dark:text-blue-200 font-semibold mb-2">
+                    ✅ Projektet är arkiverat
+                  </p>
+                  <p className="text-sm text-blue-600 dark:text-blue-400">
+                    Detta projekt är markerat som {project.status === 'archived' ? 'arkiverat' : 'klart'} och syns i arkivet.
+                  </p>
+                </div>
+                <button
+                  onClick={async () => {
+                    if (!confirm(`Vill du återställa projektet "${project.name}"? Det kommer att synas bland aktiva projekt igen.`)) {
+                      return
+                    }
+                    
+                    try {
+                      const { error } = await supabase
+                        .from('projects')
+                        .update({ status: 'active' })
+                        .eq('id', projectId)
+                        .eq('tenant_id', tenantId)
+                      
+                      if (error) {
+                        // Try without status if column doesn't exist
+                        if (error.code === '42703' || error.message?.includes('status')) {
+                          toast.error('Status-kolumn finns inte i databasen. Kontakta administratören.')
+                          return
+                        }
+                        throw error
+                      }
+                      
+                      toast.success('Projekt återställt!')
+                      router.push('/projects')
+                    } catch (err: any) {
+                      console.error('Error restoring project:', err)
+                      toast.error('Kunde inte återställa projekt: ' + (err.message || 'Okänt fel'))
+                    }
+                  }}
+                  className="w-full bg-gradient-to-r from-blue-500 to-indigo-500 text-white px-6 py-3 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all transform hover:scale-105"
+                >
+                  🔄 Återställ projekt
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={async () => {
+                  if (!confirm(`Vill du arkivera projektet "${project.name}"? Det kommer att flyttas till arkivet.`)) {
+                    return
+                  }
+                  
+                  try {
+                    // First try with status column
+                    let { error } = await supabase
+                      .from('projects')
+                      .update({ status: 'archived' })
+                      .eq('id', projectId)
+                      .eq('tenant_id', tenantId)
+                    
+                    // If status column doesn't exist, try 'completed'
+                    if (error && (error.code === '42703' || error.message?.includes('status'))) {
+                      const fallback = await supabase
+                        .from('projects')
+                        .update({ status: 'completed' })
+                        .eq('id', projectId)
+                        .eq('tenant_id', tenantId)
+                      
+                      if (fallback.error) {
+                        throw fallback.error
+                      }
+                      
+                      toast.success('Projekt markerat som klart och arkiverat!')
+                    } else if (error) {
+                      throw error
+                    } else {
+                      toast.success('Projekt arkiverat!')
+                      
+                      // Add notification
+                      if (typeof window !== 'undefined') {
+                        const { addNotification } = await import('@/lib/notifications')
+                        addNotification({
+                          type: 'info',
+                          title: 'Projekt arkiverat',
+                          message: `Projektet "${project.name}" har arkiverats`,
+                          link: '/projects'
+                        })
+                      }
+                    }
+                    
+                    // Redirect to projects list
+                    router.push('/projects')
+                  } catch (err: any) {
+                    console.error('Error archiving project:', err)
+                    toast.error('Kunde inte arkivera projekt: ' + (err.message || 'Okänt fel'))
+                  }
+                }}
+                className="w-full bg-gradient-to-r from-gray-500 to-gray-600 text-white px-6 py-3 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all transform hover:scale-105"
+              >
+                📦 Arkivera projekt
+              </button>
+            )}
+          </div>
         </div>
-        <button
-          className="w-full mt-2 py-2 px-2 font-semibold rounded-lg text-blue-600 border border-blue-300 hover:text-white hover:bg-blue-600 hover:border-blue-700"
-          onClick={() => router.back()}
-        >
-          Tillbaka
-        </button>
-        <div className="mt-6 text-xs text-blue-400 text-center">Frost Bygg faktura</div>
-      </div>
+      </main>
     </div>
   )
 }

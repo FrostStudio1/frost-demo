@@ -69,13 +69,13 @@ export default function AnimatedStat({
     return () => clearTimeout(timer)
   }, [isVisible, value, delay])
 
-  return (
-    <div ref={ref} className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100 transform transition-all duration-300 hover:scale-105">
-      <div className={`text-3xl font-black mb-1 bg-gradient-to-r ${gradient} bg-clip-text text-transparent`}>
-        {displayValue.toLocaleString('sv-SE')}{suffix}
-      </div>
-      <div className="text-sm text-gray-500">{label}</div>
-    </div>
-  )
+      return (
+        <div ref={ref} className="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 border border-gray-100 dark:border-gray-700 transform transition-all duration-300 hover:scale-105">
+          <div className={`text-2xl sm:text-3xl font-black mb-1 bg-gradient-to-r ${gradient} bg-clip-text text-transparent`}>
+            {displayValue.toLocaleString('sv-SE')}{suffix}
+          </div>
+          <div className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">{label}</div>
+        </div>
+      )
 }
 

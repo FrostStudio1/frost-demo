@@ -35,12 +35,6 @@ export function useTenant(): { tenantId: string | null; isLoading: boolean } {
           if (claimTenant) {
             setTenantId(claimTenant)
             context.setTenantId(claimTenant)
-            // Sync to localStorage for legacy code (TODO: remove in cleanup PR)
-            if (typeof window !== 'undefined') {
-              try {
-                localStorage.setItem('tenantId', claimTenant)
-              } catch {}
-            }
             setIsLoading(false)
             return
           }
@@ -49,18 +43,6 @@ export function useTenant(): { tenantId: string | null; isLoading: boolean } {
         // Silent fail, fall through
       }
 
-      // Fallback: localStorage (legacy, for migration period - TODO: remove)
-      if (typeof window !== 'undefined') {
-        try {
-          const stored = localStorage.getItem('tenantId') || localStorage.getItem('tenant_id')
-          if (stored) {
-            setTenantId(stored)
-            context.setTenantId(stored)
-            setIsLoading(false)
-            return
-          }
-        } catch {}
-      }
 
       setIsLoading(false)
     }

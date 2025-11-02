@@ -16,11 +16,35 @@ export async function POST(req: Request) {
   }
 
   const res = NextResponse.json({ ok: true });
-  const base = { httpOnly: true, sameSite: 'lax' as const, secure: isProd, path: '/' };
+  const base = { 
+    httpOnly: true, 
+    sameSite: 'lax' as const, 
+    secure: isProd, 
+    path: '/',
+    // Ensure cookies are available immediately
+    domain: undefined // Don't restrict domain
+  };
 
   // Kort livslängd för access, längre för refresh
-  res.cookies.set('sb-access-token', access_token, { ...base, maxAge: 60 * 60 });            // 1h
-  res.cookies.set('sb-refresh-token', refresh_token, { ...base, maxAge: 60 * 60 * 24 * 7 }); // 7d
+  // CRITICAL: Set cookies with explicit options to ensure they work
+  res.cookies.set('sb-access-token', access_token, { 
+    ...base, 
+    maxAge: 60 * 60,
+    httpOnly: true,
+    sameSite: 'lax',
+    secure: isProd,
+    path: '/',
+  });
+  res.cookies.set('sb-refresh-token', refresh_token, { 
+    ...base, 
+    maxAge: 60 * 60 * 24 * 7,
+    httpOnly: true,
+    sameSite: 'lax',
+    secure: isProd,
+    path: '/',
+  });
+  
+  // Also set SameSite=None if needed for cross-site (but we're same-site, so lax is fine)
   return res;
 }
 

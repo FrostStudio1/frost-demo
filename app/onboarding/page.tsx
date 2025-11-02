@@ -12,18 +12,25 @@ export default function OnboardingPage() {
   const { tenantId, setTenantId } = useTenant()
   const [step, setStep] = useState(1)
   const [loading, setLoading] = useState(false)
+  const [finalTenantId, setFinalTenantId] = useState<string | null>(tenantId) // Store tenant ID from step 1
   
   // Step 1: Company info
   const [companyName, setCompanyName] = useState('')
   const [orgNumber, setOrgNumber] = useState('')
   
-  // Step 2: First customer
+  // Step 2: Admin user info
+  const [adminName, setAdminName] = useState('')
+  const [adminEmail, setAdminEmail] = useState('')
+  const [adminBaseRate, setAdminBaseRate] = useState('360')
+  
+  // Step 3: First customer
   const [customerName, setCustomerName] = useState('')
   const [customerEmail, setCustomerEmail] = useState('')
   const [customerAddress, setCustomerAddress] = useState('')
   const [customerOrgNumber, setCustomerOrgNumber] = useState('')
+  const [clientId, setClientId] = useState<string | null>(null) // Store client ID from step 3
   
-  // Step 3: First project
+  // Step 4: First project
   const [projectName, setProjectName] = useState('')
   const [projectBudget, setProjectBudget] = useState('')
   const [projectRate, setProjectRate] = useState('360')
@@ -46,33 +53,44 @@ export default function OnboardingPage() {
       }
 
       // Update or create tenant
-      let finalTenantId = tenantId
+      let currentTenantId = tenantId || finalTenantId
       
-      if (!tenantId) {
-        // Create new tenant
-        const { data: newTenant, error: tenantError } = await supabase
-          .from('tenants')
-          .insert([{
+      if (!currentTenantId) {
+        // Create new tenant via API route (bypasses RLS)
+        const createTenantRes = await fetch('/api/onboarding/create-tenant', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({
             name: companyName,
-            org_number: orgNumber || null,
-          }])
-          .select()
-          .single()
+            orgNumber: orgNumber || null,
+            userId: userId,
+          }),
+        })
 
-        if (tenantError) throw tenantError
-        finalTenantId = newTenant.id
+        if (!createTenantRes.ok) {
+          const errorData = await createTenantRes.json().catch(() => ({}))
+          throw new Error(errorData.error || 'Kunde inte skapa tenant')
+        }
 
-        // Create employee record for user
-        const { error: empError } = await supabase
-          .from('employees')
-          .insert([{
-            auth_user_id: userId,
-            tenant_id: finalTenantId,
-            full_name: userData?.user?.email?.split('@')[0] || 'Admin',
-            role: 'admin',
-          }])
-
-        if (empError) console.error('Error creating employee:', empError)
+        const resultData = await createTenantRes.json()
+        const newTenantId = resultData.tenantId || resultData.tenant_id
+        
+        if (!newTenantId) {
+          console.error('Create tenant response:', resultData)
+          throw new Error('Kunde inte skapa tenant - inget tenant ID returnerades. Response: ' + JSON.stringify(resultData))
+        }
+        
+        currentTenantId = newTenantId
+        setFinalTenantId(newTenantId) // Store in state for step 2
+        const employeeId = resultData.employeeId || null
+        
+        if (!employeeId) {
+          console.warn('Employee record was not created during tenant creation')
+          // Don't show error toast - dashboard will auto-create it as fallback
+          // toast.error('Varning: Kunde inte skapa anställd-record automatiskt. Du kan behöva skapa den manuellt.')
+        } else {
+          console.log('Employee record created successfully:', employeeId)
+        }
 
         // CRITICAL: Set tenant in user metadata and cookie immediately
         try {
@@ -80,7 +98,7 @@ export default function OnboardingPage() {
             method: 'POST',
             headers: { 'content-type': 'application/json' },
             body: JSON.stringify({ 
-              tenantId: finalTenantId,
+              tenantId: currentTenantId,
               userId: userId
             }),
           })
@@ -92,21 +110,49 @@ export default function OnboardingPage() {
           }
           
           // Update TenantContext immediately
-          setTenantId(finalTenantId)
+          setTenantId(currentTenantId)
         } catch (err: any) {
           console.error('Failed to set tenant in metadata:', err)
           toast.error('Varning: Kunde inte sätta tenant korrekt. Försök logga in igen.')
           throw err
         }
       } else {
-        // Update existing tenant
-        await supabase
+        // Update existing tenant - try with org_number first, fallback without it
+        const updatePayload: any = { name: companyName }
+        if (orgNumber && orgNumber.trim()) {
+          updatePayload.org_number = orgNumber.trim()
+        }
+        
+        const updateResult = await supabase
           .from('tenants')
-          .update({ name: companyName, org_number: orgNumber || null })
-          .eq('id', tenantId)
+          .update(updatePayload)
+          .eq('id', currentTenantId)
+        
+        if (updateResult.error && (updateResult.error.code === '42703' || updateResult.error.message?.includes('org_number'))) {
+          // org_number column doesn't exist, try without it
+          await supabase
+            .from('tenants')
+            .update({ name: companyName })
+            .eq('id', currentTenantId)
+        }
+        
+        setFinalTenantId(currentTenantId) // Store in state for step 2
       }
 
         // Tenant will be synced via TenantContext
+        
+      // Pre-fill admin email from current user (userData is already defined above)
+      if (userData?.user?.email) {
+        setAdminEmail(userData.user.email)
+      }
+      if (userData?.user?.user_metadata?.full_name) {
+        setAdminName(userData.user.user_metadata.full_name)
+      } else if (userData?.user?.email) {
+        // Extract name from email
+        const emailName = userData.user.email.split('@')[0]
+        setAdminName(emailName.charAt(0).toUpperCase() + emailName.slice(1))
+      }
+        
       setStep(2)
     } catch (err: any) {
       toast.error('Fel: ' + err.message)
@@ -116,35 +162,56 @@ export default function OnboardingPage() {
   }
 
   async function handleStep2() {
-    if (!customerName.trim()) {
-      toast.error('Kundnamn krävs')
+    if (!adminName.trim()) {
+      toast.error('Admin-namn krävs')
       return
     }
     
     setLoading(true)
     try {
-      if (!tenantId) {
-        toast.error('Ingen tenant hittad. Logga in eller välj tenant först.')
+      const { data: userData } = await supabase.auth.getUser()
+      const userId = userData?.user?.id
+
+      if (!userId) {
+        toast.error('Du är inte inloggad')
         setLoading(false)
         return
       }
 
-      // Create customer (org_number tas bort eftersom det inte finns i clients-tabellen)
-      // Privata kunder har inget org.nr, bara företag
-      const { error } = await supabase
-        .from('clients')
-        .insert([{
-          tenant_id: tenantId,
-          name: customerName,
-          email: customerEmail || null,
-          address: customerAddress || null,
-          // org_number finns inte i clients-tabellen - privata kunder har inget org.nr
-        }])
+      // Use finalTenantId from step 1 (state), or fallback to tenantId from context
+      const currentTenantId = finalTenantId || tenantId
+      
+      if (!currentTenantId) {
+        toast.error('Ingen tenant hittad. Gå tillbaka till steg 1 och skapa företag först.')
+        setLoading(false)
+        return
+      }
 
-      if (error) throw error
+      // Update admin employee record via API route (bypasses RLS)
+      const updateAdminRes = await fetch('/api/onboarding/update-admin', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          tenantId: currentTenantId,
+          userId: userId,
+          fullName: adminName,
+          email: adminEmail || null,
+          baseRate: Number(adminBaseRate) || 360,
+        }),
+      })
+
+      if (!updateAdminRes.ok) {
+        const errorData = await updateAdminRes.json().catch(() => ({}))
+        console.error('Update admin error:', errorData)
+        throw new Error(errorData.error || 'Kunde inte uppdatera admin-användare')
+      }
+
+      const adminResult = await updateAdminRes.json()
+      console.log('Admin employee updated/created:', adminResult)
 
       setStep(3)
     } catch (err: any) {
+      console.error('Error in handleStep2:', err)
       toast.error('Fel: ' + err.message)
     } finally {
       setLoading(false)
@@ -152,6 +219,62 @@ export default function OnboardingPage() {
   }
 
   async function handleStep3() {
+    if (!customerName.trim()) {
+      toast.error('Kundnamn krävs')
+      return
+    }
+    
+    setLoading(true)
+    try {
+      // Use finalTenantId from step 1 (state), or fallback to tenantId from context
+      const currentTenantId = finalTenantId || tenantId
+      
+      if (!currentTenantId) {
+        toast.error('Ingen tenant hittad. Gå tillbaka till steg 1 och skapa företag först.')
+        setLoading(false)
+        return
+      }
+
+      console.log('Creating client with tenantId:', currentTenantId)
+      console.log('finalTenantId from state:', finalTenantId)
+      console.log('tenantId from context:', tenantId)
+
+      // Create customer via API route (bypasses RLS)
+      const createClientRes = await fetch('/api/onboarding/create-client', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          tenantId: currentTenantId, // Use the tenant ID from step 1
+          name: customerName,
+          email: customerEmail || null,
+          address: customerAddress || null,
+          orgNumber: customerOrgNumber || null,
+          clientType: 'company', // Default to company for onboarding
+        }),
+      })
+
+      if (!createClientRes.ok) {
+        const errorData = await createClientRes.json().catch(() => ({}))
+        console.error('Create client error:', errorData)
+        throw new Error(errorData.error || 'Kunde inte skapa kund')
+      }
+
+      const clientResult = await createClientRes.json()
+      if (clientResult.clientId) {
+        setClientId(clientResult.clientId)
+        console.log('Client created with ID:', clientResult.clientId)
+      }
+
+      setStep(4)
+    } catch (err: any) {
+      console.error('Error in handleStep3:', err)
+      toast.error('Fel: ' + err.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  async function handleStep4() {
     if (!projectName.trim()) {
       toast.error('Projektnamn krävs')
       return
@@ -159,35 +282,61 @@ export default function OnboardingPage() {
     
     setLoading(true)
     try {
-      if (!tenantId) {
-        toast.error('Ingen tenant hittad. Logga in eller välj tenant först.')
+      // Use finalTenantId from step 1 (state), or fallback to tenantId from context
+      const currentTenantId = finalTenantId || tenantId
+      
+      if (!currentTenantId) {
+        toast.error('Ingen tenant hittad. Gå tillbaka till steg 1 och skapa företag först.')
         setLoading(false)
         return
       }
 
-      // Create project
-      // customer_orgnr finns inte i projects-tabellen, så vi sparar bara grunddata
-      const { error } = await supabase
-        .from('projects')
-        .insert([{
-          tenant_id: tenantId,
-          name: projectName,
-          customer_name: customerName,
-          budgeted_hours: projectBudget ? Number(projectBudget) : null,
-          base_rate_sek: Number(projectRate) || 360,
-          // Org.nr sparas inte i projektet - det används bara för referens vid fakturering
-        }])
+      console.log('Creating project with tenantId:', currentTenantId)
+      console.log('Client ID from step 3:', clientId)
+      console.log('finalTenantId from state:', finalTenantId)
+      console.log('tenantId from context:', tenantId)
 
-      if (error) throw error
+      // Note: We don't verify tenant from frontend because RLS might block it
+      // The API route (which uses service role) will handle verification
+
+      // Add a longer delay between client creation and project creation
+      // This ensures all database transactions are fully committed
+      // Increased delay to handle potential read replica lag or connection pool issues
+      await new Promise(resolve => setTimeout(resolve, 1000))
+
+      // Create project via API route (bypasses RLS)
+      const createProjectRes = await fetch('/api/onboarding/create-project', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          tenantId: currentTenantId,
+          name: projectName,
+          clientId: clientId || null, // Use client ID from step 2 if available
+          baseRate: Number(projectRate) || 360,
+          budgetedHours: projectBudget ? Number(projectBudget) : null,
+        }),
+      })
+
+      if (!createProjectRes.ok) {
+        const errorData = await createProjectRes.json().catch(() => ({}))
+        console.error('Create project error:', errorData)
+        throw new Error(errorData.error || 'Kunde inte skapa projekt')
+      }
 
       // CRITICAL: Ensure tenant is set before redirect
       // Wait a bit to ensure cookie is set, then do full page reload
       await new Promise(resolve => setTimeout(resolve, 1000))
       
-      toast.success('Onboarding klar! Redirectar...')
-      // Force full page reload to ensure cookies/metadata are available
-      window.location.href = '/dashboard'
+      toast.success('Onboarding klar!')
+      toast.info('💡 Viktigt: Logga ut och in igen för att se tidsrapporter och stämpelklockan.')
+      
+      // Wait a moment for toasts to show, then redirect
+      setTimeout(() => {
+        // Force full page reload to ensure cookies/metadata are available
+        window.location.href = '/dashboard'
+      }, 3000)
     } catch (err: any) {
+      console.error('Error in handleStep3:', err)
       toast.error('Fel: ' + err.message)
     } finally {
       setLoading(false)
@@ -195,8 +344,8 @@ export default function OnboardingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-100 flex items-center justify-center p-4">
-      <div className="w-full max-w-2xl bg-white rounded-3xl shadow-2xl border border-gray-100 p-10">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center p-4">
+      <div className="w-full max-w-2xl bg-white rounded-xl sm:rounded-2xl shadow-2xl border border-gray-100 p-6 sm:p-8 lg:p-10">
         <div className="flex flex-col items-center mb-8">
           <FrostLogo size={64} />
           <h1 className="font-black text-4xl mt-4 mb-2 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
@@ -208,10 +357,10 @@ export default function OnboardingPage() {
         {/* Progress */}
         <div className="mb-8">
           <div className="flex justify-between mb-2">
-            {[1, 2, 3].map((s) => (
+            {[1, 2, 3, 4].map((s) => (
               <div
                 key={s}
-                className={`w-1/3 h-2 rounded-full mx-1 ${
+                className={`w-1/4 h-2 rounded-full mx-1 ${
                   s <= step ? 'bg-gradient-to-r from-blue-500 to-purple-500' : 'bg-gray-200'
                 }`}
               />
@@ -219,6 +368,7 @@ export default function OnboardingPage() {
           </div>
           <div className="flex justify-between text-xs text-gray-500">
             <span>Företag</span>
+            <span>Admin</span>
             <span>Kund</span>
             <span>Projekt</span>
           </div>
@@ -261,8 +411,65 @@ export default function OnboardingPage() {
           </div>
         )}
 
-        {/* Step 2: Customer */}
+        {/* Step 2: Admin User */}
         {step === 2 && (
+          <div className="space-y-6">
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                Ditt namn (Admin) *
+              </label>
+              <input
+                type="text"
+                value={adminName}
+                onChange={(e) => setAdminName(e.target.value)}
+                className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                placeholder="Anna Andersson"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                E-post
+              </label>
+              <input
+                type="email"
+                value={adminEmail}
+                onChange={(e) => setAdminEmail(e.target.value)}
+                className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                placeholder="anna@exempel.se"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                Grundlön per timme (SEK)
+              </label>
+              <input
+                type="number"
+                value={adminBaseRate}
+                onChange={(e) => setAdminBaseRate(e.target.value)}
+                className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                placeholder="360"
+              />
+            </div>
+            <div className="flex gap-4">
+              <button
+                onClick={() => setStep(1)}
+                className="flex-1 px-6 py-4 rounded-xl border-2 border-gray-300 text-gray-700 font-semibold hover:bg-gray-50 transition-colors"
+              >
+                ← Tillbaka
+              </button>
+              <button
+                onClick={handleStep2}
+                disabled={loading}
+                className="flex-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white rounded-xl py-4 font-bold text-lg shadow-lg hover:shadow-xl transition-all disabled:opacity-50"
+              >
+                {loading ? 'Sparar...' : 'Fortsätt →'}
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Step 3: Customer */}
+        {step === 3 && (
           <div className="space-y-6">
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">
@@ -317,13 +524,13 @@ export default function OnboardingPage() {
             </div>
             <div className="flex gap-4">
               <button
-                onClick={() => setStep(1)}
+                onClick={() => setStep(2)}
                 className="flex-1 px-6 py-4 rounded-xl border-2 border-gray-300 text-gray-700 font-semibold hover:bg-gray-50 transition-colors"
               >
                 ← Tillbaka
               </button>
               <button
-                onClick={handleStep2}
+                onClick={handleStep3}
                 disabled={loading}
                 className="flex-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white rounded-xl py-4 font-bold text-lg shadow-lg hover:shadow-xl transition-all disabled:opacity-50"
               >
@@ -333,8 +540,8 @@ export default function OnboardingPage() {
           </div>
         )}
 
-        {/* Step 3: Project */}
-        {step === 3 && (
+        {/* Step 4: Project */}
+        {step === 4 && (
           <div className="space-y-6">
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">
@@ -376,13 +583,13 @@ export default function OnboardingPage() {
             </div>
             <div className="flex gap-4">
               <button
-                onClick={() => setStep(2)}
+                onClick={() => setStep(3)}
                 className="flex-1 px-6 py-4 rounded-xl border-2 border-gray-300 text-gray-700 font-semibold hover:bg-gray-50 transition-colors"
               >
                 ← Tillbaka
               </button>
               <button
-                onClick={handleStep3}
+                onClick={handleStep4}
                 disabled={loading}
                 className="flex-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white rounded-xl py-4 font-bold text-lg shadow-lg hover:shadow-xl transition-all disabled:opacity-50"
               >

@@ -157,7 +157,7 @@ export default async function PayrollPage({ searchParams }: { searchParams?: Rec
          {rows.map((r) => (
   <tr key={r.employee_id} className="hover:bg-gray-50">
     <td className="p-3">
-      <Link href={`/payroll/${r.employee_id}?month=${label}`} className="underline decoration-dotted hover:decoration-solid">
+      <Link href={`/payroll/employeeID/${r.employee_id}?month=${label}`} className="underline decoration-dotted hover:decoration-solid">
         {r.name}
       </Link>
     </td>

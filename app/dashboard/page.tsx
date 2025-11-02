@@ -2,6 +2,7 @@ import { createClient } from '@/utils/supabase/server'
 import { getTenantId } from '@/lib/serverTenant'
 import DashboardClient from './DashboardClient'
 import { redirect } from 'next/navigation'
+import { cookies } from 'next/headers'
 
 interface ProjectType {
   id: string
@@ -12,10 +13,38 @@ interface ProjectType {
 
 export default async function DashboardPage() {
   const supabase = createClient()
+  
+  // Try to get user - check cookies first to avoid immediate redirect
+  const cookieStore = await cookies()
+  const hasAccessToken = cookieStore.get('sb-access-token')
+  const hasRefreshToken = cookieStore.get('sb-refresh-token')
+  
+  // If we have tokens, try to get user (even if it fails, we might just need to refresh)
   const { data: { user }, error: authError } = await supabase.auth.getUser()
   
-  // If no user, redirect to login
+  // If no user, but we have tokens, it might be a timing/refresh issue
+  // Don't redirect immediately - try refreshing once
   if (!user || authError) {
+    // If we have cookies, wait a moment and retry (cookies might not be synced yet)
+    if (hasAccessToken || hasRefreshToken) {
+      // Wait a bit for cookies to fully sync
+      await new Promise(resolve => setTimeout(resolve, 200))
+      const retry = await supabase.auth.getUser()
+      if (!retry.data?.user) {
+        // Still no user after retry - redirect to login
+        redirect('/login?redirect=/dashboard')
+      }
+      // Success on retry - continue below
+    } else {
+      // No cookies at all - definitely not logged in
+      redirect('/login?redirect=/dashboard')
+    }
+  }
+  
+  // If we get here, we have a user (either from first attempt or retry)
+  const finalUser = user || (await supabase.auth.getUser()).data?.user
+  
+  if (!finalUser) {
     redirect('/login?redirect=/dashboard')
   }
   
@@ -78,13 +107,17 @@ export default async function DashboardPage() {
     hours: projectHoursMap.get(p.id) ?? 0
   }))
 
-  // Calculate stats
-  const oneWeekAgo = new Date(Date.now() - 6*24*60*60*1000).toISOString().slice(0,10)
+  // Calculate stats - get all time entries for this week (unbilled only for dashboard)
+  const oneWeekAgo = new Date()
+  oneWeekAgo.setDate(oneWeekAgo.getDate() - 7) // Last 7 days
+  const oneWeekAgoStr = oneWeekAgo.toISOString().split('T')[0]
+  
   const { data: weekRows } = await supabase
     .from('time_entries')
-    .select('hours_total')
-    .gte('date', oneWeekAgo)
+    .select('hours_total, date')
+    .gte('date', oneWeekAgoStr)
     .eq('tenant_id', tenantId)
+    .eq('is_billed', false) // Only count unbilled hours for dashboard stats
 
   const totalHours = (weekRows ?? []).reduce((sum, row) => sum + Number(row.hours_total ?? 0), 0)
 
@@ -102,7 +135,7 @@ export default async function DashboardPage() {
 
   return (
     <DashboardClient
-      userEmail={user?.email ?? null}
+      userEmail={finalUser?.email ?? null}
       stats={stats}
       projects={projects}
     />

@@ -100,17 +100,17 @@ export default function AdminPage() {
   const totalRevenue = invoices.filter(i => i.status === 'paid').reduce((sum, inv) => sum + Number(inv.amount || 0), 0)
 
   return (
-    <div className="min-h-screen bg-white flex">
+    <div className="min-h-screen bg-white flex flex-col lg:flex-row">
       <Sidebar />
-      <main className="flex-1 lg:ml-0 overflow-x-hidden">
-        <div className="p-6 lg:p-10 max-w-7xl mx-auto">
-          <div className="mb-8">
-            <h1 className="text-4xl font-black text-gray-900 mb-2">Admin Dashboard</h1>
-            <p className="text-gray-500">Översikt över företaget</p>
+      <main className="flex-1 w-full lg:ml-0 overflow-x-hidden">
+        <div className="p-4 sm:p-6 lg:p-10 max-w-7xl mx-auto w-full">
+          <div className="mb-6 sm:mb-8">
+            <h1 className="text-3xl sm:text-4xl font-black text-gray-900 mb-1 sm:mb-2">Admin Dashboard</h1>
+            <p className="text-sm sm:text-base text-gray-500">Översikt över företaget</p>
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
             <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
               <div className="text-3xl font-black text-blue-600 mb-1">{employees.length}</div>
               <div className="text-sm text-gray-500">Anställda</div>
@@ -151,7 +151,7 @@ export default function AdminPage() {
                         <td className="p-4 text-gray-600">{emp.email || '–'}</td>
                         <td className="p-4 text-right">
                           <button
-                            onClick={() => router.push(`/payroll/employeeID?employee=${emp.id}`)}
+                            onClick={() => router.push(`/payroll/employeeID/${emp.id}`)}
                             className="text-blue-600 hover:text-blue-800 font-semibold text-sm"
                           >
                             Lönespec →
