@@ -10,6 +10,8 @@ import AISummary from '@/components/AISummary'
 import FileUpload from '@/components/FileUpload'
 import FileList from '@/components/FileList'
 import DidYouKnow from '@/components/DidYouKnow'
+import ATA2Card from '@/components/ATA2Card'
+import BudgetCard from '@/components/BudgetCard'
 import { useProject, useProjectHours } from '@/hooks/useProjects'
 import { useAdmin } from '@/hooks/useAdmin'
 
