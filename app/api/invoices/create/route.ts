@@ -218,11 +218,11 @@ export async function POST(req: Request) {
     let insertResult: any = null
     let insertError: any = null
 
-    // Attempt 1: Try with all columns including desc
+    // Attempt 1: Try with all columns including desc and project_id
     insertResult = await adminSupabase
       .from('invoices')
       .insert([basePayload])
-      .select()
+      .select('*, project_id') // Explicitly include project_id in select
       .single()
 
     // Attempt 2: If desc fails, try without desc (keep description)
@@ -231,7 +231,7 @@ export async function POST(req: Request) {
       insertResult = await adminSupabase
         .from('invoices')
         .insert([payloadWithoutDesc])
-        .select()
+        .select('*, project_id') // Explicitly include project_id
         .single()
     }
 
@@ -241,7 +241,7 @@ export async function POST(req: Request) {
       insertResult = await adminSupabase
         .from('invoices')
         .insert([payloadWithoutBoth])
-        .select()
+        .select('*, project_id') // Explicitly include project_id
         .single()
     }
 
@@ -251,7 +251,7 @@ export async function POST(req: Request) {
       insertResult = await adminSupabase
         .from('invoices')
         .insert([payloadWithoutCustomerName])
-        .select()
+        .select('*, project_id') // Explicitly include project_id
         .single()
     }
 

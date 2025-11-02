@@ -74,13 +74,12 @@ export default function SidebarClient() {
         aria-label="Huvudnavigation"
       >
         <div className="h-full flex flex-col">
-          {/* Logo and Notifications */}
+          {/* Logo */}
           <div className="p-6 border-b border-gray-100 dark:border-gray-800">
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center justify-center mb-4">
               <div className="text-xl sm:text-2xl font-black bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 bg-clip-text text-transparent truncate">
                 Frost Solutions
               </div>
-              <NotificationCenter />
             </div>
           </div>
 
