@@ -14981,3 +14981,110 @@ Import traces:
 [01:47:17.073] Server  LOG      ✓ Compiled in 79ms
 [01:47:30.778] Server  LOG      ✓ Compiled in 54ms
 [01:47:43.923] Server  LOG      ✓ Compiled in 64ms
+[01:48:57.859] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[01:48:57.866] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[01:48:57.872] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[01:48:57.988] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[01:48:58.517] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[01:48:58.517] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[01:49:23.127] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[01:49:23.131] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[01:49:23.152] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[01:49:23.240] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[01:49:23.522] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[01:49:23.522] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[01:49:27.640] Browser LOG     🔍 ProjectsContent: Fetching projects for tenantId: 8ee28f55-b780-4286-8137-9e70ea58ae56
+[01:49:27.640] Browser LOG     ✅ Projects list: Event listeners registered for timeEntryUpdated on window, document, and body
+[01:49:27.640] Browser LOG     🔄 Projects list: Found pending update in localStorage, triggering refresh
+[01:49:27.640] Browser LOG     🔌 Projects list: Event listeners removed
+[01:49:27.640] Browser LOG     🔍 ProjectsContent: Fetching projects for tenantId: 8ee28f55-b780-4286-8137-9e70ea58ae56
+[01:49:27.640] Browser LOG     ✅ Projects list: Event listeners registered for timeEntryUpdated on window, document, and body
+[01:49:27.640] Browser LOG     🔄 Projects list: Found pending update in localStorage, triggering refresh
+[01:49:27.727] Server  LOG     ✅ Projects/list: Fetching projects for valid tenant: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[01:49:27.749] Server  LOG     ✅ Projects/list: Fetching projects for valid tenant: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[01:49:27.889] Server  LOG     ✅ Projects/list: User access verified for tenant: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[01:49:27.893] Server  LOG     ✅ Projects/list: User access verified for tenant: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[01:49:27.967] Server  LOG     ✅ Projects/list: Query returned 5 "projects"
+[01:49:27.967] Server  LOG     ✅ Projects/list: After verification: 5 "projects"
+[01:49:27.970] Server  LOG     ✅ Projects/list: Query returned 5 "projects"
+[01:49:27.970] Server  LOG     ✅ Projects/list: After verification: 5 "projects"
+[01:49:28.034] Server  LOG     ✅ Projects/list: After tenant validation: 5 "projects"
+[01:49:28.034] Server  LOG     🔇 Filtering out project: "Dörr installtion" "status:" "completed"
+[01:49:28.035] Server  LOG     🔇 Filtering out project: "d" "status:" "archived"
+[01:49:28.035] Server  LOG     ✅ Projects/list: After status filter: 3 "projects"
+[01:49:28.038] Server  LOG     ✅ Projects/list: After tenant validation: 5 "projects"
+[01:49:28.038] Server  LOG     🔇 Filtering out project: "Dörr installtion" "status:" "completed"
+[01:49:28.038] Server  LOG     🔇 Filtering out project: "d" "status:" "archived"
+[01:49:28.039] Server  LOG     ✅ Projects/list: After status filter: 3 "projects"
+[01:49:28.177] Browser LOG     📊 Projects fetched via API: 3 projects for tenantId: 8ee28f55-b780-4286-8137-9e70ea58ae56
+[01:49:28.177] Browser LOG     ✅ ProjectsContent: Verified 3 projects after security check
+[01:49:28.177] Browser LOG     📊 Projects list: Fetching hours for 3 projects
+[01:49:28.177] Browser LOG     📊 Projects fetched via API: 3 projects for tenantId: 8ee28f55-b780-4286-8137-9e70ea58ae56
+[01:49:28.177] Browser LOG     ✅ ProjectsContent: Verified 3 projects after security check
+[01:49:28.177] Browser LOG     📊 Projects list: Fetching hours for 3 projects
+[01:49:28.419] Server  LOG     ✅ Using tenant from employee record: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[01:49:28.420] Server  LOG     🔍 API: Fetching project hours {}
+[01:49:28.453] Server  LOG     ✅ Using tenant from employee record: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[01:49:28.453] Server  LOG     🔍 API: Fetching project hours {}
+[01:49:28.459] Server  LOG     ✅ Using tenant from employee record: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[01:49:28.459] Server  LOG     🔍 API: Fetching project hours {}
+[01:49:28.471] Server  LOG     ✅ Using tenant from employee record: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[01:49:28.472] Server  LOG     🔍 API: Fetching project hours {}
+[01:49:28.473] Server  LOG     ✅ Using tenant from employee record: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[01:49:28.473] Server  LOG     🔍 API: Fetching project hours {}
+[01:49:28.497] Server  LOG     ✅ Using tenant from employee record: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[01:49:28.498] Server  LOG     🔍 API: Fetching project hours {}
+[01:49:28.514] Server  LOG     ✅ API: Project hours calculated {}
+[01:49:28.523] Server  LOG     ✅ API: Project hours calculated {}
+[01:49:28.528] Server  LOG     ✅ API: Project hours calculated {}
+[01:49:28.536] Server  LOG     ✅ API: Project hours calculated {}
+[01:49:28.541] Server  LOG     ✅ API: Project hours calculated {}
+[01:49:28.570] Server  LOG     ✅ API: Project hours calculated {}
+[01:49:28.676] Browser LOG     ✅ Project 27f56576-0a89-4327-9245-6fb389da5215: 9h
+[01:49:28.676] Browser LOG     ✅ Project a03ddc24-d8d2-42d4-a58f-9bba896f0638: 13h
+[01:49:28.676] Browser LOG     ✅ Project a03ddc24-d8d2-42d4-a58f-9bba896f0638: 13h
+[01:49:28.676] Browser LOG     ✅ Project 3cd7be04-2d7b-4375-9b98-7f6a8c675777: 4h
+[01:49:28.676] Browser LOG     ✅ Project 3cd7be04-2d7b-4375-9b98-7f6a8c675777: 4h
+[01:49:28.676] Browser LOG     ✅ Projects list: Hours map updated: [["3cd7be04-2d7b-4375-9b98-7f6a8c675777",4],["a03ddc24-d8d2-42d4-a58f-9bba896f0638",13],["27f56576-0a89-4327-9245-6fb389da5215",9]]
+[01:49:28.676] Browser LOG     ✅ Project 27f56576-0a89-4327-9245-6fb389da5215: 9h
+[01:49:28.676] Browser LOG     ✅ Projects list: Hours map updated: [["3cd7be04-2d7b-4375-9b98-7f6a8c675777",4],["a03ddc24-d8d2-42d4-a58f-9bba896f0638",13],["27f56576-0a89-4327-9245-6fb389da5215",9]]
+[01:49:29.635] Browser LOG     🔌 Projects list: Event listeners removed
+[01:49:29.635] Browser LOG     🔄 Project page: load() called {"projectId":"a03ddc24-d8d2-42d4-a58f-9bba896f0638","refreshTrigger":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[01:49:29.635] Browser LOG     🔍 Loading project: {"projectId":"a03ddc24-d8d2-42d4-a58f-9bba896f0638","tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[01:49:29.635] Browser LOG     ✅ Project page: Event listeners registered for timeEntryUpdated on window, document, and body
+[01:49:29.635] Browser LOG     🔌 Project page: Event listeners removed
+[01:49:29.635] Browser LOG     🔄 Project page: load() called {"projectId":"a03ddc24-d8d2-42d4-a58f-9bba896f0638","refreshTrigger":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[01:49:29.635] Browser LOG     🔍 Loading project: {"projectId":"a03ddc24-d8d2-42d4-a58f-9bba896f0638","tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[01:49:29.635] Browser LOG     ✅ Project page: Event listeners registered for timeEntryUpdated on window, document, and body
+[01:49:29.821] Browser LOG     ✅ Project loaded: Takrenovering
+[01:49:29.821] Browser LOG     📋 Project client info: {"client_id":"f4784956-6b9d-46f3-9db9-a4f59e0fde35","clients":{"id":"f4784956-6b9d-46f3-9db9-a4f59e0fde35","name":"Stefan Frost","org_number":null},"customer_name":"Stefan Frost"}
+[01:49:29.821] Browser LOG     📊 Project page: Fetching project hours from API...
+[01:49:30.114] Server  LOG     ✅ Using tenant from employee record: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[01:49:30.114] Server  LOG     🔍 API: Fetching project hours {}
+[01:49:30.187] Server  LOG     ✅ API: Project hours calculated {}
+[01:49:30.292] Browser LOG     ✅ Project page: Hours fetched: {"count":2,"entries":[{"date":"2025-11-02","hours_total":9,"ob_type":"evening"},{"date":"2025-11-02","hours_total":4,"ob_type":"work"}],"hours":13}
+[01:49:32.238] Browser LOG     🔌 Project page: Event listeners removed
+[01:49:32.238] Browser LOG     Fetching clients for tenant: 8ee28f55-b780-4286-8137-9e70ea58ae56
+[01:49:32.238] Browser LOG     Fetching clients for tenant: 8ee28f55-b780-4286-8137-9e70ea58ae56
+[01:49:32.238] Browser LOG     Clients fetched: 2
+[01:49:32.238] Browser LOG     Clients fetched: 2
+[01:49:33.415] Server  LOG     Tenant verified: {}
+[01:49:33.482] Server  WARN    Could not touch tenant with updated_at: {}
+[01:49:33.625] Server  LOG     ✅ Tenant confirmed visible in transaction: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[01:49:33.765] Server  LOG     ✅ Final tenant check passed, using tenant_id: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[01:49:34.124] Server  LOG     📋 Found 0 unbilled time entries for project a03ddc24-d8d2-42d4-a58f-9bba896f0638
+[01:49:34.125] Server  ERROR   ❌ Error fetching time entries: {}
+[01:49:34.125] Server  LOG     ⚠️ No unbilled time entries found for project a03ddc24-d8d2-42d4-a58f-9bba896f0638
+[01:49:35.111] Browser ERROR   Error fetching invoice lines: {"code":"42703","details":null,"hint":null,"message":"column invoice_lines.quantity does not exist"}
+[01:49:35.111] Browser LOG     ⚠️ No invoice lines found, checking if we should create from invoice data
+[01:49:35.111] Browser LOG     No invoice lines and no fallback data available
+[01:49:35.111] Browser ERROR   Error fetching invoice lines: {"code":"42703","details":null,"hint":null,"message":"column invoice_lines.quantity does not exist"}
+[01:49:35.111] Browser LOG     ⚠️ No invoice lines found, checking if we should create from invoice data
+[01:49:35.111] Browser LOG     No invoice lines and no fallback data available
+[01:50:33.436] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[01:50:33.451] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[01:50:33.534] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[01:50:33.638] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[01:50:34.152] Server  LOG      ✓ Compiled in 66ms
+[01:50:34.508] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[01:50:34.508] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
