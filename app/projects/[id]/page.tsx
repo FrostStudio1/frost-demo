@@ -24,6 +24,7 @@ type ProjectRecord = {
   budgeted_hours?: number | null
   status?: string | null
   client_id?: string | null
+  tenant_id?: string | null
   clients?: {
     id: string
     name: string
@@ -670,6 +671,20 @@ export default function ProjectDetailPage() {
 
           {/* Did You Know */}
           <DidYouKnow />
+
+          {/* ÄTA 2.0 Section */}
+          {project && (
+            <div className="mb-6 sm:mb-8">
+              <ATA2Card projectId={project.id} tenantId={project.tenant_id || tenantId || ''} />
+            </div>
+          )}
+
+          {/* Budget & Alerts Section */}
+          {project && (
+            <div className="mb-6 sm:mb-8">
+              <BudgetCard projectId={project.id} tenantId={project.tenant_id || tenantId || ''} />
+            </div>
+          )}
 
           {/* Employee Hours Section */}
           <div className="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 lg:p-8 border border-gray-100 dark:border-gray-700 mb-6 sm:mb-8">
