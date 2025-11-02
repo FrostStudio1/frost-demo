@@ -2586,3 +2586,11 @@ Import traces:
 [00:27:52.541] Server  LOG      ✓ Compiled in 49ms
 [00:27:52.772] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":3,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
 [00:27:52.772] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":3,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:28:23.328] Browser LOG     🔍 EmployeesPage: Fetching employees for tenantId: 8ee28f55-b780-4286-8137-9e70ea58ae56
+[00:28:23.328] Browser LOG     🔍 EmployeesPage: Fetching employees for tenantId: 8ee28f55-b780-4286-8137-9e70ea58ae56
+[00:28:23.560] Browser LOG     ✅ EmployeesPage: Found 1 employees for tenantId: 8ee28f55-b780-4286-8137-9e70ea58ae56
+[00:28:23.560] Browser LOG     ✅ EmployeesPage: Found 1 employees for tenantId: 8ee28f55-b780-4286-8137-9e70ea58ae56
+[00:29:50.959] Server  ERROR   Error creating employee (all fallbacks failed): {}
+[00:29:51.067] Browser ERROR   Unexpected error: {}
+[00:30:33.897] Server  LOG      ✓ Compiled in 62ms
+[00:30:59.119] Server  LOG      ✓ Compiled in 49ms

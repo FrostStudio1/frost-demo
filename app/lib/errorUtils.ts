@@ -1,3 +1,5 @@
+'use client'
+
 /**
  * Utility functions for better error handling
  */
@@ -93,4 +95,3 @@ export function logError(context: string, error: any, additionalInfo?: Record<st
   
   return errorInfo
 }
-

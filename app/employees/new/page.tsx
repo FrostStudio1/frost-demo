@@ -42,11 +42,16 @@ export default function NewEmployeePage() {
 
     try {
       // Use API route with service role for reliable employee creation
+      // Ensure role is lowercase to match database constraint
+      const normalizedRole = role && typeof role === 'string' 
+        ? role.toLowerCase() 
+        : 'employee'
+      
       const payload: any = {
         tenant_id: tenantId,
         name: fullName.trim(),
         full_name: fullName.trim(),
-        role: role,
+        role: normalizedRole,
         base_rate_sek: Number(baseRate) || 360,
         default_rate_sek: Number(baseRate) || 360,
       }

@@ -119,9 +119,11 @@ export async function POST(req: Request) {
       )
     }
 
-    // Validate role
-    const validRoles = ['admin', 'employee', 'Admin', 'Employee']
-    const sanitizedRole = role && validRoles.includes(role) ? role : 'employee'
+    // Validate role - ensure lowercase to match database constraint
+    const validRoles = ['admin', 'employee']
+    const sanitizedRole = role && typeof role === 'string' 
+      ? (validRoles.includes(role.toLowerCase()) ? role.toLowerCase() : 'employee')
+      : 'employee'
 
     // Validate rates
     const sanitizedBaseRate = base_rate_sek ? Math.max(0, Math.min(1000000, Number(base_rate_sek))) : 360
