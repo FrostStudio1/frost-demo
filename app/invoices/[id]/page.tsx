@@ -171,17 +171,24 @@ export default function InvoicePage() {
         }
 
         // Hämta fakturarader om de finns
-        const { data: linesData } = await supabase
+        const { data: linesData, error: linesError } = await supabase
           .from('invoice_lines')
           .select('id, description, quantity, unit, rate_sek, amount_sek, sort_order')
           .eq('invoice_id', invoiceId)
           .order('sort_order', { ascending: true })
 
-        if (linesData) {
+        if (linesError) {
+          console.error('Error fetching invoice lines:', linesError)
+        }
+
+        if (linesData && linesData.length > 0) {
+          console.log(`✅ Found ${linesData.length} invoice lines`)
           setLines(linesData as InvoiceLine[])
         } else {
+          console.log('⚠️ No invoice lines found, checking if we should create from invoice data')
           // Om inga rader finns, skapa en från faktura-data
           if (invData.desc && invData.amount) {
+            console.log('Creating fallback line from invoice desc/amount')
             setLines([{
               description: invData.desc,
               quantity: 1,
@@ -189,6 +196,9 @@ export default function InvoicePage() {
               rate_sek: Number(invData.amount) || 0,
               amount_sek: Number(invData.amount) || 0,
             }])
+          } else {
+            console.log('No invoice lines and no fallback data available')
+            setLines([])
           }
         }
       } catch (err) {

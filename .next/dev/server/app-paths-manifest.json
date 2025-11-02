@@ -1,5 +1,6 @@
 {
   "/_not-found/page": "app/_not-found/page.js",
+  "/admin/work-sites/page": "app/admin/work-sites/page.js",
   "/analytics/page": "app/analytics/page.js",
   "/api/admin/check/route": "app/api/admin/check/route.js",
   "/api/ai/summarize/route": "app/api/ai/summarize/route.js",
@@ -24,6 +25,8 @@
   "/api/tenant/get-tenant/route": "app/api/tenant/get-tenant/route.js",
   "/api/time-entries/create/route": "app/api/time-entries/create/route.js",
   "/api/time-entries/list/route": "app/api/time-entries/list/route.js",
+  "/api/work-sites/[id]/route": "app/api/work-sites/[id]/route.js",
+  "/api/work-sites/route": "app/api/work-sites/route.js",
   "/auth/callback/page": "app/auth/callback/page.js",
   "/calendar/page": "app/calendar/page.js",
   "/clients/page": "app/clients/page.js",

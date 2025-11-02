@@ -317,12 +317,18 @@ export async function POST(req: Request) {
         // Fetch unbilled time entries for this project
         const { data: timeEntries, error: entriesError } = await adminSupabase
           .from('time_entries')
-          .select('id, hours_total, date, start_time, end_time')
+          .select('id, hours_total, date, start_time, end_time, description, employee_id, ob_type')
           .eq('project_id', project_id)
           .eq('is_billed', false)
           .eq('tenant_id', verifiedTenantId)
           .order('date', { ascending: true })
           .order('start_time', { ascending: true })
+
+        console.log(`📋 Found ${timeEntries?.length || 0} unbilled time entries for project ${project_id}`)
+
+        if (entriesError) {
+          console.error('❌ Error fetching time entries:', entriesError)
+        }
 
         if (!entriesError && timeEntries && timeEntries.length > 0) {
           // Create invoice lines from time entries - store time_entry_id for reference
@@ -330,7 +336,9 @@ export async function POST(req: Request) {
             const hours = Number(entry.hours_total) || 0
             const entryDate = entry.date ? new Date(entry.date).toLocaleDateString('sv-SE') : 'Okänt datum'
             const timeInfo = entry.start_time ? ` (${entry.start_time.substring(0, 5)}${entry.end_time ? `-${entry.end_time.substring(0, 5)}` : ''})` : ''
-            const description = `Timmar ${entryDate}${timeInfo}${entry.description ? ` - ${entry.description}` : ''}`
+            const obInfo = entry.ob_type && entry.ob_type !== 'work' ? ` [${entry.ob_type}]` : ''
+            const descInfo = entry.description ? ` - ${entry.description}` : ''
+            const description = `Timmar ${entryDate}${timeInfo}${obInfo}${descInfo}`
             
             return {
               invoice_id: invoice.id,
@@ -346,6 +354,8 @@ export async function POST(req: Request) {
             }
           })
 
+          console.log(`📝 Created ${invoiceLines.length} invoice lines to insert`)
+
           // Try to insert with time_entry_id, fallback without it if column doesn't exist
           let linesError: any = null
           let insertResult = await adminSupabase
@@ -354,6 +364,7 @@ export async function POST(req: Request) {
             .select()
 
           if (insertResult.error && (insertResult.error.code === '42703' || insertResult.error.message?.includes('time_entry_id'))) {
+            console.log('⚠️ time_entry_id column not found, inserting without it')
             // If time_entry_id column doesn't exist, insert without it
             const linesWithoutRef = invoiceLines.map(({ time_entry_id, ...line }) => line)
             insertResult = await adminSupabase
@@ -366,9 +377,11 @@ export async function POST(req: Request) {
           }
 
           if (linesError) {
-            console.error('Error creating invoice lines:', linesError)
+            console.error('❌ Error creating invoice lines:', linesError)
+            console.error('Failed lines:', JSON.stringify(invoiceLines.slice(0, 2), null, 2))
             // Continue anyway - invoice is created
           } else {
+            console.log(`✅ Successfully inserted ${insertResult.data?.length || 0} invoice lines`)
             // Recalculate total amount from invoice lines
             const totalAmount = invoiceLines.reduce((sum, line) => sum + Number(line.amount_sek || 0), 0)
             
@@ -390,11 +403,16 @@ export async function POST(req: Request) {
             // Store the time entry IDs in invoice metadata or return them for frontend to handle
             invoice.time_entry_ids = timeEntries.map((e: any) => e.id)
           }
+        } else {
+          console.log(`⚠️ No unbilled time entries found for project ${project_id}`)
         }
       } catch (linesError: any) {
-        console.error('Error creating invoice lines from time entries:', linesError)
+        console.error('❌ Error creating invoice lines from time entries:', linesError)
+        console.error('Error details:', JSON.stringify(linesError, null, 2))
         // Continue - invoice is created even if lines fail
       }
+    } else {
+      console.log(`⚠️ No project_id provided, skipping invoice line creation from time entries`)
     }
 
     return NextResponse.json({ data: invoice })
