@@ -356,30 +356,61 @@ export async function POST(req: Request) {
 
           console.log(`📝 Created ${invoiceLines.length} invoice lines to insert`)
 
-          // Try to insert with time_entry_id, fallback without it if column doesn't exist
+          // Try to insert without time_entry_id first (in case column doesn't exist)
+          // Remove time_entry_id to avoid potential column errors
+          const linesToInsert = invoiceLines.map(({ time_entry_id, ...line }) => line)
+          
+          console.log(`📤 Attempting to insert ${linesToInsert.length} invoice lines`)
+          console.log(`📤 Sample line:`, JSON.stringify(linesToInsert[0], null, 2))
+          
           let linesError: any = null
           let insertResult = await adminSupabase
             .from('invoice_lines')
-            .insert(invoiceLines)
+            .insert(linesToInsert)
             .select()
 
-          if (insertResult.error && (insertResult.error.code === '42703' || insertResult.error.message?.includes('time_entry_id'))) {
-            console.log('⚠️ time_entry_id column not found, inserting without it')
-            // If time_entry_id column doesn't exist, insert without it
-            const linesWithoutRef = invoiceLines.map(({ time_entry_id, ...line }) => line)
+          linesError = insertResult.error
+
+          // If there's an error, try with even fewer fields (progressive fallback)
+          if (linesError && (linesError.code === '42703' || linesError.code === '400')) {
+            console.log('⚠️ Insert failed, trying minimal fields')
+            const minimalLines = linesToInsert.map(line => ({
+              invoice_id: line.invoice_id,
+              tenant_id: line.tenant_id,
+              sort_order: line.sort_order,
+              description: line.description,
+              quantity: line.quantity,
+              amount_sek: line.amount_sek,
+            }))
+            
             insertResult = await adminSupabase
               .from('invoice_lines')
-              .insert(linesWithoutRef)
+              .insert(minimalLines)
               .select()
-            linesError = insertResult.error
-          } else {
-            linesError = insertResult.error
+            
+            if (!insertResult.error) {
+              console.log('✅ Inserted with minimal fields')
+              linesError = null
+            } else {
+              linesError = insertResult.error
+            }
           }
 
           if (linesError) {
             console.error('❌ Error creating invoice lines:', linesError)
-            console.error('Failed lines:', JSON.stringify(invoiceLines.slice(0, 2), null, 2))
-            // Continue anyway - invoice is created
+            console.error('Error code:', linesError.code)
+            console.error('Error message:', linesError.message)
+            console.error('Error details:', linesError.details)
+            console.error('Error hint:', linesError.hint)
+            console.error('Failed lines (first 2):', JSON.stringify(linesToInsert.slice(0, 2), null, 2))
+            
+            // Return error but still return invoice so user can see it was created
+            return NextResponse.json({ 
+              data: invoice,
+              warning: 'Invoice created but failed to create invoice lines',
+              error: linesError.message || 'Failed to create invoice lines',
+              details: linesError
+            })
           } else {
             console.log(`✅ Successfully inserted ${insertResult.data?.length || 0} invoice lines`)
             // Recalculate total amount from invoice lines

@@ -406,7 +406,7 @@ export default function ProjectDetailPage() {
       const result = await response.json()
 
       if (!response.ok || result.error) {
-        console.error('Error creating invoice:', result)
+        console.error('❌ Error creating invoice:', result)
         
         // Show detailed error message
         let errorMessage = result.error || result.details || 'Okänt fel'
@@ -429,10 +429,17 @@ export default function ProjectDetailPage() {
 
       const invoice = result.data
 
+      // Check if there was a warning about invoice lines
+      if (result.warning) {
+        console.warn('⚠️ Warning:', result.warning)
+        toast.error(`Faktura skapad men kunde inte skapa invoice lines: ${result.error || 'Okänt fel'}`)
+      } else {
+        toast.success('Faktura skapad! Granska och godkänn den på fakturasidan för att markera time entries som fakturerade.')
+      }
+
       // DO NOT mark time entries as billed here - they will be marked when invoice is approved
       // Time entries are copied to invoice lines and can be reviewed/approved on the invoice page
 
-      toast.success('Faktura skapad! Granska och godkänn den på fakturasidan för att markera time entries som fakturerade.')
       router.push(`/invoices/${invoice.id}`)
     } catch (err: any) {
       toast.error('Fel: ' + err.message)
