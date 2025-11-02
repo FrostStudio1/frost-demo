@@ -16277,3 +16277,812 @@ Module not found: Can't resolve '@/utils/supabase/admin'
 Import map: aliased to relative './app/utils/supabase/admin' inside of [project]/frost-demo
 
 https://nextjs.org/docs/messages/module-not-found
+[01:59:19.520] Browser ERROR   ./frost-demo/app/api/invoices/[id]/approve/route.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/admin'
+  1 | import { NextResponse } from 'next/server'
+  2 | import { createClient } from '@/utils/supabase/server'
+> 3 | import { createAdminClient } from '@/utils/supabase/admin'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { getTenantId } from '@/lib/serverTenant'
+  5 |
+  6 | /**
+
+Import map: aliased to relative './app/utils/supabase/admin' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[01:59:19.520] Browser ERROR   ./frost-demo/app/api/invoices/[id]/approve/route.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/admin'
+  1 | import { NextResponse } from 'next/server'
+  2 | import { createClient } from '@/utils/supabase/server'
+> 3 | import { createAdminClient } from '@/utils/supabase/admin'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { getTenantId } from '@/lib/serverTenant'
+  5 |
+  6 | /**
+
+Import map: aliased to relative './app/utils/supabase/admin' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[01:59:19.520] Browser ERROR   ./frost-demo/app/api/invoices/[id]/approve/route.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/admin'
+  1 | import { NextResponse } from 'next/server'
+  2 | import { createClient } from '@/utils/supabase/server'
+> 3 | import { createAdminClient } from '@/utils/supabase/admin'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { getTenantId } from '@/lib/serverTenant'
+  5 |
+  6 | /**
+
+Import map: aliased to relative './app/utils/supabase/admin' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[01:59:19.520] Browser ERROR   ./frost-demo/app/api/invoices/[id]/approve/route.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/admin'
+  1 | import { NextResponse } from 'next/server'
+  2 | import { createClient } from '@/utils/supabase/server'
+> 3 | import { createAdminClient } from '@/utils/supabase/admin'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { getTenantId } from '@/lib/serverTenant'
+  5 |
+  6 | /**
+
+Import map: aliased to relative './app/utils/supabase/admin' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[01:59:19.520] Browser ERROR   ./frost-demo/app/api/invoices/[id]/approve/route.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/admin'
+  1 | import { NextResponse } from 'next/server'
+  2 | import { createClient } from '@/utils/supabase/server'
+> 3 | import { createAdminClient } from '@/utils/supabase/admin'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { getTenantId } from '@/lib/serverTenant'
+  5 |
+  6 | /**
+
+Import map: aliased to relative './app/utils/supabase/admin' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[01:59:19.520] Browser ERROR   ./frost-demo/app/api/invoices/[id]/approve/route.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/admin'
+  1 | import { NextResponse } from 'next/server'
+  2 | import { createClient } from '@/utils/supabase/server'
+> 3 | import { createAdminClient } from '@/utils/supabase/admin'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { getTenantId } from '@/lib/serverTenant'
+  5 |
+  6 | /**
+
+Import map: aliased to relative './app/utils/supabase/admin' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[01:59:20.512] Browser ERROR   ./frost-demo/app/api/invoices/[id]/approve/route.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/admin'
+  1 | import { NextResponse } from 'next/server'
+  2 | import { createClient } from '@/utils/supabase/server'
+> 3 | import { createAdminClient } from '@/utils/supabase/admin'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { getTenantId } from '@/lib/serverTenant'
+  5 |
+  6 | /**
+
+Import map: aliased to relative './app/utils/supabase/admin' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[01:59:20.512] Browser ERROR   ./frost-demo/app/api/invoices/[id]/approve/route.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/admin'
+  1 | import { NextResponse } from 'next/server'
+  2 | import { createClient } from '@/utils/supabase/server'
+> 3 | import { createAdminClient } from '@/utils/supabase/admin'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { getTenantId } from '@/lib/serverTenant'
+  5 |
+  6 | /**
+
+Import map: aliased to relative './app/utils/supabase/admin' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[01:59:20.513] Browser ERROR   ./frost-demo/app/api/invoices/[id]/approve/route.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/admin'
+  1 | import { NextResponse } from 'next/server'
+  2 | import { createClient } from '@/utils/supabase/server'
+> 3 | import { createAdminClient } from '@/utils/supabase/admin'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { getTenantId } from '@/lib/serverTenant'
+  5 |
+  6 | /**
+
+Import map: aliased to relative './app/utils/supabase/admin' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[01:59:33.516] Browser ERROR   ./frost-demo/app/api/invoices/[id]/approve/route.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/admin'
+  1 | import { NextResponse } from 'next/server'
+  2 | import { createClient } from '@/utils/supabase/server'
+> 3 | import { createAdminClient } from '@/utils/supabase/admin'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { getTenantId } from '@/lib/serverTenant'
+  5 |
+  6 | /**
+
+Import map: aliased to relative './app/utils/supabase/admin' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[01:59:33.517] Browser ERROR   ./frost-demo/app/api/invoices/[id]/approve/route.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/admin'
+  1 | import { NextResponse } from 'next/server'
+  2 | import { createClient } from '@/utils/supabase/server'
+> 3 | import { createAdminClient } from '@/utils/supabase/admin'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { getTenantId } from '@/lib/serverTenant'
+  5 |
+  6 | /**
+
+Import map: aliased to relative './app/utils/supabase/admin' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[01:59:33.517] Browser ERROR   ./frost-demo/app/api/invoices/[id]/approve/route.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/admin'
+  1 | import { NextResponse } from 'next/server'
+  2 | import { createClient } from '@/utils/supabase/server'
+> 3 | import { createAdminClient } from '@/utils/supabase/admin'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { getTenantId } from '@/lib/serverTenant'
+  5 |
+  6 | /**
+
+Import map: aliased to relative './app/utils/supabase/admin' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[01:59:37.514] Browser ERROR   ./frost-demo/app/api/invoices/[id]/approve/route.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/admin'
+  1 | import { NextResponse } from 'next/server'
+  2 | import { createClient } from '@/utils/supabase/server'
+> 3 | import { createAdminClient } from '@/utils/supabase/admin'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { getTenantId } from '@/lib/serverTenant'
+  5 |
+  6 | /**
+
+Import map: aliased to relative './app/utils/supabase/admin' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[01:59:37.515] Browser ERROR   ./frost-demo/app/api/invoices/[id]/approve/route.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/admin'
+  1 | import { NextResponse } from 'next/server'
+  2 | import { createClient } from '@/utils/supabase/server'
+> 3 | import { createAdminClient } from '@/utils/supabase/admin'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { getTenantId } from '@/lib/serverTenant'
+  5 |
+  6 | /**
+
+Import map: aliased to relative './app/utils/supabase/admin' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[01:59:37.515] Browser ERROR   ./frost-demo/app/api/invoices/[id]/approve/route.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/admin'
+  1 | import { NextResponse } from 'next/server'
+  2 | import { createClient } from '@/utils/supabase/server'
+> 3 | import { createAdminClient } from '@/utils/supabase/admin'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { getTenantId } from '@/lib/serverTenant'
+  5 |
+  6 | /**
+
+Import map: aliased to relative './app/utils/supabase/admin' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[01:59:42.144] Browser ERROR   ./frost-demo/app/api/invoices/[id]/approve/route.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/admin'
+  1 | import { NextResponse } from 'next/server'
+  2 | import { createClient } from '@/utils/supabase/server'
+> 3 | import { createAdminClient } from '@/utils/supabase/admin'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { getTenantId } from '@/lib/serverTenant'
+  5 |
+  6 | /**
+
+Import map: aliased to relative './app/utils/supabase/admin' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[01:59:42.403] Browser ERROR   ./frost-demo/app/api/invoices/[id]/approve/route.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/admin'
+  1 | import { NextResponse } from 'next/server'
+  2 | import { createClient } from '@/utils/supabase/server'
+> 3 | import { createAdminClient } from '@/utils/supabase/admin'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { getTenantId } from '@/lib/serverTenant'
+  5 |
+  6 | /**
+
+Import map: aliased to relative './app/utils/supabase/admin' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[01:59:42.450] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[01:59:42.456] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[01:59:42.469] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[01:59:42.559] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[01:59:43.519] Browser ERROR   ./frost-demo/app/api/invoices/[id]/approve/route.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/admin'
+  1 | import { NextResponse } from 'next/server'
+  2 | import { createClient } from '@/utils/supabase/server'
+> 3 | import { createAdminClient } from '@/utils/supabase/admin'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { getTenantId } from '@/lib/serverTenant'
+  5 |
+  6 | /**
+
+Import map: aliased to relative './app/utils/supabase/admin' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[01:59:43.519] Browser ERROR   ./frost-demo/app/api/invoices/[id]/approve/route.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/admin'
+  1 | import { NextResponse } from 'next/server'
+  2 | import { createClient } from '@/utils/supabase/server'
+> 3 | import { createAdminClient } from '@/utils/supabase/admin'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { getTenantId } from '@/lib/serverTenant'
+  5 |
+  6 | /**
+
+Import map: aliased to relative './app/utils/supabase/admin' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[01:59:43.519] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[01:59:43.519] Browser ERROR   ./frost-demo/app/api/invoices/[id]/approve/route.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/admin'
+  1 | import { NextResponse } from 'next/server'
+  2 | import { createClient } from '@/utils/supabase/server'
+> 3 | import { createAdminClient } from '@/utils/supabase/admin'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { getTenantId } from '@/lib/serverTenant'
+  5 |
+  6 | /**
+
+Import map: aliased to relative './app/utils/supabase/admin' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[01:59:43.519] Browser ERROR   ./frost-demo/app/api/invoices/[id]/approve/route.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/admin'
+  1 | import { NextResponse } from 'next/server'
+  2 | import { createClient } from '@/utils/supabase/server'
+> 3 | import { createAdminClient } from '@/utils/supabase/admin'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { getTenantId } from '@/lib/serverTenant'
+  5 |
+  6 | /**
+
+Import map: aliased to relative './app/utils/supabase/admin' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[01:59:43.519] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[01:59:44.211] Browser ERROR   ./frost-demo/app/api/invoices/[id]/approve/route.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/admin'
+  1 | import { NextResponse } from 'next/server'
+  2 | import { createClient } from '@/utils/supabase/server'
+> 3 | import { createAdminClient } from '@/utils/supabase/admin'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { getTenantId } from '@/lib/serverTenant'
+  5 |
+  6 | /**
+
+Import map: aliased to relative './app/utils/supabase/admin' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[01:59:44.520] Browser ERROR   ./frost-demo/app/api/invoices/[id]/approve/route.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/admin'
+  1 | import { NextResponse } from 'next/server'
+  2 | import { createClient } from '@/utils/supabase/server'
+> 3 | import { createAdminClient } from '@/utils/supabase/admin'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { getTenantId } from '@/lib/serverTenant'
+  5 |
+  6 | /**
+
+Import map: aliased to relative './app/utils/supabase/admin' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[01:59:44.520] Browser ERROR   ./frost-demo/app/api/invoices/[id]/approve/route.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/admin'
+  1 | import { NextResponse } from 'next/server'
+  2 | import { createClient } from '@/utils/supabase/server'
+> 3 | import { createAdminClient } from '@/utils/supabase/admin'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { getTenantId } from '@/lib/serverTenant'
+  5 |
+  6 | /**
+
+Import map: aliased to relative './app/utils/supabase/admin' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[01:59:44.549] Server  LOG     🔍 Dashboard: Rendering TimeClock with: {}
+[01:59:45.312] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:59:45.713] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":null,"projectsCount":0,"tenantId":null}
+[01:59:45.713] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":null,"projectsCount":0,"tenantId":null}
+[01:59:45.713] Browser ERROR   ./frost-demo/app/api/invoices/[id]/approve/route.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/admin'
+  1 | import { NextResponse } from 'next/server'
+  2 | import { createClient } from '@/utils/supabase/server'
+> 3 | import { createAdminClient } from '@/utils/supabase/admin'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { getTenantId } from '@/lib/serverTenant'
+  5 |
+  6 | /**
+
+Import map: aliased to relative './app/utils/supabase/admin' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[01:59:45.713] Browser LOG     🔍 TimeClock: Component mounted/updated {"activeTimeEntry":false,"componentVisible":true,"employeeId":null,"isCheckedIn":false,"projectsCount":0}
+[01:59:45.713] Browser LOG     TimeClock: No tenantId
+[01:59:45.713] Browser ERROR   ./frost-demo/app/api/invoices/[id]/approve/route.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/admin'
+  1 | import { NextResponse } from 'next/server'
+  2 | import { createClient } from '@/utils/supabase/server'
+> 3 | import { createAdminClient } from '@/utils/supabase/admin'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { getTenantId } from '@/lib/serverTenant'
+  5 |
+  6 | /**
+
+Import map: aliased to relative './app/utils/supabase/admin' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[01:59:45.713] Browser ERROR   ./frost-demo/app/api/invoices/[id]/approve/route.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/admin'
+  1 | import { NextResponse } from 'next/server'
+  2 | import { createClient } from '@/utils/supabase/server'
+> 3 | import { createAdminClient } from '@/utils/supabase/admin'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { getTenantId } from '@/lib/serverTenant'
+  5 |
+  6 | /**
+
+Import map: aliased to relative './app/utils/supabase/admin' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[01:59:45.713] Browser ERROR   ./frost-demo/app/api/invoices/[id]/approve/route.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/admin'
+  1 | import { NextResponse } from 'next/server'
+  2 | import { createClient } from '@/utils/supabase/server'
+> 3 | import { createAdminClient } from '@/utils/supabase/admin'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { getTenantId } from '@/lib/serverTenant'
+  5 |
+  6 | /**
+
+Import map: aliased to relative './app/utils/supabase/admin' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[01:59:45.713] Browser ERROR   ./frost-demo/app/api/invoices/[id]/approve/route.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/admin'
+  1 | import { NextResponse } from 'next/server'
+  2 | import { createClient } from '@/utils/supabase/server'
+> 3 | import { createAdminClient } from '@/utils/supabase/admin'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { getTenantId } from '@/lib/serverTenant'
+  5 |
+  6 | /**
+
+Import map: aliased to relative './app/utils/supabase/admin' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[01:59:45.738] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[01:59:45.742] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[01:59:45.763] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[01:59:45.780] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[01:59:45.790] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[01:59:45.930] Server  LOG     ✅ Projects/list: Fetching projects for valid tenant: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[01:59:46.065] Server  LOG     ✅ Projects/list: User access verified for tenant: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[01:59:46.068] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[01:59:46.068] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":null,"projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[01:59:46.068] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":null,"projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[01:59:46.068] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[01:59:46.068] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[01:59:46.068] Browser LOG     TimeClock: Fetching employee for user 2941e8db-d533-412e-a292-7ff713e76567
+[01:59:46.068] Browser ERROR   ./frost-demo/app/api/invoices/[id]/approve/route.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/admin'
+  1 | import { NextResponse } from 'next/server'
+  2 | import { createClient } from '@/utils/supabase/server'
+> 3 | import { createAdminClient } from '@/utils/supabase/admin'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { getTenantId } from '@/lib/serverTenant'
+  5 |
+  6 | /**
+
+Import map: aliased to relative './app/utils/supabase/admin' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[01:59:46.068] Browser ERROR   ./frost-demo/app/api/invoices/[id]/approve/route.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/admin'
+  1 | import { NextResponse } from 'next/server'
+  2 | import { createClient } from '@/utils/supabase/server'
+> 3 | import { createAdminClient } from '@/utils/supabase/admin'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { getTenantId } from '@/lib/serverTenant'
+  5 |
+  6 | /**
+
+Import map: aliased to relative './app/utils/supabase/admin' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[01:59:46.131] Server  LOG     ✅ Projects/list: Query returned 5 "projects"
+[01:59:46.131] Server  LOG     ✅ Projects/list: After verification: 5 "projects"
+[01:59:46.132] Server  LOG     ✅ Selected employee: {}
+[01:59:46.132] Server  LOG     ✅ Returning employee data immediately
+[01:59:46.191] Server  LOG     ✅ Projects/list: After tenant validation: 5 "projects"
+[01:59:46.192] Server  LOG     🔇 Filtering out project: "Dörr installtion" "status:" "completed"
+[01:59:46.192] Server  LOG     🔇 Filtering out project: "d" "status:" "archived"
+[01:59:46.192] Server  LOG     ✅ Projects/list: After status filter: 3 "projects"
+[01:59:46.454] Browser LOG     TimeClock: Found employee ID via API: 47224e0b-5809-4894-8696-49dd2b5f71f0
+[01:59:46.454] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[01:59:46.454] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[01:59:46.454] Browser LOG     🔍 TimeClock: Component mounted/updated {"activeTimeEntry":false,"componentVisible":true,"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","isCheckedIn":false,"projectsCount":0}
+[01:59:46.454] Browser WARN    ⚠️ Dashboard: Context tenantId not found in database, fetching from centralized API
+[01:59:46.454] Browser WARN    ⚠️ Active time entry found but missing start_time: ea5e3ff4-4371-49c9-b0b3-361a804add81
+[01:59:46.454] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[01:59:46.454] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[01:59:46.454] Browser ERROR   ./frost-demo/app/api/invoices/[id]/approve/route.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/admin'
+  1 | import { NextResponse } from 'next/server'
+  2 | import { createClient } from '@/utils/supabase/server'
+> 3 | import { createAdminClient } from '@/utils/supabase/admin'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { getTenantId } from '@/lib/serverTenant'
+  5 |
+  6 | /**
+
+Import map: aliased to relative './app/utils/supabase/admin' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[01:59:46.511] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[01:59:46.518] Browser ERROR   ./frost-demo/app/api/invoices/[id]/approve/route.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/admin'
+  1 | import { NextResponse } from 'next/server'
+  2 | import { createClient } from '@/utils/supabase/server'
+> 3 | import { createAdminClient } from '@/utils/supabase/admin'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { getTenantId } from '@/lib/serverTenant'
+  5 |
+  6 | /**
+
+Import map: aliased to relative './app/utils/supabase/admin' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[01:59:46.518] Browser ERROR   ./frost-demo/app/api/invoices/[id]/approve/route.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/admin'
+  1 | import { NextResponse } from 'next/server'
+  2 | import { createClient } from '@/utils/supabase/server'
+> 3 | import { createAdminClient } from '@/utils/supabase/admin'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { getTenantId } from '@/lib/serverTenant'
+  5 |
+  6 | /**
+
+Import map: aliased to relative './app/utils/supabase/admin' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[01:59:46.518] Browser ERROR   ./frost-demo/app/api/invoices/[id]/approve/route.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/admin'
+  1 | import { NextResponse } from 'next/server'
+  2 | import { createClient } from '@/utils/supabase/server'
+> 3 | import { createAdminClient } from '@/utils/supabase/admin'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { getTenantId } from '@/lib/serverTenant'
+  5 |
+  6 | /**
+
+Import map: aliased to relative './app/utils/supabase/admin' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[01:59:46.518] Browser ERROR   ./frost-demo/app/api/invoices/[id]/approve/route.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/admin'
+  1 | import { NextResponse } from 'next/server'
+  2 | import { createClient } from '@/utils/supabase/server'
+> 3 | import { createAdminClient } from '@/utils/supabase/admin'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { getTenantId } from '@/lib/serverTenant'
+  5 |
+  6 | /**
+
+Import map: aliased to relative './app/utils/supabase/admin' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[01:59:46.518] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[01:59:46.518] Browser ERROR   ./frost-demo/app/api/invoices/[id]/approve/route.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/admin'
+  1 | import { NextResponse } from 'next/server'
+  2 | import { createClient } from '@/utils/supabase/server'
+> 3 | import { createAdminClient } from '@/utils/supabase/admin'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { getTenantId } from '@/lib/serverTenant'
+  5 |
+  6 | /**
+
+Import map: aliased to relative './app/utils/supabase/admin' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[01:59:46.518] Browser ERROR   ./frost-demo/app/api/invoices/[id]/approve/route.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/admin'
+  1 | import { NextResponse } from 'next/server'
+  2 | import { createClient } from '@/utils/supabase/server'
+> 3 | import { createAdminClient } from '@/utils/supabase/admin'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { getTenantId } from '@/lib/serverTenant'
+  5 |
+  6 | /**
+
+Import map: aliased to relative './app/utils/supabase/admin' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[01:59:46.518] Browser ERROR   ./frost-demo/app/api/invoices/[id]/approve/route.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/admin'
+  1 | import { NextResponse } from 'next/server'
+  2 | import { createClient } from '@/utils/supabase/server'
+> 3 | import { createAdminClient } from '@/utils/supabase/admin'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { getTenantId } from '@/lib/serverTenant'
+  5 |
+  6 | /**
+
+Import map: aliased to relative './app/utils/supabase/admin' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[01:59:46.518] Browser ERROR   ./frost-demo/app/api/invoices/[id]/approve/route.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/admin'
+  1 | import { NextResponse } from 'next/server'
+  2 | import { createClient } from '@/utils/supabase/server'
+> 3 | import { createAdminClient } from '@/utils/supabase/admin'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { getTenantId } from '@/lib/serverTenant'
+  5 |
+  6 | /**
+
+Import map: aliased to relative './app/utils/supabase/admin' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[01:59:46.518] Browser ERROR   ./frost-demo/app/api/invoices/[id]/approve/route.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/admin'
+  1 | import { NextResponse } from 'next/server'
+  2 | import { createClient } from '@/utils/supabase/server'
+> 3 | import { createAdminClient } from '@/utils/supabase/admin'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { getTenantId } from '@/lib/serverTenant'
+  5 |
+  6 | /**
+
+Import map: aliased to relative './app/utils/supabase/admin' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[01:59:46.518] Browser ERROR   ./frost-demo/app/api/invoices/[id]/approve/route.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/admin'
+  1 | import { NextResponse } from 'next/server'
+  2 | import { createClient } from '@/utils/supabase/server'
+> 3 | import { createAdminClient } from '@/utils/supabase/admin'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { getTenantId } from '@/lib/serverTenant'
+  5 |
+  6 | /**
+
+Import map: aliased to relative './app/utils/supabase/admin' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[01:59:46.518] Browser ERROR   ./frost-demo/app/api/invoices/[id]/approve/route.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/admin'
+  1 | import { NextResponse } from 'next/server'
+  2 | import { createClient } from '@/utils/supabase/server'
+> 3 | import { createAdminClient } from '@/utils/supabase/admin'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { getTenantId } from '@/lib/serverTenant'
+  5 |
+  6 | /**
+
+Import map: aliased to relative './app/utils/supabase/admin' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[01:59:46.518] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[01:59:46.518] Browser ERROR   ./frost-demo/app/api/invoices/[id]/approve/route.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/admin'
+  1 | import { NextResponse } from 'next/server'
+  2 | import { createClient } from '@/utils/supabase/server'
+> 3 | import { createAdminClient } from '@/utils/supabase/admin'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { getTenantId } from '@/lib/serverTenant'
+  5 |
+  6 | /**
+
+Import map: aliased to relative './app/utils/supabase/admin' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[01:59:46.518] Browser ERROR   ./frost-demo/app/api/invoices/[id]/approve/route.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/admin'
+  1 | import { NextResponse } from 'next/server'
+  2 | import { createClient } from '@/utils/supabase/server'
+> 3 | import { createAdminClient } from '@/utils/supabase/admin'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { getTenantId } from '@/lib/serverTenant'
+  5 |
+  6 | /**
+
+Import map: aliased to relative './app/utils/supabase/admin' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[01:59:46.518] Browser ERROR   ./frost-demo/app/api/invoices/[id]/approve/route.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/admin'
+  1 | import { NextResponse } from 'next/server'
+  2 | import { createClient } from '@/utils/supabase/server'
+> 3 | import { createAdminClient } from '@/utils/supabase/admin'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { getTenantId } from '@/lib/serverTenant'
+  5 |
+  6 | /**
+
+Import map: aliased to relative './app/utils/supabase/admin' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[01:59:46.748] Browser LOG     ✅ Dashboard: Got tenantId from centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56
+[01:59:46.748] Browser LOG     🔒 Dashboard: Using tenantId: 8ee28f55-b780-4286-8137-9e70ea58ae56 for projects and TimeClock
+[01:59:46.748] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[01:59:46.748] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[01:59:46.748] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[01:59:46.748] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[01:59:46.748] Browser ERROR   ./frost-demo/app/api/invoices/[id]/approve/route.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/admin'
+  1 | import { NextResponse } from 'next/server'
+  2 | import { createClient } from '@/utils/supabase/server'
+> 3 | import { createAdminClient } from '@/utils/supabase/admin'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { getTenantId } from '@/lib/serverTenant'
+  5 |
+  6 | /**
+
+Import map: aliased to relative './app/utils/supabase/admin' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[01:59:46.803] Server  LOG     ✅ Projects/for-timeclock: Using tenantId: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[01:59:46.978] Browser LOG     ✅ TimeClock: Found projects via API 3 for tenant 8ee28f55-b780-4286-8137-9e70ea58ae56
+[01:59:46.978] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":3,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[01:59:46.978] Browser LOG     🔍 Dashboard: Rendering TimeClock with: {"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","projectsCount":3,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[01:59:46.978] Browser LOG     🔍 TimeClock: Component mounted/updated {"activeTimeEntry":false,"componentVisible":true,"employeeId":"47224e0b-5809-4894-8696-49dd2b5f71f0","isCheckedIn":false,"projectsCount":3}
+[01:59:47.520] Browser ERROR   ./frost-demo/app/api/invoices/[id]/approve/route.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/admin'
+  1 | import { NextResponse } from 'next/server'
+  2 | import { createClient } from '@/utils/supabase/server'
+> 3 | import { createAdminClient } from '@/utils/supabase/admin'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { getTenantId } from '@/lib/serverTenant'
+  5 |
+  6 | /**
+
+Import map: aliased to relative './app/utils/supabase/admin' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[01:59:47.520] Browser ERROR   ./frost-demo/app/api/invoices/[id]/approve/route.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/admin'
+  1 | import { NextResponse } from 'next/server'
+  2 | import { createClient } from '@/utils/supabase/server'
+> 3 | import { createAdminClient } from '@/utils/supabase/admin'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { getTenantId } from '@/lib/serverTenant'
+  5 |
+  6 | /**
+
+Import map: aliased to relative './app/utils/supabase/admin' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[02:00:15.663] Browser ERROR   ./frost-demo/app/api/invoices/[id]/approve/route.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/admin'
+  1 | import { NextResponse } from 'next/server'
+  2 | import { createClient } from '@/utils/supabase/server'
+> 3 | import { createAdminClient } from '@/utils/supabase/admin'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { getTenantId } from '@/lib/serverTenant'
+  5 |
+  6 | /**
+
+Import map: aliased to relative './app/utils/supabase/admin' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[02:00:16.221] Browser ERROR   ./frost-demo/app/api/invoices/[id]/approve/route.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/admin'
+  1 | import { NextResponse } from 'next/server'
+  2 | import { createClient } from '@/utils/supabase/server'
+> 3 | import { createAdminClient } from '@/utils/supabase/admin'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { getTenantId } from '@/lib/serverTenant'
+  5 |
+  6 | /**
+
+Import map: aliased to relative './app/utils/supabase/admin' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[02:00:16.515] Browser ERROR   ./frost-demo/app/api/invoices/[id]/approve/route.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/admin'
+  1 | import { NextResponse } from 'next/server'
+  2 | import { createClient } from '@/utils/supabase/server'
+> 3 | import { createAdminClient } from '@/utils/supabase/admin'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { getTenantId } from '@/lib/serverTenant'
+  5 |
+  6 | /**
+
+Import map: aliased to relative './app/utils/supabase/admin' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[02:00:16.515] Browser ERROR   ./frost-demo/app/api/invoices/[id]/approve/route.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/admin'
+  1 | import { NextResponse } from 'next/server'
+  2 | import { createClient } from '@/utils/supabase/server'
+> 3 | import { createAdminClient } from '@/utils/supabase/admin'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { getTenantId } from '@/lib/serverTenant'
+  5 |
+  6 | /**
+
+Import map: aliased to relative './app/utils/supabase/admin' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[02:00:16.515] Browser ERROR   ./frost-demo/app/api/invoices/[id]/approve/route.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/admin'
+  1 | import { NextResponse } from 'next/server'
+  2 | import { createClient } from '@/utils/supabase/server'
+> 3 | import { createAdminClient } from '@/utils/supabase/admin'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { getTenantId } from '@/lib/serverTenant'
+  5 |
+  6 | /**
+
+Import map: aliased to relative './app/utils/supabase/admin' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[02:00:16.515] Browser ERROR   ./frost-demo/app/api/invoices/[id]/approve/route.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/admin'
+  1 | import { NextResponse } from 'next/server'
+  2 | import { createClient } from '@/utils/supabase/server'
+> 3 | import { createAdminClient } from '@/utils/supabase/admin'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { getTenantId } from '@/lib/serverTenant'
+  5 |
+  6 | /**
+
+Import map: aliased to relative './app/utils/supabase/admin' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[02:00:18.328] Browser ERROR   ./frost-demo/app/api/invoices/[id]/approve/route.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/admin'
+  1 | import { NextResponse } from 'next/server'
+  2 | import { createClient } from '@/utils/supabase/server'
+> 3 | import { createAdminClient } from '@/utils/supabase/admin'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { getTenantId } from '@/lib/serverTenant'
+  5 |
+  6 | /**
+
+Import map: aliased to relative './app/utils/supabase/admin' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[02:00:18.515] Browser ERROR   ./frost-demo/app/api/invoices/[id]/approve/route.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/admin'
+  1 | import { NextResponse } from 'next/server'
+  2 | import { createClient } from '@/utils/supabase/server'
+> 3 | import { createAdminClient } from '@/utils/supabase/admin'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { getTenantId } from '@/lib/serverTenant'
+  5 |
+  6 | /**
+
+Import map: aliased to relative './app/utils/supabase/admin' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found
+[02:00:18.515] Browser ERROR   ./frost-demo/app/api/invoices/[id]/approve/route.ts:3:1
+Module not found: Can't resolve '@/utils/supabase/admin'
+  1 | import { NextResponse } from 'next/server'
+  2 | import { createClient } from '@/utils/supabase/server'
+> 3 | import { createAdminClient } from '@/utils/supabase/admin'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { getTenantId } from '@/lib/serverTenant'
+  5 |
+  6 | /**
+
+Import map: aliased to relative './app/utils/supabase/admin' inside of [project]/frost-demo
+
+https://nextjs.org/docs/messages/module-not-found

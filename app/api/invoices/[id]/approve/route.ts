@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/utils/supabase/server'
-import { createAdminClient } from '@/utils/supabase/admin'
+import { createClient as createAdminClient } from '@supabase/supabase-js'
 import { getTenantId } from '@/lib/serverTenant'
 
 /**
@@ -26,7 +26,18 @@ export async function POST(
       return NextResponse.json({ error: 'No tenant found' }, { status: 400 })
     }
 
-    const adminSupabase = createAdminClient()
+    // Use service role for admin operations
+    const supabaseUrl = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL
+    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+
+    if (!supabaseUrl || !serviceKey) {
+      return NextResponse.json(
+        { error: 'Service role key not configured' },
+        { status: 500 }
+      )
+    }
+
+    const adminSupabase = createAdminClient(supabaseUrl, serviceKey)
 
     // Fetch invoice to get project_id
     const { data: invoice, error: invoiceError } = await adminSupabase
