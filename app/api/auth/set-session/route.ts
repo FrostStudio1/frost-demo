@@ -7,12 +7,13 @@ export async function POST(req: Request) {
 
     const res = NextResponse.json({ ok: true })
 
+    const isProduction = process.env.NODE_ENV === 'production'
     // NOTE: per request: do not enable secure cookie flag for dev (no HTTPS)
     const cookieOpts = {
       httpOnly: true,
       path: '/',
       sameSite: 'lax' as const,
-      secure: false,
+      secure: isProduction,
     }
 
     if (access_token) {
