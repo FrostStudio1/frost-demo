@@ -77,19 +77,31 @@ export async function GET(req: Request) {
       }
     }
 
+    // Check if user is admin
+    const isAdmin = employeeData?.role === 'admin' || employeeData?.role === 'Admin' || employeeData?.role === 'ADMIN'
+    
     console.log('🔍 API: Fetching project hours', {
       projectId,
       tenantId,
-      employeeTenantId: employeeData?.tenant_id
+      employeeTenantId: employeeData?.tenant_id,
+      isAdmin,
+      employeeId: employeeData?.id
     })
 
     // Get unbilled hours for this project
-    const { data: entries, error } = await adminSupabase
+    let entriesQuery = adminSupabase
       .from('time_entries')
       .select('hours_total, date, ob_type')
       .eq('project_id', projectId)
       .eq('is_billed', false)
       .eq('tenant_id', tenantId)
+    
+    // If not admin, only get this employee's hours
+    if (!isAdmin && employeeData?.id) {
+      entriesQuery = entriesQuery.eq('employee_id', employeeData.id)
+    }
+    
+    const { data: entries, error } = await entriesQuery
       .order('date', { ascending: false })
       .limit(50)
 

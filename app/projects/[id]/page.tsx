@@ -11,6 +11,7 @@ import FileUpload from '@/components/FileUpload'
 import FileList from '@/components/FileList'
 import DidYouKnow from '@/components/DidYouKnow'
 import { useProject, useProjectHours } from '@/hooks/useProjects'
+import { useAdmin } from '@/hooks/useAdmin'
 
 type ProjectRecord = {
   id: string
@@ -42,6 +43,7 @@ export default function ProjectDetailPage() {
   const [employeeHours, setEmployeeHours] = useState<any[]>([])
   const [showEmployeeHours, setShowEmployeeHours] = useState(false)
   const [loadingEmployeeHours, setLoadingEmployeeHours] = useState(false)
+  const { isAdmin, loading: adminLoading } = useAdmin()
 
   const projectId = params?.id as string | undefined
 
@@ -146,7 +148,7 @@ export default function ProjectDetailPage() {
           clients: (projectData as any).clients || null,
         } as ProjectRecord)
 
-        // Hämta ofakturerade timmar och time entries för AI summary via API route
+          // Hämta ofakturerade timmar och time entries för AI summary via API route
         try {
           console.log('📊 Project page: Fetching project hours from API...')
           const hoursResponse = await fetch(`/api/projects/${projectId}/hours?projectId=${projectId}&_t=${Date.now()}`, {
@@ -164,13 +166,39 @@ export default function ProjectDetailPage() {
           } else {
             const errorText = await hoursResponse.text()
             console.warn('❌ Failed to fetch project hours from API:', errorText)
-            // Fallback to direct query
-            const { data: entryRows, error: entriesErr } = await supabase
+            // Fallback to direct query - filter by employee if not admin
+            const { data: { user } } = await supabase.auth.getUser()
+            let employeeIdForFilter: string | null = null
+            let isAdminForFilter = false
+            
+            if (user) {
+              const { data: empData } = await supabase
+                .from('employees')
+                .select('id, role')
+                .eq('auth_user_id', user.id)
+                .eq('tenant_id', tenantId)
+                .maybeSingle()
+              
+              if (empData) {
+                isAdminForFilter = empData.role === 'admin' || empData.role === 'Admin' || empData.role === 'ADMIN'
+                if (!isAdminForFilter) {
+                  employeeIdForFilter = empData.id
+                }
+              }
+            }
+            
+            let entryQuery = supabase
               .from('time_entries')
               .select('hours_total, date, ob_type')
               .eq('project_id', projectId)
               .eq('is_billed', false)
               .eq('tenant_id', tenantId)
+            
+            if (!isAdminForFilter && employeeIdForFilter) {
+              entryQuery = entryQuery.eq('employee_id', employeeIdForFilter)
+            }
+            
+            const { data: entryRows, error: entriesErr } = await entryQuery
               .order('date', { ascending: false })
               .limit(50)
 
@@ -290,6 +318,11 @@ export default function ProjectDetailPage() {
   }, [projectId]) // Only re-run when projectId changes, not on refreshTrigger
 
   async function handleSendInvoice() {
+    if (!isAdmin) {
+      toast.error('Endast administratörer kan skicka fakturor. Kontakta en administratör för att begära fakturering.')
+      return
+    }
+    
     if (!projectId || !tenantId) {
       toast.error('Saknade data för att skapa faktura')
       return
@@ -412,6 +445,11 @@ export default function ProjectDetailPage() {
   }
 
   async function handleDownloadPDF() {
+    if (!isAdmin) {
+      toast.error('Endast administratörer kan skapa fakturor. Kontakta en administratör för att begära fakturering.')
+      return
+    }
+    
     if (!projectId || !tenantId) {
       toast.error('Saknade data för att skapa faktura')
       return
@@ -734,30 +772,57 @@ export default function ProjectDetailPage() {
             </div>
           </div>
 
-          {/* Action Buttons */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 lg:p-8 border border-gray-100 dark:border-gray-700 mb-6 sm:mb-8">
-            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6">Fakturering</h2>
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-              <button
-                onClick={() => router.push(`/invoices/new?projectId=${projectId}`)}
-                className="flex-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white px-6 py-3 sm:py-4 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all transform hover:scale-105 text-sm sm:text-base"
-              >
-                📝 Skapa faktura
-              </button>
-              <button
-                onClick={handleSendInvoice}
-                className="flex-1 bg-gradient-to-r from-green-500 to-emerald-500 text-white px-6 py-3 sm:py-4 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all transform hover:scale-105 text-sm sm:text-base"
-              >
-                ✉️ Skapa & skicka faktura
-              </button>
-              <button
-                onClick={handleDownloadPDF}
-                className="flex-1 bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-3 sm:py-4 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all transform hover:scale-105 text-sm sm:text-base"
-              >
-                📄 Ladda ner PDF
-              </button>
+          {/* Action Buttons - Only show for admins */}
+          {isAdmin && (
+            <div className="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 lg:p-8 border border-gray-100 dark:border-gray-700 mb-6 sm:mb-8">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6">Fakturering</h2>
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+                <button
+                  onClick={() => router.push(`/invoices/new?projectId=${projectId}`)}
+                  className="flex-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white px-6 py-3 sm:py-4 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all transform hover:scale-105 text-sm sm:text-base"
+                >
+                  📝 Skapa faktura
+                </button>
+                <button
+                  onClick={handleSendInvoice}
+                  className="flex-1 bg-gradient-to-r from-green-500 to-emerald-500 text-white px-6 py-3 sm:py-4 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all transform hover:scale-105 text-sm sm:text-base"
+                >
+                  ✉️ Skapa & skicka faktura
+                </button>
+                <button
+                  onClick={handleDownloadPDF}
+                  className="flex-1 bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-3 sm:py-4 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all transform hover:scale-105 text-sm sm:text-base"
+                >
+                  📄 Ladda ner PDF
+                </button>
+              </div>
             </div>
-          </div>
+          )}
+          
+          {/* Request invoice button for non-admins */}
+          {!isAdmin && !adminLoading && (
+            <div className="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 lg:p-8 border border-gray-100 dark:border-gray-700 mb-6 sm:mb-8">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6">Fakturering</h2>
+              <div className="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-4 border border-blue-200 dark:border-blue-800">
+                <p className="text-blue-800 dark:text-blue-200 font-semibold mb-2">
+                  📧 Begär fakturering
+                </p>
+                <p className="text-sm text-blue-600 dark:text-blue-400 mb-4">
+                  Endast administratörer kan skapa och skicka fakturor. Kontakta en administratör för att begära fakturering av detta projekt.
+                </p>
+                <button
+                  onClick={() => {
+                    const subject = encodeURIComponent(`Begäran om fakturering: ${project.name}`)
+                    const body = encodeURIComponent(`Hej,\n\nJag skulle vilja begära fakturering för projektet "${project.name}".\n\nProjekt-ID: ${projectId}\nTotala timmar: ${effectiveHours.toFixed(1)}h\n\nTack!`)
+                    window.location.href = `mailto:admin@example.com?subject=${subject}&body=${body}`
+                  }}
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all"
+                >
+                  📧 Skicka begäran via e-post
+                </button>
+              </div>
+            </div>
+          )}
 
           {/* Archive Button */}
           <div className="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 lg:p-8 border border-gray-100 dark:border-gray-700">

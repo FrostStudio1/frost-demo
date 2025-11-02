@@ -280,17 +280,45 @@ export default function DashboardClient({ userEmail, stats, projects: initialPro
               if (cancelled) return
               setDashboardProjects(projectsWithHours)
               
-              // Update stats
+              // Update stats - get employee ID if not admin
               const oneWeekAgo = new Date()
               oneWeekAgo.setDate(oneWeekAgo.getDate() - 7)
               const oneWeekAgoStr = oneWeekAgo.toISOString().split('T')[0]
               
-              const { data: weekRows } = await supabase
+              // Get current user's employee ID and role
+              const { data: { user } } = await supabase.auth.getUser()
+              let employeeIdForHours: string | null = null
+              let isAdminForHours = false
+              
+              if (user) {
+                const { data: empData } = await supabase
+                  .from('employees')
+                  .select('id, role')
+                  .eq('auth_user_id', user.id)
+                  .eq('tenant_id', tenantId)
+                  .maybeSingle()
+                
+                if (empData) {
+                  isAdminForHours = empData.role === 'admin' || empData.role === 'Admin' || empData.role === 'ADMIN'
+                  if (!isAdminForHours) {
+                    employeeIdForHours = empData.id
+                  }
+                }
+              }
+              
+              let weekRowsQuery = supabase
                 .from('time_entries')
                 .select('hours_total')
                 .gte('date', oneWeekAgoStr)
                 .eq('tenant_id', tenantId)
                 .eq('is_billed', false)
+              
+              // If not admin, only get this employee's hours
+              if (!isAdminForHours && employeeIdForHours) {
+                weekRowsQuery = weekRowsQuery.eq('employee_id', employeeIdForHours)
+              }
+              
+              const { data: weekRows } = await weekRowsQuery
               
               if (cancelled) return
               

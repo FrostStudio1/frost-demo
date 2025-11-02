@@ -144,10 +144,10 @@ export async function POST(req: Request) {
       )
     }
 
-    // Verify user has access to this tenant
+    // Verify user has access to this tenant and check if admin
     const { data: employeeData } = await adminSupabase
       .from('employees')
-      .select('id, tenant_id')
+      .select('id, tenant_id, role')
       .eq('auth_user_id', user.id)
       .eq('tenant_id', tenant_id)
       .limit(1)
@@ -155,6 +155,15 @@ export async function POST(req: Request) {
     if (!employeeData || employeeData.length === 0) {
       return NextResponse.json(
         { error: 'You do not have access to this tenant' },
+        { status: 403 }
+      )
+    }
+
+    // Check if user is admin
+    const isAdmin = employeeData[0]?.role === 'admin' || employeeData[0]?.role === 'Admin' || employeeData[0]?.role === 'ADMIN'
+    if (!isAdmin) {
+      return NextResponse.json(
+        { error: 'Admin access required to create invoices' },
         { status: 403 }
       )
     }

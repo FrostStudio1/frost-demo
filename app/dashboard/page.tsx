@@ -106,13 +106,26 @@ export default async function DashboardPage() {
   const projectIds = (projectRows ?? []).map((p) => p.id)
   let projectHoursMap = new Map<string, number>()
   
+  // Get employee ID if not admin (for filtering hours)
+  let employeeIdForHours: string | null = null
+  if (!isAdmin && employeeData) {
+    employeeIdForHours = employeeData.id
+  }
+  
   if (projectIds.length > 0) {
-    const { data: hoursData } = await supabase
+    let hoursQuery = supabase
       .from('time_entries')
       .select('project_id, hours_total')
       .in('project_id', projectIds)
       .eq('tenant_id', tenantId)
       .eq('is_billed', false)
+    
+    // If not admin, only get this employee's hours
+    if (!isAdmin && employeeIdForHours) {
+      hoursQuery = hoursQuery.eq('employee_id', employeeIdForHours)
+    }
+    
+    const { data: hoursData } = await hoursQuery
     
     // Aggregate hours per project
     ;(hoursData ?? []).forEach((entry) => {
@@ -130,17 +143,39 @@ export default async function DashboardPage() {
     hours: projectHoursMap.get(p.id) ?? 0
   }))
 
-  // Calculate stats - get all time entries for this week (unbilled only for dashboard)
+  // Calculate stats - get time entries for this week (unbilled only for dashboard)
+  // For employees: only their own hours. For admins: all hours
   const oneWeekAgo = new Date()
   oneWeekAgo.setDate(oneWeekAgo.getDate() - 7) // Last 7 days
   const oneWeekAgoStr = oneWeekAgo.toISOString().split('T')[0]
   
-  const { data: weekRows } = await supabase
+  // Get current user's employee ID to filter hours if not admin
+  let employeeId: string | null = null
+  const { data: employeeData } = await supabase
+    .from('employees')
+    .select('id, role')
+    .eq('auth_user_id', finalUser.id)
+    .eq('tenant_id', tenantId)
+    .maybeSingle()
+  
+  const isAdmin = employeeData?.role === 'admin' || employeeData?.role === 'Admin' || employeeData?.role === 'ADMIN'
+  if (!isAdmin && employeeData) {
+    employeeId = employeeData.id
+  }
+  
+  let weekRowsQuery = supabase
     .from('time_entries')
     .select('hours_total, date')
     .gte('date', oneWeekAgoStr)
     .eq('tenant_id', tenantId)
-    .eq('is_billed', false) // Only count unbilled hours for dashboard stats
+    .eq('is_billed', false)
+  
+  // If not admin, only get this employee's hours
+  if (!isAdmin && employeeId) {
+    weekRowsQuery = weekRowsQuery.eq('employee_id', employeeId)
+  }
+  
+  const { data: weekRows } = await weekRowsQuery
 
   const totalHours = (weekRows ?? []).reduce((sum, row) => sum + Number(row.hours_total ?? 0), 0)
 

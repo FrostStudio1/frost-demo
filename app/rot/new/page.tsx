@@ -6,6 +6,7 @@ import supabase from '@/utils/supabase/supabaseClient'
 import { useTenant } from '@/context/TenantContext'
 import Sidebar from '@/components/Sidebar'
 import { toast } from '@/lib/toast'
+import { useAdmin } from '@/hooks/useAdmin'
 
 interface Project {
   id: string
@@ -21,6 +22,7 @@ interface Client {
 export default function NewRotApplicationPage() {
   const router = useRouter()
   const { tenantId } = useTenant()
+  const { isAdmin, loading: adminLoading } = useAdmin()
   const [loading, setLoading] = useState(false)
   const [loadingData, setLoadingData] = useState(true)
   
@@ -109,6 +111,11 @@ export default function NewRotApplicationPage() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
+    
+    if (!isAdmin) {
+      toast.error('Endast administratörer kan skapa ROT-ansökningar. Kontakta en administratör.')
+      return
+    }
 
     if (!tenantId) {
       toast.error('Ingen tenant vald. Logga in först.')
@@ -202,12 +209,37 @@ export default function NewRotApplicationPage() {
     }
   }
 
-  if (loadingData) {
+  if (loadingData || adminLoading) {
     return (
       <div className="min-h-screen bg-white dark:bg-gray-900 flex flex-col lg:flex-row">
         <Sidebar />
         <main className="flex-1 w-full lg:ml-0 overflow-x-hidden flex items-center justify-center">
           <div className="text-gray-500 dark:text-gray-400">Laddar...</div>
+        </main>
+      </div>
+    )
+  }
+
+  // Redirect non-admins
+  if (!isAdmin) {
+    return (
+      <div className="min-h-screen bg-white dark:bg-gray-900 flex flex-col lg:flex-row">
+        <Sidebar />
+        <main className="flex-1 w-full lg:ml-0 overflow-x-hidden flex items-center justify-center">
+          <div className="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-6 border border-blue-200 dark:border-blue-800 max-w-md text-center">
+            <p className="text-blue-800 dark:text-blue-200 font-semibold mb-2">
+              🔒 Åtkomst begränsad
+            </p>
+            <p className="text-sm text-blue-600 dark:text-blue-400 mb-4">
+              Endast administratörer kan skapa ROT-ansökningar. Kontakta en administratör för att begära en ROT-ansökan.
+            </p>
+            <button
+              onClick={() => router.push('/rot')}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all"
+            >
+              Tillbaka till ROT-ansökningar
+            </button>
+          </div>
         </main>
       </div>
     )

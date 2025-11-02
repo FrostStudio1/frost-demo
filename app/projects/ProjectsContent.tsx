@@ -9,6 +9,7 @@ import { createProject } from './actions'
 import { toast } from '@/lib/toast'
 import SearchBar from '@/components/SearchBar'
 import FilterSortBar from '@/components/FilterSortBar'
+import { useAdmin } from '@/hooks/useAdmin'
 
 function Notice({
   type = 'info',
@@ -49,6 +50,7 @@ export default function ProjectsContent() {
   const [deletingId, setDeletingId] = useState<string | null>(null)
   const [projectHours, setProjectHours] = useState<Map<string, number>>(new Map())
   const [refreshTrigger, setRefreshTrigger] = useState(0)
+  const { isAdmin, loading: adminLoading } = useAdmin()
 
   // Fetch clients on mount
   useEffect(() => {
@@ -378,6 +380,11 @@ export default function ProjectsContent() {
   async function handleCreateProject(e: React.FormEvent) {
     e.preventDefault()
     
+    if (!isAdmin) {
+      toast.error('Endast administratörer kan skapa projekt. Kontakta en administratör.')
+      return
+    }
+    
     if (!formData.client_id) {
       toast.error('Välj en kund för projektet')
       return
@@ -466,12 +473,14 @@ export default function ProjectsContent() {
               <h1 className="text-4xl font-black text-gray-900 dark:text-white mb-2">Projekt</h1>
               <p className="text-gray-500 dark:text-gray-400">Hantera dina projekt</p>
             </div>
-            <button
-              onClick={() => router.push('/projects/new')}
-              className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white px-6 py-3 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all transform hover:scale-105"
-            >
-              + Nytt projekt
-            </button>
+            {isAdmin && (
+              <button
+                onClick={() => router.push('/projects/new')}
+                className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white px-6 py-3 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all transform hover:scale-105"
+              >
+                + Nytt projekt
+              </button>
+            )}
           </div>
 
           {searchParams?.get('created') === 'true' && (
@@ -519,7 +528,7 @@ export default function ProjectsContent() {
             </div>
           )}
 
-              {showNewForm && (
+              {showNewForm && isAdmin && (
                 <div className="mb-6 sm:mb-8 bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 lg:p-8 border border-gray-100 dark:border-gray-700">
               <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Skapa nytt projekt</h2>
               <form onSubmit={handleCreateProject} className="space-y-4">
