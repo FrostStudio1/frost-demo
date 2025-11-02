@@ -10,6 +10,7 @@ import AISummary from '@/components/AISummary'
 import FileUpload from '@/components/FileUpload'
 import FileList from '@/components/FileList'
 import DidYouKnow from '@/components/DidYouKnow'
+import { useProject, useProjectHours } from '@/hooks/useProjects'
 
 type ProjectRecord = {
   id: string

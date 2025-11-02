@@ -1,19 +1,39 @@
 # 🔧 Guide: Generera Supabase TypeScript Types
 
-## Metod 1: Via Supabase Dashboard (Enklast)
+## ✅ Din Project Reference ID
+**Din Reference ID:** `rwgqyozifwfgsxwyegoz`
+
+## Metod 1: Via Supabase CLI (Rekommenderat)
+
+### Steg 1: Logga in på Supabase CLI
+```bash
+npx supabase login
+```
+Detta öppnar en webbläsare där du loggar in med ditt Supabase-konto.
+
+### Steg 2: Generera Types
+```bash
+npx supabase gen types typescript --project-id rwgqyozifwfgsxwyegoz > types/supabase-generated.ts
+```
+
+### Alternativ: Om CLI inte fungerar
+Om du får "Access token not provided", kör först:
+```bash
+npx supabase login
+```
+
+## Metod 2: Via Supabase Dashboard (Manuellt)
 
 1. **Gå till Supabase Dashboard:**
    - Logga in på https://supabase.com/dashboard
-   - Välj ditt projekt (Project ID: `bd78c62b-dc19-4a13-adc4-d7c268babc7c`)
+   - Välj ditt projekt
 
-2. **Hitta Project Reference:**
-   - Gå till **Settings** → **General**
-   - Kopiera **Reference ID** (t.ex. `abcdefghijklmnopqrst`)
-
-3. **Generera Types:**
-   ```bash
-   npx supabase gen types typescript --project-id YOUR_REFERENCE_ID > types/supabase-generated.ts
-   ```
+2. **Generera Types:**
+   - Gå till **Settings** → **API**
+   - Scrolla ner till **Generate types**
+   - Välj **TypeScript**
+   - Kopiera koden
+   - Spara i `types/supabase-generated.ts`
 
 ## Metod 2: Via Supabase CLI (Om installerad)
 
