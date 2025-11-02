@@ -305,3 +305,21 @@ Import trace:
 [00:07:12.976] Server  LOG      ✓ Compiled in 66ms
 [00:07:46.061] Server  LOG      ✓ Compiled in 58ms
 [00:08:06.123] Server  LOG      ✓ Compiled in 66ms
+[00:15:22.534] Server  LOG      ✓ Compiled in 60ms
+[00:15:22.624] Browser LOG     🔌 Project page: Event listeners removed
+[00:15:22.624] Browser LOG     ⏳ Waiting for tenantId...
+[00:15:22.624] Browser LOG     ✅ Project page: Event listeners registered for timeEntryUpdated on window, document, and body
+[00:15:23.509] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:15:23.516] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:15:23.622] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[00:15:23.622] Browser LOG     🔄 Project page: load() called {"projectId":"a03ddc24-d8d2-42d4-a58f-9bba896f0638","refreshTrigger":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:15:23.622] Browser LOG     🔍 Loading project: {"projectId":"a03ddc24-d8d2-42d4-a58f-9bba896f0638","tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:15:23.622] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[00:15:23.893] Browser LOG     ✅ Project loaded: Takrenovering
+[00:15:23.893] Browser LOG     📋 Project client info: {"client_id":"f4784956-6b9d-46f3-9db9-a4f59e0fde35","clients":{"id":"f4784956-6b9d-46f3-9db9-a4f59e0fde35","name":"Stefan Frost","org_number":null},"customer_name":"Stefan Frost"}
+[00:15:23.893] Browser LOG     📊 Project page: Fetching project hours from API...
+[00:15:24.303] Server  LOG     ✅ Using tenant from employee record: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:15:24.304] Server  LOG     🔍 API: Fetching project hours {}
+[00:15:24.454] Server  LOG     ✅ API: Project hours calculated {}
+[00:15:24.563] Browser LOG     ✅ Project page: Hours fetched: {"count":1,"entries":[{"date":"2025-11-02","hours_total":9,"ob_type":"evening"}],"hours":9}
+[00:15:56.746] Server  LOG      ✓ Compiled in 70ms

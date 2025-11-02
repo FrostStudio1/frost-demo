@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useState, useEffect } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import Sidebar from '@/components/Sidebar'
 import FrostLogo from '@/components/FrostLogo'
 import { toast } from '@/lib/toast'
@@ -9,11 +9,25 @@ import supabase from '@/utils/supabase/supabaseClient'
 
 export default function FeedbackPage() {
   const router = useRouter()
-  const [feedbackType, setFeedbackType] = useState<'bug' | 'feature' | 'other'>('bug')
-  const [subject, setSubject] = useState('')
-  const [message, setMessage] = useState('')
+  const searchParams = useSearchParams()
+  
+  // Pre-fill from URL params (for bug reports from errors)
+  const typeParam = searchParams?.get('type') as 'bug' | 'feature' | 'other' | null
+  const subjectParam = searchParams?.get('subject') || ''
+  const messageParam = searchParams?.get('message') || ''
+  
+  const [feedbackType, setFeedbackType] = useState<'bug' | 'feature' | 'other'>(typeParam || 'bug')
+  const [subject, setSubject] = useState(subjectParam)
+  const [message, setMessage] = useState(messageParam)
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
+  
+  // Update form when URL params change
+  useEffect(() => {
+    if (typeParam) setFeedbackType(typeParam)
+    if (subjectParam) setSubject(subjectParam)
+    if (messageParam) setMessage(messageParam)
+  }, [typeParam, subjectParam, messageParam])
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()

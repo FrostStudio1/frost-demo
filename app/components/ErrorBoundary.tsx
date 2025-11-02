@@ -56,16 +56,36 @@ export class ErrorBoundary extends Component<Props, State> {
                 </pre>
               </details>
             )}
-            <button
-              onClick={() => {
-                this.setState({ hasError: false, error: null })
-                window.location.reload()
-              }}
-              className="mt-6 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white font-bold py-2 px-6 rounded-xl hover:shadow-lg transition-all"
-              aria-label="Ladda om sidan"
-            >
-              Ladda om sidan
-            </button>
+            <div className="flex flex-col sm:flex-row gap-3 mt-6">
+              <button
+                onClick={() => {
+                  this.setState({ hasError: false, error: null })
+                  window.location.reload()
+                }}
+                className="flex-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white font-bold py-2 px-6 rounded-xl hover:shadow-lg transition-all"
+                aria-label="Ladda om sidan"
+              >
+                🔄 Ladda om sidan
+              </button>
+              <button
+                onClick={() => {
+                  const errorMessage = this.state.error?.message || 'Okänt fel'
+                  const errorStack = this.state.error?.stack || ''
+                  const feedbackUrl = `/feedback?type=bug&subject=${encodeURIComponent(`Kritisk bugg: ${errorMessage.substring(0, 50)}`)}&message=${encodeURIComponent(
+                    `Kritisk bugg upptäckt!\n\n` +
+                    `Felmeddelande: ${errorMessage}\n\n` +
+                    `Sida: ${window.location.href}\n` +
+                    `Tidpunkt: ${new Date().toISOString()}\n\n` +
+                    `Stack trace:\n${errorStack.substring(0, 500)}`
+                  )}`
+                  window.location.href = feedbackUrl
+                }}
+                className="flex-1 bg-red-500 text-white font-bold py-2 px-6 rounded-xl hover:bg-red-600 hover:shadow-lg transition-all"
+                aria-label="Rapportera bugg"
+              >
+                🐛 Rapportera bugg
+              </button>
+            </div>
           </div>
         </div>
       )
