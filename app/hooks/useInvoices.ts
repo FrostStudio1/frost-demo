@@ -19,25 +19,58 @@ export function useInvoices() {
       if (!tenantId) return []
 
       // Progressive fallback för saknade kolumner
+      // Start without customer_id since it might not exist
       let { data, error } = await supabase
         .from('invoices')
-        .select('id, amount, customer_name, customer_id, project_id, number, status, issue_date')
+        .select('id, amount, customer_name, client_id, project_id, number, status, issue_date')
         .eq('tenant_id', tenantId)
         .order('issue_date', { ascending: false })
 
-      if (error && (error.code === '42703' || error.code === '400')) {
-        // Fallback utan issue_date
-        const fallback = await supabase
+      // Fallback 1: If issue_date doesn't exist
+      if (error && (error.code === '42703' || error.code === '400') && error.message?.includes('issue_date')) {
+        const fallback1 = await supabase
           .from('invoices')
-          .select('id, amount, customer_name, customer_id, project_id, number, status')
+          .select('id, amount, customer_name, client_id, project_id, number, status')
           .eq('tenant_id', tenantId)
           .order('id', { ascending: false })
         
-        if (!fallback.error) {
-          data = fallback.data
+        if (!fallback1.error) {
+          data = fallback1.data
           error = null
         } else {
-          error = fallback.error
+          error = fallback1.error
+        }
+      }
+
+      // Fallback 2: If number doesn't exist
+      if (error && (error.code === '42703' || error.code === '400') && error.message?.includes('number')) {
+        const fallback2 = await supabase
+          .from('invoices')
+          .select('id, amount, customer_name, client_id, project_id, status, issue_date')
+          .eq('tenant_id', tenantId)
+          .order('issue_date', { ascending: false })
+        
+        if (!fallback2.error) {
+          data = fallback2.data
+          error = null
+        } else {
+          error = fallback2.error
+        }
+      }
+
+      // Fallback 3: Minimal set
+      if (error && (error.code === '42703' || error.code === '400')) {
+        const fallback3 = await supabase
+          .from('invoices')
+          .select('id, amount, customer_name, client_id, project_id, status')
+          .eq('tenant_id', tenantId)
+          .order('id', { ascending: false })
+        
+        if (!fallback3.error) {
+          data = fallback3.data
+          error = null
+        } else {
+          error = fallback3.error
         }
       }
 
@@ -69,27 +102,62 @@ export function useInvoice(invoiceId: string | undefined) {
     queryFn: async () => {
       if (!invoiceId || !tenantId) return null
 
-      // Progressive fallback (samma som i edit page)
+      // Progressive fallback - start without problematic columns
       let { data, error } = await supabase
         .from('invoices')
-        .select('id, amount, customer_name, desc, description, status, issue_date, due_date, project_id, customer_id, client_id')
+        .select('id, amount, customer_name, desc, description, status, issue_date, project_id, client_id')
         .eq('id', invoiceId)
         .eq('tenant_id', tenantId)
         .single()
 
-      if (error && (error.code === '42703' || error.message?.includes('does not exist'))) {
-        const fallback = await supabase
+      // Fallback 1: If desc doesn't exist
+      if (error && (error.code === '42703' || error.code === '400') && error.message?.includes('desc')) {
+        const fallback1 = await supabase
           .from('invoices')
-          .select('id, amount, customer_name, description, status, issue_date, due_date, project_id, customer_id, client_id')
+          .select('id, amount, customer_name, description, status, issue_date, project_id, client_id')
           .eq('id', invoiceId)
           .eq('tenant_id', tenantId)
           .single()
         
-        if (!fallback.error) {
-          data = { ...fallback.data, desc: fallback.data.description || null }
+        if (!fallback1.error) {
+          data = { ...fallback1.data, desc: fallback1.data.description || null }
           error = null
         } else {
-          error = fallback.error
+          error = fallback1.error
+        }
+      }
+
+      // Fallback 2: If description also doesn't exist
+      if (error && (error.code === '42703' || error.code === '400') && error.message?.includes('description')) {
+        const fallback2 = await supabase
+          .from('invoices')
+          .select('id, amount, customer_name, status, issue_date, project_id, client_id')
+          .eq('id', invoiceId)
+          .eq('tenant_id', tenantId)
+          .single()
+        
+        if (!fallback2.error) {
+          data = fallback2.data
+          error = null
+        } else {
+          error = fallback2.error
+        }
+      }
+
+      // Fallback 3: Minimal set
+      if (error && (error.code === '42703' || error.code === '400')) {
+        const fallback3 = await supabase
+          .from('invoices')
+          .select('id, amount, customer_name, project_id, client_id')
+          .eq('id', invoiceId)
+          .eq('tenant_id', tenantId)
+          .single()
+        
+        if (!fallback3.error) {
+          data = fallback3.data
+          error = null
+        } else {
+          error = fallback3.error
         }
       }
 

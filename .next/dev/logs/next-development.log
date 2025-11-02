@@ -14971,3 +14971,13 @@ Import traces:
 [01:43:43.223] Browser LOG     ⚠️ No invoice lines found, checking if we should create from invoice data
 [01:43:43.223] Browser LOG     No invoice lines and no fallback data available
 [01:45:07.286] Server  LOG      ✓ Compiled in 63ms
+[01:46:36.940] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[01:46:36.971] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[01:46:36.994] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[01:46:37.044] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[01:46:37.516] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[01:46:37.516] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[01:46:40.405] Browser ERROR   Error fetching invoices: {}
+[01:47:17.073] Server  LOG      ✓ Compiled in 79ms
+[01:47:30.778] Server  LOG      ✓ Compiled in 54ms
+[01:47:43.923] Server  LOG      ✓ Compiled in 64ms

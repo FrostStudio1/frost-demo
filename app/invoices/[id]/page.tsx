@@ -58,10 +58,10 @@ export default function InvoicePage() {
 
     async function fetchInvoice() {
       try {
-        // Progressive fallback - start without problematic columns (due_date, number)
+        // Progressive fallback - start without problematic columns (due_date, number, customer_id)
         let { data: invData, error: invError } = await supabase
           .from('invoices')
-          .select('id, amount, customer_name, desc, description, status, issue_date, project_id, customer_id, client_id, tenant_id')
+          .select('id, amount, customer_name, desc, description, status, issue_date, project_id, client_id, tenant_id')
           .eq('id', invoiceId)
           .eq('tenant_id', tenantId)
           .single()
@@ -70,7 +70,7 @@ export default function InvoicePage() {
         if (invError && (invError.code === '42703' || invError.code === '400' || invError.message?.includes('desc'))) {
           const fallback1 = await supabase
             .from('invoices')
-            .select('id, amount, customer_name, description, status, issue_date, project_id, customer_id, client_id, tenant_id')
+            .select('id, amount, customer_name, description, status, issue_date, project_id, client_id, tenant_id')
             .eq('id', invoiceId)
             .eq('tenant_id', tenantId)
             .single()
@@ -87,7 +87,7 @@ export default function InvoicePage() {
         if (invError && (invError.code === '42703' || invError.code === '400' || invError.message?.includes('description'))) {
           const fallback2 = await supabase
             .from('invoices')
-            .select('id, amount, customer_name, status, issue_date, project_id, customer_id, client_id, tenant_id')
+            .select('id, amount, customer_name, status, issue_date, project_id, client_id, tenant_id')
             .eq('id', invoiceId)
             .eq('tenant_id', tenantId)
             .single()
@@ -104,7 +104,7 @@ export default function InvoicePage() {
         if (invError && (invError.code === '42703' || invError.code === '400' || invError.message?.includes('does not exist'))) {
           const fallback3 = await supabase
             .from('invoices')
-            .select('id, amount, customer_name, customer_id, client_id, project_id, tenant_id')
+            .select('id, amount, customer_name, client_id, project_id, tenant_id')
             .eq('id', invoiceId)
             .eq('tenant_id', tenantId)
             .single()
