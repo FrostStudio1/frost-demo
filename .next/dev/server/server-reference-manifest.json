@@ -1,6 +1,6 @@
 {
   "node": {
-    "40dd1ac5e4a984e3112b777924641073762bd4874c": {
+    "406acedae06f2480b907126a46cc6c1d94747e6020": {
       "workers": {
         "app/login/page": {
           "moduleId": "[project]/frost-demo/.next-internal/server/app/login/page/actions.js { ACTIONS_MODULE0 => \"[project]/frost-demo/app/auth/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
@@ -14,8 +14,38 @@
       },
       "filename": "frost-demo/app/auth/actions.ts",
       "exportedName": "sendMagicLink"
+    },
+    "408a4bf877321873ddabd1a708ea734e0b15dc1460": {
+      "workers": {
+        "app/projects/page": {
+          "moduleId": "[project]/frost-demo/.next-internal/server/app/projects/page/actions.js { ACTIONS_MODULE0 => \"[project]/frost-demo/app/projects/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "createProject",
+          "filename": "frost-demo/app/projects/actions.ts"
+        }
+      },
+      "layer": {
+        "app/projects/page": "action-browser"
+      },
+      "filename": "frost-demo/app/projects/actions.ts",
+      "exportedName": "createProject"
+    },
+    "40d438a011a0ecd8fc9ae041f3070f75cf85d27dec": {
+      "workers": {
+        "app/invoices/[id]/page": {
+          "moduleId": "[project]/frost-demo/.next-internal/server/app/invoices/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/frost-demo/app/invoices/[id]/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "sendInvoiceEmail",
+          "filename": "frost-demo/app/invoices/[id]/actions.ts"
+        }
+      },
+      "layer": {
+        "app/invoices/[id]/page": "action-browser"
+      },
+      "filename": "frost-demo/app/invoices/[id]/actions.ts",
+      "exportedName": "sendInvoiceEmail"
     }
   },
   "edge": {},
-  "encryptionKey": "Lmxhsvn/kYEwedy0X9QZXXz1B7X5Uq9Akwu59IROMuw="
+  "encryptionKey": "+hXpxdRY0y3AiQRkRGVdJLKu3V+ZqnXO10qAXq810wk="
 }

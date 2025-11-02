@@ -3,6 +3,7 @@ import "./globals.css";
 import { TenantProvider } from "@/context/TenantContext";
 import { ThemeProvider } from "@/context/ThemeContext";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { QueryProvider } from "@/app/providers/QueryProvider";
 import Toaster from "@/components/Toaster";
 import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
 
@@ -24,13 +25,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="sv">
       <body className="min-h-screen bg-background text-foreground antialiased">
         <ErrorBoundary>
-          <ThemeProvider>
-            <TenantProvider>
-              {children}
-              <Toaster />
-              <ServiceWorkerRegister />
-            </TenantProvider>
-          </ThemeProvider>
+          <QueryProvider>
+            <ThemeProvider>
+              <TenantProvider>
+                {children}
+                <Toaster />
+                <ServiceWorkerRegister />
+              </TenantProvider>
+            </ThemeProvider>
+          </QueryProvider>
         </ErrorBoundary>
       </body>
     </html>

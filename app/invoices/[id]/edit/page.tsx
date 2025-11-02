@@ -7,20 +7,8 @@ import { useTenant } from '@/context/TenantContext'
 import { useAdmin } from '@/hooks/useAdmin'
 import Sidebar from '@/components/Sidebar'
 import { toast } from '@/lib/toast'
-
-interface Invoice {
-  id: string
-  amount: number
-  customer_name?: string
-  desc?: string
-  description?: string
-  status?: string
-  issue_date?: string
-  due_date?: string
-  project_id?: string
-  customer_id?: string
-  client_id?: string
-}
+import { extractErrorMessage } from '@/lib/errorUtils'
+import type { Invoice } from '@/types/supabase'
 
 export default function EditInvoicePage() {
   const router = useRouter()
@@ -88,7 +76,11 @@ export default function EditInvoicePage() {
           }
         }
 
-        if (error) throw error
+        if (error) {
+          // Better error message extraction
+          const errorMessage = error.message || error.details || error.hint || error.code || 'Okänt fel'
+          throw new Error(errorMessage)
+        }
         if (!data) {
           toast.error('Faktura hittades inte')
           router.push('/invoices')
@@ -97,8 +89,8 @@ export default function EditInvoicePage() {
 
         setInvoice(data as Invoice)
       } catch (err: any) {
-        console.error('Error fetching invoice:', err)
-        toast.error('Kunde inte hämta faktura: ' + (err.message || 'Okänt fel'))
+        const errorMessage = extractErrorMessage(err)
+        toast.error('Kunde inte hämta faktura: ' + errorMessage)
         router.push('/invoices')
       } finally {
         setLoading(false)
@@ -131,7 +123,10 @@ export default function EditInvoicePage() {
         .eq('id', invoiceId)
         .eq('tenant_id', tenantId)
 
-      if (error) throw error
+      if (error) {
+        const errorMessage = error.message || error.details || error.hint || error.code || 'Okänt fel'
+        throw new Error(errorMessage)
+      }
 
       toast.success('Faktura uppdaterad!')
       
@@ -144,8 +139,8 @@ export default function EditInvoicePage() {
       
       router.push(`/invoices/${invoiceId}`)
     } catch (err: any) {
-      console.error('Error updating invoice:', err)
-      toast.error('Kunde inte uppdatera faktura: ' + (err.message || 'Okänt fel'))
+      const errorMessage = extractErrorMessage(err)
+      toast.error('Kunde inte uppdatera faktura: ' + errorMessage)
     } finally {
       setSaving(false)
     }
@@ -217,6 +212,8 @@ export default function EditInvoicePage() {
                   defaultValue={invoice.amount || 0}
                   step="0.01"
                   required
+                  aria-label="Belopp i SEK"
+                  aria-required="true"
                   className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                 />
               </div>
@@ -229,6 +226,7 @@ export default function EditInvoicePage() {
                   type="text"
                   name="customer_name"
                   defaultValue={invoice.customer_name || ''}
+                  aria-label="Kundnamn"
                   className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                 />
               </div>
@@ -241,6 +239,7 @@ export default function EditInvoicePage() {
                   name="description"
                   defaultValue={invoice.description || invoice.desc || ''}
                   rows={4}
+                  aria-label="Beskrivning"
                   className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                 />
                 <input type="hidden" name="desc" value={invoice.desc || invoice.description || ''} />
@@ -253,6 +252,7 @@ export default function EditInvoicePage() {
                 <select
                   name="status"
                   defaultValue={invoice.status || 'draft'}
+                  aria-label="Status"
                   className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                 >
                   <option value="draft">Utkast</option>
@@ -271,6 +271,7 @@ export default function EditInvoicePage() {
                     type="date"
                     name="issue_date"
                     defaultValue={invoice.issue_date || ''}
+                    aria-label="Utfärdad datum"
                     className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                   />
                 </div>
@@ -283,6 +284,7 @@ export default function EditInvoicePage() {
                     type="date"
                     name="due_date"
                     defaultValue={invoice.due_date || ''}
+                    aria-label="Förfallodatum"
                     className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                   />
                 </div>
@@ -293,6 +295,8 @@ export default function EditInvoicePage() {
               <button
                 type="submit"
                 disabled={saving}
+                aria-label={saving ? 'Sparar ändringar' : 'Spara ändringar'}
+                aria-busy={saving}
                 className="flex-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white px-6 py-3 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all disabled:opacity-50"
               >
                 {saving ? 'Sparar...' : 'Spara ändringar'}
@@ -300,6 +304,7 @@ export default function EditInvoicePage() {
               <button
                 type="button"
                 onClick={() => router.back()}
+                aria-label="Avbryt och gå tillbaka"
                 className="px-6 py-3 rounded-xl border-2 border-gray-300 text-gray-700 font-semibold hover:bg-gray-100 transition-colors"
               >
                 Avbryt
