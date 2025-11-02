@@ -28,7 +28,7 @@ export default async function ProjectsPage() {
   // Hämta projekt
   const { data: projectsData, error: projectsErr } = await supabase
     .from('projects')
-    .select('id, name, base_rate_sek')
+    .select('id, name, base_rate_sek, status')
     .eq('tenant_id', tenantId)
     .order('created_at', { ascending: false })
   if (projectsErr) {
