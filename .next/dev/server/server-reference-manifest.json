@@ -14,6 +14,21 @@
       },
       "filename": "frost-demo/app/invoices/[id]/actions.ts",
       "exportedName": "sendInvoiceEmail"
+    },
+    "408a4bf877321873ddabd1a708ea734e0b15dc1460": {
+      "workers": {
+        "app/projects/page": {
+          "moduleId": "[project]/frost-demo/.next-internal/server/app/projects/page/actions.js { ACTIONS_MODULE0 => \"[project]/frost-demo/app/projects/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "createProject",
+          "filename": "frost-demo/app/projects/actions.ts"
+        }
+      },
+      "layer": {
+        "app/projects/page": "action-browser"
+      },
+      "filename": "frost-demo/app/projects/actions.ts",
+      "exportedName": "createProject"
     }
   },
   "edge": {},

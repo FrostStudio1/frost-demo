@@ -9,9 +9,12 @@
   "/api/projects/for-timeclock/route": "app/api/projects/for-timeclock/route.js",
   "/api/projects/list/route": "app/api/projects/list/route.js",
   "/api/tenant/get-tenant/route": "app/api/tenant/get-tenant/route.js",
+  "/clients/page": "app/clients/page.js",
   "/dashboard/page": "app/dashboard/page.js",
   "/invoices/[id]/page": "app/invoices/[id]/page.js",
   "/invoices/new/page": "app/invoices/new/page.js",
+  "/invoices/page": "app/invoices/page.js",
   "/page": "app/page.js",
-  "/projects/[id]/page": "app/projects/[id]/page.js"
+  "/projects/[id]/page": "app/projects/[id]/page.js",
+  "/projects/page": "app/projects/page.js"
 }

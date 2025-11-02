@@ -323,3 +323,1360 @@ Import trace:
 [00:15:24.454] Server  LOG     ✅ API: Project hours calculated {}
 [00:15:24.563] Browser LOG     ✅ Project page: Hours fetched: {"count":1,"entries":[{"date":"2025-11-02","hours_total":9,"ob_type":"evening"}],"hours":9}
 [00:15:56.746] Server  LOG      ✓ Compiled in 70ms
+[00:22:16.722] Browser LOG     🔌 Project page: Event listeners removed
+[00:22:21.933] Server  ERROR    ⨯ ./frost-demo/app/invoices/page.tsx:5:1
+Module not found: Can't resolve '@/hooks/useInvoices'
+  3 | import { useRouter } from 'next/navigation'
+  4 | import { useTenant } from '@/context/TenantContext'
+> 5 | import { useInvoices } from '@/hooks/useInvoices'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 | import Sidebar from '@/components/Sidebar'
+  7 | import SearchBar from '@/components/SearchBar'
+  8 | import FilterSortBar from '@/components/FilterSortBar'
+
+Import map: aliased to relative './app/hooks/useInvoices' inside of [project]/frost-demo
+
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:22:21.965] Browser ERROR   ./frost-demo/app/invoices/page.tsx:5:1
+Module not found: Can't resolve '@/hooks/useInvoices'
+  3 | import { useRouter } from 'next/navigation'
+  4 | import { useTenant } from '@/context/TenantContext'
+> 5 | import { useInvoices } from '@/hooks/useInvoices'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 | import Sidebar from '@/components/Sidebar'
+  7 | import SearchBar from '@/components/SearchBar'
+  8 | import FilterSortBar from '@/components/FilterSortBar'
+
+Import map: aliased to relative './app/hooks/useInvoices' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:22:22.062] Server  ERROR    ⨯ ./frost-demo/app/invoices/page.tsx:5:1
+Module not found: Can't resolve '@/hooks/useInvoices'
+  3 | import { useRouter } from 'next/navigation'
+  4 | import { useTenant } from '@/context/TenantContext'
+> 5 | import { useInvoices } from '@/hooks/useInvoices'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 | import Sidebar from '@/components/Sidebar'
+  7 | import SearchBar from '@/components/SearchBar'
+  8 | import FilterSortBar from '@/components/FilterSortBar'
+
+Import map: aliased to relative './app/hooks/useInvoices' inside of [project]/frost-demo
+
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:22:22.553] Browser ERROR   uncaughtError: Error: ./frost-demo/app/invoices/page.tsx:5:1
+Module not found: Can't resolve '@/hooks/useInvoices'
+  3 | import { useRouter } from 'next/navigation'
+  4 | import { useTenant } from '@/context/TenantContext'
+> 5 | import { useInvoices } from '@/hooks/useInvoices'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 | import Sidebar from '@/components/Sidebar'
+  7 | import SearchBar from '@/components/SearchBar'
+  8 | import FilterSortBar from '@/components/FilterSortBar'
+
+Import map: aliased to relative './app/hooks/useInvoices' inside of [project]/frost-demo
+
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:22:22.867] Browser ERROR   ./frost-demo/app/invoices/page.tsx:5:1
+Module not found: Can't resolve '@/hooks/useInvoices'
+  3 | import { useRouter } from 'next/navigation'
+  4 | import { useTenant } from '@/context/TenantContext'
+> 5 | import { useInvoices } from '@/hooks/useInvoices'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 | import Sidebar from '@/components/Sidebar'
+  7 | import SearchBar from '@/components/SearchBar'
+  8 | import FilterSortBar from '@/components/FilterSortBar'
+
+Import map: aliased to relative './app/hooks/useInvoices' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:22:22.867] Browser ERROR   ./frost-demo/app/invoices/page.tsx:5:1
+Module not found: Can't resolve '@/hooks/useInvoices'
+  3 | import { useRouter } from 'next/navigation'
+  4 | import { useTenant } from '@/context/TenantContext'
+> 5 | import { useInvoices } from '@/hooks/useInvoices'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 | import Sidebar from '@/components/Sidebar'
+  7 | import SearchBar from '@/components/SearchBar'
+  8 | import FilterSortBar from '@/components/FilterSortBar'
+
+Import map: aliased to relative './app/hooks/useInvoices' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:22:22.969] Browser ERROR   ./frost-demo/app/invoices/page.tsx:5:1
+Module not found: Can't resolve '@/hooks/useInvoices'
+  3 | import { useRouter } from 'next/navigation'
+  4 | import { useTenant } from '@/context/TenantContext'
+> 5 | import { useInvoices } from '@/hooks/useInvoices'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 | import Sidebar from '@/components/Sidebar'
+  7 | import SearchBar from '@/components/SearchBar'
+  8 | import FilterSortBar from '@/components/FilterSortBar'
+
+Import map: aliased to relative './app/hooks/useInvoices' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:22:26.610] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:22:26.918] Browser ERROR   ./frost-demo/app/invoices/page.tsx:5:1
+Module not found: Can't resolve '@/hooks/useInvoices'
+  3 | import { useRouter } from 'next/navigation'
+  4 | import { useTenant } from '@/context/TenantContext'
+> 5 | import { useInvoices } from '@/hooks/useInvoices'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 | import Sidebar from '@/components/Sidebar'
+  7 | import SearchBar from '@/components/SearchBar'
+  8 | import FilterSortBar from '@/components/FilterSortBar'
+
+Import map: aliased to relative './app/hooks/useInvoices' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:22:26.918] Browser ERROR   ./frost-demo/app/invoices/page.tsx:5:1
+Module not found: Can't resolve '@/hooks/useInvoices'
+  3 | import { useRouter } from 'next/navigation'
+  4 | import { useTenant } from '@/context/TenantContext'
+> 5 | import { useInvoices } from '@/hooks/useInvoices'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 | import Sidebar from '@/components/Sidebar'
+  7 | import SearchBar from '@/components/SearchBar'
+  8 | import FilterSortBar from '@/components/FilterSortBar'
+
+Import map: aliased to relative './app/hooks/useInvoices' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:22:26.918] Browser ERROR   ./frost-demo/app/invoices/page.tsx:5:1
+Module not found: Can't resolve '@/hooks/useInvoices'
+  3 | import { useRouter } from 'next/navigation'
+  4 | import { useTenant } from '@/context/TenantContext'
+> 5 | import { useInvoices } from '@/hooks/useInvoices'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 | import Sidebar from '@/components/Sidebar'
+  7 | import SearchBar from '@/components/SearchBar'
+  8 | import FilterSortBar from '@/components/FilterSortBar'
+
+Import map: aliased to relative './app/hooks/useInvoices' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:22:26.918] Browser ERROR   ./frost-demo/app/invoices/page.tsx:5:1
+Module not found: Can't resolve '@/hooks/useInvoices'
+  3 | import { useRouter } from 'next/navigation'
+  4 | import { useTenant } from '@/context/TenantContext'
+> 5 | import { useInvoices } from '@/hooks/useInvoices'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 | import Sidebar from '@/components/Sidebar'
+  7 | import SearchBar from '@/components/SearchBar'
+  8 | import FilterSortBar from '@/components/FilterSortBar'
+
+Import map: aliased to relative './app/hooks/useInvoices' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:22:26.924] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:22:26.989] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:22:27.148] Browser ERROR   ./frost-demo/app/invoices/page.tsx:5:1
+Module not found: Can't resolve '@/hooks/useInvoices'
+  3 | import { useRouter } from 'next/navigation'
+  4 | import { useTenant } from '@/context/TenantContext'
+> 5 | import { useInvoices } from '@/hooks/useInvoices'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 | import Sidebar from '@/components/Sidebar'
+  7 | import SearchBar from '@/components/SearchBar'
+  8 | import FilterSortBar from '@/components/FilterSortBar'
+
+Import map: aliased to relative './app/hooks/useInvoices' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:22:27.148] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[00:22:27.148] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[00:22:27.148] Browser ERROR   ./frost-demo/app/invoices/page.tsx:5:1
+Module not found: Can't resolve '@/hooks/useInvoices'
+  3 | import { useRouter } from 'next/navigation'
+  4 | import { useTenant } from '@/context/TenantContext'
+> 5 | import { useInvoices } from '@/hooks/useInvoices'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 | import Sidebar from '@/components/Sidebar'
+  7 | import SearchBar from '@/components/SearchBar'
+  8 | import FilterSortBar from '@/components/FilterSortBar'
+
+Import map: aliased to relative './app/hooks/useInvoices' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:22:28.289] Browser ERROR   ./frost-demo/app/invoices/page.tsx:5:1
+Module not found: Can't resolve '@/hooks/useInvoices'
+  3 | import { useRouter } from 'next/navigation'
+  4 | import { useTenant } from '@/context/TenantContext'
+> 5 | import { useInvoices } from '@/hooks/useInvoices'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 | import Sidebar from '@/components/Sidebar'
+  7 | import SearchBar from '@/components/SearchBar'
+  8 | import FilterSortBar from '@/components/FilterSortBar'
+
+Import map: aliased to relative './app/hooks/useInvoices' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:22:28.289] Browser LOG     🔄 Project page: load() called {"projectId":"a03ddc24-d8d2-42d4-a58f-9bba896f0638","refreshTrigger":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:22:28.289] Browser LOG     🔍 Loading project: {"projectId":"a03ddc24-d8d2-42d4-a58f-9bba896f0638","tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:22:28.289] Browser LOG     ✅ Project page: Event listeners registered for timeEntryUpdated on window, document, and body
+[00:22:28.289] Browser LOG     🔌 Project page: Event listeners removed
+[00:22:28.289] Browser LOG     🔄 Project page: load() called {"projectId":"a03ddc24-d8d2-42d4-a58f-9bba896f0638","refreshTrigger":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:22:28.289] Browser LOG     🔍 Loading project: {"projectId":"a03ddc24-d8d2-42d4-a58f-9bba896f0638","tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:22:28.289] Browser LOG     ✅ Project page: Event listeners registered for timeEntryUpdated on window, document, and body
+[00:22:28.289] Browser ERROR   ./frost-demo/app/invoices/page.tsx:5:1
+Module not found: Can't resolve '@/hooks/useInvoices'
+  3 | import { useRouter } from 'next/navigation'
+  4 | import { useTenant } from '@/context/TenantContext'
+> 5 | import { useInvoices } from '@/hooks/useInvoices'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 | import Sidebar from '@/components/Sidebar'
+  7 | import SearchBar from '@/components/SearchBar'
+  8 | import FilterSortBar from '@/components/FilterSortBar'
+
+Import map: aliased to relative './app/hooks/useInvoices' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:22:28.421] Browser LOG     ✅ Project loaded: Takrenovering
+[00:22:28.421] Browser LOG     📋 Project client info: {"client_id":"f4784956-6b9d-46f3-9db9-a4f59e0fde35","clients":{"id":"f4784956-6b9d-46f3-9db9-a4f59e0fde35","name":"Stefan Frost","org_number":null},"customer_name":"Stefan Frost"}
+[00:22:28.421] Browser LOG     📊 Project page: Fetching project hours from API...
+[00:22:28.553] Browser ERROR   ./frost-demo/app/invoices/page.tsx:5:1
+Module not found: Can't resolve '@/hooks/useInvoices'
+  3 | import { useRouter } from 'next/navigation'
+  4 | import { useTenant } from '@/context/TenantContext'
+> 5 | import { useInvoices } from '@/hooks/useInvoices'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 | import Sidebar from '@/components/Sidebar'
+  7 | import SearchBar from '@/components/SearchBar'
+  8 | import FilterSortBar from '@/components/FilterSortBar'
+
+Import map: aliased to relative './app/hooks/useInvoices' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:22:28.685] Server  LOG     ✅ Using tenant from employee record: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:22:28.685] Server  LOG     🔍 API: Fetching project hours {}
+[00:22:28.754] Server  LOG     ✅ API: Project hours calculated {}
+[00:22:28.858] Browser LOG     ✅ Project page: Hours fetched: {"count":1,"entries":[{"date":"2025-11-02","hours_total":9,"ob_type":"evening"}],"hours":9}
+[00:22:33.104] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:22:33.276] Browser LOG     ⏳ Waiting for tenantId...
+[00:22:33.276] Browser LOG     ✅ Project page: Event listeners registered for timeEntryUpdated on window, document, and body
+[00:22:33.276] Browser ERROR   ./frost-demo/app/invoices/page.tsx:5:1
+Module not found: Can't resolve '@/hooks/useInvoices'
+  3 | import { useRouter } from 'next/navigation'
+  4 | import { useTenant } from '@/context/TenantContext'
+> 5 | import { useInvoices } from '@/hooks/useInvoices'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 | import Sidebar from '@/components/Sidebar'
+  7 | import SearchBar from '@/components/SearchBar'
+  8 | import FilterSortBar from '@/components/FilterSortBar'
+
+Import map: aliased to relative './app/hooks/useInvoices' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:22:33.276] Browser ERROR   ./frost-demo/app/invoices/page.tsx:5:1
+Module not found: Can't resolve '@/hooks/useInvoices'
+  3 | import { useRouter } from 'next/navigation'
+  4 | import { useTenant } from '@/context/TenantContext'
+> 5 | import { useInvoices } from '@/hooks/useInvoices'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 | import Sidebar from '@/components/Sidebar'
+  7 | import SearchBar from '@/components/SearchBar'
+  8 | import FilterSortBar from '@/components/FilterSortBar'
+
+Import map: aliased to relative './app/hooks/useInvoices' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:22:33.416] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:22:33.446] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:22:33.481] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:22:33.720] Browser ERROR   ./frost-demo/app/invoices/page.tsx:5:1
+Module not found: Can't resolve '@/hooks/useInvoices'
+  3 | import { useRouter } from 'next/navigation'
+  4 | import { useTenant } from '@/context/TenantContext'
+> 5 | import { useInvoices } from '@/hooks/useInvoices'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 | import Sidebar from '@/components/Sidebar'
+  7 | import SearchBar from '@/components/SearchBar'
+  8 | import FilterSortBar from '@/components/FilterSortBar'
+
+Import map: aliased to relative './app/hooks/useInvoices' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:22:33.720] Browser ERROR   ./frost-demo/app/invoices/page.tsx:5:1
+Module not found: Can't resolve '@/hooks/useInvoices'
+  3 | import { useRouter } from 'next/navigation'
+  4 | import { useTenant } from '@/context/TenantContext'
+> 5 | import { useInvoices } from '@/hooks/useInvoices'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 | import Sidebar from '@/components/Sidebar'
+  7 | import SearchBar from '@/components/SearchBar'
+  8 | import FilterSortBar from '@/components/FilterSortBar'
+
+Import map: aliased to relative './app/hooks/useInvoices' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:22:33.720] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[00:22:33.720] Browser LOG     🔄 Project page: load() called {"projectId":"a03ddc24-d8d2-42d4-a58f-9bba896f0638","refreshTrigger":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:22:33.720] Browser LOG     🔍 Loading project: {"projectId":"a03ddc24-d8d2-42d4-a58f-9bba896f0638","tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:22:33.720] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[00:22:33.720] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[00:22:33.720] Browser LOG     ✅ Project loaded: Takrenovering
+[00:22:33.720] Browser LOG     📋 Project client info: {"client_id":"f4784956-6b9d-46f3-9db9-a4f59e0fde35","clients":{"id":"f4784956-6b9d-46f3-9db9-a4f59e0fde35","name":"Stefan Frost","org_number":null},"customer_name":"Stefan Frost"}
+[00:22:33.720] Browser LOG     📊 Project page: Fetching project hours from API...
+[00:22:33.720] Browser ERROR   ./frost-demo/app/invoices/page.tsx:5:1
+Module not found: Can't resolve '@/hooks/useInvoices'
+  3 | import { useRouter } from 'next/navigation'
+  4 | import { useTenant } from '@/context/TenantContext'
+> 5 | import { useInvoices } from '@/hooks/useInvoices'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 | import Sidebar from '@/components/Sidebar'
+  7 | import SearchBar from '@/components/SearchBar'
+  8 | import FilterSortBar from '@/components/FilterSortBar'
+
+Import map: aliased to relative './app/hooks/useInvoices' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:22:33.720] Browser ERROR   ./frost-demo/app/invoices/page.tsx:5:1
+Module not found: Can't resolve '@/hooks/useInvoices'
+  3 | import { useRouter } from 'next/navigation'
+  4 | import { useTenant } from '@/context/TenantContext'
+> 5 | import { useInvoices } from '@/hooks/useInvoices'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 | import Sidebar from '@/components/Sidebar'
+  7 | import SearchBar from '@/components/SearchBar'
+  8 | import FilterSortBar from '@/components/FilterSortBar'
+
+Import map: aliased to relative './app/hooks/useInvoices' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:22:33.864] Server  LOG     ✅ Using tenant from employee record: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:22:33.864] Server  LOG     🔍 API: Fetching project hours {}
+[00:22:33.935] Server  LOG     ✅ API: Project hours calculated {}
+[00:22:34.038] Browser LOG     ✅ Project page: Hours fetched: {"count":1,"entries":[{"date":"2025-11-02","hours_total":9,"ob_type":"evening"}],"hours":9}
+[00:22:37.665] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:22:37.902] Browser LOG     ⏳ Waiting for tenantId...
+[00:22:37.902] Browser LOG     ✅ Project page: Event listeners registered for timeEntryUpdated on window, document, and body
+[00:22:37.902] Browser ERROR   ./frost-demo/app/invoices/page.tsx:5:1
+Module not found: Can't resolve '@/hooks/useInvoices'
+  3 | import { useRouter } from 'next/navigation'
+  4 | import { useTenant } from '@/context/TenantContext'
+> 5 | import { useInvoices } from '@/hooks/useInvoices'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 | import Sidebar from '@/components/Sidebar'
+  7 | import SearchBar from '@/components/SearchBar'
+  8 | import FilterSortBar from '@/components/FilterSortBar'
+
+Import map: aliased to relative './app/hooks/useInvoices' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:22:37.902] Browser ERROR   ./frost-demo/app/invoices/page.tsx:5:1
+Module not found: Can't resolve '@/hooks/useInvoices'
+  3 | import { useRouter } from 'next/navigation'
+  4 | import { useTenant } from '@/context/TenantContext'
+> 5 | import { useInvoices } from '@/hooks/useInvoices'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 | import Sidebar from '@/components/Sidebar'
+  7 | import SearchBar from '@/components/SearchBar'
+  8 | import FilterSortBar from '@/components/FilterSortBar'
+
+Import map: aliased to relative './app/hooks/useInvoices' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:22:37.902] Browser ERROR   ./frost-demo/app/invoices/page.tsx:5:1
+Module not found: Can't resolve '@/hooks/useInvoices'
+  3 | import { useRouter } from 'next/navigation'
+  4 | import { useTenant } from '@/context/TenantContext'
+> 5 | import { useInvoices } from '@/hooks/useInvoices'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 | import Sidebar from '@/components/Sidebar'
+  7 | import SearchBar from '@/components/SearchBar'
+  8 | import FilterSortBar from '@/components/FilterSortBar'
+
+Import map: aliased to relative './app/hooks/useInvoices' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:22:38.005] Browser ERROR   ./frost-demo/app/invoices/page.tsx:5:1
+Module not found: Can't resolve '@/hooks/useInvoices'
+  3 | import { useRouter } from 'next/navigation'
+  4 | import { useTenant } from '@/context/TenantContext'
+> 5 | import { useInvoices } from '@/hooks/useInvoices'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 | import Sidebar from '@/components/Sidebar'
+  7 | import SearchBar from '@/components/SearchBar'
+  8 | import FilterSortBar from '@/components/FilterSortBar'
+
+Import map: aliased to relative './app/hooks/useInvoices' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:22:38.054] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:22:38.057] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:22:38.106] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:22:38.359] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[00:22:38.359] Browser LOG     🔄 Project page: load() called {"projectId":"a03ddc24-d8d2-42d4-a58f-9bba896f0638","refreshTrigger":0,"tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:22:38.359] Browser LOG     🔍 Loading project: {"projectId":"a03ddc24-d8d2-42d4-a58f-9bba896f0638","tenantId":"8ee28f55-b780-4286-8137-9e70ea58ae56"}
+[00:22:38.359] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[00:22:38.359] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[00:22:38.359] Browser LOG     ✅ Project loaded: Takrenovering
+[00:22:38.359] Browser LOG     📋 Project client info: {"client_id":"f4784956-6b9d-46f3-9db9-a4f59e0fde35","clients":{"id":"f4784956-6b9d-46f3-9db9-a4f59e0fde35","name":"Stefan Frost","org_number":null},"customer_name":"Stefan Frost"}
+[00:22:38.359] Browser LOG     📊 Project page: Fetching project hours from API...
+[00:22:38.359] Browser ERROR   ./frost-demo/app/invoices/page.tsx:5:1
+Module not found: Can't resolve '@/hooks/useInvoices'
+  3 | import { useRouter } from 'next/navigation'
+  4 | import { useTenant } from '@/context/TenantContext'
+> 5 | import { useInvoices } from '@/hooks/useInvoices'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 | import Sidebar from '@/components/Sidebar'
+  7 | import SearchBar from '@/components/SearchBar'
+  8 | import FilterSortBar from '@/components/FilterSortBar'
+
+Import map: aliased to relative './app/hooks/useInvoices' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:22:38.359] Browser ERROR   ./frost-demo/app/invoices/page.tsx:5:1
+Module not found: Can't resolve '@/hooks/useInvoices'
+  3 | import { useRouter } from 'next/navigation'
+  4 | import { useTenant } from '@/context/TenantContext'
+> 5 | import { useInvoices } from '@/hooks/useInvoices'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 | import Sidebar from '@/components/Sidebar'
+  7 | import SearchBar from '@/components/SearchBar'
+  8 | import FilterSortBar from '@/components/FilterSortBar'
+
+Import map: aliased to relative './app/hooks/useInvoices' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:22:38.493] Server  LOG     ✅ Using tenant from employee record: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:22:38.494] Server  LOG     🔍 API: Fetching project hours {}
+[00:22:38.558] Server  LOG     ✅ API: Project hours calculated {}
+[00:22:38.672] Browser LOG     ✅ Project page: Hours fetched: {"count":1,"entries":[{"date":"2025-11-02","hours_total":9,"ob_type":"evening"}],"hours":9}
+[00:22:43.206] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:22:43.527] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:22:43.529] Browser ERROR   ./frost-demo/app/invoices/page.tsx:5:1
+Module not found: Can't resolve '@/hooks/useInvoices'
+  3 | import { useRouter } from 'next/navigation'
+  4 | import { useTenant } from '@/context/TenantContext'
+> 5 | import { useInvoices } from '@/hooks/useInvoices'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 | import Sidebar from '@/components/Sidebar'
+  7 | import SearchBar from '@/components/SearchBar'
+  8 | import FilterSortBar from '@/components/FilterSortBar'
+
+Import map: aliased to relative './app/hooks/useInvoices' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:22:43.529] Browser LOG     ✅ Projects list: Event listeners registered for timeEntryUpdated on window, document, and body
+[00:22:43.529] Browser LOG     🔄 Projects list: Found pending update in localStorage, triggering refresh
+[00:22:43.529] Browser ERROR   ./frost-demo/app/invoices/page.tsx:5:1
+Module not found: Can't resolve '@/hooks/useInvoices'
+  3 | import { useRouter } from 'next/navigation'
+  4 | import { useTenant } from '@/context/TenantContext'
+> 5 | import { useInvoices } from '@/hooks/useInvoices'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 | import Sidebar from '@/components/Sidebar'
+  7 | import SearchBar from '@/components/SearchBar'
+  8 | import FilterSortBar from '@/components/FilterSortBar'
+
+Import map: aliased to relative './app/hooks/useInvoices' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:22:43.529] Browser ERROR   ./frost-demo/app/invoices/page.tsx:5:1
+Module not found: Can't resolve '@/hooks/useInvoices'
+  3 | import { useRouter } from 'next/navigation'
+  4 | import { useTenant } from '@/context/TenantContext'
+> 5 | import { useInvoices } from '@/hooks/useInvoices'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 | import Sidebar from '@/components/Sidebar'
+  7 | import SearchBar from '@/components/SearchBar'
+  8 | import FilterSortBar from '@/components/FilterSortBar'
+
+Import map: aliased to relative './app/hooks/useInvoices' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:22:43.529] Browser ERROR   ./frost-demo/app/invoices/page.tsx:5:1
+Module not found: Can't resolve '@/hooks/useInvoices'
+  3 | import { useRouter } from 'next/navigation'
+  4 | import { useTenant } from '@/context/TenantContext'
+> 5 | import { useInvoices } from '@/hooks/useInvoices'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 | import Sidebar from '@/components/Sidebar'
+  7 | import SearchBar from '@/components/SearchBar'
+  8 | import FilterSortBar from '@/components/FilterSortBar'
+
+Import map: aliased to relative './app/hooks/useInvoices' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:22:43.547] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:22:43.563] Server  LOG     ✅ Using tenant from JWT: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:22:43.673] Server  LOG     ✅ Projects/list: Fetching projects for valid tenant: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:22:43.758] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[00:22:43.758] Browser LOG     🔍 ProjectsContent: Fetching projects for tenantId: 8ee28f55-b780-4286-8137-9e70ea58ae56
+[00:22:43.758] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[00:22:43.758] Browser LOG     ✅ TenantContext: Found tenant via centralized API: 8ee28f55-b780-4286-8137-9e70ea58ae56 source: jwt
+[00:22:43.758] Browser ERROR   ./frost-demo/app/invoices/page.tsx:5:1
+Module not found: Can't resolve '@/hooks/useInvoices'
+  3 | import { useRouter } from 'next/navigation'
+  4 | import { useTenant } from '@/context/TenantContext'
+> 5 | import { useInvoices } from '@/hooks/useInvoices'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 | import Sidebar from '@/components/Sidebar'
+  7 | import SearchBar from '@/components/SearchBar'
+  8 | import FilterSortBar from '@/components/FilterSortBar'
+
+Import map: aliased to relative './app/hooks/useInvoices' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:22:43.805] Server  LOG     ✅ Projects/list: User access verified for tenant: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:22:43.868] Server  LOG     ✅ Projects/list: Query returned 5 "projects"
+[00:22:43.869] Server  LOG     ✅ Projects/list: After verification: 5 "projects"
+[00:22:43.931] Server  LOG     ✅ Projects/list: After tenant validation: 5 "projects"
+[00:22:43.931] Server  LOG     🔇 Filtering out project: "Dörr installtion" "status:" "completed"
+[00:22:43.931] Server  LOG     🔇 Filtering out project: "d" "status:" "archived"
+[00:22:43.932] Server  LOG     ✅ Projects/list: After status filter: 3 "projects"
+[00:22:44.056] Browser LOG     📊 Projects fetched via API: 3 projects for tenantId: 8ee28f55-b780-4286-8137-9e70ea58ae56
+[00:22:44.056] Browser LOG     ✅ ProjectsContent: Verified 3 projects after security check
+[00:22:44.056] Browser LOG     📊 Projects list: Fetching hours for 3 projects
+[00:22:44.172] Browser ERROR   ./frost-demo/app/invoices/page.tsx:5:1
+Module not found: Can't resolve '@/hooks/useInvoices'
+  3 | import { useRouter } from 'next/navigation'
+  4 | import { useTenant } from '@/context/TenantContext'
+> 5 | import { useInvoices } from '@/hooks/useInvoices'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 | import Sidebar from '@/components/Sidebar'
+  7 | import SearchBar from '@/components/SearchBar'
+  8 | import FilterSortBar from '@/components/FilterSortBar'
+
+Import map: aliased to relative './app/hooks/useInvoices' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:22:44.293] Server  LOG     ✅ Using tenant from employee record: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:22:44.293] Server  LOG     🔍 API: Fetching project hours {}
+[00:22:44.295] Server  LOG     ✅ Using tenant from employee record: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:22:44.295] Server  LOG     🔍 API: Fetching project hours {}
+[00:22:44.316] Server  LOG     ✅ Using tenant from employee record: "8ee28f55-b780-4286-8137-9e70ea58ae56"
+[00:22:44.317] Server  LOG     🔍 API: Fetching project hours {}
+[00:22:44.359] Server  LOG     ✅ API: Project hours calculated {}
+[00:22:44.365] Server  LOG     ✅ API: Project hours calculated {}
+[00:22:44.385] Server  LOG     ✅ API: Project hours calculated {}
+[00:22:44.489] Browser LOG     ✅ Project a03ddc24-d8d2-42d4-a58f-9bba896f0638: 9h
+[00:22:44.489] Browser LOG     ✅ Project 3cd7be04-2d7b-4375-9b98-7f6a8c675777: 0h
+[00:22:44.489] Browser LOG     ✅ Project 27f56576-0a89-4327-9245-6fb389da5215: 9h
+[00:22:44.489] Browser LOG     ✅ Projects list: Hours map updated: [["3cd7be04-2d7b-4375-9b98-7f6a8c675777",0],["a03ddc24-d8d2-42d4-a58f-9bba896f0638",9],["27f56576-0a89-4327-9245-6fb389da5215",9]]
+[00:22:47.438] Browser ERROR   ./frost-demo/app/invoices/page.tsx:5:1
+Module not found: Can't resolve '@/hooks/useInvoices'
+  3 | import { useRouter } from 'next/navigation'
+  4 | import { useTenant } from '@/context/TenantContext'
+> 5 | import { useInvoices } from '@/hooks/useInvoices'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 | import Sidebar from '@/components/Sidebar'
+  7 | import SearchBar from '@/components/SearchBar'
+  8 | import FilterSortBar from '@/components/FilterSortBar'
+
+Import map: aliased to relative './app/hooks/useInvoices' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:23:35.796] Browser ERROR   ./frost-demo/app/invoices/page.tsx:5:1
+Export useInvoices doesn't exist in target module
+  3 | import { useRouter } from 'next/navigation'
+  4 | import { useTenant } from '@/context/TenantContext'
+> 5 | import { useInvoices } from '@/hooks/useInvoices'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 | import Sidebar from '@/components/Sidebar'
+  7 | import SearchBar from '@/components/SearchBar'
+  8 | import FilterSortBar from '@/components/FilterSortBar'
+
+The export useInvoices was not found in module [project]/frost-demo/app/hooks/useInvoices.ts [app-client] (ecmascript).
+The module has no exports at all.
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+[00:23:35.796] Browser ERROR   ./frost-demo/app/invoices/page.tsx:5:1
+Export useInvoices doesn't exist in target module
+  3 | import { useRouter } from 'next/navigation'
+  4 | import { useTenant } from '@/context/TenantContext'
+> 5 | import { useInvoices } from '@/hooks/useInvoices'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 | import Sidebar from '@/components/Sidebar'
+  7 | import SearchBar from '@/components/SearchBar'
+  8 | import FilterSortBar from '@/components/FilterSortBar'
+
+The export useInvoices was not found in module [project]/frost-demo/app/hooks/useInvoices.ts [app-ssr] (ecmascript).
+The module has no exports at all.
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+[00:23:35.893] Server  ERROR    ⨯ ./frost-demo/app/hooks/useInvoices.ts:6:1
+Module not found: Can't resolve '@/lib/errorUtils'
+  4 | import { useTenant } from '@/context/TenantContext'
+  5 | import supabase from '@/utils/supabase/supabaseClient'
+> 6 | import { extractErrorMessage } from '@/lib/errorUtils'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import type { Invoice } from '@/types/supabase'
+  8 |
+  9 | /**
+
+Import map: aliased to relative './app/lib/errorUtils' inside of [project]/frost-demo
+
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:23:35.895] Server  ERROR    ⨯ ./frost-demo/app/hooks/useInvoices.ts:6:1
+Module not found: Can't resolve '@/lib/errorUtils'
+  4 | import { useTenant } from '@/context/TenantContext'
+  5 | import supabase from '@/utils/supabase/supabaseClient'
+> 6 | import { extractErrorMessage } from '@/lib/errorUtils'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import type { Invoice } from '@/types/supabase'
+  8 |
+  9 | /**
+
+Import map: aliased to relative './app/lib/errorUtils' inside of [project]/frost-demo
+
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:23:35.896] Server  ERROR    ⨯ ./frost-demo/app/hooks/useInvoices.ts:6:1
+Module not found: Can't resolve '@/lib/errorUtils'
+  4 | import { useTenant } from '@/context/TenantContext'
+  5 | import supabase from '@/utils/supabase/supabaseClient'
+> 6 | import { extractErrorMessage } from '@/lib/errorUtils'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import type { Invoice } from '@/types/supabase'
+  8 |
+  9 | /**
+
+Import map: aliased to relative './app/lib/errorUtils' inside of [project]/frost-demo
+
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:23:35.897] Server  ERROR    ⨯ ./frost-demo/app/hooks/useInvoices.ts:6:1
+Module not found: Can't resolve '@/lib/errorUtils'
+  4 | import { useTenant } from '@/context/TenantContext'
+  5 | import supabase from '@/utils/supabase/supabaseClient'
+> 6 | import { extractErrorMessage } from '@/lib/errorUtils'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import type { Invoice } from '@/types/supabase'
+  8 |
+  9 | /**
+
+Import map: aliased to relative './app/lib/errorUtils' inside of [project]/frost-demo
+
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:23:36.044] Browser ERROR   ./frost-demo/app/hooks/useInvoices.ts:6:1
+Module not found: Can't resolve '@/lib/errorUtils'
+  4 | import { useTenant } from '@/context/TenantContext'
+  5 | import supabase from '@/utils/supabase/supabaseClient'
+> 6 | import { extractErrorMessage } from '@/lib/errorUtils'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import type { Invoice } from '@/types/supabase'
+  8 |
+  9 | /**
+
+Import map: aliased to relative './app/lib/errorUtils' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:23:38.275] Browser ERROR   ./frost-demo/app/hooks/useInvoices.ts:6:1
+Module not found: Can't resolve '@/lib/errorUtils'
+  4 | import { useTenant } from '@/context/TenantContext'
+  5 | import supabase from '@/utils/supabase/supabaseClient'
+> 6 | import { extractErrorMessage } from '@/lib/errorUtils'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import type { Invoice } from '@/types/supabase'
+  8 |
+  9 | /**
+
+Import map: aliased to relative './app/lib/errorUtils' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:23:47.949] Browser ERROR   ./frost-demo/app/hooks/useInvoices.ts:6:1
+Module not found: Can't resolve '@/lib/errorUtils'
+  4 | import { useTenant } from '@/context/TenantContext'
+  5 | import supabase from '@/utils/supabase/supabaseClient'
+> 6 | import { extractErrorMessage } from '@/lib/errorUtils'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import type { Invoice } from '@/types/supabase'
+  8 |
+  9 | /**
+
+Import map: aliased to relative './app/lib/errorUtils' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:23:48.166] Browser ERROR   ./frost-demo/app/hooks/useInvoices.ts:6:1
+Module not found: Can't resolve '@/lib/errorUtils'
+  4 | import { useTenant } from '@/context/TenantContext'
+  5 | import supabase from '@/utils/supabase/supabaseClient'
+> 6 | import { extractErrorMessage } from '@/lib/errorUtils'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import type { Invoice } from '@/types/supabase'
+  8 |
+  9 | /**
+
+Import map: aliased to relative './app/lib/errorUtils' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:23:50.042] Browser ERROR   ./frost-demo/app/hooks/useInvoices.ts:6:1
+Module not found: Can't resolve '@/lib/errorUtils'
+  4 | import { useTenant } from '@/context/TenantContext'
+  5 | import supabase from '@/utils/supabase/supabaseClient'
+> 6 | import { extractErrorMessage } from '@/lib/errorUtils'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import type { Invoice } from '@/types/supabase'
+  8 |
+  9 | /**
+
+Import map: aliased to relative './app/lib/errorUtils' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:24:04.070] Browser ERROR   ./frost-demo/app/hooks/useInvoices.ts:6:1
+Module not found: Can't resolve '@/lib/errorUtils'
+  4 | import { useTenant } from '@/context/TenantContext'
+  5 | import supabase from '@/utils/supabase/supabaseClient'
+> 6 | import { extractErrorMessage } from '@/lib/errorUtils'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import type { Invoice } from '@/types/supabase'
+  8 |
+  9 | /**
+
+Import map: aliased to relative './app/lib/errorUtils' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:24:04.287] Browser ERROR   ./frost-demo/app/hooks/useInvoices.ts:6:1
+Module not found: Can't resolve '@/lib/errorUtils'
+  4 | import { useTenant } from '@/context/TenantContext'
+  5 | import supabase from '@/utils/supabase/supabaseClient'
+> 6 | import { extractErrorMessage } from '@/lib/errorUtils'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import type { Invoice } from '@/types/supabase'
+  8 |
+  9 | /**
+
+Import map: aliased to relative './app/lib/errorUtils' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:24:06.178] Browser ERROR   ./frost-demo/app/hooks/useInvoices.ts:6:1
+Module not found: Can't resolve '@/lib/errorUtils'
+  4 | import { useTenant } from '@/context/TenantContext'
+  5 | import supabase from '@/utils/supabase/supabaseClient'
+> 6 | import { extractErrorMessage } from '@/lib/errorUtils'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import type { Invoice } from '@/types/supabase'
+  8 |
+  9 | /**
+
+Import map: aliased to relative './app/lib/errorUtils' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:24:23.788] Browser ERROR   ./frost-demo/app/hooks/useInvoices.ts:6:1
+Module not found: Can't resolve '@/lib/errorUtils'
+  4 | import { useTenant } from '@/context/TenantContext'
+  5 | import supabase from '@/utils/supabase/supabaseClient'
+> 6 | import { extractErrorMessage } from '@/lib/errorUtils'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import type { Invoice } from '@/types/supabase'
+  8 |
+  9 | /**
+
+Import map: aliased to relative './app/lib/errorUtils' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:24:24.005] Browser ERROR   ./frost-demo/app/hooks/useInvoices.ts:6:1
+Module not found: Can't resolve '@/lib/errorUtils'
+  4 | import { useTenant } from '@/context/TenantContext'
+  5 | import supabase from '@/utils/supabase/supabaseClient'
+> 6 | import { extractErrorMessage } from '@/lib/errorUtils'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import type { Invoice } from '@/types/supabase'
+  8 |
+  9 | /**
+
+Import map: aliased to relative './app/lib/errorUtils' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:24:26.407] Browser ERROR   ./frost-demo/app/hooks/useInvoices.ts:6:1
+Module not found: Can't resolve '@/lib/errorUtils'
+  4 | import { useTenant } from '@/context/TenantContext'
+  5 | import supabase from '@/utils/supabase/supabaseClient'
+> 6 | import { extractErrorMessage } from '@/lib/errorUtils'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import type { Invoice } from '@/types/supabase'
+  8 |
+  9 | /**
+
+Import map: aliased to relative './app/lib/errorUtils' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:24:38.948] Browser ERROR   ./frost-demo/app/hooks/useInvoices.ts:6:1
+Module not found: Can't resolve '@/lib/errorUtils'
+  4 | import { useTenant } from '@/context/TenantContext'
+  5 | import supabase from '@/utils/supabase/supabaseClient'
+> 6 | import { extractErrorMessage } from '@/lib/errorUtils'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import type { Invoice } from '@/types/supabase'
+  8 |
+  9 | /**
+
+Import map: aliased to relative './app/lib/errorUtils' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:24:44.061] Browser ERROR   ./frost-demo/app/hooks/useInvoices.ts:6:1
+Module not found: Can't resolve '@/lib/errorUtils'
+  4 | import { useTenant } from '@/context/TenantContext'
+  5 | import supabase from '@/utils/supabase/supabaseClient'
+> 6 | import { extractErrorMessage } from '@/lib/errorUtils'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import type { Invoice } from '@/types/supabase'
+  8 |
+  9 | /**
+
+Import map: aliased to relative './app/lib/errorUtils' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:24:49.191] Browser ERROR   ./frost-demo/app/hooks/useInvoices.ts:6:1
+Module not found: Can't resolve '@/lib/errorUtils'
+  4 | import { useTenant } from '@/context/TenantContext'
+  5 | import supabase from '@/utils/supabase/supabaseClient'
+> 6 | import { extractErrorMessage } from '@/lib/errorUtils'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import type { Invoice } from '@/types/supabase'
+  8 |
+  9 | /**
+
+Import map: aliased to relative './app/lib/errorUtils' inside of [project]/frost-demo
+
+Import traces:
+  Client Component Browser:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Client Component Browser]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./frost-demo/app/hooks/useInvoices.ts [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Client Component SSR]
+    ./frost-demo/app/invoices/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
