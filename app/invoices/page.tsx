@@ -19,173 +19,49 @@ type Invoice = {
 }
 
 export default function InvoicesPage() {
-  const [invoices, setInvoices] = useState<Invoice[]>([])
-  const [loading, setLoading] = useState(true)
+  const router = useRouter()
+  const { tenantId } = useTenant()
+  
+  // Use React Query hook för automatisk caching och state management
+  const { data: invoices = [], isLoading, error: queryError, refetch } = useInvoices()
+  
   const [searchQuery, setSearchQuery] = useState('')
   const [statusFilter, setStatusFilter] = useState<string>('')
   const [sortBy, setSortBy] = useState<'created_at' | 'amount' | 'status'>('created_at')
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc')
   
   // Helper to get date for sorting
   const getInvoiceDate = (inv: Invoice & { created_at?: string; issue_date?: string }) => {
     return inv.created_at || (inv as any).issue_date || null
   }
-  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc')
-  const router = useRouter()
-  const { tenantId } = useTenant()
 
+  // Listen for invoice events och refetch React Query cache
   useEffect(() => {
-    if (!tenantId) {
-      setLoading(false)
-      return
-    }
-
-    async function fetchInvoices() {
-      try {
-        // Try with all columns first - but catch 400 errors (without created_at)
-        let { data, error } = await supabase
-          .from('invoices')
-          .select('id, amount, customer_name, customer_id, project_id, number, status, issue_date')
-          .eq('tenant_id', tenantId)
-          .order('issue_date', { ascending: false })
-
-        // Handle 400 errors (bad request - usually column doesn't exist)
-        if (error && (error.code === '42703' || error.code === '400' || error.message?.includes('does not exist'))) {
-          // First retry: without amount and status
-          let fallback1 = await supabase
-            .from('invoices')
-            .select('id, customer_name, customer_id, project_id, number, issue_date')
-            .eq('tenant_id', tenantId)
-          
-          // Try with issue_date for ordering, if that fails, order by id
-          if (!fallback1.error) {
-            // Try to add ordering
-            const withOrder = await supabase
-              .from('invoices')
-              .select('id, customer_name, customer_id, project_id, number, issue_date')
-              .eq('tenant_id', tenantId)
-              .order('issue_date', { ascending: false })
-            
-            if (!withOrder.error) {
-              fallback1 = withOrder
-            } else {
-              // Fallback: order by id
-              fallback1 = await supabase
-                .from('invoices')
-                .select('id, customer_name, customer_id, project_id, number, issue_date')
-                .eq('tenant_id', tenantId)
-                .order('id', { ascending: false })
-            }
-          }
-
-          if (fallback1.error && (fallback1.error.code === '42703' || fallback1.error.message?.includes('does not exist'))) {
-            // Second retry: minimal query - try just id first
-            let fallback2 = await supabase
-              .from('invoices')
-              .select('id, customer_name')
-              .eq('tenant_id', tenantId)
-            
-            // Try ordering, if that fails, order by id
-            const withOrder2 = await supabase
-              .from('invoices')
-              .select('id, customer_name, issue_date')
-              .eq('tenant_id', tenantId)
-              .order('issue_date', { ascending: false })
-            
-            if (!withOrder2.error) {
-              fallback2 = withOrder2
-            } else {
-              fallback2 = await supabase
-                .from('invoices')
-                .select('id, customer_name, issue_date')
-                .eq('tenant_id', tenantId)
-                .order('id', { ascending: false })
-            }
-
-            // If customer_name also doesn't exist, try just id
-            if (fallback2.error && (fallback2.error.code === '42703' || fallback2.error.message?.includes('customer_name'))) {
-              let minimalOnly = await supabase
-                .from('invoices')
-                .select('id')
-                .eq('tenant_id', tenantId)
-                .order('id', { ascending: false })
-              
-              if (!minimalOnly.error && minimalOnly.data) {
-                fallback2 = { data: minimalOnly.data, error: null }
-              }
-            }
-
-            if (fallback2.error) {
-              console.error('Error fetching invoices (minimal fallback):', fallback2.error)
-              // Don't show error to user if it's just a column issue - set empty array
-              if (fallback2.error.code === '42703' || fallback2.error.message?.includes('does not exist')) {
-                setInvoices([])
-              } else {
-                setInvoices([])
-              }
-            } else {
-              const invoicesData2 = (fallback2.data || []).map((inv: any) => ({
-                id: inv.id,
-                customer_name: inv.customer_name || null,
-                amount: 0,
-                number: inv.number || inv.id?.slice(0, 8) || 'N/A',
-                status: 'draft',
-                created_at: inv.issue_date || null,
-              }))
-              setInvoices(invoicesData2)
-            }
-          } else if (fallback1.error) {
-            console.error('Error fetching invoices (fallback 1):', fallback1.error)
-            setInvoices([])
-          } else {
-            const invoicesData1 = (fallback1.data || []).map((inv: any) => ({
-              ...inv,
-              amount: inv.amount || 0,
-              status: inv.status || 'draft',
-              created_at: inv.issue_date || null,
-            }))
-            setInvoices(invoicesData1)
-          }
-        } else if (error) {
-          console.error('Error fetching invoices:', error)
-          setInvoices([])
-        } else {
-          const invoicesData = (data || []).map((inv: any) => ({
-            ...inv,
-            amount: inv.amount || 0,
-            status: inv.status || 'draft',
-            number: inv.number || inv.id?.slice(0, 8) || 'N/A',
-            created_at: inv.issue_date || inv.created_at || null,
-          }))
-          setInvoices(invoicesData)
-        }
-      } catch (err: any) {
-        console.error('Unexpected error fetching invoices:', err)
-        setInvoices([])
-      } finally {
-        setLoading(false)
-      }
-    }
-    fetchInvoices()
-
-    // Listen for invoice creation/update events
     const handleInvoiceCreated = () => {
-      setTimeout(() => fetchInvoices(), 500)
+      setTimeout(() => refetch(), 500)
     }
     
     const handleInvoiceUpdated = () => {
-      setTimeout(() => fetchInvoices(), 500)
+      setTimeout(() => refetch(), 500)
     }
 
     window.addEventListener('invoiceCreated', handleInvoiceCreated)
     window.addEventListener('invoiceUpdated', handleInvoiceUpdated)
-    window.addEventListener('invoiceDeleted', handleInvoiceCreated) // Refresh on delete too
+    window.addEventListener('invoiceDeleted', handleInvoiceCreated)
 
     return () => {
       window.removeEventListener('invoiceCreated', handleInvoiceCreated)
       window.removeEventListener('invoiceUpdated', handleInvoiceUpdated)
       window.removeEventListener('invoiceDeleted', handleInvoiceCreated)
     }
-  }, [tenantId])
+  }, [refetch])
+
+  // Handle query errors
+  useEffect(() => {
+    if (queryError) {
+      console.error('Error fetching invoices:', queryError)
+    }
+  }, [queryError])
 
   // Memoize filtered and sorted invoices for performance
   const filteredInvoices = useMemo(() => {
@@ -232,7 +108,7 @@ export default function InvoicesPage() {
     return filtered
   }, [invoices, searchQuery, statusFilter, sortBy, sortDirection])
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="min-h-screen bg-white dark:bg-gray-900 flex">
         <Sidebar />
