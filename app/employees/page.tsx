@@ -168,36 +168,48 @@ export default function EmployeesPage() {
                         💰 Lönespec
                       </button>
                       {isAdmin && (
-                        <button
-                          onClick={async (e) => {
-                            e.stopPropagation()
-                            if (confirm(`Är du säker på att du vill ta bort ${emp.name}? Detta kan inte ångras.`)) {
-                              try {
-                                const { error } = await supabase
-                                  .from('employees')
-                                  .delete()
-                                  .eq('id', emp.id)
-                                  .eq('tenant_id', tenantId)
-                                
-                                if (error) {
-                                  console.error('Error deleting employee:', error)
-                                  toast.error('Kunde inte ta bort anställd: ' + error.message)
-                                } else {
-                                  // Remove from local state
-                                  setEmployees(employees.filter(e => e.id !== emp.id))
-                                  toast.success(`${emp.name} har tagits bort`)
+                        <>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              router.push(`/employees/${emp.id}/edit`)
+                            }}
+                            className="px-3 py-2 bg-purple-500 text-white rounded-lg text-sm font-semibold hover:bg-purple-600 transition-all"
+                            title="Redigera anställd"
+                          >
+                            ✏️
+                          </button>
+                          <button
+                            onClick={async (e) => {
+                              e.stopPropagation()
+                              if (confirm(`Är du säker på att du vill ta bort ${emp.name}? Detta kan inte ångras.`)) {
+                                try {
+                                  const { error } = await supabase
+                                    .from('employees')
+                                    .delete()
+                                    .eq('id', emp.id)
+                                    .eq('tenant_id', tenantId)
+                                  
+                                  if (error) {
+                                    console.error('Error deleting employee:', error)
+                                    toast.error('Kunde inte ta bort anställd: ' + error.message)
+                                  } else {
+                                    // Remove from local state
+                                    setEmployees(employees.filter(e => e.id !== emp.id))
+                                    toast.success(`${emp.name} har tagits bort`)
+                                  }
+                                } catch (err: any) {
+                                  console.error('Unexpected error:', err)
+                                  toast.error('Ett oväntat fel uppstod: ' + err.message)
                                 }
-                              } catch (err: any) {
-                                console.error('Unexpected error:', err)
-                                toast.error('Ett oväntat fel uppstod: ' + err.message)
                               }
-                            }
-                          }}
-                          className="px-3 py-2 bg-red-500 text-white rounded-lg text-sm font-semibold hover:bg-red-600 transition-all"
-                          title="Ta bort anställd"
-                        >
-                          🗑️
-                        </button>
+                            }}
+                            className="px-3 py-2 bg-red-500 text-white rounded-lg text-sm font-semibold hover:bg-red-600 transition-all"
+                            title="Ta bort anställd"
+                          >
+                            🗑️
+                          </button>
+                        </>
                       )}
                     </div>
                   </div>
