@@ -12,6 +12,7 @@
   "/api/employees/[id]/update/route": "app/api/employees/[id]/update/route.js",
   "/api/employees/create/route": "app/api/employees/create/route.js",
   "/api/get-tenant/route": "app/api/get-tenant/route.js",
+  "/api/invoices/[id]/approve/route": "app/api/invoices/[id]/approve/route.js",
   "/api/invoices/create/route": "app/api/invoices/create/route.js",
   "/api/notifications/[id]/read/route": "app/api/notifications/[id]/read/route.js",
   "/api/notifications/create/route": "app/api/notifications/create/route.js",
