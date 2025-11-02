@@ -91,3 +91,26 @@ export function markAllNotificationsAsRead() {
     console.error('Error marking all notifications as read:', err)
   }
 }
+
+/**
+ * Send ROT notification (legacy function for ROT-specific notifications)
+ * This is a placeholder - in production, this would send push notifications
+ */
+export async function sendRotNotification(
+  userId: string,
+  tenantId: string,
+  type: 'approved' | 'rejected' | 'status_update',
+  applicationId: string,
+  message: string
+) {
+  // For now, just log - in production, implement actual push notification here
+  console.log('ROT Notification:', { userId, tenantId, type, applicationId, message })
+  
+  // You can implement:
+  // - FCM for Android
+  // - APNs for iOS
+  // - Web Push for browsers
+  // - Email notifications
+  
+  return { success: true }
+}
