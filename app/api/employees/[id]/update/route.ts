@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { createClient } from '@/utils/supabase/server'
 import { createClient as createAdminClient } from '@supabase/supabase-js'
 import { checkRateLimit, getClientIP, sanitizeString, isValidEmail, isValidUUID } from '@/lib/security'
+import { getTenantId } from '@/lib/serverTenant'
 
 /**
  * API route för att uppdatera anställda (endast admins)
@@ -47,11 +48,21 @@ export async function PATCH(
 
     const adminSupabase = createAdminClient(supabaseUrl, serviceKey)
 
-    // Check admin status
+    // Get tenant ID
+    const tenantId = await getTenantId()
+    if (!tenantId) {
+      return NextResponse.json(
+        { error: 'No tenant found' },
+        { status: 403 }
+      )
+    }
+
+    // Check admin status - must be admin in the same tenant
     const { data: employeeData } = await adminSupabase
       .from('employees')
       .select('id, role, tenant_id')
       .eq('auth_user_id', user.id)
+      .eq('tenant_id', tenantId) // Must be in same tenant
       .limit(10)
 
     let isAdmin = false
@@ -69,11 +80,13 @@ export async function PATCH(
       isAdmin = true
     }
     
+    // Fallback: Try by email if not found by auth_user_id
     if (!isAdmin && user.email) {
       const { data: emailEmployeeList } = await adminSupabase
         .from('employees')
         .select('id, role, tenant_id')
         .eq('email', user.email)
+        .eq('tenant_id', tenantId) // Must be in same tenant
         .limit(10)
       
       if (emailEmployeeList && Array.isArray(emailEmployeeList)) {
@@ -83,11 +96,41 @@ export async function PATCH(
         if (adminEmployee) {
           isAdmin = true
         }
+      } else if (emailEmployeeList && (emailEmployeeList.role === 'admin' || emailEmployeeList.role === 'Admin' || emailEmployeeList.role === 'ADMIN')) {
+        adminEmployee = emailEmployeeList
+        isAdmin = true
       }
     }
 
     if (!isAdmin) {
+      console.error('Admin check failed:', {
+        userId: user.id,
+        userEmail: user.email,
+        tenantId,
+        employeeData: employeeData || null
+      })
       return NextResponse.json({ error: 'Admin access required' }, { status: 403 })
+    }
+
+    // Verify that the employee being updated belongs to the same tenant
+    const { data: targetEmployee } = await adminSupabase
+      .from('employees')
+      .select('id, tenant_id')
+      .eq('id', id)
+      .single()
+
+    if (!targetEmployee) {
+      return NextResponse.json(
+        { error: 'Employee not found' },
+        { status: 404 }
+      )
+    }
+
+    if (targetEmployee.tenant_id !== tenantId) {
+      return NextResponse.json(
+        { error: 'Access denied: Employee belongs to different tenant' },
+        { status: 403 }
+      )
     }
 
     const { name, full_name, email, role, base_rate_sek, default_rate_sek } = await req.json()
