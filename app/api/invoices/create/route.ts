@@ -325,11 +325,12 @@ export async function POST(req: Request) {
           .order('start_time', { ascending: true })
 
         if (!entriesError && timeEntries && timeEntries.length > 0) {
-          // Create invoice lines from time entries
+          // Create invoice lines from time entries - store time_entry_id for reference
           const invoiceLines = timeEntries.map((entry: any, index: number) => {
             const hours = Number(entry.hours_total) || 0
             const entryDate = entry.date ? new Date(entry.date).toLocaleDateString('sv-SE') : 'Okänt datum'
-            const description = `Timmar ${entryDate}${entry.start_time ? ` (${entry.start_time.substring(0, 5)})` : ''}`
+            const timeInfo = entry.start_time ? ` (${entry.start_time.substring(0, 5)}${entry.end_time ? `-${entry.end_time.substring(0, 5)}` : ''})` : ''
+            const description = `Timmar ${entryDate}${timeInfo}${entry.description ? ` - ${entry.description}` : ''}`
             
             return {
               invoice_id: invoice.id,
@@ -340,13 +341,29 @@ export async function POST(req: Request) {
               unit: 'tim',
               rate_sek: rate,
               amount_sek: hours * rate,
+              // Store time_entry_id for later reference (if column exists)
+              time_entry_id: entry.id,
             }
           })
 
-          // Insert invoice lines
-          const { error: linesError } = await adminSupabase
+          // Try to insert with time_entry_id, fallback without it if column doesn't exist
+          let linesError: any = null
+          let insertResult = await adminSupabase
             .from('invoice_lines')
             .insert(invoiceLines)
+            .select()
+
+          if (insertResult.error && (insertResult.error.code === '42703' || insertResult.error.message?.includes('time_entry_id'))) {
+            // If time_entry_id column doesn't exist, insert without it
+            const linesWithoutRef = invoiceLines.map(({ time_entry_id, ...line }) => line)
+            insertResult = await adminSupabase
+              .from('invoice_lines')
+              .insert(linesWithoutRef)
+              .select()
+            linesError = insertResult.error
+          } else {
+            linesError = insertResult.error
+          }
 
           if (linesError) {
             console.error('Error creating invoice lines:', linesError)
@@ -367,24 +384,11 @@ export async function POST(req: Request) {
               invoice.amount = totalAmount
             }
 
-            console.log(`✅ Created ${invoiceLines.length} invoice lines from ${timeEntries.length} time entries`)
+            console.log(`✅ Created ${invoiceLines.length} invoice lines from ${timeEntries.length} time entries (NOT marked as billed yet - awaiting approval)`)
             
-            // Mark time entries as billed
-            const entryIds = timeEntries.map((e: any) => e.id)
-            if (entryIds.length > 0) {
-              const { error: updateError } = await adminSupabase
-                .from('time_entries')
-                .update({ is_billed: true })
-                .in('id', entryIds)
-                .eq('tenant_id', verifiedTenantId)
-              
-              if (updateError) {
-                console.error('Error marking time entries as billed:', updateError)
-                // Continue anyway - invoice and lines are created
-              } else {
-                console.log(`✅ Marked ${entryIds.length} time entries as billed`)
-              }
-            }
+            // DO NOT mark time entries as billed yet - they will be marked when invoice is approved/sent
+            // Store the time entry IDs in invoice metadata or return them for frontend to handle
+            invoice.time_entry_ids = timeEntries.map((e: any) => e.id)
           }
         }
       } catch (linesError: any) {

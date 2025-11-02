@@ -227,6 +227,41 @@ export default function InvoicePage() {
     }
   }
 
+  async function handleApproveInvoice() {
+    if (!invoice?.project_id) {
+      toast.error('Denna faktura är inte kopplad till ett projekt.')
+      return
+    }
+    
+    if (!confirm('Vill du godkänna denna faktura och markera alla time entries som fakturerade? Detta går inte att ångra.')) return
+    
+    try {
+      const response = await fetch(`/api/invoices/${invoiceId}/approve`, {
+        method: 'POST',
+      })
+      
+      const result = await response.json()
+      
+      if (!response.ok || result.error) {
+        throw new Error(result.error || 'Kunde inte godkänna faktura')
+      }
+      
+      toast.success('Fakturan godkänd! Time entries markerade som fakturerade.')
+      
+      // Update invoice status
+      setInvoice({ ...invoice, status: 'sent' })
+      
+      // Dispatch invoice updated event
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('invoiceUpdated', { 
+          detail: { invoiceId, timestamp: Date.now() }
+        }))
+      }
+    } catch (err: any) {
+      toast.error('Fel: ' + err.message)
+    }
+  }
+
   async function handleSendEmail() {
     if (!clientEmail && !invoice?.customer_name) {
       toast.error('Kunden saknar e-postadress. Lägg till e-post i kundinformationen först.')
@@ -237,6 +272,18 @@ export default function InvoicePage() {
     
     setSending(true)
     try {
+      // Mark time entries as billed before sending (if not already done)
+      if (invoice?.project_id) {
+        try {
+          await fetch(`/api/invoices/${invoiceId}/approve`, {
+            method: 'POST',
+          })
+        } catch (err) {
+          console.warn('Could not mark time entries as billed:', err)
+          // Continue anyway - invoice can still be sent
+        }
+      }
+      
       await sendInvoiceEmail(invoiceId)
       toast.success('Fakturan har skickats!')
       
@@ -675,6 +722,17 @@ export default function InvoicePage() {
                   className="bg-gradient-to-r from-emerald-600 to-green-600 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all"
                 >
                   ✓ Markera som betald
+                </button>
+              )}
+              
+              {isAdmin && invoice?.project_id && invoice.status !== 'paid' && (
+                <button
+                  onClick={handleApproveInvoice}
+                  disabled={false}
+                  className="px-6 py-3 bg-green-500 hover:bg-green-600 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                  title="Godkänn faktura och markera time entries som fakturerade"
+                >
+                  ✅ Godkänn faktura
                 </button>
               )}
               {!adminLoading && (

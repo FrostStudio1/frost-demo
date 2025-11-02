@@ -429,15 +429,10 @@ export default function ProjectDetailPage() {
 
       const invoice = result.data
 
-      // Markera timmar som fakturerade
-      await supabase
-        .from('time_entries')
-        .update({ is_billed: true })
-        .eq('project_id', projectId)
-        .eq('is_billed', false)
-        .eq('tenant_id', tenantId)
+      // DO NOT mark time entries as billed here - they will be marked when invoice is approved
+      // Time entries are copied to invoice lines and can be reviewed/approved on the invoice page
 
-      toast.success('Faktura skapad och markerad som skickad!')
+      toast.success('Faktura skapad! Granska och godkänn den på fakturasidan för att markera time entries som fakturerade.')
       router.push(`/invoices/${invoice.id}`)
     } catch (err: any) {
       toast.error('Fel: ' + err.message)
