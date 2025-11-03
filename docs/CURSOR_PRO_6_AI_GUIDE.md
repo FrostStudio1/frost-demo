@@ -114,39 +114,44 @@ Ge alltid:
 
 ---
 
-### 5. **GitHub Copilot Pro** - Code Assistant & Boilerplate
-**Roll:** Code completion, snippets, boilerplate
-- ✅ Auto-completion i IDE
-- ✅ Code snippets
-- ✅ Boilerplate generation
-- ✅ Quick fixes
-- ✅ Import suggestions
+### 5. **Copilot Pro (Web)** - Quick Code Generation & Code Review
+**Roll:** Snabb kodgenerering, code review, snippets, bug fixing
+- ✅ Quick code snippets när du behöver det snabbt
+- ✅ Code review av specifik kod
+- ✅ Bug fixing assistance
+- ✅ Explanation av kod
+- ✅ Alternative implementations
 
-**⚠️ Setup i Cursor:**
-1. Öppna Cursor Settings (Cmd/Ctrl + ,)
-2. Sök efter "Copilot"
-3. Aktivera "GitHub Copilot"
-4. Logga in med GitHub-konto
-5. Aktivera "Copilot Chat" (valfritt)
+**⚠️ Setup:**
+- Använd Copilot Pro på weben (copilot.microsoft.com)
+- Inte integrerad i IDE
+- Använd för snabba code snippets och reviews
 
-**Alternative: Copilot i Cursor:**
-- Cursor har egen AI (Cursor AI) som fungerar som Copilot
-- Du kan använda båda om du vill
-- Cursor AI är redan integrerad
+**När använda:**
+- När du behöver snabb kod utan att vänta på GPT-5
+- När du vill ha second opinion på kod
+- När du behöver förklaring av kod
+- När du behöver bug fixes
 
-**Prompt för Copilot (om du använder det):**
+**När INTE använda:**
+- För komplex backend-logik (använd GPT-5 istället)
+- För UI-komponenter (använd Gemini 2.5 istället)
+- För research (använd Perplexity istället)
+
+**Prompt för Copilot Pro:**
 ```
-Du är code assistant för Frost Solutions. Ditt jobb är att:
-- Auto-complete kod när jag skriver
-- Föreslå imports och snippets
-- Generera boilerplate
-- Catch syntax errors
+"Frost Solutions - [snabb uppgift]:
 
-Följ vårt code style:
-- TypeScript
-- React Server Components när möjligt
-- Client Components endast när nödvändigt
-- Tailwind CSS för styling
+Context:
+- [paste relevant code eller beskriv vad du behöver]
+
+Behöver:
+- [snabb kod snippet]
+- [code review]
+- [bug fix]
+- [explanation]
+
+Ge mig snabbt och koncist kod/feedback."
 ```
 
 ---
