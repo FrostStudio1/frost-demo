@@ -3,13 +3,15 @@
 ## 🎯 Mission: Komprimera 8 veckor till 1 vecka med 6 AI-assistenter
 
 **Timeline:** 1 vecka, 12 timmar/dag = 84 timmar totalt
-**Team:** Cursor Max + GPT-5 + Gemini 2.5 + Perplexity Pro + Copilot Pro + Notion Pro
+**Team:** Cursor Pro + GPT-5 + Gemini 2.5 + Perplexity Pro + Copilot Pro + Notion Pro
+
+**⚠️ UPPDATERAT:** Använder Cursor Pro (kan uppgradera till Max senare i veckan)
 
 ---
 
 ## 🤖 AI Team Roller & Specialiseringar
 
-### 1. **Cursor Max** - Lead Architect & Code Generator
+### 1. **Cursor Pro** - Lead Architect & Code Generator
 **Roll:** Huvud-utvecklare, kodgenerering, integration
 - ✅ Primär kodgenerering
 - ✅ Architecture decisions
@@ -24,6 +26,10 @@
 - ✅ Business logic
 - ✅ Error handling patterns
 - ✅ Performance optimization
+
+**⚠️ Använd GPT-5, INTE Codex:**
+- **GPT-5** = Nyare, bättre, uppdaterad (rekommenderas)
+- **Codex** = Äldre, deprecated, används inte längre
 
 ### 3. **Gemini 2.5** - UI/UX Specialist & Frontend
 **Roll:** UI-komponenter, design system, frontend
@@ -41,13 +47,25 @@
 - ✅ Competitive analysis
 - ✅ Technical specifications
 
-### 5. **Copilot Pro** - Code Assistant & Boilerplate
+### 5. **GitHub Copilot Pro** - Code Assistant & Boilerplate
 **Roll:** Code completion, snippets, boilerplate
 - ✅ Auto-completion i IDE
 - ✅ Code snippets
 - ✅ Boilerplate generation
 - ✅ Quick fixes
 - ✅ Import suggestions
+
+**Setup i Cursor:**
+1. Öppna Cursor Settings (Cmd/Ctrl + ,)
+2. Sök efter "Copilot"
+3. Aktivera "GitHub Copilot"
+4. Logga in med GitHub-konto
+5. Aktivera "Copilot Chat" (valfritt)
+
+**⚠️ Notera:**
+- Cursor har egen AI (Cursor AI) som fungerar som Copilot
+- Du kan använda båda om du vill
+- Cursor AI är redan integrerad
 
 ### 6. **Notion Pro** - Project Manager & Documentation
 **Roll:** Projektplanering, dokumentation, tracking
