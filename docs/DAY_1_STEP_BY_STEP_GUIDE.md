@@ -120,6 +120,18 @@ Cursor Pro beslut: ✅ Ja, både DB constraints och app logic
 
 #### Step 4: GPT-5 - SQL Migration & Schema Design (1h)
 
+**⚠️ Optional: Copilot Pro Quick Check**
+Om du behöver snabb second opinion på GPT-5's kod, använd Copilot Pro:
+```
+"Frost Solutions - Quick review:
+
+Review denna SQL migration från GPT-5:
+
+[paste SQL]
+
+Är det något som saknas eller kan förbättras?"
+```
+
 **Du säger till GPT-5:**
 ```
 "Frost Solutions - Implementera schema/resursplanering backend.

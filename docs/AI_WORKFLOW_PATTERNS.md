@@ -187,10 +187,44 @@ Tomorrow's Plan:
 
 ---
 
-### 🔧 Copilot (Code Assistant)
-**Copilot fungerar automatiskt när du skriver kod.**
+### 🔧 Copilot Pro (Web) - Quick Code & Review
+```
+"Frost Solutions - [snabb uppgift]:
 
-**Du behöver inte säga något till Copilot - den assisterar automatiskt!**
+Context:
+- [paste relevant code eller beskriv vad du behöver]
+
+Behöver:
+- [snabb kod snippet]
+- [code review]
+- [bug fix]
+- [explanation]
+
+Ge mig snabbt och koncist kod/feedback."
+```
+
+**Exempel:**
+```
+"Frost Solutions - Quick code snippet:
+
+Behöver en TypeScript funktion som:
+- Tar emot employee_id och project_id
+- Kontrollerar om de finns i samma tenant
+- Returnerar boolean
+
+Ge mig snabbt kod."
+```
+
+**När använda Copilot Pro:**
+- ✅ Snabba code snippets (när du inte vill vänta på GPT-5)
+- ✅ Code review av specifik kod
+- ✅ Bug fixes
+- ✅ Kod-förklaringar
+
+**När INTE använda:**
+- ❌ Komplex backend-logik (använd GPT-5)
+- ❌ UI-komponenter (använd Gemini 2.5)
+- ❌ Research (använd Perplexity)
 
 ---
 
