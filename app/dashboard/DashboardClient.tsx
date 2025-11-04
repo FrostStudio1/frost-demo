@@ -8,6 +8,7 @@ import Sidebar from '@/components/Sidebar'
 import TimeClock from '@/components/TimeClock'
 import NotificationCenter from '@/components/NotificationCenter'
 import DidYouKnow from '@/components/DidYouKnow'
+import { WeeklySchedules } from '@/components/dashboard/WeeklySchedules'
 
 interface ProjectType {
   id: string
@@ -224,6 +225,80 @@ export default function DashboardClient({ userEmail, stats, projects: initialPro
     fetchTimeClockData()
   }, [tenantId])
 
+  // Separate function to fetch and update stats (can be called independently)
+  const fetchDashboardStats = async (tenantIdParam: string) => {
+    try {
+      const oneWeekAgo = new Date()
+      oneWeekAgo.setDate(oneWeekAgo.getDate() - 7)
+      const oneWeekAgoStr = oneWeekAgo.toISOString().split('T')[0]
+      
+      // Get current user's employee ID and role
+      const { data: { user } } = await supabase.auth.getUser()
+      let employeeIdForHours: string | null = null
+      let isAdminForHours = false
+      
+      if (user) {
+        const { data: empData } = await supabase
+          .from('employees')
+          .select('id, role')
+          .eq('auth_user_id', user.id)
+          .eq('tenant_id', tenantIdParam)
+          .maybeSingle()
+        
+        if (empData) {
+          isAdminForHours = empData.role === 'admin' || empData.role === 'Admin' || empData.role === 'ADMIN'
+          if (!isAdminForHours) {
+            employeeIdForHours = empData.id
+          }
+        }
+      }
+      
+      // Fetch time entries for last 7 days (same logic as server-side)
+      let weekRowsQuery = supabase
+        .from('time_entries')
+        .select('hours_total')
+        .gte('date', oneWeekAgoStr)
+        .eq('tenant_id', tenantIdParam)
+        .eq('is_billed', false)
+      
+      // If not admin, only get this employee's hours
+      if (!isAdminForHours && employeeIdForHours) {
+        weekRowsQuery = weekRowsQuery.eq('employee_id', employeeIdForHours)
+      }
+      
+      const { data: weekRows } = await weekRowsQuery
+      const totalHours = (weekRows ?? []).reduce((sum: number, row: any) => sum + Number(row.hours_total ?? 0), 0)
+      
+      // Get active projects count - fetch fresh to ensure accuracy
+      const { data: projectRows } = await supabase
+        .from('projects')
+        .select('id, status')
+        .eq('tenant_id', tenantIdParam)
+      
+      const activeProjectsCount = (projectRows ?? []).filter((p: any) => {
+        const status = p.status || null
+        return status !== 'completed' && status !== 'archived'
+      }).length
+      
+      // Get draft invoices
+      const { data: invoiceRows } = await supabase
+        .from('invoices')
+        .select('id')
+        .eq('status', 'draft')
+        .eq('tenant_id', tenantIdParam)
+      
+      setDashboardStats({
+        totalHours,
+        activeProjects: activeProjectsCount,
+        invoicesToSend: invoiceRows?.length ?? 0
+      })
+      setStatsLoaded(true)
+    } catch (err) {
+      console.error('Error fetching dashboard stats:', err)
+      setStatsLoaded(true)
+    }
+  }
+
   // Fetch dashboard projects and stats client-side so they update when new projects are created
   useEffect(() => {
     if (!tenantId) return
@@ -279,112 +354,28 @@ export default function DashboardClient({ userEmail, stats, projects: initialPro
 
               if (cancelled) return
               setDashboardProjects(projectsWithHours)
-              
-              // Update stats - get employee ID if not admin
-              const oneWeekAgo = new Date()
-              oneWeekAgo.setDate(oneWeekAgo.getDate() - 7)
-              const oneWeekAgoStr = oneWeekAgo.toISOString().split('T')[0]
-              
-              // Get current user's employee ID and role
-              const { data: { user } } = await supabase.auth.getUser()
-              let employeeIdForHours: string | null = null
-              let isAdminForHours = false
-              
-              if (user) {
-                const { data: empData } = await supabase
-                  .from('employees')
-                  .select('id, role')
-                  .eq('auth_user_id', user.id)
-                  .eq('tenant_id', tenantId)
-                  .maybeSingle()
-                
-                if (empData) {
-                  isAdminForHours = empData.role === 'admin' || empData.role === 'Admin' || empData.role === 'ADMIN'
-                  if (!isAdminForHours) {
-                    employeeIdForHours = empData.id
-                  }
-                }
-              }
-              
-              let weekRowsQuery = supabase
-                .from('time_entries')
-                .select('hours_total')
-                .gte('date', oneWeekAgoStr)
-                .eq('tenant_id', tenantId)
-                .eq('is_billed', false)
-              
-              // If not admin, only get this employee's hours
-              if (!isAdminForHours && employeeIdForHours) {
-                weekRowsQuery = weekRowsQuery.eq('employee_id', employeeIdForHours)
-              }
-              
-              const { data: weekRows } = await weekRowsQuery
-              
-              if (cancelled) return
-              
-              const totalHours = (weekRows ?? []).reduce((sum: number, row: any) => sum + Number(row.hours_total ?? 0), 0)
-              
-              const { data: invoiceRows } = await supabase
-                .from('invoices')
-                .select('id')
-                .eq('status', 'draft')
-                .eq('tenant_id', tenantId)
-              
-              if (cancelled) return
-              
-              setDashboardStats({
-                totalHours,
-                activeProjects: projectsWithHours.length,
-                invoicesToSend: invoiceRows?.length ?? 0
-              })
               setProjectsLoaded(true)
-              setStatsLoaded(true)
+              
+              // Fetch stats separately
+              await fetchDashboardStats(tenantId)
             } else {
               if (cancelled) return
               setDashboardProjects([])
               setProjectsLoaded(true)
               // Still fetch stats even if no projects
-              const oneWeekAgo = new Date()
-              oneWeekAgo.setDate(oneWeekAgo.getDate() - 7)
-              const oneWeekAgoStr = oneWeekAgo.toISOString().split('T')[0]
-              
-              const { data: weekRows } = await supabase
-                .from('time_entries')
-                .select('hours_total')
-                .gte('date', oneWeekAgoStr)
-                .eq('tenant_id', tenantId)
-                .eq('is_billed', false)
-              
-              if (cancelled) return
-              
-              const totalHours = (weekRows ?? []).reduce((sum: number, row: any) => sum + Number(row.hours_total ?? 0), 0)
-              
-              const { data: invoiceRows } = await supabase
-                .from('invoices')
-                .select('id')
-                .eq('status', 'draft')
-                .eq('tenant_id', tenantId)
-              
-              if (cancelled) return
-              
-              setDashboardStats({
-                totalHours,
-                activeProjects: 0,
-                invoicesToSend: invoiceRows?.length ?? 0
-              })
-              setStatsLoaded(true)
+              await fetchDashboardStats(tenantId)
             }
           } else {
             if (cancelled) return
             setProjectsLoaded(true)
-            setStatsLoaded(true)
+            await fetchDashboardStats(tenantId)
           }
         }
       } catch (err) {
         if (cancelled) return
         console.error('Error fetching dashboard projects:', err)
-        setProjectsLoaded(true) // Still mark as loaded even on error to prevent infinite loading
-        setStatsLoaded(true)
+        setProjectsLoaded(true)
+        await fetchDashboardStats(tenantId)
       }
     }
 
@@ -398,15 +389,43 @@ export default function DashboardClient({ userEmail, stats, projects: initialPro
       }
     }
 
+    // Listen for time entry updates specifically
+    const handleTimeEntryUpdate = () => {
+      console.log('🔄 Dashboard: Time entry updated, refreshing stats...')
+      if (!cancelled && tenantId) {
+        setTimeout(() => fetchDashboardStats(tenantId), 500)
+      }
+    }
+
     window.addEventListener('projectCreated', handleProjectUpdate)
     window.addEventListener('projectUpdated', handleProjectUpdate)
-    window.addEventListener('timeEntryUpdated', handleProjectUpdate)
+    window.addEventListener('timeEntryUpdated', handleTimeEntryUpdate)
+    window.addEventListener('timeEntryCreated', handleTimeEntryUpdate)
+    window.addEventListener('timeEntryDeleted', handleTimeEntryUpdate)
+
+    // Also refresh stats when component mounts or tenantId changes (after login)
+    const refreshStats = () => {
+      if (tenantId && !cancelled) {
+        setTimeout(() => fetchDashboardStats(tenantId), 1000) // Small delay after mount
+      }
+    }
+    refreshStats()
+
+    // Poll for stats updates every 30 seconds to keep in sync
+    const statsInterval = setInterval(() => {
+      if (tenantId && !cancelled) {
+        fetchDashboardStats(tenantId)
+      }
+    }, 30000) // 30 seconds
 
     return () => {
       cancelled = true
+      clearInterval(statsInterval)
       window.removeEventListener('projectCreated', handleProjectUpdate)
       window.removeEventListener('projectUpdated', handleProjectUpdate)
-      window.removeEventListener('timeEntryUpdated', handleProjectUpdate)
+      window.removeEventListener('timeEntryUpdated', handleTimeEntryUpdate)
+      window.removeEventListener('timeEntryCreated', handleTimeEntryUpdate)
+      window.removeEventListener('timeEntryDeleted', handleTimeEntryUpdate)
     }
   }, [tenantId])
 
@@ -464,6 +483,9 @@ export default function DashboardClient({ userEmail, stats, projects: initialPro
 
           {/* Did You Know */}
           <DidYouKnow />
+
+          {/* Premium Weekly Schedules */}
+          <WeeklySchedules />
 
           {/* Time Clock - Always show, even if no employee/projects (component handles it) */}
           {(() => {

@@ -142,8 +142,8 @@ export default function AdminAetaPage() {
       const { data: userData } = await supabase.auth.getUser()
       const userId = userData?.user?.id
 
-      const { error } = await supabase
-        .from('aeta_requests')
+      const { error } = await (supabase
+        .from('aeta_requests') as any)
         .update({
           status,
           admin_notes: adminNotes || null,

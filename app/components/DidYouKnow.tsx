@@ -14,6 +14,16 @@ const facts = [
   "🎯 Projektförlopp visar visuellt när du närmar dig budgeten med färgkodning.",
   "📱 Appen är helt mobilvänlig och fungerar perfekt på telefon, tablet och dator.",
   "🤖 AI-sammanfattning hjälper dig snabbt förstå projektstatus och fakturaöversikt.",
+  "📡 Arbetsordrar fungerar offline - skapa och redigera arbetsordrar även utan internet, de synkas automatiskt när du kommer online.",
+  "🔄 Systemet synkar automatiskt alla ändringar när du kommer tillbaka online, så du förlorar aldrig data.",
+  "📋 Arbetsordrar kan ha prioriteringar (Låg, Normal, Hög, Kritiskt) för bättre organisation av arbetsflödet.",
+  "📸 Du kan ladda upp foton direkt i arbetsordrar för att dokumentera arbetet eller problem.",
+  "👥 Arbetsordrar kan tilldelas specifika anställda, och de får automatiskt en notifikation när de tilldelas.",
+  "🔄 Statusflödet för arbetsordrar är enkelt - klicka på 'Nästa steg' för att gå igenom alla statusar automatiskt.",
+  "📊 Du kan filtrera arbetsordrar på status, prioritet, projekt eller tilldelad person för enklare hantering.",
+  "🔔 När en arbetsorder tilldelas en anställd får de automatiskt en notifikation i appen.",
+  "📱 Arbetsordrar är tillgängliga offline - alla ändringar sparas lokalt och synkas när internet är tillgängligt igen.",
+  "⚡ Sync-systemet använder 'Last-Write-Wins' för att automatiskt lösa konflikter om samma arbetsorder redigeras från flera enheter.",
   
   // Byggbranschen - allmänna fakta
   "🏗️ Byggbranschen är Sveriges största bransch med över 200 000 anställda och står för cirka 6% av BNP.",

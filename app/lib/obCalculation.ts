@@ -1,154 +1,160 @@
+// app/lib/obCalculation.ts
+
 /**
- * OB-beräkning enligt byggkollektivavtalet
- * 
- * OB Kväll: 18:00-22:00 (150%)
- * OB Natt: 22:00-06:00 (150%)
- * OB Helg: Lördag och söndag hela dagen (200%)
- * Vanlig tid: 06:00-18:00 på vardagar (100%)
+ * OB (Overtime/Premium) calculation utilities
+ * Handles calculation of hours and amounts for different OB types
  */
 
+/**
+ * OB time split interface
+ */
 export interface OBTimeSplit {
-  regular: number // timmar vanlig tid
-  evening: number // timmar OB kväll
-  night: number   // timmar OB natt
-  weekend: number // timmar OB helg
-  total: number   // totala timmar
+  regular: number; // Regular hours (06:00-18:00 weekday) - 1.0x
+  evening: number; // Evening hours (18:00-22:00 weekday) - 1.5x
+  night: number;   // Night hours (22:00-06:00 weekday) - 1.5x
+  weekend: number; // Weekend hours (all day Saturday/Sunday) - 2.0x
+  total: number;   // Total hours
 }
 
 /**
- * Beräkna OB-timmar för ett arbetspass
- * Hanterar flera OB-typer i samma pass (t.ex. 14:00-20:00 = 4h vanlig + 2h kväll)
+ * Calculates OB hours split based on start time, end time, and date
+ * @param startTime Start time in HH:MM format
+ * @param endTime End time in HH:MM format
+ * @param date Date object for determining weekday/weekend
+ * @returns OBTimeSplit with hours for each OB type
  */
-export function calculateOBHours(
-  startTime: string | null, // "HH:MM" or null
-  endTime: string | null,   // "HH:MM" or null
-  date: Date         // datumet för arbetspasset
-): OBTimeSplit {
-  const result: OBTimeSplit = {
+export function calculateOBHours(startTime: string, endTime: string, date: Date): OBTimeSplit {
+  const split: OBTimeSplit = {
     regular: 0,
     evening: 0,
     night: 0,
     weekend: 0,
-    total: 0
+    total: 0,
+  };
+
+  // Parse times
+  const [startHour, startMin] = startTime.split(':').map(Number);
+  const [endHour, endMin] = endTime.split(':').map(Number);
+
+  const startMinutes = startHour * 60 + startMin;
+  const endMinutes = endHour * 60 + endMin;
+
+  // Check if it's weekend
+  const dayOfWeek = date.getDay();
+  const isWeekend = dayOfWeek === 0 || dayOfWeek === 6; // Sunday = 0, Saturday = 6
+
+  // Calculate total duration in minutes
+  let totalMinutes = endMinutes - startMinutes;
+  if (totalMinutes < 0) {
+    totalMinutes += 24 * 60; // Handle overnight
   }
 
-  // Validate inputs
-  if (!startTime || !endTime) {
-    console.warn('calculateOBHours: Missing startTime or endTime', { startTime, endTime })
-    return result
-  }
-
-  const [startHour, startMin] = startTime.split(':').map(Number)
-  const [endHour, endMin] = endTime.split(':').map(Number)
-  
-  // Validate parsed values
-  if (isNaN(startHour) || isNaN(startMin) || isNaN(endHour) || isNaN(endMin)) {
-    console.warn('calculateOBHours: Invalid time format', { startTime, endTime })
-    return result
-  }
-  
-  const startMinutes = startHour * 60 + startMin
-  const endMinutes = endHour * 60 + endMin
-  
-  // Kolla om det är helg (lördag eller söndag)
-  const dayOfWeek = date.getDay() // 0 = söndag, 6 = lördag
-  const isWeekend = dayOfWeek === 0 || dayOfWeek === 6
-  
-  // Om helg → allt är OB helg
   if (isWeekend) {
-    let totalMinutes = endMinutes - startMinutes
-    if (totalMinutes < 0) totalMinutes += 24 * 60 // Hantera över midnatt
-    
-    result.weekend = totalMinutes / 60
-    result.total = result.weekend
-    return result
-  }
-  
-  // Vardag: beräkna per OB-period
-  // Vanlig tid: 06:00-18:00
-  // OB Kväll: 18:00-22:00
-  // OB Natt: 22:00-06:00 (nästa dag)
-  
-  const REGULAR_START = 6 * 60   // 06:00 = 360 min
-  const REGULAR_END = 18 * 60    // 18:00 = 1080 min
-  const EVENING_START = 18 * 60  // 18:00 = 1080 min
-  const EVENING_END = 22 * 60    // 22:00 = 1320 min
-  const NIGHT_START = 22 * 60    // 22:00 = 1320 min
-  const NIGHT_END_DAY1 = 24 * 60 // 24:00 = 1440 min
-  const NIGHT_END_DAY2 = 24 * 60 + 6 * 60 // 06:00 nästa dag = 1800 min
-  
-  // Normalisera tider (hantera över midnatt)
-  let start = startMinutes
-  let end = endMinutes
-  
-  // Om end < start, betyder det att vi går över midnatt
-  const spansMidnight = end < start
-  
-  if (spansMidnight) {
-    end = end + 24 * 60
-  }
-  
-  // Beräkna timmar per OB-period
-  // 1. Vanlig tid (06:00-18:00)
-  if (start < REGULAR_END) {
-    const regularEnd = Math.min(end, REGULAR_END)
-    if (regularEnd > Math.max(start, REGULAR_START)) {
-      result.regular += (regularEnd - Math.max(start, REGULAR_START)) / 60
-    }
-  }
-  
-  // 2. OB Kväll (18:00-22:00)
-  const eveningStart = Math.max(start, EVENING_START)
-  const eveningEnd = Math.min(end, EVENING_END)
-  if (eveningEnd > eveningStart && end > EVENING_START && start < EVENING_END) {
-    result.evening += (eveningEnd - eveningStart) / 60
-  }
-  
-  // 3. OB Natt (22:00-06:00 nästa dag)
-  // Del 1: 22:00-24:00 (samma dag)
-  if (start < NIGHT_END_DAY1 && end > NIGHT_START) {
-    const nightStart1 = Math.max(start, NIGHT_START)
-    const nightEnd1 = Math.min(end, NIGHT_END_DAY1)
-    if (nightEnd1 > nightStart1) {
-      result.night += (nightEnd1 - nightStart1) / 60
-    }
-  }
-  
-  // Del 2: 00:00-06:00 (nästa dag) - bara om vi går över midnatt
-  if (spansMidnight) {
-    const nightStart2 = Math.max(0, start - 24 * 60) // Normalisera till dag 2
-    const nightEnd2 = Math.min(end - 24 * 60, REGULAR_START)
-    if (nightEnd2 > nightStart2 && nightStart2 < REGULAR_START) {
-      result.night += (nightEnd2 - Math.max(0, nightStart2)) / 60
-    }
-  } else if (start >= NIGHT_START && end <= 24 * 60 + REGULAR_START) {
-    // Fall där vi startar efter 22:00 men slutar före 06:00 nästa dag
-    // (Detta borde hanteras i Del 1, men som extra säkerhet)
-    if (end > NIGHT_END_DAY1) {
-      const nightStart2 = 0
-      const nightEnd2 = Math.min(end - 24 * 60, REGULAR_START)
-      if (nightEnd2 > nightStart2) {
-        result.night += (nightEnd2 - nightStart2) / 60
+    // Weekend: All hours are weekend hours (2.0x)
+    split.weekend = totalMinutes / 60;
+  } else {
+    // Weekday: Split by time periods
+    // Regular: 06:00-18:00 (1.0x)
+    // Evening: 18:00-22:00 (1.5x)
+    // Night: 22:00-06:00 (1.5x)
+
+    const regularStart = 6 * 60; // 06:00
+    const regularEnd = 18 * 60; // 18:00
+    const eveningStart = 18 * 60; // 18:00
+    const eveningEnd = 22 * 60; // 22:00
+    const nightEnd = 6 * 60; // 06:00 (next day)
+
+    // Handle overnight spans
+    if (endMinutes < startMinutes) {
+      // Spans midnight
+      // Part before midnight
+      const beforeMidnight = 24 * 60 - startMinutes;
+      // Part after midnight
+      const afterMidnight = endMinutes;
+
+      // Calculate regular hours (before midnight)
+      if (startMinutes < regularStart) {
+        // Starts before 06:00 - night hours
+        if (startMinutes < eveningEnd) {
+          const nightEndHere = Math.min(eveningEnd, 24 * 60);
+          split.night += (nightEndHere - startMinutes) / 60;
+          if (nightEndHere < 24 * 60) {
+            split.evening += Math.min(eveningEnd - nightEndHere, beforeMidnight) / 60;
+          }
+        }
+      } else if (startMinutes < eveningStart) {
+        // Regular hours
+        split.regular += Math.min(regularEnd - startMinutes, beforeMidnight) / 60;
+        if (regularEnd < 24 * 60) {
+          split.evening += Math.min(eveningEnd - regularEnd, beforeMidnight - (regularEnd - startMinutes)) / 60;
+        }
+      } else if (startMinutes < eveningEnd) {
+        // Evening hours
+        split.evening += Math.min(eveningEnd - startMinutes, beforeMidnight) / 60;
+      }
+
+      // After midnight
+      if (afterMidnight <= nightEnd) {
+        split.night += afterMidnight / 60;
+      } else if (afterMidnight <= regularEnd) {
+        split.night += nightEnd / 60;
+        split.regular += (afterMidnight - nightEnd) / 60;
+      } else {
+        split.night += nightEnd / 60;
+        split.regular += (regularEnd - nightEnd) / 60;
+        split.evening += Math.min(eveningEnd - regularEnd, afterMidnight - regularEnd) / 60;
+      }
+    } else {
+      // Same day
+      let currentMin = startMinutes;
+
+      while (currentMin < endMinutes) {
+        if (currentMin >= regularStart && currentMin < regularEnd) {
+          // Regular hours
+          const regularEndHere = Math.min(regularEnd, endMinutes);
+          split.regular += (regularEndHere - currentMin) / 60;
+          currentMin = regularEndHere;
+        } else if (currentMin >= eveningStart && currentMin < eveningEnd) {
+          // Evening hours
+          const eveningEndHere = Math.min(eveningEnd, endMinutes);
+          split.evening += (eveningEndHere - currentMin) / 60;
+          currentMin = eveningEndHere;
+        } else if (currentMin >= eveningEnd || currentMin < regularStart) {
+          // Night hours (22:00-06:00)
+          let nightEndHere: number;
+          if (currentMin >= eveningEnd) {
+            nightEndHere = Math.min(24 * 60, endMinutes);
+          } else {
+            nightEndHere = Math.min(regularStart, endMinutes);
+          }
+          split.night += (nightEndHere - currentMin) / 60;
+          currentMin = nightEndHere;
+        } else {
+          // Should not happen, but break to avoid infinite loop
+          break;
+        }
       }
     }
   }
-  
-  result.total = result.regular + result.evening + result.night + result.weekend
-  return result
+
+  // Calculate total
+  split.total = split.regular + split.evening + split.night + split.weekend;
+
+  return split;
 }
 
 /**
- * Beräkna total lön baserat på OB-timmar och base rate
+ * Calculates total amount based on OB hours and base rate
+ * @param obSplit OB time split
+ * @param baseRate Base hourly rate in SEK
+ * @returns Total amount in SEK
  */
-export function calculateTotalAmount(
-  obSplit: OBTimeSplit,
-  baseRate: number
-): number {
-  return (
-    obSplit.regular * baseRate * 1.0 +      // 100%
-    obSplit.evening * baseRate * 1.5 +      // 150%
-    obSplit.night * baseRate * 1.5 +        // 150%
-    obSplit.weekend * baseRate * 2.0        // 200%
-  )
+export function calculateTotalAmount(obSplit: OBTimeSplit, baseRate: number): number {
+  const regularAmount = obSplit.regular * baseRate * 1.0; // 1.0x
+  const eveningAmount = obSplit.evening * baseRate * 1.5; // 1.5x
+  const nightAmount = obSplit.night * baseRate * 1.5; // 1.5x
+  const weekendAmount = obSplit.weekend * baseRate * 2.0; // 2.0x
+
+  return regularAmount + eveningAmount + nightAmount + weekendAmount;
 }
 

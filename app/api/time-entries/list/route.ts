@@ -105,6 +105,10 @@ export async function GET(req: Request) {
       employeeTenantId: employeeData?.tenant_id
     })
 
+    // Handle date filter if provided
+    const { searchParams } = new URL(req.url);
+    const dateFilter = searchParams.get('date'); // YYYY-MM-DD format
+    
     // Build query - try to get ALL entries first to see what exists
     let query = adminSupabase
       .from('time_entries')
@@ -113,6 +117,11 @@ export async function GET(req: Request) {
       .order('date', { ascending: false })
       .order('start_time', { ascending: false })
       .limit(100)
+
+    // Apply date filter if provided
+    if (dateFilter) {
+      query = query.eq('date', dateFilter)
+    }
 
     // If not admin, only show own entries
     if (!isAdmin && employeeId) {
@@ -150,7 +159,8 @@ export async function GET(req: Request) {
     }
 
     return NextResponse.json({
-      entries: entries || [],
+      timeEntries: entries || [],
+      entries: entries || [], // Both formats for compatibility
       isAdmin,
       employeeId,
       tenantId,

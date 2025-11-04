@@ -26,90 +26,15 @@ export async function getTenantId(): Promise<string | null> {
     }
 
     // Priority 2: httpOnly cookie (convenience, set by /api/auth/set-tenant)
-    try {
-      const c = await cookies()
-      const cookieTenant = c.get('tenant_id')?.value
-      if (cookieTenant) {
-        return cookieTenant
-      }
-    } catch {
-      // cookies() may throw in some contexts - ignore
-    }
-
-    // Priority 3: Fallback to employees table with service role (for migration/new users)
-    // CRITICAL: Always use service role to bypass RLS and get correct tenant from employee record
-    // This is more reliable than JWT metadata which can be stale or incorrect
-    try {
-      // Try regular query first (may be blocked by RLS)
-      const { data: employeeData, error: empError } = await supabase
-        .from('employees')
-        .select('tenant_id')
-        .eq('auth_user_id', user.id)
-        .limit(1)
-        .maybeSingle()
-
-      if (employeeData?.tenant_id) {
-        // Verify tenant exists before returning
-        const { data: tenantCheck } = await supabase
-          .from('tenants')
-          .select('id')
-          .eq('id', employeeData.tenant_id)
-          .single()
-        
-        if (tenantCheck) {
-          // If we found tenant in employees table but not in JWT, 
-          // it means the metadata hasn't been synced yet - that's ok
-          // Employee record is more authoritative than JWT metadata
-          return employeeData.tenant_id
-        }
-      }
-
-      // If RLS blocked or no result, try with service role
-      const supabaseUrl = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL
-      const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
-      
-      if (supabaseUrl && serviceKey) {
-        const { createClient: createAdminClient } = await import('@supabase/supabase-js')
-        const adminSupabase = createAdminClient(supabaseUrl, serviceKey)
-        
-        // Get all employees for this user
-        const { data: allEmployees } = await adminSupabase
-          .from('employees')
-          .select('id, tenant_id')
-          .eq('auth_user_id', user.id)
-          .limit(10)
-        
-        if (allEmployees && allEmployees.length > 0) {
-          // Get existing tenants
-          const { data: existingTenants } = await adminSupabase
-            .from('tenants')
-            .select('id')
-            .limit(100)
-          
-          const existingTenantIds = new Set((existingTenants || []).map((t: any) => t.id))
-          
-          // Find employee with existing tenant (prioritize first valid one)
-          const validEmployee = allEmployees.find((e: any) => existingTenantIds.has(e.tenant_id))
-          
-          if (validEmployee?.tenant_id) {
-            // Employee record is authoritative - return it
-            return validEmployee.tenant_id
-          }
-        }
-      }
-
-      // If no employee record exists, user needs to complete onboarding
-      if (empError && empError.code === 'PGRST116') {
-        // No rows found - user hasn't completed onboarding
-        return null
-      }
-    } catch {
-      // RLS might block, or table might not exist - ignore and return null
+    const c = await cookies()
+    const cookieTenant = c.get('tenant_id')?.value
+    if (cookieTenant) {
+      return cookieTenant
     }
 
     return null
   } catch (err) {
-    // Any other errors - return null
+    // cookies() may throw in some contexts (e.g., middleware, edge runtime)
     return null
   }
 }

@@ -121,6 +121,71 @@ const faqs: FAQItem[] = [
     question: 'Hur följer jag upp status på min ROT-ansökan?',
     answer: 'Gå till ROT-ansökan och klicka på "Kontrollera status". Systemet hämtar automatiskt uppdaterad status från Skatteverket.'
   },
+  {
+    category: 'Arbetsordrar',
+    question: 'Hur skapar jag en arbetsorder?',
+    answer: 'Gå till "Arbetsordrar" → "Ny arbetsorder". Fyll i titel, beskrivning, välj projekt, tilldela anställd (valfritt), sätt prioritet och status. Du kan också ladda upp foton direkt.'
+  },
+  {
+    category: 'Arbetsordrar',
+    question: 'Vad är skillnaden mellan prioriteterna?',
+    answer: 'Prioriteter är: Låg (planerat arbete), Normal (vanligt arbete), Hög (brådskande), Kritiskt (måste göras omedelbart). Prioritet hjälper dig att organisera arbetsflödet.'
+  },
+  {
+    category: 'Arbetsordrar',
+    question: 'Hur ändrar jag status på en arbetsorder?',
+    answer: 'Öppna arbetsordern och klicka på "Nästa steg"-knappen. Systemet går automatiskt igenom alla statusar: Skapad → Tilldelad → Pågående → Väntar godkännande → Godkänd → Färdig.'
+  },
+  {
+    category: 'Arbetsordrar',
+    question: 'Kan jag arbeta med arbetsordrar offline?',
+    answer: 'Ja! Du kan skapa, redigera och ta bort arbetsordrar även utan internet. Alla ändringar sparas lokalt och synkas automatiskt när du kommer online igen.'
+  },
+  {
+    category: 'Arbetsordrar',
+    question: 'Vad händer om jag redigerar samma arbetsorder från två enheter?',
+    answer: 'Systemet använder "Last-Write-Wins" - den senaste ändringen vinner. Om det uppstår konflikter loggas de för granskning, men senaste ändringen används automatiskt.'
+  },
+  {
+    category: 'Arbetsordrar',
+    question: 'Får anställda notifikationer när de tilldelas en arbetsorder?',
+    answer: 'Ja! När en arbetsorder tilldelas en anställd får de automatiskt en notifikation i appen. De kan också se alla tilldelade arbetsordrar på sin arbetsordrar-sida.'
+  },
+  {
+    category: 'Arbetsordrar',
+    question: 'Kan jag ladda upp foton i arbetsordrar?',
+    answer: 'Ja! Klicka på "Ladda upp foton" när du skapar eller redigerar en arbetsorder. Foton sparas och kan ses av alla som har tillgång till arbetsordern.'
+  },
+  {
+    category: 'Arbetsordrar',
+    question: 'Hur filtrerar jag arbetsordrar?',
+    answer: 'På arbetsordrar-sidan kan du filtrera på status (Skapad, Pågående, Färdig, etc.), prioritet (Låg, Normal, Hög, Kritiskt), projekt eller tilldelad person.'
+  },
+  {
+    category: 'Offline & Sync',
+    question: 'Hur fungerar offline-stöd?',
+    answer: 'Appen fungerar offline! Du kan skapa och redigera arbetsordrar, tidsrapporter och mer även utan internet. Alla ändringar sparas lokalt och synkas automatiskt när du kommer online.'
+  },
+  {
+    category: 'Offline & Sync',
+    question: 'När synkas mina data?',
+    answer: 'Data synkas automatiskt när du kommer online, var 30:e sekund när du är online, och när du gör vissa åtgärder. Du kan också manuellt synka genom att klicka på sync-knappen.'
+  },
+  {
+    category: 'Offline & Sync',
+    question: 'Hur ser jag om mina data är synkade?',
+    answer: 'I sidofältet ser du en status-indikator som visar om du är online/offline och om sync pågår. En grön bock betyder att allt är synkat.'
+  },
+  {
+    category: 'Offline & Sync',
+    question: 'Vad händer om jag har ändringar som inte synkats?',
+    answer: 'Systemet visar antal väntande ändringar i sync-indikatorn. När du kommer online synkas de automatiskt. Du förlorar aldrig data - allt sparas lokalt först.'
+  },
+  {
+    category: 'Offline & Sync',
+    question: 'Kan jag arbeta med flera enheter samtidigt?',
+    answer: 'Ja! Systemet hanterar synkning från flera enheter. Om samma data redigeras på två enheter används "Last-Write-Wins" - senaste ändringen vinner.'
+  },
 ]
 
 export default function FAQPage() {

@@ -12,6 +12,7 @@ import FileList from '@/components/FileList'
 import DidYouKnow from '@/components/DidYouKnow'
 import ATA2Card from '@/components/ATA2Card'
 import BudgetCard from '@/components/BudgetCard'
+import { ScheduleCalendar } from '@/components/scheduling/ScheduleCalendar'
 import { useProject, useProjectHours } from '@/hooks/useProjects'
 import { useAdmin } from '@/hooks/useAdmin'
 
@@ -686,6 +687,18 @@ export default function ProjectDetailPage() {
             </div>
           )}
 
+          {/* Schedule Calendar Section */}
+          {project && (
+            <div className="mb-6 sm:mb-8">
+              <div className="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 lg:p-8 border border-gray-100 dark:border-gray-700">
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6">
+                  Schema för projektet
+                </h2>
+                <ScheduleCalendar projectId={project.id} />
+              </div>
+            </div>
+          )}
+
           {/* Employee Hours Section */}
           <div className="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 lg:p-8 border border-gray-100 dark:border-gray-700 mb-6 sm:mb-8">
             <div className="flex justify-between items-center mb-4">
@@ -791,30 +804,37 @@ export default function ProjectDetailPage() {
             </div>
           </div>
 
-          {/* Action Buttons - Only show for admins */}
+          {/* Action Buttons - Only show for admins - Collapsible */}
           {isAdmin && (
-            <div className="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 lg:p-8 border border-gray-100 dark:border-gray-700 mb-6 sm:mb-8">
-              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6">Fakturering</h2>
-              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-                <button
-                  onClick={() => router.push(`/invoices/new?projectId=${projectId}`)}
-                  className="flex-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white px-6 py-3 sm:py-4 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all transform hover:scale-105 text-sm sm:text-base"
-                >
-                  📝 Skapa faktura
-                </button>
-                <button
-                  onClick={handleSendInvoice}
-                  className="flex-1 bg-gradient-to-r from-green-500 to-emerald-500 text-white px-6 py-3 sm:py-4 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all transform hover:scale-105 text-sm sm:text-base"
-                >
-                  ✉️ Skapa & skicka faktura
-                </button>
-                <button
-                  onClick={handleDownloadPDF}
-                  className="flex-1 bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-3 sm:py-4 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all transform hover:scale-105 text-sm sm:text-base"
-                >
-                  📄 Ladda ner PDF
-                </button>
-              </div>
+            <div className="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 mb-6 sm:mb-8 overflow-hidden">
+              <details className="group">
+                <summary className="cursor-pointer p-4 sm:p-6 lg:p-8 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
+                  <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">Fakturering</h2>
+                  <span className="text-gray-400 group-open:rotate-180 transition-transform">▼</span>
+                </summary>
+                <div className="px-4 sm:px-6 lg:px-8 pb-4 sm:pb-6 lg:pb-8">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+                    <button
+                      onClick={() => router.push(`/invoices/new?projectId=${projectId}`)}
+                      className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white px-6 py-3 sm:py-4 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all transform hover:scale-105 text-sm sm:text-base"
+                    >
+                      📝 Skapa faktura
+                    </button>
+                    <button
+                      onClick={handleSendInvoice}
+                      className="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-6 py-3 sm:py-4 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all transform hover:scale-105 text-sm sm:text-base"
+                    >
+                      ✉️ Skapa & skicka
+                    </button>
+                    <button
+                      onClick={handleDownloadPDF}
+                      className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-3 sm:py-4 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all transform hover:scale-105 text-sm sm:text-base"
+                    >
+                      📄 Ladda ner PDF
+                    </button>
+                  </div>
+                </div>
+              </details>
             </div>
           )}
           

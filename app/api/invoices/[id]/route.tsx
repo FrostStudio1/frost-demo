@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/utils/supabase/server'
 import { pdf } from '@react-pdf/renderer'
-import InvoiceDoc from '../../../../lib/pdf/InvoiceDoc'
+import InvoiceDoc from '../../../lib/pdf/InvoiceDoc'
 import { v4 as uuidv4 } from 'uuid'
 
 function formatSE(dateStr?: string | null) {
@@ -34,7 +34,7 @@ export async function GET(request: NextRequest, context: { params: Promise<{ id:
         .single()
 
       if (!fallback1.error && fallback1.data) {
-        invoice = fallback1.data
+        invoice = { ...fallback1.data, number: fallback1.data.id.slice(0, 8) }
         invErr = null
       } else {
         invErr = fallback1.error
@@ -50,7 +50,7 @@ export async function GET(request: NextRequest, context: { params: Promise<{ id:
         .single()
 
       if (!fallback2.error && fallback2.data) {
-        invoice = { ...fallback2.data, amount: 0 } // Set default amount if column doesn't exist
+        invoice = { ...fallback2.data, amount: 0, number: fallback2.data.id.slice(0, 8) } // Set default amount if column doesn't exist
         invErr = null
       } else {
         invErr = fallback2.error
@@ -69,8 +69,14 @@ export async function GET(request: NextRequest, context: { params: Promise<{ id:
         invoice = { 
           ...fallback3.data, 
           amount: 0,
+          number: fallback3.data.id.slice(0, 8),
           issue_date: null,
           due_date: null,
+          project_id: null,
+          client_id: null,
+          customer_id: null,
+          desc: null,
+          description: null,
         }
         invErr = null
       } else {

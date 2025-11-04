@@ -1,116 +1,147 @@
+// app/lib/notifications.ts
+
 /**
- * Notification utilities
+ * Notification utilities for localStorage-based notifications
+ * These functions handle client-side notification storage and management
  */
 
-export interface Notification {
-  id: string
-  type: 'info' | 'success' | 'warning' | 'error'
-  title: string
-  message: string
-  read: boolean
-  createdAt: string
-  link?: string
+interface Notification {
+  id: string;
+  type: 'info' | 'success' | 'warning' | 'error';
+  title: string;
+  message: string;
+  read: boolean;
+  createdAt: string;
+  link?: string;
 }
 
-/**
- * Add a notification to localStorage and dispatch event
- */
-export function addNotification(notification: Omit<Notification, 'id' | 'read' | 'createdAt'>) {
-  const newNotification: Notification = {
-    ...notification,
-    id: crypto.randomUUID(),
-    read: false,
-    createdAt: new Date().toISOString(),
-  }
-
-  try {
-    const stored = localStorage.getItem('notifications')
-    const existing: Notification[] = stored ? JSON.parse(stored) : []
-    const updated = [newNotification, ...existing].slice(0, 50) // Keep last 50
-    localStorage.setItem('notifications', JSON.stringify(updated))
-    
-    // Dispatch custom event to notify NotificationCenter
-    if (typeof window !== 'undefined') {
-      window.dispatchEvent(new CustomEvent('notification-added', { detail: newNotification }))
-    }
-  } catch (err) {
-    console.error('Error adding notification:', err)
-  }
-}
+const STORAGE_KEY = 'notifications';
+const MAX_NOTIFICATIONS = 50;
 
 /**
- * Get all notifications from localStorage
+ * Gets all notifications from localStorage
+ * @returns Array of notifications
  */
 export function getNotifications(): Notification[] {
   try {
-    if (typeof window === 'undefined') return []
-    const stored = localStorage.getItem('notifications')
-    return stored ? JSON.parse(stored) : []
-  } catch (err) {
-    console.error('Error getting notifications:', err)
-    return []
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (!stored) {
+      return [];
+    }
+    const notifications = JSON.parse(stored) as Notification[];
+    return notifications || [];
+  } catch (error) {
+    console.error('Error reading notifications from localStorage:', error);
+    return [];
   }
 }
 
 /**
- * Mark notification as read
+ * Saves notifications to localStorage
+ * @param notifications Array of notifications to save
  */
-export function markNotificationAsRead(id: string) {
+function saveNotifications(notifications: Notification[]): void {
   try {
-    if (typeof window === 'undefined') return
-    const stored = localStorage.getItem('notifications')
-    const notifications: Notification[] = stored ? JSON.parse(stored) : []
-    const updated = notifications.map(n => 
+    // Keep only the last MAX_NOTIFICATIONS
+    const toSave = notifications.slice(0, MAX_NOTIFICATIONS);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(toSave));
+  } catch (error) {
+    console.error('Error saving notifications to localStorage:', error);
+  }
+}
+
+/**
+ * Marks a notification as read
+ * @param id Notification ID to mark as read
+ */
+export function markNotificationAsRead(id: string): void {
+  try {
+    const notifications = getNotifications();
+    const updated = notifications.map((n) =>
       n.id === id ? { ...n, read: true } : n
-    )
-    localStorage.setItem('notifications', JSON.stringify(updated))
+    );
+    saveNotifications(updated);
     
-    if (typeof window !== 'undefined') {
-      window.dispatchEvent(new CustomEvent('notifications-updated'))
-    }
-  } catch (err) {
-    console.error('Error marking notification as read:', err)
+    // Dispatch event to notify other components
+    window.dispatchEvent(new CustomEvent('notifications-updated'));
+  } catch (error) {
+    console.error('Error marking notification as read:', error);
   }
 }
 
 /**
- * Mark all notifications as read
+ * Marks all notifications as read
  */
-export function markAllNotificationsAsRead() {
+export function markAllNotificationsAsRead(): void {
   try {
-    if (typeof window === 'undefined') return
-    const stored = localStorage.getItem('notifications')
-    const notifications: Notification[] = stored ? JSON.parse(stored) : []
-    const updated = notifications.map(n => ({ ...n, read: true }))
-    localStorage.setItem('notifications', JSON.stringify(updated))
+    const notifications = getNotifications();
+    const updated = notifications.map((n) => ({ ...n, read: true }));
+    saveNotifications(updated);
     
-    if (typeof window !== 'undefined') {
-      window.dispatchEvent(new CustomEvent('notifications-updated'))
-    }
-  } catch (err) {
-    console.error('Error marking all notifications as read:', err)
+    // Dispatch event to notify other components
+    window.dispatchEvent(new CustomEvent('notifications-updated'));
+  } catch (error) {
+    console.error('Error marking all notifications as read:', error);
   }
 }
 
 /**
- * Send ROT notification (legacy function for ROT-specific notifications)
- * This is a placeholder - in production, this would send push notifications
+ * Adds a new notification to localStorage
+ * @param notification Notification data (without id, read, createdAt)
  */
-export async function sendRotNotification(
-  userId: string,
-  tenantId: string,
-  type: 'approved' | 'rejected' | 'status_update',
-  applicationId: string,
-  message: string
-) {
-  // For now, just log - in production, implement actual push notification here
-  console.log('ROT Notification:', { userId, tenantId, type, applicationId, message })
-  
-  // You can implement:
-  // - FCM for Android
-  // - APNs for iOS
-  // - Web Push for browsers
-  // - Email notifications
-  
-  return { success: true }
+export function addNotification(
+  notification: Omit<Notification, 'id' | 'read' | 'createdAt'>
+): void {
+  try {
+    const newNotification: Notification = {
+      ...notification,
+      id: crypto.randomUUID(),
+      read: false,
+      createdAt: new Date().toISOString(),
+    };
+
+    const existing = getNotifications();
+    const updated = [newNotification, ...existing].slice(0, MAX_NOTIFICATIONS);
+    saveNotifications(updated);
+    
+    // Dispatch event to notify NotificationCenter
+    window.dispatchEvent(
+      new CustomEvent('notification-added', { detail: newNotification })
+    );
+  } catch (error) {
+    console.error('Error adding notification:', error);
+  }
 }
+
+/**
+ * Removes a notification by ID
+ * @param id Notification ID to remove
+ */
+export function removeNotification(id: string): void {
+  try {
+    const notifications = getNotifications();
+    const updated = notifications.filter((n) => n.id !== id);
+    saveNotifications(updated);
+    
+    // Dispatch event to notify other components
+    window.dispatchEvent(new CustomEvent('notifications-updated'));
+  } catch (error) {
+    console.error('Error removing notification:', error);
+  }
+}
+
+/**
+ * Clears all notifications
+ */
+export function clearAllNotifications(): void {
+  try {
+    localStorage.removeItem(STORAGE_KEY);
+    
+    // Dispatch event to notify other components
+    window.dispatchEvent(new CustomEvent('notifications-updated'));
+  } catch (error) {
+    console.error('Error clearing notifications:', error);
+  }
+}
+
+

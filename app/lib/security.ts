@@ -1,143 +1,127 @@
+// app/lib/security.ts
+
 /**
- * Säkerhetsfunktioner för Frost Solutions
+ * Security utilities for input validation, rate limiting, and sanitization
  */
 
 /**
- * Rate limiting - enkel implementation
+ * Rate limit storage (in-memory, simple implementation)
+ * In production, use Redis or similar
  */
-const rateLimitMap = new Map<string, { count: number; resetTime: number }>()
-
-export interface RateLimitResult {
-  allowed: boolean
-  retryAfter?: number
-}
+const rateLimitStore = new Map<string, { count: number; resetAt: number }>();
 
 /**
- * Check rate limit för en identifier (IP, user ID, etc.)
+ * Checks if a request should be rate limited
+ * @param identifier Unique identifier (IP address, user ID, etc.)
+ * @param maxRequests Maximum requests allowed
+ * @param windowMs Time window in milliseconds
+ * @returns Object with allowed status and retryAfter seconds
  */
 export function checkRateLimit(
   identifier: string,
-  maxRequests: number = 10,
-  windowMs: number = 60000 // 1 minut default
-): RateLimitResult {
-  const now = Date.now()
-  const record = rateLimitMap.get(identifier)
-  
-  // Cleanup old records periodically (every 10 minutes)
-  if (Math.random() < 0.01) {
-    for (const [key, value] of rateLimitMap.entries()) {
-      if (now > value.resetTime) {
-        rateLimitMap.delete(key)
-      }
-    }
+  maxRequests: number = 100,
+  windowMs: number = 60 * 1000 // 1 minute default
+): { allowed: boolean; retryAfter?: number } {
+  const now = Date.now();
+  const record = rateLimitStore.get(identifier);
+
+  if (!record || now > record.resetAt) {
+    // Create new record
+    rateLimitStore.set(identifier, {
+      count: 1,
+      resetAt: now + windowMs,
+    });
+    return { allowed: true };
   }
-  
-  if (!record || now > record.resetTime) {
-    rateLimitMap.set(identifier, { count: 1, resetTime: now + windowMs })
-    return { allowed: true }
-  }
-  
+
   if (record.count >= maxRequests) {
-    const retryAfter = Math.ceil((record.resetTime - now) / 1000)
-    return { allowed: false, retryAfter }
+    // Rate limited - calculate retry after seconds
+    const retryAfter = Math.ceil((record.resetAt - now) / 1000);
+    return { allowed: false, retryAfter };
   }
-  
-  record.count++
-  return { allowed: true }
+
+  // Increment count
+  record.count++;
+  return { allowed: true };
 }
 
 /**
- * Get client IP from request headers
+ * Gets client IP address from request
+ * @param req Request object (Next.js Request or similar)
+ * @returns IP address string
  */
-export function getClientIP(req: Request): string {
-  // Check various headers for IP (handles proxies/load balancers)
-  const forwarded = req.headers.get('x-forwarded-for')
+export function getClientIP(req: Request | any): string {
+  // Try various headers that might contain the real IP
+  const forwarded = req.headers?.get('x-forwarded-for');
   if (forwarded) {
-    return forwarded.split(',')[0].trim()
+    return forwarded.split(',')[0].trim();
   }
-  
-  const realIP = req.headers.get('x-real-ip')
+
+  const realIP = req.headers?.get('x-real-ip');
   if (realIP) {
-    return realIP
+    return realIP;
   }
-  
-  // Fallback (won't work in serverless, but useful for logging)
-  return 'unknown'
+
+  // Fallback
+  return req.ip || 'unknown';
 }
 
 /**
- * Sanitize string input - remove potentially dangerous characters
+ * Sanitizes a string by removing potentially dangerous characters
+ * @param input Input string to sanitize
+ * @param maxLength Maximum length (default: 10000)
+ * @returns Sanitized string
  */
-export function sanitizeString(input: string): string {
-  if (typeof input !== 'string') return ''
-  
-  // Remove null bytes, control characters
-  return input
-    .replace(/\0/g, '')
-    .replace(/[\x00-\x1F\x7F]/g, '')
-    .trim()
-    .slice(0, 10000) // Max length
+export function sanitizeString(input: string, maxLength: number = 10000): string {
+  if (!input || typeof input !== 'string') {
+    return '';
+  }
+
+  // Truncate if too long
+  let sanitized = input.slice(0, maxLength);
+
+  // Remove null bytes and other control characters (except newlines and tabs)
+  sanitized = sanitized.replace(/[\x00-\x08\x0B-\x0C\x0E-\x1F\x7F]/g, '');
+
+  return sanitized;
 }
 
 /**
- * Validate email format
+ * Validates email format
+ * @param email Email address to validate
+ * @returns true if valid email format
  */
 export function isValidEmail(email: string): boolean {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-  return emailRegex.test(email) && email.length <= 254
+  if (!email || typeof email !== 'string') {
+    return false;
+  }
+
+  // Simple email regex (RFC 5322 compliant)
+  const emailRegex =
+    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+  return emailRegex.test(email);
 }
 
 /**
- * Validate Swedish organization number format (YYYYMMDD-XXXX)
- */
-export function isValidOrgNumber(orgNumber: string): boolean {
-  // Swedish org number: 6 digits, dash, 4 digits
-  const orgNumberRegex = /^\d{6}-\d{4}$/
-  return orgNumberRegex.test(orgNumber)
-}
-
-/**
- * Validate UUID format
+ * Validates UUID format
+ * @param uuid UUID string to validate
+ * @returns true if valid UUID format
  */
 export function isValidUUID(uuid: string): boolean {
-  const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
-  return uuidRegex.test(uuid)
+  if (!uuid || typeof uuid !== 'string') {
+    return false;
+  }
+
+  // UUID v4 format: xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx
+  const uuidRegex =
+    /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+  return uuidRegex.test(uuid);
 }
 
 /**
- * Basic input validation
+ * Clears rate limit records (useful for testing or cleanup)
  */
-export function validateInput(input: any, type: 'string' | 'email' | 'uuid' | 'orgNumber'): {
-  valid: boolean
-  error?: string
-  sanitized?: string
-} {
-  if (input === null || input === undefined) {
-    return { valid: false, error: 'Input saknas' }
-  }
-  
-  const str = String(input).trim()
-  
-  if (type === 'string') {
-    if (str.length === 0) {
-      return { valid: false, error: 'Tom sträng' }
-    }
-    const sanitized = sanitizeString(str)
-    return { valid: sanitized.length > 0, sanitized, error: sanitized.length === 0 ? 'Ogiltig sträng' : undefined }
-  }
-  
-  if (type === 'email') {
-    return { valid: isValidEmail(str), error: isValidEmail(str) ? undefined : 'Ogiltig email' }
-  }
-  
-  if (type === 'uuid') {
-    return { valid: isValidUUID(str), error: isValidUUID(str) ? undefined : 'Ogiltig UUID' }
-  }
-  
-  if (type === 'orgNumber') {
-    return { valid: isValidOrgNumber(str), error: isValidOrgNumber(str) ? undefined : 'Ogiltigt org.nummer' }
-  }
-  
-  return { valid: false, error: 'Okänd valideringstyp' }
+export function clearRateLimitStore(): void {
+  rateLimitStore.clear();
 }
 

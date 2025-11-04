@@ -144,8 +144,18 @@ export async function GET() {
     })
   } catch (err: any) {
     console.error('Error in admin check API:', err)
+    // Log full error for debugging
+    console.error('Full error details:', {
+      message: err.message,
+      stack: err.stack,
+      name: err.name
+    })
     return NextResponse.json(
-      { isAdmin: false, error: err.message || 'Internal server error' },
+      { 
+        isAdmin: false, 
+        error: err.message || 'Internal server error',
+        details: process.env.NODE_ENV === 'development' ? err.stack : undefined
+      },
       { status: 500 }
     )
   }

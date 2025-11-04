@@ -1,24 +1,39 @@
-/**
- * Avrunda timmar till minst 0,5 timmar
- * Används för tidsrapporter för att säkerställa minsta faktureringsenhet
- */
-export function roundToMinimumHalfHour(hours: number): number {
-  if (hours <= 0) return 0
-  
-  // Avrunda uppåt till närmaste 0.5
-  return Math.ceil(hours * 2) / 2
-}
+// app/lib/timeRounding.ts
+
+import type { OBTimeSplit } from './obCalculation';
 
 /**
- * Avrunda alla OB-timmar i en split till minst 0,5
+ * Rounds OB time split to nearest 0.5 hours
+ * Ensures minimum 0.5 hours per category if any time exists
+ * @param obSplit OB time split to round
+ * @returns Rounded OB time split
  */
-export function roundOBTimeSplit(split: { regular: number; evening: number; night: number; weekend: number; total: number }): typeof split {
-  return {
-    regular: roundToMinimumHalfHour(split.regular),
-    evening: roundToMinimumHalfHour(split.evening),
-    night: roundToMinimumHalfHour(split.night),
-    weekend: roundToMinimumHalfHour(split.weekend),
-    total: roundToMinimumHalfHour(split.total),
+export function roundOBTimeSplit(obSplit: OBTimeSplit): OBTimeSplit {
+  const rounded: OBTimeSplit = {
+    regular: Math.round(obSplit.regular * 2) / 2, // Round to nearest 0.5
+    evening: Math.round(obSplit.evening * 2) / 2,
+    night: Math.round(obSplit.night * 2) / 2,
+    weekend: Math.round(obSplit.weekend * 2) / 2,
+    total: 0,
+  };
+
+  // Ensure minimum 0.5 hours if any time exists in a category
+  if (obSplit.regular > 0 && rounded.regular < 0.5) {
+    rounded.regular = 0.5;
   }
+  if (obSplit.evening > 0 && rounded.evening < 0.5) {
+    rounded.evening = 0.5;
+  }
+  if (obSplit.night > 0 && rounded.night < 0.5) {
+    rounded.night = 0.5;
+  }
+  if (obSplit.weekend > 0 && rounded.weekend < 0.5) {
+    rounded.weekend = 0.5;
+  }
+
+  // Recalculate total
+  rounded.total = rounded.regular + rounded.evening + rounded.night + rounded.weekend;
+
+  return rounded;
 }
 

@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/utils/supabase/server'
 import { getTenantId } from '@/lib/serverTenant'
-import { sendRotNotification } from '@/lib/notifications'
+import { sendRotNotification } from '@/lib/notifications-server'
 
 /**
  * Skicka push-notifikation vid statusändring
@@ -57,7 +57,8 @@ export async function POST(
             tenantId,
             type,
             id,
-            message || `ROT-ansökan ${application.case_number || id} har uppdaterats till ${application.status}`
+            message || `ROT-ansökan ${application.case_number || id} har uppdaterats till ${application.status}`,
+            user.id // Pass the current user as creator
           )
         }
       }

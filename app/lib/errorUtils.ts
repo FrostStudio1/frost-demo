@@ -1,97 +1,82 @@
-'use client'
+// app/lib/errorUtils.ts
 
 /**
- * Utility functions for better error handling
+ * Error utility functions for consistent error handling across the application
  */
-
-export interface ErrorInfo {
-  message: string
-  code?: string
-  details?: string
-  hint?: string
-}
 
 /**
  * Extracts a user-friendly error message from various error formats
+ * Handles:
+ * - String errors
+ * - Error objects with .message
+ * - Supabase errors with .details, .hint, .code
+ * - Empty error objects {}
+ * - Null/undefined errors
  */
 export function extractErrorMessage(error: any): string {
-  if (!error) return 'Okänt fel'
-  
-  // String errors
+  // Handle null/undefined
+  if (error == null) {
+    return 'Okänt fel';
+  }
+
+  // Handle string errors
   if (typeof error === 'string') {
-    return error
+    return error;
   }
-  
-  // Error objects with message
-  if (error.message) {
-    return error.message
+
+  // Handle Error objects
+  if (error instanceof Error) {
+    return error.message || 'Okänt fel';
   }
-  
-  // Supabase-style errors
-  if (error.details) {
-    return error.details
-  }
-  
-  if (error.hint) {
-    return error.hint
-  }
-  
-  // Error codes
-  if (error.code) {
-    // Map common error codes to user-friendly messages
-    const codeMessages: Record<string, string> = {
-      '42703': 'Kolumn saknas i databasen',
-      '23503': 'Foreign key constraint violation',
-      '23505': 'Dublettvärde',
-      'PGRST116': 'Ingen rad hittades',
-      '400': 'Ogiltig begäran',
-      '401': 'Inte autentiserad',
-      '403': 'Åtkomst nekad',
-      '404': 'Hittades inte',
-      '500': 'Serverfel',
-    }
-    
-    return codeMessages[error.code] || `Fel ${error.code}`
-  }
-  
-  // Empty objects or objects with no useful info
+
+  // Handle Supabase-style errors
   if (typeof error === 'object') {
-    const keys = Object.keys(error)
-    if (keys.length === 0) {
-      return 'Okänt fel'
+    // Prefer message field
+    if (error.message) {
+      return error.message;
     }
-    
-    // Try to stringify if it's a simple object
-    try {
-      const str = JSON.stringify(error)
-      if (str !== '{}') {
-        return str
-      }
-    } catch {
-      // Ignore JSON errors
+
+    // Fallback to details
+    if (error.details) {
+      return error.details;
     }
+
+    // Handle specific error codes
+    if (error.code === '42703') {
+      return 'Kolumn saknas i databasen';
+    }
+
+    // Handle hint
+    if (error.hint) {
+      return error.hint;
+    }
+
+    // Handle code only
+    if (error.code) {
+      return `Felkod: ${error.code}`;
+    }
+
+    // Empty object or unknown format
+    return 'Okänt fel';
   }
-  
-  return 'Okänt fel'
+
+  // Fallback for unknown types
+  return 'Okänt fel';
 }
 
 /**
- * Logs error with context for debugging
+ * Logs an error to the console with context
+ * Useful for debugging while keeping user-facing messages clean
+ * @param context - Optional context string (e.g., 'API', 'Component')
+ * @param error - The error to log
  */
-export function logError(context: string, error: any, additionalInfo?: Record<string, any>) {
-  const errorMessage = extractErrorMessage(error)
-  const errorInfo: ErrorInfo = {
-    message: errorMessage,
-    code: error?.code,
-    details: error?.details,
-    hint: error?.hint,
-  }
+export function logError(context: string, error: any): void;
+export function logError(error: any): void;
+export function logError(contextOrError: string | any, error?: any): void {
+  const message = extractErrorMessage(error ?? contextOrError);
+  const context = typeof contextOrError === 'string' ? contextOrError : undefined;
+  const prefix = context ? `[${context}]` : '[Error]';
   
-  console.error(`[${context}]`, {
-    error: errorInfo,
-    ...additionalInfo,
-    timestamp: new Date().toISOString(),
-  })
-  
-  return errorInfo
+  console.error(`${prefix} ${message}`, error ?? contextOrError);
 }
+

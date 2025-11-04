@@ -5,6 +5,7 @@ import { useState } from 'react'
 import { useTheme } from '@/context/ThemeContext'
 import { useAdmin } from '@/hooks/useAdmin'
 import NotificationCenter from '@/components/NotificationCenter'
+import { SafeOnlineStatusIndicator } from '@/components/SafeSyncComponents'
 
 interface NavItem {
   name: string
@@ -22,6 +23,7 @@ const navItems: NavItem[] = [
   { name: 'Fakturor', href: '/invoices', icon: '🧾', gradient: 'from-teal-500 to-green-600' },
   { name: 'Rapporter', href: '/reports', icon: '📈', gradient: 'from-green-500 to-emerald-600' },
   { name: 'Kalender', href: '/calendar', icon: '📅', gradient: 'from-purple-500 to-pink-600' },
+  { name: 'Arbetsordrar', href: '/work-orders', icon: '📋', gradient: 'from-orange-500 to-red-600' },
   { name: 'Analytics', href: '/analytics', icon: '📊', gradient: 'from-indigo-500 to-purple-600' },
   { name: 'ROT-avdrag', href: '/rot', icon: '🏠', gradient: 'from-orange-500 to-red-600' },
   { name: 'ÄTA', href: '/aeta', icon: '⚠️', gradient: 'from-yellow-500 to-orange-600' },
@@ -122,6 +124,11 @@ export default function SidebarClient() {
 
           {/* Footer - Only show admin options if user is admin */}
           <div className="p-4 border-t border-gray-100 dark:border-gray-800 space-y-2">
+            {/* Online Status Indicator */}
+            <div className="mb-2">
+              <SafeOnlineStatusIndicator />
+            </div>
+            
             <button
               onClick={toggleTheme}
               className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 font-semibold text-sm transition-colors"

@@ -51,3 +51,18 @@ export async function POST(req: Request) {
 
   return NextResponse.json({ project: data }, { status: 201 });
 }
+
+// Redirect GET requests to /api/projects/list
+export async function GET(req: Request) {
+  const tenantId = await getTenantId();
+  if (!tenantId) {
+    return NextResponse.json({ error: 'No tenant found' }, { status: 403 });
+  }
+  
+  // Redirect to list endpoint
+  const url = new URL(req.url);
+  url.pathname = '/api/projects/list';
+  url.searchParams.set('tenantId', tenantId);
+  
+  return NextResponse.redirect(url);
+}

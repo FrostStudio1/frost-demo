@@ -1,36 +1,21 @@
 {
   "node": {
-    "406acedae06f2480b907126a46cc6c1d94747e6020": {
+    "40762f3a43e71821816a0b691531a89e1a714eb017": {
       "workers": {
-        "app/login/page": {
-          "moduleId": "[project]/frost-demo/.next-internal/server/app/login/page/actions.js { ACTIONS_MODULE0 => \"[project]/frost-demo/app/auth/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+        "app/projects/page": {
+          "moduleId": "[project]/frost-demo/.next-internal/server/app/projects/page/actions.js { ACTIONS_MODULE0 => \"[project]/frost-demo/app/projects/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
           "async": false,
-          "exportedName": "sendMagicLink",
-          "filename": "frost-demo/app/auth/actions.ts"
+          "exportedName": "createProject",
+          "filename": "frost-demo/app/projects/actions.ts"
         }
       },
       "layer": {
-        "app/login/page": "action-browser"
+        "app/projects/page": "action-browser"
       },
-      "filename": "frost-demo/app/auth/actions.ts",
-      "exportedName": "sendMagicLink"
-    },
-    "40d438a011a0ecd8fc9ae041f3070f75cf85d27dec": {
-      "workers": {
-        "app/invoices/[id]/page": {
-          "moduleId": "[project]/frost-demo/.next-internal/server/app/invoices/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/frost-demo/app/invoices/[id]/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
-          "async": false,
-          "exportedName": "sendInvoiceEmail",
-          "filename": "frost-demo/app/invoices/[id]/actions.ts"
-        }
-      },
-      "layer": {
-        "app/invoices/[id]/page": "action-browser"
-      },
-      "filename": "frost-demo/app/invoices/[id]/actions.ts",
-      "exportedName": "sendInvoiceEmail"
+      "filename": "frost-demo/app/projects/actions.ts",
+      "exportedName": "createProject"
     }
   },
   "edge": {},
-  "encryptionKey": "+hXpxdRY0y3AiQRkRGVdJLKu3V+ZqnXO10qAXq810wk="
+  "encryptionKey": "LBU6WJzfmWFwC/itlk1UQGOCe19UZrB8edUqBu/xwUI="
 }

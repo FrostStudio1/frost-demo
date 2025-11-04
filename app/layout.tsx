@@ -6,6 +6,8 @@ import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { QueryProvider } from "@/providers/QueryProvider";
 import Toaster from "@/components/Toaster";
 import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
+import { SafeSyncComponents } from "@/components/SafeSyncComponents";
+import { SyncInitializer } from "@/components/SyncInitializer";
 
 // INTE "use client"! Ingen useEffect här!
 
@@ -28,6 +30,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <QueryProvider>
             <ThemeProvider>
               <TenantProvider>
+                <ErrorBoundary fallback={null}>
+                  <SyncInitializer />
+                </ErrorBoundary>
+                <SafeSyncComponents />
                 {children}
                 <Toaster />
                 <ServiceWorkerRegister />
