@@ -1,7 +1,7 @@
 'use client'
 
 import { usePathname, useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useTheme } from '@/context/ThemeContext'
 import { useAdmin } from '@/hooks/useAdmin'
 import NotificationCenter from '@/components/NotificationCenter'
@@ -32,12 +32,23 @@ const navItems: NavItem[] = [
   { name: 'Utseende', href: '/settings/utseende', icon: '🎨', gradient: 'from-indigo-500 to-purple-600' },
 ]
 
+const adminNavItems: NavItem[] = [
+  { name: 'Integrationer', href: '/settings/integrations', icon: '🔌', gradient: 'from-violet-500 to-fuchsia-600' },
+]
+
 export default function SidebarClient() {
   const pathname = usePathname()
   const router = useRouter()
   const { theme, toggleTheme } = useTheme()
   const { isAdmin, loading: adminLoading } = useAdmin()
   const [isOpen, setIsOpen] = useState(false) // Start closed on mobile
+
+  // Debug: Log admin status (bara i development, client-side only)
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'development') {
+      console.log('🔍 Sidebar - Admin status:', { isAdmin, adminLoading, navItemsCount: adminNavItems.length })
+    }
+  }, [isAdmin, adminLoading])
 
   return (
     <>
@@ -120,6 +131,50 @@ export default function SidebarClient() {
                 </button>
               )
             })}
+            
+            {/* Admin-only items - Visa alltid om användaren är admin */}
+            {adminNavItems.length > 0 && isAdmin && (
+              <>
+                <div className="pt-4 mt-4 border-t border-gray-200 dark:border-gray-700">
+                  <p className="px-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
+                    Administratör
+                  </p>
+                </div>
+                {adminNavItems.map((item) => {
+                  const isActive = pathname === item.href || pathname?.startsWith(item.href + '/')
+                  return (
+                    <button
+                      key={item.name}
+                      onClick={() => {
+                        router.push(item.href)
+                        setIsOpen(false)
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault()
+                          router.push(item.href)
+                          setIsOpen(false)
+                        }
+                      }}
+                      className={`
+                        w-full flex items-center gap-3 px-4 py-3 rounded-xl
+                        font-semibold text-sm transition-all duration-200
+                        ${
+                          isActive
+                            ? `bg-gradient-to-r ${item.gradient} text-white shadow-lg`
+                            : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white'
+                        }
+                      `}
+                      aria-current={isActive ? 'page' : undefined}
+                      aria-label={`Gå till ${item.name}`}
+                    >
+                      <span className="text-xl" aria-hidden="true">{item.icon}</span>
+                      <span>{item.name}</span>
+                    </button>
+                  )
+                })}
+              </>
+            )}
           </nav>
 
           {/* Footer - Only show admin options if user is admin */}

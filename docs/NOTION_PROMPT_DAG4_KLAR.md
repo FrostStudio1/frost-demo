@@ -1,6 +1,6 @@
-# 📋 Notion Pro Prompt - Dag 4: Visma/Fortnox Integration Documentation
+# 📋 Notion Pro Prompt - Dag 4 (KLAR ATT KOPIERA)
 
-## 🎯 Kopiera denna prompt till Notion Pro AI:
+## 🎯 Kopiera hela denna prompt till Notion Pro AI:
 
 ```
 Du är projektledare och dokumenterar progress för Frost Solutions.
@@ -8,9 +8,10 @@ Du är projektledare och dokumenterar progress för Frost Solutions.
 DAGENS UPPGIFTER - DAG 4: VISMA/FORTNOX INTEGRATION:
 
 1. UPPDATERA DAGENS STATUS:
-   - Markerade att vi startar Dag 4: Visma/Fortnox Integration
+   - Markerade att vi startar Dag 4: Visma/Fortnox Integration NU
    - Skapa en ny sektion för Dag 4 i Notion-dokumentet
    - Uppdatera progress tracking
+   - Sätt starttid till nuvarande datum och tid
 
 2. SKAPA TASK BREAKDOWN FÖR DAG 4:
    Skapa en komplett task breakdown för Dag 4: Visma/Fortnox Integration med följande struktur:
@@ -19,9 +20,9 @@ DAGENS UPPGIFTER - DAG 4: VISMA/FORTNOX INTEGRATION:
    
    **Mål:** Fullständig integration med Fortnox och Visma
    **Status:** 🚧 I PROGRESS
-   **Starttid:** [Dagens datum och tid]
+   **Starttid:** [Nuvarande datum och tid]
    
-   ### ⏰ 08:00-10:00: Research & Planning (2h)
+   ### ⏰ Research & Planning (2h)
    
    #### Research Tasks (Perplexity Pro - 1.5h)
    - [ ] Research Fortnox API dokumentation
@@ -29,13 +30,14 @@ DAGENS UPPGIFTER - DAG 4: VISMA/FORTNOX INTEGRATION:
    - [ ] Research OAuth 2.0 flows
    - [ ] Research best practices
    - [ ] Research webhook implementation
+   - [ ] Research alla 7 data-typer (lönespec, offert, faktura, tidsrapport, kunder, anställda, projekt)
    
    #### Planning (Notion Pro - 30 min)
    - [ ] Review dagens mål och deliverables
    - [ ] Skapa subtasks för alla steg
    - [ ] Estimera tidsåtgång per task
    
-   ### ⏰ 10:00-13:00: Database & OAuth Setup (3h)
+   ### ⏰ Database & OAuth Setup (3h)
    
    #### Database Schema (GPT-5 - 1h)
    - [ ] Designa integrations tabell
@@ -49,7 +51,7 @@ DAGENS UPPGIFTER - DAG 4: VISMA/FORTNOX INTEGRATION:
    - [ ] Token storage (encrypted)
    - [ ] Token refresh logic
    
-   ### ⏰ 13:00-17:00: API Clients & Data Sync (4h)
+   ### ⏰ API Clients & Data Sync (4h)
    
    #### Fortnox Client (GPT-5 - 2h)
    - [ ] Skapa API client
@@ -73,7 +75,7 @@ DAGENS UPPGIFTER - DAG 4: VISMA/FORTNOX INTEGRATION:
    - [ ] Implementera projekt export (valfritt)
    - [ ] Error handling
    
-   ### ⏰ 17:00-19:00: UI & Integration (2h)
+   ### ⏰ UI & Integration (2h)
    
    #### Settings UI (Gemini 2.5 - 1.5h)
    - [ ] Skapa integrations page
@@ -89,7 +91,7 @@ DAGENS UPPGIFTER - DAG 4: VISMA/FORTNOX INTEGRATION:
    - [ ] Testa OAuth flow
    - [ ] Fixa bugs
    
-   ### ⏰ 19:00-20:00: Background Jobs & Testing (1h)
+   ### ⏰ Background Jobs & Testing (1h)
    
    #### Background Jobs (GPT-5 - 30 min)
    - [ ] Auto-sync job (varje timme)
@@ -102,7 +104,7 @@ DAGENS UPPGIFTER - DAG 4: VISMA/FORTNOX INTEGRATION:
    - [ ] Testa webhooks
    - [ ] Fixa bugs
    
-   ### ⏰ 20:00-21:00: Documentation & Git (1h)
+   ### ⏰ Documentation & Git (1h)
    
    #### Documentation (Notion Pro - 30 min)
    - [ ] Dokumentera integration setup
@@ -116,15 +118,17 @@ DAGENS UPPGIFTER - DAG 4: VISMA/FORTNOX INTEGRATION:
 
 3. UPPDATERA PROGRESS TRACKING:
    - Uppdatera overall progress
-   - Markera completed tasks
+   - Markera completed tasks i realtid
    - Notera blocker och issues
    - Uppdatera timmar spenderade
+   - Håll status uppdaterad genom hela dagen
 
 4. SKAPA NOTES:
    - Notera viktiga beslut
    - Notera problem och lösningar
    - Notera learnings
    - Notera nästa steg
+   - Dokumentera research-findings från Perplexity
 
 VIKTIGT: 
 - Skapa task breakdown och dokumentera NU
@@ -138,5 +142,5 @@ Börja med att skapa task breakdown och uppdatera status NU!
 
 ---
 
-**Status:** ✅ Redo för documentation NU - Starta direkt!
+**Status:** ✅ KLAR ATT KOPIERA OCH ANVÄNDA NU!
 

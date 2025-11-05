@@ -1,6 +1,6 @@
-# 🔍 Perplexity Pro Prompt - Dag 4: Visma/Fortnox Integration Research
+# 🔍 Perplexity Pro Prompt - Dag 4 (KLAR ATT KOPIERA)
 
-## 📋 Kopiera denna prompt till Perplexity Pro:
+## 📋 Kopiera hela denna prompt till Perplexity Pro:
 
 ```
 Du är research-assistent för Frost Solutions, ett byggföretags mjukvaruprojekt.
@@ -102,15 +102,6 @@ RESEARCH-UPPGIFTER FÖR DAG 4:
 
 UTLÄMNING:
 Ge en komplett research-rapport med:
-- API endpoints och exempel
-- OAuth flow steg-för-steg
-- Code examples (om möjligt)
-- Best practices
-- Common pitfalls och lösningar
-- Security recommendations
-
-UTLÄMNING:
-Ge en komplett research-rapport med:
 - API endpoints och exempel för ALLA data-typer
 - OAuth flow steg-för-steg för båda systemen
 - Code examples (TypeScript/JavaScript om möjligt)
@@ -132,6 +123,5 @@ Börja med Fortnox API dokumentation, sedan Visma. Rapportera resultaten så sna
 
 ---
 
-**Status:** ✅ Redo för research NU
-**Nästa steg:** Börja med Fortnox API dokumentation direkt
+**Status:** ✅ KLAR ATT KOPIERA OCH ANVÄNDA NU!
 

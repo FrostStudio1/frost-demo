@@ -1,59 +1,57 @@
 /**
- * Kryptering av känslig data (personnummer, etc.)
+ * AES-256-GCM Encryption for sensitive data (tokens, secrets)
  * 
- * Använd Web Crypto API för client-side encryption
- * I produktion: Använd Supabase Vault eller server-side encryption
+ * Uses Node.js crypto module for server-side encryption
+ * Key must be 32 bytes (256 bits) Base64 encoded
  */
 
-// Enkel XOR-kryptering för demo (INTE säkert för produktion!)
-// I produktion: Använd Web Crypto API eller server-side encryption
+import crypto from 'crypto';
+
+const key = Buffer.from(process.env.ENCRYPTION_KEY_256_BASE64 || '', 'base64');
+if (key.length !== 32) {
+  // Medvetet hårt fel vid misconfig — säkrare.
+  throw new Error('ENCRYPTION_KEY_256_BASE64 måste vara 32 bytes Base64.');
+}
+
+export function encryptJSON(obj: unknown): string {
+  const iv = crypto.randomBytes(12);
+  const cipher = crypto.createCipheriv('aes-256-gcm', key, iv);
+  const plaintext = Buffer.from(JSON.stringify(obj), 'utf8');
+  const ciphertext = Buffer.concat([cipher.update(plaintext), cipher.final()]);
+  const tag = cipher.getAuthTag();
+  return Buffer.concat([iv, tag, ciphertext]).toString('base64');
+}
+
+export function decryptJSON<T = any>(b64: string): T {
+  const raw = Buffer.from(b64, 'base64');
+  const iv = raw.subarray(0, 12);
+  const tag = raw.subarray(12, 28);
+  const data = raw.subarray(28);
+  const decipher = crypto.createDecipheriv('aes-256-gcm', key, iv);
+  decipher.setAuthTag(tag);
+  const plain = Buffer.concat([decipher.update(data), decipher.final()]);
+  return JSON.parse(plain.toString('utf8')) as T;
+}
+
+// Legacy functions for person number (keep for backward compatibility)
 export function encryptPersonNumber(pnr: string): string {
-  // För demo: Base64 encoding (INTE säkert!)
-  // I produktion: Använd riktig encryption med Web Crypto API
   if (typeof window === 'undefined') {
-    // Server-side: Returnera som är (skicka till server för encryption)
-    return pnr
+    return pnr;
   }
-  
-  // Client-side: Base64 encoding (för demo)
-  // I produktion: Använd SubtleCrypto API
   try {
-    return btoa(pnr)
+    return btoa(pnr);
   } catch {
-    return pnr
+    return pnr;
   }
 }
 
 export function decryptPersonNumber(encrypted: string): string {
   if (typeof window === 'undefined') {
-    return encrypted
+    return encrypted;
   }
-  
   try {
-    return atob(encrypted)
+    return atob(encrypted);
   } catch {
-    return encrypted
+    return encrypted;
   }
 }
-
-/**
- * I produktion: Använd riktig encryption med Web Crypto API
- * 
- * Exempel:
- * ```
- * const key = await crypto.subtle.importKey(
- *   'raw',
- *   new TextEncoder().encode(ENCRYPTION_KEY),
- *   { name: 'AES-GCM' },
- *   false,
- *   ['encrypt', 'decrypt']
- * )
- * 
- * const encrypted = await crypto.subtle.encrypt(
- *   { name: 'AES-GCM', iv: iv },
- *   key,
- *   new TextEncoder().encode(data)
- * )
- * ```
- */
-

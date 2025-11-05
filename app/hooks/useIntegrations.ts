@@ -1,0 +1,277 @@
+// app/hooks/useIntegrations.ts
+"use client";
+
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useTenant } from '@/context/TenantContext';
+import { toast } from '@/lib/toast';
+import { extractErrorMessage } from '@/lib/errorUtils';
+import type { Integration, SyncJob, SyncLog, IntegrationStatus } from '@/types/integrations';
+
+// --- Query Keys ---
+const getIntegrationsKey = (tenantId: string | null) => ['integrations', tenantId];
+const getIntegrationStatusKey = (id: string) => ['integrationStatus', id];
+const getSyncJobsKey = (id: string) => ['syncJobs', id];
+const getSyncLogsKey = (id: string) => ['syncLogs', id];
+
+/**
+ * Hämtar alla integrationer för den nuvarande tenanten
+ */
+export const useIntegrations = () => {
+  const { tenantId } = useTenant();
+  
+  return useQuery<Integration[]>({
+    queryKey: getIntegrationsKey(tenantId),
+    queryFn: async () => {
+      if (!tenantId) throw new Error('Tenant ID saknas');
+      
+      const res = await fetch('/api/integrations');
+      const data = await res.json();
+      
+      if (!res.ok) {
+        // Om API:et returnerar ett fel-objekt med error property
+        const errorMessage = data?.error || data?.message || `HTTP ${res.status}: Failed to fetch integrations`;
+        console.error('❌ API error:', {
+          status: res.status,
+          statusText: res.statusText,
+          error: data
+        });
+        throw new Error(errorMessage);
+      }
+      
+      // Kontrollera om svaret är en array (kan vara tom array om tabellen inte finns)
+      if (!Array.isArray(data)) {
+        console.warn('⚠️ API returned non-array response:', data);
+        // Om det är ett fel-objekt, kasta fel
+        if (data?.error) {
+          throw new Error(data.error);
+        }
+        // Annars returnera tom array
+        return [];
+      }
+      
+      return data;
+    },
+    enabled: !!tenantId,
+    retry: 1, // Försök bara en gång vid fel
+  });
+};
+
+/**
+ * Hämtar realtidsstatus för en specifik integration
+ */
+export const useIntegrationStatus = (integrationId: string) => {
+  const { tenantId } = useTenant();
+  
+  return useQuery<IntegrationStatus>({
+    queryKey: getIntegrationStatusKey(integrationId),
+    queryFn: async () => {
+      if (!tenantId) throw new Error('Tenant ID saknas');
+      const res = await fetch(`/api/integrations/${integrationId}/status`);
+      if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.error || 'Failed to fetch integration status');
+      }
+      return res.json();
+    },
+    enabled: !!tenantId && !!integrationId,
+    refetchInterval: 30000, // Auto-refresh var 30:e sekund
+  });
+};
+
+/**
+ * Hämtar synkroniseringsjobb för en integration
+ */
+export const useSyncJobs = (integrationId: string) => {
+  const { tenantId } = useTenant();
+  
+  return useQuery<SyncJob[]>({
+    queryKey: getSyncJobsKey(integrationId),
+    queryFn: async () => {
+      if (!tenantId) throw new Error('Tenant ID saknas');
+      const res = await fetch(`/api/integrations/${integrationId}/jobs`);
+      if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.error || 'Failed to fetch sync jobs');
+      }
+      return res.json();
+    },
+    enabled: !!tenantId && !!integrationId,
+    refetchInterval: 15000, // Uppdatera jobbkö var 15:e sekund
+  });
+};
+
+/**
+ * Hämtar synkroniseringsloggar för en integration
+ */
+export const useSyncLogs = (integrationId: string) => {
+  const { tenantId } = useTenant();
+  
+  return useQuery<SyncLog[]>({
+    queryKey: getSyncLogsKey(integrationId),
+    queryFn: async () => {
+      if (!tenantId) throw new Error('Tenant ID saknas');
+      const res = await fetch(`/api/integrations/${integrationId}/logs`);
+      if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.error || 'Failed to fetch sync logs');
+      }
+      return res.json();
+    },
+    enabled: !!tenantId && !!integrationId,
+  });
+};
+
+// --- Mutations ---
+
+/**
+ * Mutation för att starta Fortnox OAuth-flöde
+ */
+export const useConnectFortnox = () => {
+  const { tenantId } = useTenant();
+  return useMutation<{ url: string }, Error>({
+    mutationFn: async () => {
+      if (!tenantId) throw new Error('Tenant ID saknas');
+      const res = await fetch('/api/integrations/fortnox/connect', {
+        method: 'POST',
+      });
+      if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.error || 'Failed to connect');
+      }
+      return res.json();
+    },
+    onSuccess: (data) => {
+      // Omdirigera användaren till Fortnox auktoriseringssida
+      window.location.href = data.url;
+    },
+    onError: (error) => {
+      toast.error(`Anslutning misslyckades: ${extractErrorMessage(error)}`);
+    },
+  });
+};
+
+/**
+ * Mutation för att starta Visma OAuth-flöde
+ */
+export const useConnectVisma = () => {
+  const { tenantId } = useTenant();
+  return useMutation<{ url: string }, Error, 'visma_eaccounting' | 'visma_payroll'>({
+    mutationFn: async (provider) => {
+      if (!tenantId) throw new Error('Tenant ID saknas');
+      const res = await fetch('/api/integrations/visma/connect', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ provider }),
+      });
+      if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.error || 'Failed to connect');
+      }
+      return res.json();
+    },
+    onSuccess: (data) => {
+      // Omdirigera användaren till Visma auktoriseringssida
+      window.location.href = data.url;
+    },
+    onError: (error) => {
+      toast.error(`Anslutning misslyckades: ${extractErrorMessage(error)}`);
+    },
+  });
+};
+
+/**
+ * Mutation för att koppla bort en integration
+ */
+export const useDisconnectIntegration = () => {
+  const queryClient = useQueryClient();
+  const { tenantId } = useTenant();
+  
+  return useMutation<void, Error, string>({
+    mutationFn: async (integrationId) => {
+      if (!tenantId) throw new Error('Tenant ID saknas');
+      const res = await fetch(`/api/integrations/${integrationId}`, {
+        method: 'DELETE',
+      });
+      if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.error || 'Failed to disconnect');
+      }
+    },
+    onSuccess: (_, integrationId) => {
+      toast.success('Integrationen har kopplats bort');
+      // Invalidera alla relaterade queries
+      queryClient.invalidateQueries({ queryKey: getIntegrationsKey(tenantId) });
+      queryClient.invalidateQueries({ queryKey: getIntegrationStatusKey(integrationId) });
+    },
+    onError: (error) => {
+      toast.error(`Bortkoppling misslyckades: ${extractErrorMessage(error)}`);
+    },
+  });
+};
+
+/**
+ * Mutation för att starta en manuell synkronisering
+ */
+export const useSyncNow = () => {
+  const queryClient = useQueryClient();
+  const { tenantId } = useTenant();
+
+  return useMutation<void, Error, string>({
+    mutationFn: async (integrationId) => {
+      if (!tenantId) throw new Error('Tenant ID saknas');
+      const res = await fetch(`/api/integrations/${integrationId}/sync`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ job_type: 'full_sync', payload: {} }),
+      });
+      if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.error || 'Failed to start sync');
+      }
+    },
+    onSuccess: (_, integrationId) => {
+      toast.success('Synkronisering har startats');
+      queryClient.invalidateQueries({ queryKey: getSyncJobsKey(integrationId) });
+    },
+    onError: (error) => {
+      toast.error(`Kunde inte starta synk: ${extractErrorMessage(error)}`);
+    },
+  });
+};
+
+/**
+ * Mutation för att exportera en specifik post (faktura/kund)
+ */
+export const useExportToFortnox = () => {
+  const queryClient = useQueryClient();
+  const { tenantId } = useTenant();
+
+  type ExportPayload = {
+    integrationId: string;
+    type: 'invoice' | 'customer';
+    id: string; // UUID för fakturan/kunden
+  };
+  
+  return useMutation<void, Error, ExportPayload>({
+    mutationFn: async ({ integrationId, type, id }) => {
+      if (!tenantId) throw new Error('Tenant ID saknas');
+      const res = await fetch(`/api/integrations/${integrationId}/export`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type, id }),
+      });
+      if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.error || 'Failed to export');
+      }
+    },
+    onSuccess: (_, { type, integrationId }) => {
+      toast.success(`${type === 'invoice' ? 'Faktura' : 'Kund'} har köats för export`);
+      queryClient.invalidateQueries({ queryKey: getSyncJobsKey(integrationId) });
+    },
+    onError: (error) => {
+      toast.error(`Export misslyckades: ${extractErrorMessage(error)}`);
+    },
+  });
+};
+
